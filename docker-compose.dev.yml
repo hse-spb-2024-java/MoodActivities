@@ -1,0 +1,23 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16.1-alpine
+    networks:
+      - main
+    env_file:
+      - .env.dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    container_name: backend
+    depends_on:
+      - postgres
+    build: ./backend
+networks:
+  main:
+
+volumes:
+  postgres_data:
