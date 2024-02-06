@@ -11,6 +11,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  backend:
+    container_name: backend
+    depends_on:
+      - postgres
+    build: ./backend
 networks:
   main:
 

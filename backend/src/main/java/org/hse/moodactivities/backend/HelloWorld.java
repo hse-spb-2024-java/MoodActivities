@@ -1,4 +1,4 @@
-package org.hse.moodactivities;
+package org.hse.moodactivities.backend;
 
 public class HelloWorld {
     public static void main(String[] argc) {

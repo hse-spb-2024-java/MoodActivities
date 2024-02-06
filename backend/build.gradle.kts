@@ -1,9 +1,9 @@
 plugins {
-    java
-    application
+    id("application")
+    id("java")
 }
 
-group = "org.hse.moodactivities"
+group = "org.hse.moodactivities.backend"
 version = "0.1-DEV"
 
 repositories {
@@ -17,11 +17,19 @@ dependencies {
 }
 
 application {
-    mainClass = "org.hse.moodactivities.HelloWorld"
+    mainClass = "org.hse.moodactivities.backend.HelloWorld"
 }
 
-tasks.compileJava {
-    options.release.set(21)
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes(Pair("Main-Class", application.mainClass))
+    }
 }
 
 tasks.test {
