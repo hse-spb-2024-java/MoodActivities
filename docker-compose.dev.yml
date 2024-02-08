@@ -11,13 +11,27 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  mongodb:
+    container_name: mongodb
+    image: mongo:7.0.5
+    networks:
+      - main
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env.dev
+    volumes:
+      - mongodb_data:/data/db
+
   backend:
     container_name: backend
     depends_on:
       - postgres
+      - mongodb
     build: ./backend
 networks:
   main:
 
 volumes:
   postgres_data:
+  mongodb_data:
