@@ -14,9 +14,9 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation("org.jetbrains:annotations:16.0.2")
     implementation("com.google.protobuf:protobuf-java:3.25.1")
-
     implementation("dev.morphia.morphia:morphia-core:2.4.11")
     implementation("org.mongodb:mongodb-driver-sync:4.11.1")
     implementation("io.grpc:grpc-netty:${property("grpcVersion")}")
@@ -61,6 +61,16 @@ protobuf {
             it.plugins {
                 create("grpc")
             }
+        }
+    }
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs("build/generated/source/proto/main/grpc")
+            srcDirs("build/generated/source/proto/main/java")
         }
     }
 }

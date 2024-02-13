@@ -2,4 +2,4 @@ pluginManagement {
     includeBuild("build-logic")
 }
 rootProject.name = "MoodActivities"
-include("backend", "frontend:android")
+include("backend", "common") // TODO: add mobile path
