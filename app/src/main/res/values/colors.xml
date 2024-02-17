@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_color_1">#A75F8D</color>
+    <color name="theme_color_1_dark">#7D4769</color>
+    <color name="theme_color_2">#725A82</color>
+    <color name="theme_color_2_dark">#4D3D58</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="widget_color_1">#CBB3BF</color>
+    <color name="widget_color_1_dark">#92818A</color>
+    <color name="widget_color_2">#A7C4B5</color>
+    <color name="widget_color_2_dark">#8BA497</color>
+    <color name="widget_color_3">#F6C472</color>
+    <color name="widget_color_3_dark">#C89F5E</color>
+</resources>
