@@ -14,10 +14,13 @@
         <properties>
             <!-- Database connection settings -->
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/" />
+
+            <!-- TODO: autogen creds -->
             <property name="jakarta.persistence.jdbc.user" value="postgres" />
             <property name="jakarta.persistence.jdbc.password" value="postgres" />
 
             <!-- Automatically export the schema -->
+            <!-- FIXME: this should probably not be drop-and-create -->
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
 
             <!-- Echo all executed SQL to console -->
