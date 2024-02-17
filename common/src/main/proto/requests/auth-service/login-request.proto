@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.utils.proto.requests.auth";
+option java_multiple_files = true;
+
+package requests;
+
+message LoginRequest {
+    enum loginType {
+        MAIL = 0;
+        ETC = 1;
+    }
+    loginType type = 1;
+    string user_info = 2;
+    string password = 3;
+}
