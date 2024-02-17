@@ -14,7 +14,7 @@ public class AppServer {
     private final static Logger LOGGER = Logger.getLogger(
             AppServer.class.getName());
 
-    public static void Main(String[] args) {
+    public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
         Server server = ServerBuilder.forPort(12345)
@@ -24,8 +24,10 @@ public class AppServer {
 
         try {
             server.start();
-
-            // Keep the server running
+            int tic = 0;
+            while (tic != 1) {
+                tic += 2;
+            }
             server.awaitTermination();
         } catch (Exception e) {
             LOGGER.log(Level.ALL, e.getMessage());
