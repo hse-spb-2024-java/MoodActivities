@@ -13,6 +13,7 @@
 
         <properties>
             <!-- Database connection settings -->
+            <!-- TODO: this fails inside docker. Idk why -->
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/" />
 
             <!-- TODO: autogen creds -->
