@@ -33,6 +33,7 @@ dependencies {
     implementation(platform("org.hibernate.orm:hibernate-platform:${property("hibernatePlatformVersion")}"))
     implementation("org.hibernate.orm:hibernate-core")
     implementation("jakarta.transaction:jakarta.transaction-api")
+    implementation("jakarta.persistence:jakarta.persistence-api")
 
     // Postgres
     runtimeOnly("org.postgresql:postgresql:42.6.0")
