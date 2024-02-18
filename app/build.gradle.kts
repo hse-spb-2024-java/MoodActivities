@@ -3,7 +3,7 @@ plugins {
     id("com.google.protobuf") version "0.9.4"
 }
 
-group = "org.hse.moodactivities.mobile"
+group = "org.hse.moodactivities.app"
 version = "0.1-DEV"
 
 repositories {
@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation("org.hse.moodactivities.common:common")
 
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("io.grpc:grpc-netty:1.61.1")
@@ -31,7 +31,6 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
-
 
 tasks.test {
     useJUnitPlatform()

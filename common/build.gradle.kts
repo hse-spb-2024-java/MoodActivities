@@ -3,7 +3,7 @@ plugins {
     id("com.google.protobuf") version "0.9.4"
 }
 
-group = "org.hse.moodactivities"
+group = "org.hse.moodactivities.common"
 version = "0.1-DEV"
 
 repositories {
