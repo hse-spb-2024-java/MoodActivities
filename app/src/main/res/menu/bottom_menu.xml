@@ -4,7 +4,7 @@
     <item
         android:id="@+id/bottom_menu_home"
         android:icon="@drawable/bottom_menu_home_icon"
-        android:title="@string/home_tittle" />
+        android:title="@string/home_screen_tittle" />
 
     <item
         android:id="@+id/bottom_menu_history"

@@ -14,4 +14,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MoodActivities"
-include("frontend:android", ":app")
+include(":app")

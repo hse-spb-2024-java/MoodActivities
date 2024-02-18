@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_corner_radius">20dp</dimen>
+    <dimen name="large_widget_width">350dp</dimen>
+    <dimen name="large_widget_height">90dp</dimen>
+    <dimen name="large_widget_height_margined">120dp</dimen>
+    <dimen name="medium_widget_width">165dp</dimen>
+    <dimen name="medium_widget_height">70dp</dimen>
+    <dimen name="medium_widget_height_margined">100dp</dimen>
+    <dimen name="screen_tittle_font_size">25sp</dimen>
+    <dimen name="home_screen_tittle_font_size">18sp</dimen>
+    <dimen name="widget_tittle_font_size">16sp</dimen>
+    <dimen name="widget_font_size">14sp</dimen>
+    <dimen name="home_screen_tittle_width">330dp</dimen>
+    <dimen name="screen_tittle_margin_top">45dp</dimen>
+</resources>

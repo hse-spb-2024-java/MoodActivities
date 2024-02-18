@@ -2,7 +2,7 @@
     <string name="app_name">Mood Activities</string>
 
     <!--    tittles -->
-    <string name="home_tittle">Home</string>
+    <string name="home_screen_tittle">Home</string>
     <string name="history_tittle">History</string>
     <string name="insights_tittle">Insights</string>
     <string name="profile_tittle">Profile</string>
@@ -12,4 +12,5 @@
     <string name="activity_widget_description">Go for a walk</string>
     <string name="note_widget_tittle">Take\na note</string>
     <string name="mood_widget_tittle">Your today\'s\nmood</string>
+    <string name="calendar_widget_tittle">Week statistic</string>
 </resources>

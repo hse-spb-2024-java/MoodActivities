@@ -2,8 +2,8 @@
 <resources>
     <color name="theme_color_1">#A75F8D</color>
     <color name="theme_color_1_dark">#7D4769</color>
-    <color name="theme_color_2">#725A82</color>
-    <color name="theme_color_2_dark">#4D3D58</color>
+    <color name="theme_color_2">#6F4F84</color>
+    <color name="theme_color_2_dark">#4E365F</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="widget_color_1">#CBB3BF</color>
