@@ -301,11 +301,11 @@
 
     </LinearLayout>
 
-    <!-- calendar widget start -->
     <LinearLayout
         android:layout_width="@dimen/home_screen_tittle_width"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/calendar_tittle"
@@ -322,11 +322,275 @@
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
+    <!-- week widget begin -->
+    <LinearLayout
+        android:layout_width="@dimen/large_widget_width"
+        android:layout_height="@dimen/small_widget_height"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <!-- week widget day 1 begin -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/week_widget_day_1"
+            android:layout_width="@dimen/small_widget_width"
+            android:layout_height="@dimen/small_widget_height"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/widget_color_4"
+            app:cardCornerRadius="@dimen/widget_corner_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_week_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/day_of_week"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_month_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="@string/day_of_month"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size" />
+
+                <ImageView
+                    android:id="@+id/week_widget_image_1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/widget_mood_icon"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- week widget day 1 end -->
+
+        <Space
+            android:layout_width="@dimen/space_widget_medium"
+            android:layout_height="@dimen/small_widget_height" />
+
+        <!-- week widget day 2 begin -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/week_widget_day_2"
+            android:layout_width="@dimen/small_widget_width"
+            android:layout_height="@dimen/small_widget_height"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/widget_color_4"
+            app:cardCornerRadius="@dimen/widget_corner_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_week_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/friday"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_month_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="@string/day_of_month"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size" />
+
+                <ImageView
+                    android:id="@+id/week_widget_image_2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/widget_mood_icon"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <!-- week widget day 2 end -->
+
+        <Space
+            android:layout_width="@dimen/space_widget_medium"
+            android:layout_height="@dimen/small_widget_height" />
+
+        <!-- week widget day 3 begin -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/week_widget_day_3"
+            android:layout_width="@dimen/small_widget_width"
+            android:layout_height="@dimen/small_widget_height"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/widget_color_4"
+            app:cardCornerRadius="@dimen/widget_corner_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_week_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/saturday"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_month_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="@string/day_of_month"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size" />
+
+                <ImageView
+                    android:id="@+id/week_widget_image_3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/widget_mood_icon"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- week widget day 3 end -->
+
+        <Space
+            android:layout_width="@dimen/space_widget_medium"
+            android:layout_height="@dimen/small_widget_height" />
+
+        <!-- week widget day 4 begin -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/week_widget_day_4"
+            android:layout_width="@dimen/small_widget_width"
+            android:layout_height="@dimen/small_widget_height"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/widget_color_4"
+            app:cardCornerRadius="@dimen/widget_corner_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_week_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/sunday"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_month_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="@string/day_of_month"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size" />
+
+                <ImageView
+                    android:id="@+id/week_widget_image_4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/widget_mood_icon"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <!-- week widget day 4 end -->
+
+        <Space
+            android:layout_width="@dimen/space_widget_medium"
+            android:layout_height="@dimen/small_widget_height" />
+
+        <!-- week widget day 5 begin -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/week_widget_day_5"
+            android:layout_width="@dimen/small_widget_width"
+            android:layout_height="@dimen/small_widget_height"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/widget_color_4"
+            app:cardCornerRadius="@dimen/widget_corner_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_week_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/day_of_week"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/week_widget_day_of_month_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="@string/day_of_month"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/widget_font_size" />
+
+                <ImageView
+                    android:id="@+id/week_widget_image_5"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/widget_mood_icon"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <!-- week widget day 5 end -->
+    </LinearLayout>
+    <!-- week widget end -->
+
     <LinearLayout
         android:layout_width="@dimen/large_widget_width"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:orientation="horizontal"></LinearLayout>
-    <!-- calendar widget end -->
+        android:orientation="horizontal">
+        <!-- empty-->
+    </LinearLayout>
 
 </LinearLayout>

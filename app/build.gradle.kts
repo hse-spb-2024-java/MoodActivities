@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.moodactivities"
+    namespace = "org.hse.moodactivities"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.moodactivities"
+        applicationId = "org.hse.moodactivities"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

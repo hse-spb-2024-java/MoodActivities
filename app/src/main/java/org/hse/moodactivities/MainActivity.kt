@@ -1,11 +1,11 @@
-package com.example.moodactivities
+package org.hse.moodactivities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.moodactivities.databinding.ActivityMainBinding
+import org.hse.moodactivities.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

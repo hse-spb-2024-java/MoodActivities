@@ -1,4 +1,4 @@
-package com.example.moodactivities
+package org.hse.moodactivities
 
 import org.junit.Test
 
