@@ -19,6 +19,8 @@ dependencies {
     implementation("io.grpc:grpc-netty:1.61.1")
     implementation("io.grpc:grpc-protobuf:1.61.1")
     implementation("io.grpc:grpc-stub:1.61.1")
+    implementation("org.slf4j:slf4j-api:2.0.12")
+    implementation("org.slf4j:slf4j-simple:2.0.12")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.jetbrains:annotations:16.0.2")
     implementation("com.google.protobuf:protobuf-java:3.25.1")
@@ -29,7 +31,7 @@ dependencies {
 }
 
 application {
-    mainClass = "org.hse.moodactivities.backend.AppServer"
+    mainClass = "org.hse.moodactivities.server.AppServer"
 }
 
 java {

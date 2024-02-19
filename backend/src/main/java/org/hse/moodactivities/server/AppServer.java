@@ -1,6 +1,6 @@
-package server;
+package org.hse.moodactivities.server;
 
-import services.AuthService;
+import org.hse.moodactivities.services.AuthService;
 
 import io.grpc.*;
 

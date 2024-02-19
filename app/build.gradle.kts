@@ -1,4 +1,5 @@
 plugins {
+    id("application")
     id("java")
     id("com.google.protobuf") version "0.9.4"
 }
@@ -12,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.hse.moodactivities.common:common")
+    implementation(project(":common"))
 
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("io.grpc:grpc-netty:1.61.1")
@@ -26,9 +27,19 @@ dependencies {
 }
 
 
+application {
+    mainClass = "org.hse.moodactivities.connection.Connection"
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes(Pair("Main-Class", application.mainClass))
     }
 }
 

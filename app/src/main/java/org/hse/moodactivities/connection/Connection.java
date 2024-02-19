@@ -1,11 +1,10 @@
-package main.java.app;
+package org.hse.moodactivities.connection;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import io.grpc.*;
 
 import org.hse.moodactivities.common.proto.services.AuthServiceGrpc;
-import org.hse.moodactivities.common.utils.proto.requests.auth.*;
-import org.hse.moodactivities.common.utils.proto.responses.auth.*;
+import org.hse.moodactivities.common.proto.requests.auth.*;
+import org.hse.moodactivities.common.proto.responses.auth.*;
 
 public class Connection {
     public static void main(String[] args) {

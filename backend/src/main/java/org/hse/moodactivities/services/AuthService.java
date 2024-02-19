@@ -1,4 +1,4 @@
-package services;
+package org.hse.moodactivities.services;
 
 import io.grpc.stub.StreamObserver;
 import org.hse.moodactivities.common.proto.services.AuthServiceGrpc;
