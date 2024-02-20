@@ -5,12 +5,15 @@
     <color name="theme_color_2">#6F4F84</color>
     <color name="theme_color_2_dark">#4E365F</color>
     <color name="black">#FF000000</color>
+    <color name="gray">#616161</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="widget_color_1">#CBB3BF</color>
-    <color name="widget_color_1_dark">#92818A</color>
-    <color name="widget_color_2">#A7C4B5</color>
-    <color name="widget_color_2_dark">#8BA497</color>
-    <color name="widget_color_3">#F6C472</color>
-    <color name="widget_color_3_dark">#C89F5E</color>
-    <color name="widget_color_4">#67AABC</color>
+    <color name="steel_blue">#68A0A6</color>
+    <color name="steel_blue_dimmed">#55878D</color>
+    <color name="rosy_brown">#A66F6F</color>
+    <color name="rosy_brown_dimmed">#865A5A</color>
+    <color name="peach">#F2E0D5</color>
+    <color name="peach_dimmed">#DAC6BA</color>
+    <color name="light_blue">#A7CBD9</color>
+    <color name="light_pink">#D9A7B0</color>
+    <color name="light_pink_dimmed">#D9A7D0</color>
 </resources>

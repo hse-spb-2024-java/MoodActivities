@@ -8,6 +8,7 @@
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
     <string name="sunday">Sun</string>
+
     <!-- default data -->
     <string name="day_of_week">Day</string>
     <string name="day_of_month">0</string>

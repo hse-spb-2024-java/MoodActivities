@@ -51,6 +51,11 @@ class HomeScreen : Fragment() {
         noteWidgetButton.setOnClickListener {
             Log.d("note button", "clicked!")
         }
+
+        val askWidgetButton: Button = view.rootView.findViewById(R.id.ask_widget_button)
+        askWidgetButton.setOnClickListener {
+            Log.d("ask button", "clicked!")
+        }
     }
 
     private fun setCurrentDate(view: View) {

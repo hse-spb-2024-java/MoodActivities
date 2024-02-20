@@ -13,4 +13,5 @@
     <string name="note_widget_tittle">Take\na note</string>
     <string name="mood_widget_tittle">Your today\'s\nmood</string>
     <string name="calendar_widget_tittle">Week statistic</string>
+    <string name="ask_tittle">Ask AI for advice…</string>
 </resources>
