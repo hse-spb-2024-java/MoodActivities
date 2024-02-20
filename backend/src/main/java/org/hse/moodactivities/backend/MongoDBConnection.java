@@ -7,7 +7,7 @@ import dev.morphia.Morphia;
 
 public class MongoDBConnection {
     private static final String DATABASE_NAME = "user-data";
-    private static final String MONGO_HOST = "localhost";
+    private static final String MONGO_HOST = "mongodb";
     private static final int MONGO_PORT = 27017;
 
     private static MongoClient mongoClient;
