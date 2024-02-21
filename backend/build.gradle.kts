@@ -8,11 +8,6 @@ plugins {
 group = "org.hse.moodactivities.backend"
 version = "0.1-DEV"
 
-repositories {
-    mavenCentral()
-    google()
-}
-
 dependencies {
     implementation("org.jetbrains:annotations:16.0.2")
     implementation("com.google.protobuf:protobuf-java:3.25.1")

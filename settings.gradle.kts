@@ -4,7 +4,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-//    includeBuild("build-logic")
+    includeBuild("build-logic")
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -14,4 +14,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MoodActivities"
-include(":app")
+include("common", "app", "backend")
