@@ -5,4 +5,3 @@ pluginManagement {
 includeBuild("../common")
 
 rootProject.name = "backend"
-//include("app")

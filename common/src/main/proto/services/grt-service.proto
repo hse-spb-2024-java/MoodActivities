@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.services";
+option java_multiple_files = true;
+
+package services;
+
+import "requests/gpt-service/gpt-session-request.proto";
+import "requests/gpt-service/meta-to-gpt-request.proto";
+import "responses/gpt-service/gpt-session-response.proto";
+import "responses/gpt-service/meta-to-gpt-response.proto";
+
+service GptService {
+    rpc GptSession(stream requests.GptSessionRequest) returns (stream responses.GptSessionResponse) {}
+    rpc AskWithMeta(requests.MetaToGptRequest) returns (responses.MetaToGptResponse) {}
+}
