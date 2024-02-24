@@ -1,5 +1,6 @@
 services:
   postgres:
+    platform: linux/amd64
     container_name: postgres
     image: postgres:16.1-alpine
     networks:
@@ -12,6 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   mongodb:
+    platform: linux/amd64
     container_name: mongodb
     image: mongo:7.0.5
     networks:
@@ -24,7 +26,12 @@ services:
       - mongodb_data:/data/db
 
   backend:
+    platform: linux/amd64
     container_name: backend
+    networks:
+      - main
+    ports:
+      - "12345:12345"
     depends_on:
       - postgres
       - mongodb

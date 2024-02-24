@@ -10,7 +10,7 @@ import "requests/push-service/setup-push-request.proto";
 import "responses/push-service/push-response.proto";
 import "responses/push-service/setup-push-response.proto";
 
-service ProfileService {
+service PushService {
   rpc SendPush(requests.PushRequest) returns (responses.PushResponse) {}
   rpc SetupUsersPush(requests.SetupPushRequest) returns (responses.SetupPushResponse) {}
 }

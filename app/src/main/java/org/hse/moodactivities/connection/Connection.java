@@ -15,10 +15,10 @@ public class Connection {
 
         AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
 
-        RegistrRequest request = RegistrRequest.newBuilder().setNickname("World").build();
+        RegistrationRequest request = RegistrationRequest.newBuilder().setNickname("World").build();
 
         // Call the sayHello method on the server
-        RegistrResponse response = stub.register(request);
+        RegistrationResponse response = stub.registration(request);
 
         System.out.println("Greeting: " + response.getMessage());
 

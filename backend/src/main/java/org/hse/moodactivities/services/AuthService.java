@@ -7,8 +7,8 @@ import org.hse.moodactivities.common.proto.responses.auth.*;
 
 public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
-    public void register(RegistrRequest request, StreamObserver<RegistrResponse> responseObserve) {
-        RegistrResponse response = RegistrResponse.newBuilder().setMessage("Hello - " + request.getNickname()).build();
+    public void registration(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserve) {
+        RegistrationResponse response = RegistrationResponse.newBuilder().setMessage("Hello - " + request.getNickname()).build();
         responseObserve.onNext(response);
         responseObserve.onCompleted();
     }
