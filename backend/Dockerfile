@@ -1,7 +1,7 @@
 FROM gradle:8.6.0-jdk21-alpine AS build-stage
-COPY --chown=gradle:gradle . /home/gradle/backend/
+COPY --chown=gradle:gradle backend /home/gradle/backend/
 WORKDIR /home/gradle/backend
-RUN gradle build || return 1
+RUN gradle backend:build || return 1
 
 FROM eclipse-temurin:21-alpine as run-stage
 ENV ARTIFACT_NAME=backend-0.1-DEV.jar

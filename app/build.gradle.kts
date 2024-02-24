@@ -1,6 +1,35 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.protobuf") version "0.9.4"
+}
+
+group = "org.hse.moodactivities.app"
+version = "0.1-DEV"
+
+dependencies {
+    implementation(project(":common"))
+
+    implementation("com.google.protobuf:protobuf-java:3.25.1")
+    implementation("io.grpc:grpc-netty:1.61.1")
+    implementation("io.grpc:grpc-protobuf:1.61.1")
+    implementation("io.grpc:grpc-stub:1.61.1")
+    implementation("com.google.protobuf:protobuf-java:3.25.1")
+
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("org.jetbrains:annotations:16.0.2")
+
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    testImplementation("junit:junit:4.13.2")
+
+    testImplementation(platform("org.junit:junit-bom:5.7.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
 android {
@@ -37,15 +66,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
-}
 
-dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    packagingOptions {
+        pickFirst("META-INF/INDEX.LIST")
+        pickFirst("META-INF/io.netty.versions.properties")
+    }
 }

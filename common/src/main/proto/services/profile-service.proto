@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.services";
+option java_multiple_files = true;
+
+package services;
+
+import "requests/profile-service/add-meta-request.proto";
+import "requests/profile-service/delete-meta-request.proto";
+import "responses/profile-service/add-meta-response.proto";
+import "responses/profile-service/delete-meta-response.proto";
+
+service ProfileService {
+  rpc AddUserMeta(requests.AddMetaRequest) returns (responses.AddMetaResponse) {}
+  rpc DeleteUserMeta(requests.DeleteMetaRequest) returns (responses.DeleteMetaResponse) {}
+}

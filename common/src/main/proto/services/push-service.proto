@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.services";
+option java_multiple_files = true;
+
+package services;
+
+import "requests/push-service/push-request.proto";
+import "requests/push-service/setup-push-request.proto";
+import "responses/push-service/push-response.proto";
+import "responses/push-service/setup-push-response.proto";
+
+service PushService {
+  rpc SendPush(requests.PushRequest) returns (responses.PushResponse) {}
+  rpc SetupUsersPush(requests.SetupPushRequest) returns (responses.SetupPushResponse) {}
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.services";
+option java_multiple_files = true;
+
+package services;
+
+import "requests/survey-service/survey-long-request.proto";
+import "requests/survey-service/survey-short-request.proto";
+import "responses/survey-service/survey-long-response.proto";
+import "responses/survey-service/survey-short-response.proto";
+
+service SurveyService {
+  rpc ShortSurvey(requests.ShortSurveyRequest) returns (responses.ShortSurveyResponse) {}
+  rpc LongSurvey(requests.LongSurveyRequest) returns (responses.LongSurveyResponse) {}
+}
