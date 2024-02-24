@@ -7,11 +7,6 @@ plugins {
 group = "org.hse.moodactivities.backend"
 version = "0.1-DEV"
 
-repositories {
-    mavenCentral()
-    google()
-}
-
 dependencies {
     implementation(project(":common"))
 

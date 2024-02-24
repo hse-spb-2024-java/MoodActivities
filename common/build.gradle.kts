@@ -6,11 +6,6 @@ plugins {
 group = "org.hse.moodactivities.common"
 version = "0.1-DEV"
 
-repositories {
-    mavenCentral()
-    google()
-}
-
 dependencies {
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("io.grpc:grpc-netty:1.61.1")
