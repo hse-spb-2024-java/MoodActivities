@@ -1,4 +1,4 @@
-package org.hse.moodactivities
+package org.hse.moodactivities.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import org.hse.moodactivities.R
+import org.hse.moodactivities.utils.Utils
 import java.time.DayOfWeek
 import java.time.LocalDate
 
-class HomeScreen : Fragment() {
+class HomeScreenFragment : Fragment() {
     companion object {
         private val dayOfWeekTextId: Array<Int> = arrayOf(
             R.id.week_widget_day_of_week_5, R.id.week_widget_day_of_week_4,
@@ -77,19 +79,7 @@ class HomeScreen : Fragment() {
         dayOfWeekTextView: TextView,
         dayTextView: TextView
     ) {
-        dayOfWeekTextView.text = getString(getStringByDayOfWeek(dayOfWeek))
+        dayOfWeekTextView.text = getString(Utils.getStringByDayOfWeek(dayOfWeek))
         dayTextView.text = day.toString()
-    }
-
-    private fun getStringByDayOfWeek(dayOfWeek: DayOfWeek): Int {
-        return when (dayOfWeek) {
-            DayOfWeek.MONDAY -> R.string.monday
-            DayOfWeek.TUESDAY -> R.string.tuesday
-            DayOfWeek.WEDNESDAY -> R.string.wednesday
-            DayOfWeek.THURSDAY -> R.string.thursday
-            DayOfWeek.FRIDAY -> R.string.friday
-            DayOfWeek.SATURDAY -> R.string.saturday
-            DayOfWeek.SUNDAY -> R.string.sunday
-        }
     }
 }

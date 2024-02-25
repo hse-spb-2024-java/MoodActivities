@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".HomeScreen">
+    tools:context=".fragments.HomeScreenFragment">
 
     <LinearLayout
         android:layout_width="@dimen/home_screen_tittle_width"
