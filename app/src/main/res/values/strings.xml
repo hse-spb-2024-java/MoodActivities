@@ -14,4 +14,5 @@
     <string name="mood_widget_tittle">Your today\'s\nmood</string>
     <string name="calendar_widget_tittle">Week statistic</string>
     <string name="ask_tittle">Ask AI for advice…</string>
+    <string name="return_home"><![CDATA[< Home]]></string>
 </resources>
