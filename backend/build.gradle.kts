@@ -19,6 +19,10 @@ dependencies {
 
     implementation("dev.morphia.morphia:morphia-core:2.4.11")
     implementation("org.mongodb:mongodb-driver-sync:4.11.1")
+
+    implementation("org.slf4j:slf4j-api:2.0.12")
+    implementation("org.slf4j:slf4j-simple:2.0.12")
+
     implementation("io.grpc:grpc-netty:${property("grpcVersion")}")
     implementation("io.grpc:grpc-protobuf:${property("grpcVersion")}")
     implementation("io.grpc:grpc-stub:${property("grpcVersion")}")

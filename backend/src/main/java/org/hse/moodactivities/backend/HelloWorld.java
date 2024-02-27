@@ -1,23 +1,23 @@
 package org.hse.moodactivities.backend;
 
-import org.hse.moodactivities.backend.entities.User;
+import org.hse.moodactivities.backend.entities.mongodb.User;
+import org.hse.moodactivities.backend.utils.MongoDBConnection;
 
 public class HelloWorld {
     public static void main(String[] argc) {
 
         System.out.println("Hello, world!");
-        MongoDBConnection connection = new MongoDBConnection();
+        try (MongoDBConnection connection = new MongoDBConnection("172.17.0.1", 27017, "user-data")) {
 
-        User user = new User("1", "abc", 12, User.Gender.MALE);
+            User user = new User("123", null);
 
-        connection.getDatastore().save(user);
-
-        User retrievedUser = connection.getDatastore().find(User.class).first();
-
-        if (retrievedUser != null) {
-            System.out.println("Retrieved user: " + retrievedUser.getUsername() + ", Age: " + retrievedUser.getAge());
+            connection.saveEntity(user);
+            var result = connection.findEntity(User.class);
+            System.out.println(result.get(0).getId());
+        }
+        catch (Exception e) {
+            System.err.println(e.getMessage());
         }
 
-        connection.close();
     }
 }
