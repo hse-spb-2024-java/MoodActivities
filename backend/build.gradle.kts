@@ -16,8 +16,8 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
     // L4J
-    implementation("org.slf4j:slf4j-api:2.0.12")
-    implementation("org.slf4j:slf4j-simple:2.0.12")
+    implementation("org.slf4j:slf4j-api:${property("l4jVersion")}")
+    implementation("org.slf4j:slf4j-simple:${property("l4jVersion")}")
 
     // Mongo
     implementation("dev.morphia.morphia:morphia-core:2.4.11")
