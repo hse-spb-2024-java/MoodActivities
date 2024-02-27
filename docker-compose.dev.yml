@@ -25,17 +25,6 @@ services:
     volumes:
       - mongodb_data:/data/db
 
-  backend:
-    platform: linux/amd64
-    container_name: backend
-    networks:
-      - main
-    ports:
-      - "12345:12345"
-    depends_on:
-      - postgres
-      - mongodb
-    build: ./backend
 networks:
   main:
 
