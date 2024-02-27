@@ -7,7 +7,7 @@ public class HelloWorld {
     public static void main(String[] argc) {
 
         System.out.println("Hello, world!");
-        try (MongoDBConnection connection = new MongoDBConnection("172.17.0.1", 27017, "user-data")) {
+        try (MongoDBConnection connection = new MongoDBConnection("localhost", 27017, "user-data")) {
 
             User user = new User("123", null);
 
