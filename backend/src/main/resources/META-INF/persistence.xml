@@ -9,7 +9,7 @@
         </description>
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>org.hse.moodactivities.backend.models.Event</class>
+        <class>org.hse.moodactivities.backend.entities.postgres.Event</class>
 
         <properties>
             <!-- Database connection settings -->

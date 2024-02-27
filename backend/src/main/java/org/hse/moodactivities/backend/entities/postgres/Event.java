@@ -1,4 +1,4 @@
-package org.hse.moodactivities.backend.models;
+package org.hse.moodactivities.backend.entities.postgres;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
