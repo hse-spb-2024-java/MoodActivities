@@ -13,18 +13,16 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.activities.MainActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
-import org.hse.moodactivities.activities.MoodFlowFragmentType
 import org.hse.moodactivities.data_types.MoodFlowDataType
 import org.hse.moodactivities.data_types.MoodFlowType
 import org.hse.moodactivities.interfaces.Communicator
-import org.hse.moodactivities.models.MoodFlowData
+import org.hse.moodactivities.models.MoodEvent
 
-class DayRatingFragment : Fragment() {
+class RateDayFragment : Fragment() {
     private lateinit var communicator: Communicator
     private var activeMoodIndex: Int = -1
     private lateinit var moodButtons: Array<Button?>
     private lateinit var moodImages: Array<ImageView?>
-    private lateinit var nextButton: Button
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,7 +30,25 @@ class DayRatingFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_day_rating, container, false)
         val thisActivity = activity as MoodFlowActivity
-        thisActivity.restoreFragmentData(this, view, MoodFlowFragmentType.DAY_RATING)
+        thisActivity.restoreFragmentData(this, view, MoodFlowType.DAY_RATING)
+
+        // button to home screen
+        view.findViewById<Button>(R.id.return_home_button).setOnClickListener {
+            Log.d("home return button", "clicked!")
+            val mainActivityIntent = Intent(this.activity, MainActivity::class.java)
+            startActivity(mainActivityIntent)
+        }
+
+        // button to go to the next fragment
+        view.findViewById<Button>(R.id.next_button).setOnClickListener {
+            Log.d("next button", "clicked!")
+            if (activeMoodIndex != -1) {
+                val moodEvent = MoodEvent()
+                moodEvent.setMoodRating(activeMoodIndex)
+                communicator.passData(moodEvent, MoodFlowDataType(MoodFlowType.DAY_RATING))
+                communicator.replaceFragment(ChooseActivitiesFragment())
+            }
+        }
         return view
     }
 
@@ -40,24 +56,6 @@ class DayRatingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         communicator = activity as Communicator
-
-        val returnHomeButton = view.findViewById<Button>(R.id.return_home_button)
-        returnHomeButton.setOnClickListener {
-            Log.d("home return button", "clicked!")
-            val mainActivityIntent = Intent(this.activity, MainActivity::class.java)
-            startActivity(mainActivityIntent)
-        }
-
-        nextButton = view.findViewById(R.id.next_button)
-        nextButton.setOnClickListener {
-            Log.d("next button", "clicked!")
-            if (activeMoodIndex != -1) {
-                val moodFlowData = MoodFlowData()
-                moodFlowData.setMoodRating(activeMoodIndex)
-                communicator.passData(moodFlowData, MoodFlowDataType(MoodFlowType.DAY_RATING))
-                communicator.replaceFragment(ActivitiesChoosingFragment())
-            }
-        }
 
         moodButtons = arrayOfNulls(5)
         moodImages = arrayOfNulls(5)
@@ -83,14 +81,16 @@ class DayRatingFragment : Fragment() {
         }
     }
 
-    private fun getImageIdByIndex(index: Int): Int {
-        return when (index) {
-            0 -> R.id.mood_1_image
-            1 -> R.id.mood_2_image
-            2 -> R.id.mood_3_image
-            3 -> R.id.mood_4_image
-            4 -> R.id.mood_5_image
-            else -> -1 // unreachable
+    companion object {
+        fun getImageIdByIndex(index: Int): Int {
+            return when (index) {
+                0 -> R.id.mood_1_image
+                1 -> R.id.mood_2_image
+                2 -> R.id.mood_3_image
+                3 -> R.id.mood_4_image
+                4 -> R.id.mood_5_image
+                else -> -1 // unreachable
+            }
         }
     }
 
@@ -109,7 +109,7 @@ class DayRatingFragment : Fragment() {
         }
     }
 
-    fun setActiveMoodIndex(moodIndex : Int) {
+    fun setActiveMoodIndex(moodIndex: Int) {
         this.activeMoodIndex = moodIndex
     }
 }

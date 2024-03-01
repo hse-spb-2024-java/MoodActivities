@@ -11,28 +11,27 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
-import org.hse.moodactivities.adapters.ItemAdapter
 import org.hse.moodactivities.data_types.MoodFlowDataType
 import org.hse.moodactivities.data_types.MoodFlowType
-import org.hse.moodactivities.fragments.ActivitiesChoosingFragment
-import org.hse.moodactivities.fragments.DayRatingFragment
+import org.hse.moodactivities.fragments.ChooseActivitiesFragment
+import org.hse.moodactivities.fragments.ChooseEmotionsFragment
+import org.hse.moodactivities.fragments.RateDayFragment
+import org.hse.moodactivities.fragments.SummaryOfTheDayFragment
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.interfaces.Data
 import org.hse.moodactivities.interfaces.DataType
-import org.hse.moodactivities.models.MoodFlowData
+import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.services.MoodService
 
-
-enum class MoodFlowFragmentType {
-    DAY_RATING, ACTIVITIES_CHOOSING, EMOTIONS_CHOOSING
-}
 
 class MoodFlowActivity : AppCompatActivity(), Communicator {
-    private var moodFlowData: MoodFlowData = MoodFlowData()
+    private var moodEvent: MoodEvent = MoodEvent()
+    private var dayRate: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mood_flow)
-        replaceFragment(DayRatingFragment())
+        replaceFragment(RateDayFragment())
     }
 
     override fun replaceFragment(fragment: Fragment) {
@@ -40,21 +39,29 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.activity_mood_flow_frame_layout, fragment)
         fragmentTransaction.commit()
-    }
-
-    override fun passData(data: Data, dataType: DataType) {
-        val receivedMoodFlowData = data as MoodFlowData
-        val receivedDataType = dataType as MoodFlowDataType
-        if (receivedDataType.getDataType() == MoodFlowType.DAY_RATING) {
-            moodFlowData.setMoodRating(receivedMoodFlowData.getMoodRating()!!)
-        } else if (receivedDataType.getDataType() == MoodFlowType.ACTIVITIES_CHOOSING) {
-            moodFlowData.setActivitiesChosen(data.getActivitiesChosen())
+        if (fragment is SummaryOfTheDayFragment) {
+            MoodService.sendMoodEvent(moodEvent)
+            dayRate = MoodService.getDayRate(moodEvent)
         }
     }
 
-    fun restoreFragmentData(fragment: Fragment, view: View, fragmentType: MoodFlowFragmentType) {
-        if (fragmentType == MoodFlowFragmentType.DAY_RATING) {
-            val moodImageId = when (moodFlowData.getMoodRating()) {
+    override fun passData(data: Data, dataType: DataType) {
+        val receivedMoodEvent = data as MoodEvent
+        val receivedDataType = dataType as MoodFlowDataType
+        if (receivedDataType.getDataType() == MoodFlowType.DAY_RATING) {
+            moodEvent.setMoodRating(receivedMoodEvent.getMoodRating()!!)
+        } else if (receivedDataType.getDataType() == MoodFlowType.ACTIVITIES_CHOOSING) {
+            moodEvent.setActivitiesChosen(data.getActivitiesChosen())
+        } else if (receivedDataType.getDataType() == MoodFlowType.EMOTIONS_CHOOSING) {
+            moodEvent.setEmotionsChosen(receivedMoodEvent.getEmotionsChosen())
+        } else if (receivedDataType.getDataType() == MoodFlowType.ANSWER_QUESTION) {
+            moodEvent.setAnswerForQuestion(receivedMoodEvent.getAnswerForQuestion().orEmpty())
+        }
+    }
+
+    fun restoreFragmentData(fragment: Fragment, view: View, fragmentType: MoodFlowType) {
+        if (fragmentType == MoodFlowType.DAY_RATING) {
+            val moodImageId = when (moodEvent.getMoodRating()) {
                 0 -> R.id.mood_1_image
                 1 -> R.id.mood_2_image
                 2 -> R.id.mood_3_image
@@ -63,17 +70,25 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
                 else -> -1
             }
             if (moodImageId != -1) {
-                val dayRatingFragment = fragment as DayRatingFragment
+                val rateDayFragment = fragment as RateDayFragment
                 view.findViewById<ImageView>(moodImageId)?.alpha = 1.0f
                 view.findViewById<CardView>(R.id.next_button_background)?.alpha = 1.0f
-                dayRatingFragment.setActiveMoodIndex(moodFlowData.getMoodRating()!!)
+                rateDayFragment.setActiveMoodIndex(moodEvent.getMoodRating()!!)
             }
-        } else if (fragmentType == MoodFlowFragmentType.ACTIVITIES_CHOOSING) {
-            val activitiesChosen = moodFlowData.getActivitiesChosen()
-            if (activitiesChosen.isNotEmpty()) {
-                val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-                // TODO: set chosen activities
-            }
+        } else if (fragmentType == MoodFlowType.ACTIVITIES_CHOOSING) {
+            val activitiesChosen = moodEvent.getActivitiesChosen()
+            val fragmentAc = fragment as ChooseActivitiesFragment
+            fragmentAc.setActivities(activitiesChosen)
+        } else if (fragmentType == MoodFlowType.EMOTIONS_CHOOSING) {
+            val emotionsChosen = moodEvent.getEmotionsChosen()
+            val fragmentAc = fragment as ChooseEmotionsFragment
+            fragmentAc.setEmotions(emotionsChosen)
+        }  else if (fragmentType == MoodFlowType.ANSWER_QUESTION) {
+            // TODO: add custom
+        } else {
+            view.findViewById<ImageView>(R.id.emoji)?.setImageResource(R.drawable.mood_flow_1)
+            view.findViewById<TextView>(R.id.summary_title)?.text = MoodService.getGptShortResponse()
+            view.findViewById<TextView>(R.id.summary_description)?.text = MoodService.getGptLongResponse()
         }
     }
 }

@@ -2,12 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activities_choosing_frame_layout"
+    android:id="@+id/fragment_day_rating_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".fragments.ChooseActivitiesFragment">
+    android:windowSoftInputMode="adjustResize"
+    tools:context=".fragments.RateDayFragment">
 
     <RelativeLayout
         android:layout_width="70dp"
@@ -15,7 +17,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:keyboardNavigationCluster="false">
 
         <TextView
             android:layout_width="match_parent"
@@ -38,9 +41,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200dp"
         android:fontFamily="@font/roboto"
-        android:text="What did you do today?"
+        android:text="What else can you say about your day?"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -48,23 +51,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="100dp"
+
+    <ScrollView
+        android:layout_width="300dp"
+
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="300dp">
+
+        <EditText
+            android:id="@+id/edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:autofillHints="name"
+            android:autoSizeMaxTextSize="10dp"/>
+
+    </ScrollView>
 
     <!-- next begin -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="270dp"
         android:layout_marginStart="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,11 +121,11 @@
 
     </RelativeLayout>
 
-    <!-- next begin -->
+    <!-- back begin -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="270dp"
         android:layout_marginEnd="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

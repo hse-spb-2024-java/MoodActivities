@@ -26,5 +26,14 @@
     <color name="dark_salmon">#B97862</color>
     <color name="olive">#8EB243</color>
     <color name="sea_green">#82CECA</color>
+    <color name="mid_orange">#D79D41</color>
+    <color name="mid_pink">#E28090</color>
+    <color name="ton">#D2B48C</color>
+    <color name="lilac">#C8A2C8</color>
+    <color name="yellow">#FBE05C</color>
+    <color name="gray_silk">#CAC4B0</color>
+
+
+
 
 </resources>
