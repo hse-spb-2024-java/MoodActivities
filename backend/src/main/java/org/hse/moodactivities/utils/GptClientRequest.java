@@ -13,12 +13,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GptClientRequest {
     private static final Logger LOGGER = LoggerFactory.getLogger(GptClientRequest.class);
+    private static Dotenv dotenv = Dotenv.load();
+    private static final String apiKey = dotenv.get("GPT_KEY");
 
     private static String bodyGeneration(String model, GptMessages messages, Double temperature) {
         return "{ \"model\": \"" + model + "\", \"messages\": " + messages + ", \"temperature\": " + temperature + "}";
