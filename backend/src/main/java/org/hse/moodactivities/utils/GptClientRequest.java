@@ -27,15 +27,14 @@ public class GptClientRequest {
         return "{ \"model\": \"" + model + "\", \"messages\": " + messages + ", \"temperature\": " + temperature + "}";
     }
 
-    public static GptMessages.GptMessage sendRequest(GptMessages messages) {
+    public static GptResponse sendRequest(GptMessages messages) {
         try {
             String url = "https://api.openai.com/v1/chat/completions";
-            String apiKey = ""; // TODO: READ FROM CONFIG
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Content-Type", "application/json")
-                    .header("Authorization", "Bearer " + apiKey)
+                    .header("Authorization", "Bearer " + GptClientRequest.apiKey)
                     .POST(HttpRequest.BodyPublishers.ofString(bodyGeneration("gpt-3.5-turbo", messages, 0.7)))
                     .build();
 
@@ -52,15 +51,14 @@ public class GptClientRequest {
                     if (messageJson != null) {
                         String messageRole = (String) messageJson.get("role");
                         String messageContent = (String) messageJson.get("content");
-                        return new GptMessages.GptMessage(GptMessages.GptMessage.Role.valueOf(messageRole), messageContent);
+                        return new GptResponse(new GptMessages.GptMessage(GptMessages.GptMessage.Role.valueOf(messageRole), messageContent), HttpURLConnection.HTTP_OK);
                     }
                 }
             }
-            // TODO handle net problems
-            return null;
+            return new GptResponse(response.statusCode(), response.body());
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
-            return null;
+            return new GptResponse(e.getMessage());
         }
     }
 }

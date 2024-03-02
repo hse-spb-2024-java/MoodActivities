@@ -6,6 +6,7 @@ import io.grpc.*;
 import org.hse.moodactivities.utils.GptClientRequest;
 import org.hse.moodactivities.utils.GptClientStream;
 import org.hse.moodactivities.utils.GptMessages;
+import org.hse.moodactivities.utils.GptResponse;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,8 +22,8 @@ public class AppServer {
         GptMessages.GptMessage first = new GptMessages.GptMessage(GptMessages.GptMessage.Role.user, "what is an orange?");
         GptMessages.GptMessage second = new GptMessages.GptMessage(GptMessages.GptMessage.Role.user, "what colour is it?");
         GptClientStream stream = new GptClientStream();
-        GptMessages.GptMessage response1 = stream.sendRequest(first);
-        GptMessages.GptMessage response2 = stream.sendRequest(second);
+        GptResponse response1 = stream.sendRequest(first);
+        GptResponse response2 = stream.sendRequest(second);
         System.out.println(response1);
         System.out.println(response2);
 
