@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_color_1">#A75F8D</color>
+    <color name="theme_color_1_dark">#7D4769</color>
+    <color name="theme_color_2">#6F4F84</color>
+    <color name="theme_color_2_dark">#4E365F</color>
+    <color name="black">#FF000000</color>
+    <color name="gray">#616161</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="steel_blue">#68A0A6</color>
+    <color name="steel_blue_dimmed">#55878D</color>
+    <color name="rosy_brown">#A66F6F</color>
+    <color name="rosy_brown_dimmed">#865A5A</color>
+    <color name="peach">#F2E0D5</color>
+    <color name="peach_dimmed">#DAC6BA</color>
+    <color name="light_blue">#A7CBD9</color>
+    <color name="light_pink">#D9A7B0</color>
+    <color name="light_pink_dimmed">#D9A7D0</color>
+</resources>
