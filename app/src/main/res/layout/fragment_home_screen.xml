@@ -590,7 +590,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/long_widget_height"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/light_pink"
+                android:backgroundTint="@color/pink"
                 app:cardCornerRadius="@dimen/widget_corner_radius">
 
                 <LinearLayout

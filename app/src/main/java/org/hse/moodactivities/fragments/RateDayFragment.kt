@@ -1,6 +1,5 @@
 package org.hse.moodactivities.fragments
 
-import org.hse.moodactivities.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,12 +10,14 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MainActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
-import org.hse.moodactivities.data_types.MoodFlowDataType
-import org.hse.moodactivities.data_types.MoodFlowType
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
+import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
+import org.hse.moodactivities.utils.UiUtils
 
 class RateDayFragment : Fragment() {
     private lateinit var communicator: Communicator
@@ -28,24 +29,22 @@ class RateDayFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_day_rating, container, false)
-        val thisActivity = activity as MoodFlowActivity
-        thisActivity.restoreFragmentData(this, view, MoodFlowType.DAY_RATING)
+        val view = inflater.inflate(R.layout.fragment_rate_day, container, false)
+
+        val parentActivity = activity as MoodFlowActivity
+        restoreFragmentData(parentActivity, view)
 
         // button to home screen
         view.findViewById<Button>(R.id.return_home_button).setOnClickListener {
-            Log.d("home return button", "clicked!")
-            val mainActivityIntent = Intent(this.activity, MainActivity::class.java)
-            startActivity(mainActivityIntent)
+            startActivity(Intent(this.activity, MainActivity::class.java))
         }
 
-        // button to go to the next fragment
+        // button to the next fragment
         view.findViewById<Button>(R.id.next_button).setOnClickListener {
-            Log.d("next button", "clicked!")
             if (activeMoodIndex != -1) {
                 val moodEvent = MoodEvent()
-                moodEvent.setMoodRating(activeMoodIndex)
-                communicator.passData(moodEvent, MoodFlowDataType(MoodFlowType.DAY_RATING))
+                moodEvent.setMoodRate(activeMoodIndex)
+                communicator.passData(moodEvent)
                 communicator.replaceFragment(ChooseActivitiesFragment())
             }
         }
@@ -61,8 +60,8 @@ class RateDayFragment : Fragment() {
         moodImages = arrayOfNulls(5)
 
         for (index in 0..4) {
-            moodButtons[index] = view.findViewById(getButtonIdByIndex(index))
-            moodImages[index] = view.findViewById(getImageIdByIndex(index))
+            moodButtons[index] = view.findViewById(UiUtils.getMoodButtonIdByIndex(index))
+            moodImages[index] = view.findViewById(UiUtils.getMoodImageIdByIndex(index))
             moodButtons[index]?.setOnClickListener {
                 Log.d("mood " + (index + 1) + " button", "clicked!")
                 clickOnButton(index)
@@ -70,46 +69,31 @@ class RateDayFragment : Fragment() {
         }
     }
 
-    private fun getButtonIdByIndex(index: Int): Int {
-        return when (index) {
-            0 -> R.id.mood_1_button
-            1 -> R.id.mood_2_button
-            2 -> R.id.mood_3_button
-            3 -> R.id.mood_4_button
-            4 -> R.id.mood_5_button
-            else -> -1 // unreachable
-        }
-    }
-
-    companion object {
-        fun getImageIdByIndex(index: Int): Int {
-            return when (index) {
-                0 -> R.id.mood_1_image
-                1 -> R.id.mood_2_image
-                2 -> R.id.mood_3_image
-                3 -> R.id.mood_4_image
-                4 -> R.id.mood_5_image
-                else -> -1 // unreachable
-            }
-        }
-    }
-
     private fun clickOnButton(index: Int) {
         if (index == activeMoodIndex) {
-            moodImages[index]?.alpha = 0.5f
+            moodImages[index]?.alpha = BUTTON_DISABLED_ALPHA
             activeMoodIndex = -1
-            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = 0.5f
+            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = BUTTON_DISABLED_ALPHA
         } else {
             if (activeMoodIndex != -1) {
-                moodImages[activeMoodIndex]?.alpha = 0.5f
+                moodImages[activeMoodIndex]?.alpha = BUTTON_DISABLED_ALPHA
             }
-            moodImages[index]?.alpha = 1.0f
+            moodImages[index]?.alpha = BUTTON_ENABLED_ALPHA
             activeMoodIndex = index
-            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = 1.0f
+            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = BUTTON_ENABLED_ALPHA
         }
     }
 
-    fun setActiveMoodIndex(moodIndex: Int) {
-        this.activeMoodIndex = moodIndex
+    private fun restoreFragmentData(activity: MoodFlowActivity, view: View) {
+        val moodEvent = activity.getMoodEvent()
+        if (moodEvent.getMoodRate() != null) {
+            val moodImageId = UiUtils.getMoodImageIdByIndex(moodEvent.getMoodRate()!!)
+            if (moodImageId != -1) {
+                view.findViewById<ImageView>(moodImageId)?.alpha = BUTTON_ENABLED_ALPHA
+                view.findViewById<CardView>(R.id.next_button_background)?.alpha =
+                    BUTTON_ENABLED_ALPHA
+                this.activeMoodIndex = moodEvent.getMoodRate()!!
+            }
+        }
     }
 }

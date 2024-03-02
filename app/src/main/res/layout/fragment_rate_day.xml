@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_day_rating_layout"
+    android:id="@+id/fragment_rate_day_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -28,7 +28,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-
         <Button
             android:id="@+id/return_home_button"
             android:layout_width="match_parent"
@@ -42,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="235dp"
         android:fontFamily="@font/roboto"
-        android:text="How was your day?"
+        android:text="@string/rate_day_title"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -59,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- mood 1 -->
+        <!-- mood 1 start -->
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -88,8 +87,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </RelativeLayout>
+        <!-- mood 1 end -->
 
-        <!-- mood 2 -->
+        <!-- mood 2 start -->
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -118,8 +118,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </RelativeLayout>
+        <!-- mood 2 end -->
 
-        <!-- mood 3 -->
+        <!-- mood 3 start -->
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -148,8 +149,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </RelativeLayout>
+        <!-- mood 3 end -->
 
-        <!-- mood 4 -->
+        <!-- mood 4 start -->
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -178,8 +180,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </RelativeLayout>
+        <!-- mood 4 end -->
 
-        <!-- mood 5 -->
+        <!-- mood 5 start -->
         <RelativeLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -207,10 +210,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </RelativeLayout>
+        <!-- mood 5 end -->
 
     </LinearLayout>
 
-    <!-- next begin -->
+    <!-- next start -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
@@ -218,7 +222,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/next_button_background"
@@ -238,7 +241,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Next"
+                    android:text="@string/next_title"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -258,4 +261,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
+    <!-- next end -->
 </androidx.constraintlayout.widget.ConstraintLayout>

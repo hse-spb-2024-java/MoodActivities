@@ -6,25 +6,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MainActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
-import org.hse.moodactivities.data_types.MoodFlowType
+import org.hse.moodactivities.services.MoodService
+import org.hse.moodactivities.utils.UiUtils
 
 class SummaryOfTheDayFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_summary_of_the_day, container, false)
-        val activity = activity as MoodFlowActivity
-        activity.restoreFragmentData(this, view, MoodFlowType.SUMMARY_OF_THE_DAY)
+
+        val parentActivity = activity as MoodFlowActivity
+        restoreFragmentData(parentActivity)
 
         // button to finish
         view.findViewById<Button>(R.id.finish_button).setOnClickListener {
-            val mainActivityIntent = Intent(this.activity, MainActivity::class.java)
-            startActivity(mainActivityIntent)
+            startActivity(Intent(this.activity, MainActivity::class.java))
         }
         return view
+    }
+
+    private fun restoreFragmentData(activity: MoodFlowActivity) {
+        val moodEvent = activity.getMoodEvent()
+        view?.findViewById<ImageView>(R.id.emoji)?.setImageResource(
+            UiUtils.getMoodImageResourcesIdByIndex(moodEvent.getMoodRate()!!)
+        )
+        // there is no GPT answer
+        view?.findViewById<TextView>(R.id.summary_title)?.text =
+            MoodService.getGptShortResponse()
+        view?.findViewById<TextView>(R.id.summary_description)?.text =
+            MoodService.getGptLongResponse()
     }
 }

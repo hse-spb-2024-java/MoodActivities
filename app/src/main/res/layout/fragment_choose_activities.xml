@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/emotions_choosing_frame_layout"
+    android:id="@+id/fragment_choose_activities_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".fragments.ChooseEmotionsFragment">
+    tools:context=".fragments.ChooseActivitiesFragment">
 
     <RelativeLayout
         android:layout_width="70dp"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/roboto"
-        android:text="What emotions did you feel today?"
+        android:text="@string/choose_activities_title"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- next begin -->
+    <!-- next start -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
@@ -69,7 +69,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/next_button_background"
@@ -89,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Next"
+                    android:text="@string/next_title"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -109,8 +108,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
+    <!-- next end -->
 
-    <!-- back begin -->
+    <!-- back start -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
@@ -119,7 +119,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -137,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Back"
+                    android:text="@string/back_title"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -157,4 +156,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
+    <!-- back end -->
 </androidx.constraintlayout.widget.ConstraintLayout>

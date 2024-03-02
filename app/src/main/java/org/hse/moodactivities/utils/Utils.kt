@@ -4,9 +4,8 @@ import org.hse.moodactivities.R
 import java.time.DayOfWeek
 
 class Utils {
-
     companion object {
-        public fun getStringByDayOfWeek(dayOfWeek: DayOfWeek): Int {
+        fun getStringByDayOfWeek(dayOfWeek: DayOfWeek): Int {
             return when (dayOfWeek) {
                 DayOfWeek.MONDAY -> R.string.monday
                 DayOfWeek.TUESDAY -> R.string.tuesday

@@ -5,5 +5,5 @@ import androidx.fragment.app.Fragment
 interface Communicator {
     fun replaceFragment(fragment: Fragment)
 
-    fun passData(data: Data, dataType: DataType)
+    fun passData(data: Data)
 }

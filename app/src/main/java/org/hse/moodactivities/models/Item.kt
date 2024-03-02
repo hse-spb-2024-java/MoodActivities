@@ -1,6 +1,6 @@
 package org.hse.moodactivities.models
 
-class ActivityItem(
+class Item(
     private var iconIndex: Int,
     private var text: String,
     private var iconColor: Int,

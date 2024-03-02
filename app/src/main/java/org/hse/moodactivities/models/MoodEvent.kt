@@ -4,40 +4,40 @@ import org.hse.moodactivities.interfaces.Data
 import kotlin.collections.HashSet
 
 class MoodEvent : Data {
-    private var moodRating : Int? = null
-    private var activitiesChosen : HashSet<String> = HashSet()
-    private var emotionsChosen : HashSet<String> = HashSet()
-    private var answerForQuestion : String? = null
+    private var moodRating: Int? = null
+    private var chosenActivities: HashSet<String>? = null
+    private var chosenEmotions: HashSet<String>? = null
+    private var userAnswer: String? = null
 
-    fun setMoodRating(moodRating : Int) {
-        this.moodRating = moodRating
+    fun setMoodRate(moodRate: Int) {
+        this.moodRating = moodRate
     }
 
-    fun getMoodRating() : Int? {
+    fun getMoodRate(): Int? {
         return this.moodRating
     }
 
-    fun setActivitiesChosen(activitiesChosen : HashSet<String>) {
-        this.activitiesChosen = activitiesChosen
+    fun setChosenActivities(chosenActivities: HashSet<String>) {
+        this.chosenActivities = chosenActivities
     }
 
-    fun getActivitiesChosen() : HashSet<String> {
-        return this.activitiesChosen
+    fun getChosenActivities(): HashSet<String>? {
+        return this.chosenActivities
     }
 
-    fun setEmotionsChosen(activitiesChosen : HashSet<String>) {
-        this.activitiesChosen = activitiesChosen
+    fun setChosenEmotions(chosenEmotions: HashSet<String>) {
+        this.chosenEmotions = chosenEmotions
     }
 
-    fun getEmotionsChosen() : HashSet<String> {
-        return this.activitiesChosen
+    fun getChosenEmotions(): HashSet<String>? {
+        return this.chosenEmotions
     }
 
-    fun setAnswerForQuestion(answerForQuestion : String) {
-        this.answerForQuestion = answerForQuestion
+    fun setUserAnswer(userAnswer: String) {
+        this.userAnswer = userAnswer
     }
 
-    fun getAnswerForQuestion() : String? {
-        return this.answerForQuestion
+    fun getUserAnswer(): String? {
+        return this.userAnswer
     }
 }

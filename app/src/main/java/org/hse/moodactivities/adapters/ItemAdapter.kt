@@ -13,15 +13,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
-import org.hse.moodactivities.data_types.MoodFlowType
-import org.hse.moodactivities.fragments.ChooseActivitiesFragment
-import org.hse.moodactivities.fragments.ChooseEmotionsFragment
-import org.hse.moodactivities.models.ActivityItem
+import org.hse.moodactivities.interfaces.ItemHolderFragment
+import org.hse.moodactivities.models.Item
+import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
 class ItemAdapter(
     var context: Context,
-    private var arrayList: ArrayList<ActivityItem>,
-    private var fragmentType: MoodFlowType
+    private var arrayList: ArrayList<Item>
 ) :
     RecyclerView.Adapter<ItemAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
@@ -35,31 +33,25 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        val activityItem: ActivityItem = arrayList[position]
+        val item: Item = arrayList[position]
 
-        holder.icon.setImageResource(activityItem.getIconIndex())
-        holder.title.text = activityItem.getText()
+        holder.icon.setImageResource(item.getIconIndex())
+        holder.title.text = item.getText()
         holder.cardView.setCardBackgroundColor(
             ContextCompat.getColor(
                 context,
-                activityItem.getIconColor()
+                item.getIconColor()
             )
         )
-        if (activityItem.getIsActive()) {
+        if (item.getIsActive()) {
             Log.d("change", "set background")
-            holder.cardView.alpha = 1.0f
+            holder.cardView.alpha = BUTTON_ENABLED_ALPHA
         }
 
         holder.button.setOnClickListener {
-            if (fragmentType == MoodFlowType.ACTIVITIES_CHOOSING) {
-                val fragment: ChooseActivitiesFragment =
-                    holder.activity.supportFragmentManager.fragments[0] as ChooseActivitiesFragment
-                fragment.clickButton(holder.cardView, holder.title.text as String)
-            } else {
-                val fragment: ChooseEmotionsFragment =
-                    holder.activity.supportFragmentManager.fragments[0] as ChooseEmotionsFragment
-                fragment.clickButton(holder.cardView, holder.title.text as String)
-            }
+            val fragment: ItemHolderFragment =
+                holder.activity.supportFragmentManager.fragments[0] as ItemHolderFragment
+            fragment.clickButton(holder.cardView, holder.title.text as String)
         }
     }
 
