@@ -48,24 +48,6 @@ public class MongoDBConnection implements AutoCloseable {
         return entityList;
     }
 
-    public <T> List<T> saveEntity(List<T> entityList, int batchSize) {
-        long entityListSize = entityList.size();
-        List<T> batch = new ArrayList<>(batchSize);
-        for (T entity : entityList) {
-            batch.add(entity);
-            if (batch.size() == batchSize) {
-                datastore.save(batch);
-                batch.clear();
-            }
-        }
-        if (!batch.isEmpty()) {
-            datastore.save(batch);
-            batch.clear();
-        }
-
-        return entityList;
-    }
-
     public <T> DeleteResult deleteEntity(T entity) {
         return datastore.delete(entity);
     }
@@ -97,17 +79,6 @@ public class MongoDBConnection implements AutoCloseable {
         return null;
     }
 
-
-    public <T> List<T> findEntityWithBatchSize(Class<T> clazz, int batchSize) {
-        try (var find = datastore.find(clazz).iterator(new FindOptions().batchSize(batchSize))) {
-            return find.toList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     public <T> List<T> findEntityWithFilters(Class<T> clazz, Map<String, Object> queryMap) {
         Document document = new Document();
         for (String key : queryMap.keySet()) {
@@ -127,38 +98,6 @@ public class MongoDBConnection implements AutoCloseable {
             document.append(key, queryMap.get(key));
         }
         try (var find = datastore.find(clazz, document).iterator(findOptions)) {
-            return find.toList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    public <T> List<T> findEntityWithFiltersByBatchSize(Class<T> clazz, Map<String, Object> queryMap, int batchSize) {
-        Document document = new Document();
-        for (String key : queryMap.keySet()) {
-            document.append(key, queryMap.get(key));
-        }
-        try (var find = datastore.find(clazz, document).iterator(new FindOptions().batchSize(batchSize))) {
-            return find.toList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    public <T> List<T> findEntityWithFiltersAndSort(Class<T> clazz, Map<String, Object> queryMap, String fieldName, int sort) {
-
-        if (sort != -1 && sort != 1) {
-            return null;
-        }
-        Document document = new Document();
-        for (String key : queryMap.keySet()) {
-            document.append(key, queryMap.get(key));
-        }
-        try (var find = datastore.find(clazz, document).iterator(new FindOptions().sort(new Document(fieldName, sort)))) {
             return find.toList();
         } catch (Exception e) {
             e.printStackTrace();
