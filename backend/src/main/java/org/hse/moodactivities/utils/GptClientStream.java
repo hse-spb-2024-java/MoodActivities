@@ -4,27 +4,22 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GptClientStream {
-    ArrayList<GptPrompt> history;
+    GptMessages history = new GptMessages();
     private static final Logger LOGGER = LoggerFactory.getLogger(GptClientStream.class);
 
-    public static String sendRequest(String message) {
+    public GptMessages.GptMessage sendRequest(GptMessages.GptMessage message) {
         try {
-            GptPrompt prompt = new GptPrompt("user", message);
-            HttpURLConnection connection = GptConnection.getHttpURLConnection(prompt);
-
-            StringBuilder response = new StringBuilder();
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                String line;
-                while ((line = in.readLine()) != null) {
-                    response.append(line);
-                }
+            history.addMessage(message);
+            GptMessages.GptMessage response = GptClientRequest.sendRequest(history);
+            if (response != null) {
+                history.addMessage(response);
             }
-            connection.disconnect();
-            return response.toString();
+            return response;
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return null;

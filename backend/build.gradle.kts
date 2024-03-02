@@ -17,6 +17,7 @@ dependencies {
     implementation("org.slf4j:slf4j-api:2.0.12")
     implementation("org.slf4j:slf4j-simple:2.0.12")
     implementation("ch.qos.logback:logback-classic:1.2.3")
+    implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.jetbrains:annotations:16.0.2")
     implementation("com.google.protobuf:protobuf-java:3.25.1")
