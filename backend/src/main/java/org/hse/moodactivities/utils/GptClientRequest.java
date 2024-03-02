@@ -20,6 +20,10 @@ import org.slf4j.LoggerFactory;
 public class GptClientRequest {
     private static final Logger LOGGER = LoggerFactory.getLogger(GptClientRequest.class);
 
+    private static String bodyGeneration(String model, GptMessages messages, Double temperature) {
+        return "{ \"model\": \"" + model + "\", \"messages\": " + messages + ", \"temperature\": " + temperature + "}";
+    }
+
     public static GptMessages.GptMessage sendRequest(GptMessages messages) {
         try {
             String url = "https://api.openai.com/v1/chat/completions";
@@ -29,12 +33,12 @@ public class GptClientRequest {
                     .uri(URI.create(url))
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + apiKey)
-                    .POST(HttpRequest.BodyPublishers.ofString("{ \"model\": \"gpt-3.5-turbo\", \"messages\": " + messages + ", \"temperature\": 0.7 }"))
+                    .POST(HttpRequest.BodyPublishers.ofString(bodyGeneration("gpt-3.5-turbo", messages, 0.7)))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() < 300) {
+            if (response.statusCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
                 JSONParser parser = new JSONParser();
                 JSONObject body = (JSONObject) parser.parse(response.body());
 
