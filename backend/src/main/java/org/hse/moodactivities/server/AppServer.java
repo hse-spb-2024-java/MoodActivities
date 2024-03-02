@@ -26,22 +26,22 @@ public class AppServer {
         System.out.println(response1);
         System.out.println(response2);
 
-//        ExecutorService executor = Executors.newFixedThreadPool(10);
-//
-//        Server server = ServerBuilder.forPort(12345)
-//                .executor(executor)
-//                .addService(new AuthService())
-//                .build();
-//
-//        try {
-//            server.start();
-//            int tic = 0;
-//            while (tic != 1) {
-//                tic += 2;
-//            }
-//            server.awaitTermination();
-//        } catch (Exception e) {
-//            LOGGER.log(Level.ALL, e.getMessage());
-//        }
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        Server server = ServerBuilder.forPort(12345)
+                .executor(executor)
+                .addService(new AuthService())
+                .build();
+
+        try {
+            server.start();
+            int tic = 0;
+            while (tic != 1) {
+                tic += 2;
+            }
+            server.awaitTermination();
+        } catch (Exception e) {
+            LOGGER.log(Level.ALL, e.getMessage());
+        }
     }
 }
