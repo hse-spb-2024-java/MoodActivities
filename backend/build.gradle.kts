@@ -11,6 +11,12 @@ version = "0.1-DEV"
 dependencies {
     implementation(project(":common"))
 
+    // Env Reader
+    implementation("io.github.cdimascio:dotenv-java:2.2.0")
+
+    // JSON
+    implementation("com.googlecode.json-simple:json-simple:1.1.1")
+
     // Annotations
     implementation("org.jetbrains:annotations:16.0.2")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
@@ -18,6 +24,7 @@ dependencies {
     // L4J
     implementation("org.slf4j:slf4j-api:${property("l4jVersion")}")
     implementation("org.slf4j:slf4j-simple:${property("l4jVersion")}")
+    implementation("ch.qos.logback:logback-classic:1.2.3")
 
     // Mongo
     implementation("dev.morphia.morphia:morphia-core:2.4.11")
