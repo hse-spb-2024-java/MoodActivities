@@ -12,6 +12,7 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,46 +62,46 @@ public class MongoDBConnection implements AutoCloseable {
     }
 
 
-    public <T> List<T> findEntity(Class<T> clazz) {
-        try (var find = datastore.find(clazz).iterator()) {
+    public <T> List<T> findEntity(Class<T> typeClass) {
+        try (var find = datastore.find(typeClass).iterator()) {
             return find.toList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred:", e);
         }
         return null;
     }
 
-    public <T> List<T> findEntity(Class<T> clazz, FindOptions findOptions) {
-        try (var find = datastore.find(clazz).iterator(findOptions)) {
+    public <T> List<T> findEntity(Class<T> typeClass, FindOptions findOptions) {
+        try (var find = datastore.find(typeClass).iterator(findOptions)) {
             return find.toList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred:", e);
         }
         return null;
     }
 
-    public <T> List<T> findEntityWithFilters(Class<T> clazz, Map<String, Object> queryMap) {
+    public <T> List<T> findEntityWithFilters(Class<T> typeClass, Map<String, Object> queryMap) {
         Document document = new Document();
         for (String key : queryMap.keySet()) {
             document.append(key, queryMap.get(key));
         }
-        try (var find = datastore.find(clazz, document).iterator()) {
+        try (var find = datastore.find(typeClass, document).iterator()) {
             return find.toList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred:", e);
         }
         return null;
     }
 
-    public <T> List<T> findEntityWithFilters(Class<T> clazz, Map<String, Object> queryMap, FindOptions findOptions) {
+    public <T> List<T> findEntityWithFilters(Class<T> typeClass, Map<String, Object> queryMap, FindOptions findOptions) {
         Document document = new Document();
         for (String key : queryMap.keySet()) {
             document.append(key, queryMap.get(key));
         }
-        try (var find = datastore.find(clazz, document).iterator(findOptions)) {
+        try (var find = datastore.find(typeClass, document).iterator(findOptions)) {
             return find.toList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("An error occurred:", e);
         }
         return null;
     }

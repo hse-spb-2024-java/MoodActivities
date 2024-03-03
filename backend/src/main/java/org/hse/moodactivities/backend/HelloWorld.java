@@ -14,10 +14,8 @@ public class HelloWorld {
             connection.saveEntity(user);
             var result = connection.findEntity(User.class);
             System.out.println(result.get(0).getId());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-
     }
 }

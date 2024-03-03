@@ -15,7 +15,7 @@ final class UserDayMeta implements Serializable {
 
     private Date date;
     private List<Activities> activitiesList;
-    private double daiScore;
+    private double dailyScore;
     private String dailyConclusion;
 
     public void setDate(final Date date) {
@@ -26,7 +26,7 @@ final class UserDayMeta implements Serializable {
     }
 
     public void setDaiScore(final double daiScore) {
-        this.daiScore = daiScore;
+        this.dailyScore = daiScore;
     }
 
     public void setDailyConclusion(final String dailyConclusion) {
@@ -36,11 +36,9 @@ final class UserDayMeta implements Serializable {
     public UserDayMeta(final Date date, final List<Activities> activitiesList, final double daiScore, final String dailyConclusion) {
         this.date = date;
         this.activitiesList = activitiesList;
-        this.daiScore = daiScore;
+        this.dailyScore = daiScore;
         this.dailyConclusion = dailyConclusion;
     }
-
-
 
     public Date getDate() {
         return date;
@@ -51,7 +49,7 @@ final class UserDayMeta implements Serializable {
     }
 
     public double getDaiScore() {
-        return daiScore;
+        return dailyScore;
     }
 
     public String getDailyConclusion() {
@@ -65,13 +63,13 @@ final class UserDayMeta implements Serializable {
         var that = (UserDayMeta) obj;
         return Objects.equals(this.date, that.date) &&
                 Objects.equals(this.activitiesList, that.activitiesList) &&
-                Double.doubleToLongBits(this.daiScore) == Double.doubleToLongBits(that.daiScore) &&
+                Double.doubleToLongBits(this.dailyScore) == Double.doubleToLongBits(that.dailyScore) &&
                 Objects.equals(this.dailyConclusion, that.dailyConclusion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, activitiesList, daiScore, dailyConclusion);
+        return Objects.hash(date, activitiesList, dailyScore, dailyConclusion);
     }
 
     @Override
@@ -79,9 +77,7 @@ final class UserDayMeta implements Serializable {
         return "UserDayMeta[" +
                 "date=" + date + ", " +
                 "activitiesList=" + activitiesList + ", " +
-                "daiScore=" + daiScore + ", " +
+                "daiScore=" + dailyScore + ", " +
                 "dailyConclusion=" + dailyConclusion + ']';
     }
-
-
 }
