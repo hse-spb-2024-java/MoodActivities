@@ -5,7 +5,7 @@ import org.hse.moodactivities.common.proto.requests.survey.*;
 public class GptRequestFormatter {
     public static GptMessages.GptMessage surveyRequest(LongSurveyRequest request) {
         StringBuilder message = new StringBuilder();
-        message.append("Summarize the user's day in terms of mental state, given the following activities: ");
+        message.append("Summarize the user's mental state for the day and provide two responses: one succinct (exactly three words), the other expanded (no more than 200 characters), given the following activities: ");
         for (var activity : request.getActivitiesList()) {
             message.append(String.format("%s, ", activity));
         }

@@ -20,15 +20,29 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
 
     @Override
     public void longSurvey(LongSurveyRequest request, StreamObserver<LongSurveyResponse> responseObserve) {
-        LongSurveyResponse response = LongSurveyResponse.newBuilder().build();
+        LongSurveyResponse response;
         try (MongoDBConnection connection = new MongoDBConnection(MONGO_HOST, MONGO_PORT, MONGO_DBNAME)) {
             GptMessages.GptMessage message = GptRequestFormatter.surveyRequest(request);
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(message));
             if (gptResponse.message() != null) {
-
+                String[] words = gptResponse.message().getContent().split("\\s+");
+                StringBuilder shortForm = new StringBuilder();
+                StringBuilder fullForm = new StringBuilder();
+                for (int i = 0; i < words.length; i++) {
+                    if (i < 3) {
+                        shortForm.append(words[i]);
+                    }
+                    else {
+                        fullForm.append(words[i]);
+                    }
+                }
+                response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
+            }
+            else {
+                response = LongSurveyResponse.newBuilder().build();
             }
         } catch (Exception e) {
-
+            response = LongSurveyResponse.newBuilder().build();
         }
         responseObserve.onNext(response);
         responseObserve.onCompleted();
