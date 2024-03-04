@@ -44,6 +44,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 response = LongSurveyResponse.newBuilder().build();
             }
         } catch (Exception e) {
+            LOGGER.error("An error occurred:", e);
             response = LongSurveyResponse.newBuilder().build();
         }
         responseObserve.onNext(response);
