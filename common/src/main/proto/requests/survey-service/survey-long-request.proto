@@ -6,4 +6,10 @@ option java_multiple_files = true;
 package requests;
 
 message LongSurveyRequest {
+  string jwt = 1;
+  repeated string activities = 2;
+  repeated string emotions = 3;
+  int32 moodRating = 4;
+  string question = 5;
+  string answer = 6;
 }

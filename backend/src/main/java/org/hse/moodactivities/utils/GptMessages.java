@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GptMessages {
+    public GptMessages(GptMessage message) {
+        this();
+        addMessage(message);
+    }
+
     public static class GptMessage {
         private Role role;
         private String content;

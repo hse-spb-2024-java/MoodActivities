@@ -1,8 +1,7 @@
 package org.hse.moodactivities.server;
 
-import org.hse.moodactivities.services.AuthService;
-
 import io.grpc.*;
+import org.hse.moodactivities.services.*;
 import org.hse.moodactivities.utils.GptClientRequest;
 import org.hse.moodactivities.utils.GptClientStream;
 import org.hse.moodactivities.utils.GptMessages;
@@ -19,19 +18,12 @@ public class AppServer {
             AppServer.class.getName());
 
     public static void main(String[] args) {
-        GptMessages.GptMessage first = new GptMessages.GptMessage(GptMessages.GptMessage.Role.user, "what is an orange?");
-        GptMessages.GptMessage second = new GptMessages.GptMessage(GptMessages.GptMessage.Role.user, "what colour is it?");
-        GptClientStream stream = new GptClientStream();
-        GptResponse response1 = stream.sendRequest(first);
-        GptResponse response2 = stream.sendRequest(second);
-        System.out.println(response1);
-        System.out.println(response2);
-
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
         Server server = ServerBuilder.forPort(12345)
                 .executor(executor)
                 .addService(new AuthService())
+                .addService(new SurveyService())
                 .build();
 
         try {
