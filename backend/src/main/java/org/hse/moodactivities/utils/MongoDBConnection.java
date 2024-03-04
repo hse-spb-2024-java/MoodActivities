@@ -1,4 +1,4 @@
-package org.hse.moodactivities.backend.utils;
+package org.hse.moodactivities.utils;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -12,7 +12,6 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
