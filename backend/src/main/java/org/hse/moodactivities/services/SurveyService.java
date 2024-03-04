@@ -11,7 +11,11 @@ import org.hse.moodactivities.utils.GptRequestFormatter;
 import org.hse.moodactivities.utils.GptResponse;
 import io.github.cdimascio.dotenv.Dotenv;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SurveyService.class);
 
     private static Dotenv dotenv = Dotenv.load();
     private static final String MONGO_HOST = dotenv.get("MONGO_HOST");
@@ -31,14 +35,12 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 for (int i = 0; i < words.length; i++) {
                     if (i < 3) {
                         shortForm.append(words[i]);
-                    }
-                    else {
+                    } else {
                         fullForm.append(words[i]);
                     }
                 }
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
-            }
-            else {
+            } else {
                 response = LongSurveyResponse.newBuilder().build();
             }
         } catch (Exception e) {
