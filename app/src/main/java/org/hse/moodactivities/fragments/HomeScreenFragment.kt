@@ -52,6 +52,7 @@ class HomeScreenFragment : Fragment() {
             Log.d("mood button", "clicked!")
             val moodFlowActivityIntent = Intent(this.activity, MoodFlowActivity::class.java)
             startActivity(moodFlowActivityIntent)
+            this.activity?.finish()
         }
 
         val noteWidgetButton: Button = view.rootView.findViewById(R.id.note_widget_button)

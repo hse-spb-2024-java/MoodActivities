@@ -22,7 +22,7 @@ class SummaryOfTheDayFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_summary_of_the_day, container, false)
 
         val parentActivity = activity as MoodFlowActivity
-        restoreFragmentData(parentActivity)
+        restoreFragmentData(parentActivity, view)
 
         // button to finish
         view.findViewById<Button>(R.id.finish_button).setOnClickListener {
@@ -31,15 +31,16 @@ class SummaryOfTheDayFragment : Fragment() {
         return view
     }
 
-    private fun restoreFragmentData(activity: MoodFlowActivity) {
+    private fun restoreFragmentData(activity: MoodFlowActivity, view: View) {
         val moodEvent = activity.getMoodEvent()
-        view?.findViewById<ImageView>(R.id.emoji)?.setImageResource(
+        view.findViewById<ImageView>(R.id.emoji)?.setImageResource(
             UiUtils.getMoodImageResourcesIdByIndex(moodEvent.getMoodRate()!!)
         )
         // there is no GPT answer
-        view?.findViewById<TextView>(R.id.summary_title)?.text =
-            MoodService.getGptShortResponse()
-        view?.findViewById<TextView>(R.id.summary_description)?.text =
-            MoodService.getGptLongResponse()
+        val gptResponse : MoodService.Companion.GptMoodResponse = MoodService.getGptResponse()
+        view.findViewById<TextView>(R.id.summary_title)?.text =
+            gptResponse.shortSummary
+        view.findViewById<TextView>(R.id.summary_description)?.text = gptResponse.fullSummary
+
     }
 }

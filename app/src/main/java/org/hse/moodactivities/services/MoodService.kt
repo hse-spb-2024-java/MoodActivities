@@ -1,27 +1,48 @@
 package org.hse.moodactivities.services
 
+import io.grpc.ManagedChannelBuilder
+import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest
+import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc
 import org.hse.moodactivities.models.MoodEvent
 
 class MoodService {
-
     companion object {
-        fun sendMoodEvent(moodEvent : MoodEvent) {
+        private lateinit var moodEvent: MoodEvent
 
+        class GptMoodResponse(var shortSummary : String, var fullSummary : String)
+
+        fun setMoodEvent(receivedMoodEvent: MoodEvent) {
+            moodEvent = receivedMoodEvent
         }
 
-        fun getDayRate(moodData : MoodEvent) : String {
+        fun getDayRate(moodData: MoodEvent): String {
             return "It's okay"
         }
 
         // GPT describes user's day in one word
-        fun getGptShortResponse() : String {
+        fun getGptShortResponse(): String {
             val answer = "amazing"
             return "Your day was " + answer
         }
 
         // GPT describes user's day
-        fun getGptLongResponse() : String {
-            return "It was quite interesting day"
+        fun getGptResponse(): GptMoodResponse {
+            val channel = ManagedChannelBuilder.forAddress("localhost", 12345)
+                .usePlaintext()
+                .build()
+
+            val stub = SurveyServiceGrpc.newBlockingStub(channel)
+
+            val request = LongSurveyRequest.newBuilder()
+                .setMoodRating(moodEvent.getMoodRate()!! + 1)
+                .addAllActivities(moodEvent.getChosenActivities() as MutableIterable<String>)
+                .addAllEmotions(moodEvent.getChosenEmotions() as MutableIterable<String>)
+                .setQuestion("What else can you say about your day?")
+                .setAnswer(moodEvent.getUserAnswer())
+                .build()
+
+            val response = stub.longSurvey(request)
+            return GptMoodResponse(response.shortSummary, response.fullSummary)
         }
     }
 }
