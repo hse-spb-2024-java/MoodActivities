@@ -20,7 +20,7 @@ public class AppServer {
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
-        Server server = ServerBuilder.forPort(12345)
+        Server server = ServerBuilder.forPort(50051)
                 .executor(executor)
                 .addService(new AuthService())
                 .addService(new SurveyService())

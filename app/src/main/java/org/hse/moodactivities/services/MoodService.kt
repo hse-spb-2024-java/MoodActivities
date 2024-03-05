@@ -27,7 +27,7 @@ class MoodService {
 
         // GPT describes user's day
         fun getGptResponse(): GptMoodResponse {
-            val channel = ManagedChannelBuilder.forAddress("localhost", 12345)
+            val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 50051)
                 .usePlaintext()
                 .build()
 

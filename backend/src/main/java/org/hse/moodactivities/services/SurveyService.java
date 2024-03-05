@@ -25,7 +25,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     @Override
     public void longSurvey(LongSurveyRequest request, StreamObserver<LongSurveyResponse> responseObserve) {
         LongSurveyResponse response;
-        try (MongoDBConnection connection = new MongoDBConnection(MONGO_HOST, MONGO_PORT, MONGO_DBNAME)) {
+//        try (MongoDBConnection connection = new MongoDBConnection(MONGO_HOST, MONGO_PORT, MONGO_DBNAME)) {
             GptMessages.GptMessage message = GptRequestFormatter.surveyRequest(request);
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(message));
             if (gptResponse.message() != null) {
@@ -41,12 +41,12 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 }
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
             } else {
-                response = LongSurveyResponse.newBuilder().build();
+                response = LongSurveyResponse.newBuilder().setFullSummary(gptResponse.response()).build();
             }
-        } catch (Exception e) {
-            LOGGER.error("An error occurred:", e);
-            response = LongSurveyResponse.newBuilder().build();
-        }
+//        } catch (Exception e) {
+//            LOGGER.error("An error occurred:", e);
+//            response = LongSurveyResponse.newBuilder().build();
+//        }
         responseObserve.onNext(response);
         responseObserve.onCompleted();
     }

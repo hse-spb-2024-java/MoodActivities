@@ -9,7 +9,7 @@ import org.hse.moodactivities.common.proto.responses.auth.*;
 public class Connection {
     public static void main(String[] args) {
         // Create a new channel
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 12345)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
                 .usePlaintext()
                 .build();
 
