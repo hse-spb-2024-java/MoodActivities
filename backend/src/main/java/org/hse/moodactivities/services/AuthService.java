@@ -1,6 +1,8 @@
 package org.hse.moodactivities.services;
 
 import io.grpc.stub.StreamObserver;
+import jakarta.persistence.PersistenceException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hse.moodactivities.common.proto.services.*;
 import org.hse.moodactivities.common.proto.requests.auth.*;
 import org.hse.moodactivities.common.proto.responses.auth.*;
@@ -13,7 +15,53 @@ import java.util.Optional;
 public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
     public void registration(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserve) {
-        RegistrationResponse response = RegistrationResponse.newBuilder().setMessage("Hello - " + request.getNickname()).build();
+        RegistrationResponse response = RegistrationResponse.newBuilder()
+                .setResponseType(RegistrationResponse.ResponseType.SUCCESS)
+                .setMessage("")
+                .build();
+        if (!request.getPassword().equals(request.getConfirmedPassword())) {
+            response = RegistrationResponse.newBuilder()
+                    .setResponseType(RegistrationResponse.ResponseType.ERROR)
+                    .setMessage("Passwords do not match")
+                    .build();
+        }
+        UserProfile newProfile;
+        try {
+            newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
+        } catch (PersistenceException e) {
+            Throwable cause = e.getCause();
+
+            while (cause != null && !(cause instanceof ConstraintViolationException)) {
+                cause = cause.getCause();
+            }
+
+            if (cause == null) {
+                System.err.println("Pizdec here!");
+                response = RegistrationResponse.newBuilder()
+                        .setResponseType(RegistrationResponse.ResponseType.ERROR)
+                        .setMessage("Unknown error")
+                        .build();
+            } else {
+                // Constraint violation
+                ConstraintViolationException cve = (ConstraintViolationException) cause;
+                String constraintName = cve.getConstraintName();
+
+                if (constraintName != null && (constraintName.contains("login"))) {
+                    response = RegistrationResponse.newBuilder()
+                            .setResponseType(RegistrationResponse.ResponseType.ERROR)
+                            .setMessage("User with such login already exists")
+                            .build();
+                } else {
+                    // Total and utter PIZDEC
+                    System.err.println("Polny pizdec here!");
+                    response = RegistrationResponse.newBuilder()
+                            .setResponseType(RegistrationResponse.ResponseType.ERROR)
+                            .setMessage("Unknown error")
+                            .build();
+                }
+            }
+        }
+
         responseObserve.onNext(response);
         responseObserve.onCompleted();
     }
@@ -40,9 +88,14 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             return;
         }
         // Just generate JWT
-        String jws = JWTUtils.getBuilder().subject(String.valueOf(userProfile.getId())).compact();
-        LoginResponse response = LoginResponse.newBuilder().setToken(jws).build();
+        LoginResponse response = LoginResponse.newBuilder().setToken(generateJwsForUserProfile(userProfile)).build();
         responseObserve.onNext(response);
         responseObserve.onCompleted();
+    }
+
+    private String generateJwsForUserProfile(UserProfile userProfile) {
+        return JWTUtils.getBuilder()
+                .subject(String.valueOf(userProfile.getId()))
+                .compact();
     }
 }

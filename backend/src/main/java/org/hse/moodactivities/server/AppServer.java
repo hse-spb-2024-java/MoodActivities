@@ -4,6 +4,7 @@ import io.grpc.*;
 
 import org.hse.moodactivities.interceptors.*;
 import org.hse.moodactivities.services.*;
+import org.hse.moodactivities.utils.UserProfileRepository;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,6 +18,8 @@ public class AppServer {
 
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        UserProfileRepository.createUserProfile("admin",  "12345678");
 
         Server server = ServerBuilder.forPort(12345)
                 .executor(executor)

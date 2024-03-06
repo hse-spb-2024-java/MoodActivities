@@ -13,7 +13,7 @@ public class UserProfile {
     @Column(nullable = false, unique = true)
     private String login;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -21,9 +21,8 @@ public class UserProfile {
 
     public UserProfile() {}
 
-    public UserProfile(String login, String email, String unhashedPassword) {
+    public UserProfile(String login, String unhashedPassword) {
         this.login = login;
-        this.email = email;
         this.hashedPassword = BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
     }
 

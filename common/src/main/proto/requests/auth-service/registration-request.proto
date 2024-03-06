@@ -6,13 +6,8 @@ option java_multiple_files = true;
 package requests;
 
 message RegistrationRequest {
-    enum loginType {
-        MAIL = 0;
-        ETC = 1;
-    }
-    loginType type = 1;
-    string username = 2;
-    string nickname = 3;
-    string password = 4;
-    string confirmed_password = 5;
+    string username = 1;
+    string password = 3;
+    // IMHO, confirmation should be on client side but ok
+    string confirmed_password = 4;
 }

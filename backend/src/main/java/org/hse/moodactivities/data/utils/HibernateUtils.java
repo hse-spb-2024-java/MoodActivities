@@ -12,7 +12,7 @@ public class HibernateUtils {
 
     static {
         try {
-            emFactory = Persistence.createEntityManagerFactory("org.hse.moodactivities.backend");
+            emFactory = Persistence.createEntityManagerFactory("org.hse.moodactivities.data");
         } catch (Throwable ex) {
             System.err.print("Failed to initialize emF." + ex);
             throw new ExceptionInInitializerError(ex);
