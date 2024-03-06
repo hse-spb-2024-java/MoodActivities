@@ -15,17 +15,14 @@ import java.util.Optional;
 public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
     public void registration(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserve) {
-        RegistrationResponse response = RegistrationResponse.newBuilder()
-                .setResponseType(RegistrationResponse.ResponseType.SUCCESS)
-                .setMessage("")
-                .build();
+        RegistrationResponse response = null;
         if (!request.getPassword().equals(request.getConfirmedPassword())) {
             response = RegistrationResponse.newBuilder()
                     .setResponseType(RegistrationResponse.ResponseType.ERROR)
                     .setMessage("Passwords do not match")
                     .build();
         }
-        UserProfile newProfile;
+        UserProfile newProfile = null;
         try {
             newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
         } catch (PersistenceException e) {
@@ -61,6 +58,16 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
                 }
             }
         }
+
+        if (response != null) {
+            assert newProfile != null;
+            response = RegistrationResponse.newBuilder()
+                    .setResponseType(RegistrationResponse.ResponseType.SUCCESS)
+                    .setMessage("")
+                    .setToken(generateJwsForUserProfile(newProfile))
+                    .build();
+        }
+
 
         responseObserve.onNext(response);
         responseObserve.onCompleted();
