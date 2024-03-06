@@ -33,7 +33,6 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             }
 
             if (cause == null) {
-                System.err.println("Pizdec here!");
                 response = RegistrationResponse.newBuilder()
                         .setResponseType(RegistrationResponse.ResponseType.ERROR)
                         .setMessage("Unknown error")
@@ -49,8 +48,8 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
                             .setMessage("User with such login already exists")
                             .build();
                 } else {
-                    // Total and utter PIZDEC
-                    System.err.println("Polny pizdec here!");
+                    // Total and utter CATASTROPHE!
+                    System.err.println("Constraint check failed in non-constrained field!");
                     response = RegistrationResponse.newBuilder()
                             .setResponseType(RegistrationResponse.ResponseType.ERROR)
                             .setMessage("Unknown error")
