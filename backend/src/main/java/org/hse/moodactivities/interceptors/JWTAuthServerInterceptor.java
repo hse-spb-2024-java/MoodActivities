@@ -27,7 +27,7 @@ public class JWTAuthServerInterceptor implements ServerInterceptor {
             }
         }
 
-        serverCall.close(status, metadata);
+        serverCall.close(status, new Metadata());
         return new ServerCall.Listener<>() {};
     }
 }

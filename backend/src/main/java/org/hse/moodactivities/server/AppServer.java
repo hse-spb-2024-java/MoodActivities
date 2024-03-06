@@ -2,12 +2,8 @@ package org.hse.moodactivities.server;
 
 import io.grpc.*;
 
-import org.hse.moodactivities.interceptors.JWTAuthServerInterceptor;
+import org.hse.moodactivities.interceptors.*;
 import org.hse.moodactivities.services.*;
-import org.hse.moodactivities.utils.GptClientRequest;
-import org.hse.moodactivities.utils.GptClientStream;
-import org.hse.moodactivities.utils.GptMessages;
-import org.hse.moodactivities.utils.GptResponse;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

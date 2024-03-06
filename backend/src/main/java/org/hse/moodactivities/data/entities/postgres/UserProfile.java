@@ -1,5 +1,6 @@
 package org.hse.moodactivities.data.entities.postgres;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.*;
 
 @Entity(name="UserProfile")
@@ -20,10 +21,10 @@ public class UserProfile {
 
     public UserProfile() {}
 
-    public UserProfile(String login, String email, String hashedPassword) {
+    public UserProfile(String login, String email, String unhashedPassword) {
         this.login = login;
         this.email = email;
-        this.hashedPassword = hashedPassword;
+        this.hashedPassword = BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
     }
 
     // Getters and setters
@@ -53,5 +54,10 @@ public class UserProfile {
 
     public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
+    }
+
+    public boolean validatePassword(String password) {
+        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword);
+        return result.verified;
     }
 }
