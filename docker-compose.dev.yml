@@ -25,6 +25,14 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  adminer:
+    image: adminer
+    networks:
+      - main
+    restart: always
+    ports:
+      - 8080:8080
+
 networks:
   main:
 

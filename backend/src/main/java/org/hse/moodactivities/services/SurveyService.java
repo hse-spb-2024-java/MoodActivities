@@ -1,7 +1,7 @@
 package org.hse.moodactivities.services;
 
 import io.grpc.stub.StreamObserver;
-import org.hse.moodactivities.utils.MongoDBConnection;
+import org.hse.moodactivities.data.utils.MongoDBConnection;
 import org.hse.moodactivities.common.proto.services.*;
 import org.hse.moodactivities.common.proto.requests.survey.*;
 import org.hse.moodactivities.common.proto.responses.survey.*;

@@ -1,4 +1,4 @@
-package org.hse.moodactivities.backend.entities.mongodb;
+package org.hse.moodactivities.data.entities.mongodb;
 
 import dev.morphia.annotations.*;
 

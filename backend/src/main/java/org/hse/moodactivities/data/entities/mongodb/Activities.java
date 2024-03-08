@@ -1,6 +1,5 @@
-package org.hse.moodactivities.backend.entities.mongodb;
+package org.hse.moodactivities.data.entities.mongodb;
 
-import dev.morphia.annotations.Embedded;
 import dev.morphia.annotations.Entity;
 
 import java.io.Serial;

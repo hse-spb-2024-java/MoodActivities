@@ -46,6 +46,14 @@ dependencies {
     // Postgres
     runtimeOnly("org.postgresql:postgresql:42.6.0")
 
+    // JWT
+    implementation("io.jsonwebtoken:jjwt-api:${property("jjwtVersion")}")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:${property("jjwtVersion")}")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:${property("jjwtVersion")}")
+
+    // Bcrypt
+    implementation("at.favre.lib:bcrypt:0.10.2")
+
     // Tests
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
