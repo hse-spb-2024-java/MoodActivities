@@ -5,6 +5,7 @@ pluginManagement {
         gradlePluginPortal()
         maven {
             url = uri("https://jitpack.io")
+            url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public")
         }
     }
     includeBuild("build-logic")

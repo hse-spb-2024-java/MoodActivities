@@ -18,6 +18,8 @@ dependencies {
 
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.jetbrains:annotations:16.0.2")
+    implementation("io.data2viz.d2v:d2v-scale:0.10.6")
+    implementation("io.data2viz.d2v:d2v-viz:0.10.6")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.cardview:cardview:1.0.0")
