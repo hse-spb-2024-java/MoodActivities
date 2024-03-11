@@ -1,26 +1,33 @@
 package org.hse.moodactivities.backend.entities.mongodb;
 
-import dev.morphia.annotations.Embedded;
 import dev.morphia.annotations.Entity;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
+import java.time.*;
 
 @Entity
-final class Activities implements Serializable {
+final class Activity implements Serializable {
     @Serial
     private static long serialVersionUID = 0L;
     private String type;
+    private LocalTime time;
     private double score;
+
+
     private String comments;
 
     public static void setSerialVersionUID(final long serialVersionUID) {
-        Activities.serialVersionUID = serialVersionUID;
+        Activity.serialVersionUID = serialVersionUID;
     }
 
     public void setType(final String type) {
         this.type = type;
+    }
+
+    public void setTime(final LocalTime time) {
+        this.time = time;
     }
 
     public void setScore(final double score) {
@@ -31,43 +38,50 @@ final class Activities implements Serializable {
         this.comments = comments;
     }
 
-    Activities(String type, double score, String comments) {
+    Activity(String type, LocalTime time, double score, String comments) {
         this.type = type;
+        this.time = time;
         this.score = score;
         this.comments = comments;
     }
 
     public String getType() {
-        return type;
+        return this.type;
+    }
+
+    public LocalTime getTime() {
+        return this.time;
     }
 
     public double getScore() {
-        return score;
+        return this.score;
     }
 
     public String getComments() {
-        return comments;
+        return this.comments;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (Activities) obj;
+        var that = (Activity) obj;
         return Objects.equals(this.type, that.type) &&
                 Double.doubleToLongBits(this.score) == Double.doubleToLongBits(that.score) &&
+                Objects.equals(this.time, that.time) &&
                 Objects.equals(this.comments, that.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, score, comments);
+        return Objects.hash(type, time, score, comments);
     }
 
     @Override
     public String toString() {
-        return "Activities[" +
+        return "Activity[" +
                 "type=" + type + ", " +
+                "time=" + time + ", " +
                 "score=" + score + ", " +
                 "comments=" + comments + ']';
     }
