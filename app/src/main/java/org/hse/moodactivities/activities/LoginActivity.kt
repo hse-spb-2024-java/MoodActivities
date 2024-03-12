@@ -4,6 +4,7 @@ import AuthViewModel
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
@@ -27,14 +28,14 @@ class LoginActivity : AppCompatActivity() {
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
         binding.btnLogin.setOnClickListener {
-            val username = binding.etLoginUsername.toString()
-            val password = binding.etLoginPassword.toString()
+            val username = binding.etLoginUsername.text.toString()
+            val password = binding.etLoginPassword.text.toString()
 
             authViewModel.login(username, password).observe(this, Observer<LoginResponse> { loginResponse ->
                 if (loginResponse.type == LoginResponse.responseType.ERROR) {
-                    println("Pizdec")
+                    Log.d("LoginResponse",loginResponse.message)
                 } else {
-                    println(loginResponse.token)
+                    Log.d("LoginResponse", loginResponse.token)
                 }
             })
         }

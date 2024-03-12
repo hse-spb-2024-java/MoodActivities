@@ -81,20 +81,26 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             userProfileOpt = UserProfileRepository.findByEmail(request.getUserInfo());
         }
         if (userProfileOpt.isEmpty()) {
-            LoginResponse response = LoginResponse.newBuilder().setMessage("No user with such login").build();
+            LoginResponse response = LoginResponse.newBuilder()
+                    .setType(LoginResponse.responseType.ERROR)
+                    .setMessage("No user with such login").build();
             responseObserve.onNext(response);
             responseObserve.onCompleted();
             return;
         }
         UserProfile userProfile = userProfileOpt.get();
         if (!userProfile.validatePassword(request.getPassword())) {
-            LoginResponse response = LoginResponse.newBuilder().setMessage("Incorrect login or password").build();
+            LoginResponse response = LoginResponse.newBuilder()
+                    .setType(LoginResponse.responseType.ERROR)
+                    .setMessage("Incorrect login or password").build();
             responseObserve.onNext(response);
             responseObserve.onCompleted();
             return;
         }
         // Just generate JWT
-        LoginResponse response = LoginResponse.newBuilder().setToken(generateJwsForUserProfile(userProfile)).build();
+        LoginResponse response = LoginResponse.newBuilder()
+                .setType(LoginResponse.responseType.SUCCESS)
+                .setToken(generateJwsForUserProfile(userProfile)).build();
         responseObserve.onNext(response);
         responseObserve.onCompleted();
     }
