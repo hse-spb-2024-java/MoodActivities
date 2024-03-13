@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hse.moodactivities.backend.entities.mongodb.User;
+import org.hse.moodactivities.data.entities.mongodb.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

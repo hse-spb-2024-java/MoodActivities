@@ -2,9 +2,9 @@ package org.hse.moodactivities.services;
 
 import io.grpc.stub.StreamObserver;
 
-import org.hse.moodactivities.backend.entities.mongodb.User;
-import org.hse.moodactivities.backend.entities.mongodb.UserDayMeta;
-import org.hse.moodactivities.utils.MongoDBConnection;
+import org.hse.moodactivities.data.entities.mongodb.User;
+import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
+import org.hse.moodactivities.data.utils.MongoDBConnection;
 import org.hse.moodactivities.data.utils.MongoDBConnection;
 import org.hse.moodactivities.common.proto.services.*;
 import org.hse.moodactivities.common.proto.requests.survey.*;
