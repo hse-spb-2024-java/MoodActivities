@@ -20,6 +20,9 @@ class InsightsScreenFragment : Fragment() {
         val lineChart = view.findViewById<LineChart>(R.id.line_chart)
         ChartsService.createWeekMoodCharts(this.requireActivity().resources, lineChart)
 
+        ChartsService.createFrequentlyUsedEmotions(this.requireActivity().resources, view)
+        ChartsService.createFrequentlyUsedActivities(this.requireActivity().resources, view)
+
         return view
     }
 }

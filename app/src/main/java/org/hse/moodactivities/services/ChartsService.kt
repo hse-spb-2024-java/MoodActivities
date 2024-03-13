@@ -6,6 +6,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
@@ -26,14 +29,13 @@ class ChartsService {
         private class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 
-                // Show time in local version
                 var date = LocalDate.now()
                 date = date.minusDays(6 - value.toLong())
                 return date.dayOfMonth.toString() + "/" + date.month.value
             }
         }
 
-        private fun genWeekMoodData(resources: Resources): MutableList<Entry> {
+        private fun getWeekMoodData(resources: Resources): MutableList<Entry> {
             // todo: replace with data from server response
 
             // mock data
@@ -48,8 +50,24 @@ class ChartsService {
             return mockEntries
         }
 
+        private fun setItemData(
+            resources: Resources,
+            view: View,
+            imageId: Int,
+            imageIconId: Int,
+            tittleId: Int,
+            tittle: String,
+            counterId: Int,
+            counter: Int
+        ) {
+            view.findViewById<ImageView>(imageId)
+                .setImageDrawable(getResizedDrawable(resources, imageIconId, 90, 90))
+            view.findViewById<TextView>(tittleId).text = tittle
+            view.findViewById<TextView>(counterId).text = "x" + counter.toString()
+        }
+
         fun createWeekMoodCharts(resources: Resources, lineChart: LineChart) {
-            val data = genWeekMoodData(resources)
+            val data = getWeekMoodData(resources)
 
             // charts' format
             lineChart.axisRight.isEnabled = false
@@ -95,11 +113,46 @@ class ChartsService {
             lineChart.invalidate()
         }
 
+        fun createFrequentlyUsedActivities(resources: Resources, view: View) {
+            // todo: set images id based on server response
+            setItemData(
+                resources, view, R.id.activity_icon_1, R.drawable.widget_ask_icon,
+                R.id.activity_1, "study",
+                R.id.activity_counter_1, 24
+            )
+            setItemData(
+                resources, view, R.id.activity_icon_2, R.drawable.widget_ask_icon,
+                R.id.activity_2, "work",
+                R.id.activity_counter_2, 20
+            )
+            setItemData(
+                resources, view, R.id.activity_icon_3, R.drawable.widget_ask_icon,
+                R.id.activity_3, "sport",
+                R.id.activity_counter_3, 7
+            )
+        }
+
+        fun createFrequentlyUsedEmotions(resources: Resources, view: View) {
+            // todo: set images id based on server response
+            setItemData(
+                resources, view, R.id.emotion_icon_1, R.drawable.widget_ask_icon,
+                R.id.emotion_1, "sadness",
+                R.id.emotion_counter_1, 100
+            )
+            setItemData(
+                resources, view, R.id.emotion_icon_2, R.drawable.widget_ask_icon,
+                R.id.emotion_2, "anxiety",
+                R.id.emotion_counter_2, 66
+            )
+            setItemData(
+                resources, view, R.id.emotion_icon_3, R.drawable.widget_ask_icon,
+                R.id.emotion_3, "shock",
+                R.id.emotion_counter_3, 50
+            )
+        }
+
         private fun getResizedDrawable(
-            resources: Resources,
-            drawableId: Int,
-            width: Int,
-            height: Int
+            resources: Resources, drawableId: Int, width: Int, height: Int
         ): Drawable {
             val drawable = ResourcesCompat.getDrawable(resources, drawableId, null)
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
