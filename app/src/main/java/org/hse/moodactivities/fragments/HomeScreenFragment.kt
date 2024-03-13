@@ -1,17 +1,20 @@
 package org.hse.moodactivities.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.utils.Utils
 import java.time.DayOfWeek
 import java.time.LocalDate
+
 
 class HomeScreenFragment : Fragment() {
     companion object {
@@ -47,6 +50,9 @@ class HomeScreenFragment : Fragment() {
         val moodWidgetButton: Button = view.rootView.findViewById(R.id.mood_widget_button)
         moodWidgetButton.setOnClickListener {
             Log.d("mood button", "clicked!")
+            val moodFlowActivityIntent = Intent(this.activity, MoodFlowActivity::class.java)
+            startActivity(moodFlowActivityIntent)
+            this.activity?.finish()
         }
 
         val noteWidgetButton: Button = view.rootView.findViewById(R.id.note_widget_button)
