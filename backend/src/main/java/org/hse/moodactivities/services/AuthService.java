@@ -16,16 +16,10 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
     public void registration(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserve) {
         RegistrationResponse response = null;
-        if (!request.getPassword().equals(request.getConfirmedPassword())) {
-            response = RegistrationResponse.newBuilder()
-                    .setResponseType(RegistrationResponse.ResponseType.ERROR)
-                    .setMessage("Passwords do not match")
-                    .build();
-        }
         UserProfile newProfile = null;
         try {
             newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
-        } catch (PersistenceException e) {
+        } catch (Exception e) {
             Throwable cause = e.getCause();
 
             while (cause != null && !(cause instanceof ConstraintViolationException)) {
@@ -58,7 +52,7 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             }
         }
 
-        if (response != null) {
+        if (response == null) {
             assert newProfile != null;
             response = RegistrationResponse.newBuilder()
                     .setResponseType(RegistrationResponse.ResponseType.SUCCESS)

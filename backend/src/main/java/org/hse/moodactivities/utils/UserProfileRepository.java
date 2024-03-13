@@ -41,10 +41,6 @@ public class UserProfileRepository {
     }
 
     public static UserProfile createUserProfile(String login, String unhashedPassword) {
-        // Выглядит как говно если честно
-        // Это руинит абстракции когда внезапно надо начинать думать об исключениях
-        // Что с этим делать мне пока неясно
-        // Возможно нужно рулить через Either
         UserProfile newProfile = new UserProfile(login, unhashedPassword);
         HibernateUtils.inTransaction(
                 em -> {
