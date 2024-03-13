@@ -5,16 +5,18 @@ pluginManagement {
         gradlePluginPortal()
         maven {
             url = uri("https://jitpack.io")
-            url = uri("https://maven.pkg.jetbrains.space/data2viz/p/maven/public")
         }
     }
     includeBuild("build-logic")
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://jitpack.io")
+        }
     }
 }
 rootProject.name = "MoodActivities"

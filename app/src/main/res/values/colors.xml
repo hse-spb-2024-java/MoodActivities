@@ -8,6 +8,7 @@
     <color name="gray">#616161</color>
     <color name="white">#FFFFFFFF</color>
     <color name="steel_blue">#68A0A6</color>
+    <color name="background_blue">#33CEDFE8</color>
     <color name="steel_blue_dimmed">#55878D</color>
     <color name="rosy_brown">#A66F6F</color>
     <color name="rosy_brown_dimmed">#865A5A</color>
