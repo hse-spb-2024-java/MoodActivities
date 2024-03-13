@@ -1,4 +1,4 @@
-package org.hse.moodactivities.utils;
+package org.hse.moodactivities.data.utils;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;

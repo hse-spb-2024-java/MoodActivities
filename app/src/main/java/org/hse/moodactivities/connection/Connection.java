@@ -15,7 +15,7 @@ public class Connection {
 
         AuthServiceGrpc.AuthServiceBlockingStub stub = AuthServiceGrpc.newBlockingStub(channel);
 
-        RegistrationRequest request = RegistrationRequest.newBuilder().setNickname("World").build();
+        RegistrationRequest request = RegistrationRequest.newBuilder().setUsername("World").build();
 
         // Call the sayHello method on the server
         RegistrationResponse response = stub.registration(request);

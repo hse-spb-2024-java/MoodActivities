@@ -1,7 +1,7 @@
-package org.hse.moodactivities.backend;
+package org.hse.moodactivities.data;
 
-import org.hse.moodactivities.backend.entities.mongodb.User;
-import org.hse.moodactivities.utils.MongoDBConnection;
+import org.hse.moodactivities.data.entities.mongodb.User;
+import org.hse.moodactivities.data.utils.MongoDBConnection;
 
 public class HelloWorld {
     public static void main(String[] argc) {
