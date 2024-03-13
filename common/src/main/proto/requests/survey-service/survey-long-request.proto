@@ -12,4 +12,6 @@ message LongSurveyRequest {
   int32 moodRating = 4;
   string question = 5;
   string answer = 6;
+  int64 timeModuloDayInSeconds = 7;
+  string Date = 8;
 }

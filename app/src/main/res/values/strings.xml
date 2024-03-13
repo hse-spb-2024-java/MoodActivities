@@ -14,4 +14,12 @@
     <string name="mood_widget_tittle">Your today\'s\nmood</string>
     <string name="calendar_widget_tittle">Week statistic</string>
     <string name="ask_tittle">Ask AI for advice…</string>
+    <string name="return_home"><![CDATA[< Home]]></string>
+    <string name="choose_activities_title">What did you do today?</string>
+    <string name="next_title">Next</string>
+    <string name="back_title">Back</string>
+    <string name="answer_question_title">What else can you say about your day?</string>
+    <string name="choose_emotions_title">What emotions did you feel today?</string>
+    <string name="rate_day_title">How was your day?</string>
+    <string name="finish_title">Finish</string>
 </resources>

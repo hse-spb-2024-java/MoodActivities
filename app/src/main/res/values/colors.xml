@@ -14,6 +14,14 @@
     <color name="peach">#F2E0D5</color>
     <color name="peach_dimmed">#DAC6BA</color>
     <color name="light_blue">#A7CBD9</color>
-    <color name="light_pink">#D9A7B0</color>
+    <color name="pink">#D9A7B0</color>
     <color name="light_pink_dimmed">#D9A7D0</color>
+    <color name="light_steel_blue">#A1B4CC</color>
+    <color name="light_steel_blue_dimmed">#8597B0</color>
+    <color name="asparagus">#BCD7A5</color>
+    <color name="corn_silk">#FFF8DC</color>
+    <color name="tan">#BEAC94</color>
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="dark_salmon">#B97862</color>
+    <color name="gray_orange">#B5B8B1</color>
 </resources>
