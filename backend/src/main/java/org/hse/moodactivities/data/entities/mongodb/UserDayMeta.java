@@ -61,7 +61,7 @@ public final class UserDayMeta implements Serializable {
     }
 
     public UserDayMeta(LongSurveyRequest longSurveyRequest) {
-        LocalTime time = LocalTime.ofSecondOfDay(longSurveyRequest.getTime());
+        LocalTime time = LocalTime.ofSecondOfDay(longSurveyRequest.getTimeModuloDayInSeconds());
         for (var activity : longSurveyRequest.getActivitiesList()) {
             activityList.add(new Activity(activity, time, 0.5, ""));
         }

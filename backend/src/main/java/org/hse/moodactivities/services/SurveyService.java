@@ -28,15 +28,10 @@ import java.util.Map;
 public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(SurveyService.class);
 
-    private static Dotenv dotenv = Dotenv.load();
-    private static final String MONGO_HOST = dotenv.get("MONGO_HOST");
-    private static final int MONGO_PORT = Integer.valueOf(dotenv.get("MONGO_PORT"));
-    private static final String MONGO_DBNAME = dotenv.get("MONGO_DBNAME");
-
     @Override
     public void longSurvey(LongSurveyRequest request, StreamObserver<LongSurveyResponse> responseObserve) {
         LongSurveyResponse response;
-        try (MongoDBConnection connection = new MongoDBConnection(MONGO_HOST, MONGO_PORT, MONGO_DBNAME)) {
+        try (MongoDBConnection connection = new MongoDBConnection()) {
             GptMessages.GptMessage message = GptRequestFormatter.surveyRequest(request);
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(message));
             if (gptResponse.message() != null) {
@@ -67,7 +62,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
             } else {
                 response = LongSurveyResponse.newBuilder().setFullSummary(gptResponse.response()).build();
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LOGGER.error("An error occurred:", e);
             response = LongSurveyResponse.newBuilder().build();
         }

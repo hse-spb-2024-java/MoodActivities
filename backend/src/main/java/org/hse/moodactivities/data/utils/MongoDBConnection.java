@@ -9,6 +9,7 @@ import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import dev.morphia.query.FindOptions;
 import dev.morphia.query.Query;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import org.bson.Document;
 
@@ -24,21 +25,26 @@ import org.slf4j.LoggerFactory;
 public class MongoDBConnection implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBConnection.class);
 
-    private static final String HOST = "mongodb";
-    private static final int PORT = 27017;
-    private static final String DB_NAME = "user-data";
+    private static Dotenv dotenv = Dotenv.load();
+    private static final String MONGO_HOST = dotenv.get("MONGO_HOST");
+    private static final int MONGO_PORT = Integer.valueOf(dotenv.get("MONGO_PORT"));
+    private static final String MONGO_DBNAME = dotenv.get("MONGO_DBNAME");
+
+    private static final String MONGO_USERNAME = dotenv.get("MONGO_USERNAME");
+    private static final String MONGO_PASSWORD = dotenv.get("MONGO_PASSWORD");
+
     private final Datastore datastore;
     private final MongoDatabase database;
     private final MongoClient mongoClient;
 
     public MongoDBConnection(String host, int port, String dbName) {
-        mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
+        mongoClient = MongoClients.create("mongodb://" + MONGO_USERNAME + ":" + MONGO_PASSWORD + "@" + host + ":" + port);
         datastore = Morphia.createDatastore(mongoClient, dbName);
         database = mongoClient.getDatabase(dbName);
     }
 
     public MongoDBConnection() {
-        this(HOST, PORT, DB_NAME);
+        this(MONGO_HOST, MONGO_PORT, MONGO_DBNAME);
     }
 
 

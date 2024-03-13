@@ -1,6 +1,5 @@
 services:
   postgres:
-    platform: linux/amd64
     container_name: postgres
     image: postgres:16.1-alpine
     networks:
@@ -13,9 +12,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   mongodb:
-    platform: linux/amd64
     container_name: mongodb
-    image: mongo:7.0.5
+    image: mongo:7.0.7-rc2-jammy
     networks:
       - main
     ports:
@@ -24,6 +22,7 @@ services:
       - .env.dev
     volumes:
       - mongodb_data:/data/db
+    command: --serviceExecutor adaptive
 
   adminer:
     image: adminer
