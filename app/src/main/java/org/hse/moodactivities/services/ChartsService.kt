@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import org.hse.moodactivities.R
+import org.hse.moodactivities.utils.UiUtils
 import java.time.LocalDate
 import kotlin.random.Random
 
@@ -29,6 +30,7 @@ class ChartsService {
         private class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 
+                // todo: parse date based on response
                 var date = LocalDate.now()
                 date = date.minusDays(6 - value.toLong())
                 return date.dayOfMonth.toString() + "/" + date.month.value
@@ -40,11 +42,10 @@ class ChartsService {
 
             // mock data
             val mockEntries: MutableList<Entry> = ArrayList()
-            val defaultIcon = getResizedDrawable(resources, R.drawable.widget_mood_icon, 90, 90)
             for (dayOfWeek in 0..7) {
-                val moodRating: Float = Random.nextInt(5).toFloat() + 1f
-                // todo: add icons
-                val entry = Entry(dayOfWeek.toFloat(), moodRating, defaultIcon)
+                val moodRating = Random.nextInt(5)
+                val icon = getResizedDrawable(resources, UiUtils.getMoodImageResourcesIdByIndex(moodRating), 80, 80)
+                val entry = Entry(dayOfWeek.toFloat(), moodRating.toFloat() + 1f, icon)
                 mockEntries.add(entry)
             }
             return mockEntries
@@ -115,6 +116,7 @@ class ChartsService {
 
         fun createFrequentlyUsedActivities(resources: Resources, view: View) {
             // todo: set images id based on server response
+            // mock data
             setItemData(
                 resources, view, R.id.activity_icon_1, R.drawable.widget_ask_icon,
                 R.id.activity_1, "study",
@@ -134,6 +136,7 @@ class ChartsService {
 
         fun createFrequentlyUsedEmotions(resources: Resources, view: View) {
             // todo: set images id based on server response
+            // mock data
             setItemData(
                 resources, view, R.id.emotion_icon_1, R.drawable.widget_ask_icon,
                 R.id.emotion_1, "sadness",
