@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.stats";
+option java_multiple_files = true;
+
+package responses;
+
+message UsersMood {
+    string Date = 1;
+    int32 score = 2;
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.services";
+option java_multiple_files = true;
+
+package services;
+
+import "requests/stats-service/top-list-request.proto";
+import "requests/stats-service/full-report-request.proto";
+import "requests/stats-service/users-mood-request.proto";
+import "requests/stats-service/weekly-report-request.proto";
+
+import "responses/stats-service/top-list-response.proto";
+import "responses/stats-service/full-report-response.proto";
+import "responses/stats-service/users-mood-response.proto";
+import "responses/stats-service/weekly-report-response.proto";
+
+service StatsService {
+  rpc GetFullReport(requests.FullReportRequest) returns (responses.FullReportResponse) {}
+  rpc GetEmotionsList(requests.TopListRequest) returns (responses.TopListResponse) {}
+  rpc GetUsersMood(requests.UsersMoodRequest) returns (responses.UsersMoodResponse) {}
+  rpc GetWeeklyReport(requests.WeeklyReportRequest) returns (responses.WeeklyReportResponse) {}
+}
