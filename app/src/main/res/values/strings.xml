@@ -4,6 +4,7 @@
     <!-- tittles -->
     <string name="home_screen_tittle">Home</string>
     <string name="history_tittle">History</string>
+    <string name="chat_tittle">Chat</string>
     <string name="insights_tittle">Insights</string>
     <string name="profile_tittle">Profile</string>
 

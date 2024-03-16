@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.hse.moodactivities.fragments.HistoryScreenFragment
 import org.hse.moodactivities.fragments.HomeScreenFragment
 import org.hse.moodactivities.fragments.InsightsScreenFragment
@@ -29,11 +30,14 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.bottom_menu_home -> replaceFragment(HomeScreenFragment())
                 R.id.bottom_menu_history -> replaceFragment(HistoryScreenFragment())
-                R.id.bottom_menu_add -> replaceFragment(ChatFragment())
                 R.id.bottom_menu_insights -> replaceFragment(InsightsScreenFragment())
                 R.id.bottom_menu_profile -> replaceFragment(ProfileScreenFragment())
             }
             true
+        }
+
+        findViewById<FloatingActionButton>(R.id.chat_button).setOnClickListener {
+            replaceFragment(ChatFragment())
         }
     }
 
