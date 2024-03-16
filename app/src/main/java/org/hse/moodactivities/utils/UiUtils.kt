@@ -1,12 +1,14 @@
 package org.hse.moodactivities.utils
 
 import org.hse.moodactivities.R
+import org.hse.moodactivities.services.ChartsService
 
 const val BUTTON_DISABLED_ALPHA = 0.6f
 const val BUTTON_ENABLED_ALPHA = 1.0f
 
 class UiUtils {
     companion object {
+
         fun getMoodImageIdByIndex(index: Int): Int {
             return when (index) {
                 0 -> R.id.mood_1_image
@@ -37,6 +39,13 @@ class UiUtils {
                 3 -> R.id.mood_4_button
                 4 -> R.id.mood_5_button
                 else -> -1 // unreachable
+            }
+        }
+
+        fun getStatisticTitle(): String {
+            return buildString {
+                append("Month ").append(ChartsService.getStatisticMode().toString())
+                    .append(" statistic")
             }
         }
     }
