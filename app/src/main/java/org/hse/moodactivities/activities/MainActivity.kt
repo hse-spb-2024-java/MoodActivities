@@ -11,6 +11,7 @@ import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.fragments.ProfileScreenFragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.databinding.ActivityMainBinding
+import org.hse.moodactivities.fragments.ChatFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.bottom_menu_home -> replaceFragment(HomeScreenFragment())
                 R.id.bottom_menu_history -> replaceFragment(HistoryScreenFragment())
+                R.id.bottom_menu_add -> replaceFragment(ChatFragment())
                 R.id.bottom_menu_insights -> replaceFragment(InsightsScreenFragment())
                 R.id.bottom_menu_profile -> replaceFragment(ProfileScreenFragment())
             }
