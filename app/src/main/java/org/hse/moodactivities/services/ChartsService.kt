@@ -24,9 +24,19 @@ import org.hse.moodactivities.utils.UiUtils
 import java.time.LocalDate
 import kotlin.random.Random
 
+enum class StatisticMode {
+    EMOTIONS, ACTIVITIES;
+
+    override fun toString(): String {
+        return super.toString().lowercase()
+    }
+}
+
 
 class ChartsService {
     companion object {
+        private var statisticMode: StatisticMode = StatisticMode.EMOTIONS
+
         private class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 
@@ -37,6 +47,18 @@ class ChartsService {
             }
         }
 
+        fun getStatisticMode(): StatisticMode {
+            return statisticMode
+        }
+
+        fun setStatisticMode(statisticMode: StatisticMode) {
+            this.statisticMode = statisticMode
+        }
+
+        fun getStatistic() {
+
+        }
+
         private fun getWeekMoodData(resources: Resources): MutableList<Entry> {
             // todo: replace with data from server response
 
@@ -44,7 +66,12 @@ class ChartsService {
             val mockEntries: MutableList<Entry> = ArrayList()
             for (dayOfWeek in 0..7) {
                 val moodRating = Random.nextInt(5)
-                val icon = getResizedDrawable(resources, UiUtils.getMoodImageResourcesIdByIndex(moodRating), 80, 80)
+                val icon = getResizedDrawable(
+                    resources,
+                    UiUtils.getMoodImageResourcesIdByIndex(moodRating),
+                    80,
+                    80
+                )
                 val entry = Entry(dayOfWeek.toFloat(), moodRating.toFloat() + 1f, icon)
                 mockEntries.add(entry)
             }
@@ -64,7 +91,14 @@ class ChartsService {
             view.findViewById<ImageView>(imageId)
                 .setImageDrawable(getResizedDrawable(resources, imageIconId, 90, 90))
             view.findViewById<TextView>(tittleId).text = tittle
-            view.findViewById<TextView>(counterId).text = "x" + counter.toString()
+            view.findViewById<TextView>(counterId).text = createCounterText(counter)
+        }
+
+        fun createCounterText(counter: Int): String {
+            return buildString {
+                append("x ")
+                append(counter.toString())
+            }
         }
 
         fun createWeekMoodCharts(resources: Resources, lineChart: LineChart) {
