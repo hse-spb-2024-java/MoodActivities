@@ -17,7 +17,11 @@
         <activity
             android:name=".activities.MoodFlowActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".activities.ChatActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">

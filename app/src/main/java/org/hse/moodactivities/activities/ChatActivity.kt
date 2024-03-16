@@ -1,6 +1,6 @@
-package org.hse.moodactivities.fragments
+package org.hse.moodactivities.activities
 
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -8,52 +8,35 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.hse.moodactivities.R
-import org.hse.moodactivities.activities.MainActivity
-import org.hse.moodactivities.activities.MoodFlowActivity
-import org.hse.moodactivities.adapters.ItemAdapter
-import org.hse.moodactivities.interfaces.Communicator
-import org.hse.moodactivities.interfaces.ItemHolderFragment
-import org.hse.moodactivities.models.Item
-import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.fragments.MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER
+import org.hse.moodactivities.fragments.MAXIMAL_SIZE_OF_USER_ANSWER
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
-import kotlin.collections.HashSet
 
 
-class ChatFragment : Fragment() {
+class ChatActivity : AppCompatActivity() {
     private lateinit var messageInput: EditText
     private lateinit var sendButton: AppCompatImageButton
     private lateinit var messagesView: ListView
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_chat, container, false)
-        messagesView = view.findViewById(R.id.messages_view)
-        messageInput = view.findViewById(R.id.message_input)
-        sendButton = view.findViewById(R.id.send_button)
-        return inflater.inflate(R.layout.fragment_chat, container, false)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_chat) // Устанавливаем макет активности
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        // Получаем ссылки на визуальные элементы из макета
+        messagesView = findViewById(R.id.messages_view)
+        messageInput = findViewById(R.id.message_input)
+        sendButton = findViewById(R.id.send_button)
 
         val filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAXIMAL_SIZE_OF_USER_ANSWER))
         messageInput.filters = filters
