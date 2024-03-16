@@ -3,6 +3,7 @@ package org.hse.moodactivities.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.stub.StreamObserver
@@ -37,21 +38,6 @@ class GptService : Service(), GptResponseListener {
 
         responseListener = this
 
-        requestStreamObserver =
-            gptServiceStub.gptSession(object : StreamObserver<GptSessionResponse> {
-                override fun onNext(response: GptSessionResponse) {
-                    throw NotImplementedError("do not use for request");
-                }
-
-                override fun onError(t: Throwable) {
-                    responseListener?.onError(t)
-                }
-
-                override fun onCompleted() {
-                    responseListener?.onStreamCompleted()
-                }
-            })
-
         responseStreamObserver = object : StreamObserver<GptSessionResponse> {
             override fun onNext(response: GptSessionResponse) {
                 if (response.responseCode < HTTP_BAD_REQUEST) {
@@ -74,6 +60,9 @@ class GptService : Service(), GptResponseListener {
                 semaphore.release()
             }
         }
+
+        requestStreamObserver =
+            gptServiceStub.gptSession(responseStreamObserver)
     }
 
 
@@ -82,6 +71,7 @@ class GptService : Service(), GptResponseListener {
     }
 
     fun sendRequest(message: String) {
+        Log.d("chat", "get message from client")
         val request = GptSessionRequest.newBuilder()
             .setMessage(message)
             .build()
@@ -119,6 +109,7 @@ class GptService : Service(), GptResponseListener {
     }
 
     fun getResponse(): Pair<Int, String> {
+
         return Pair(responseCode, responseMessage)
     }
 

@@ -8,6 +8,8 @@ import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.hse.moodactivities.R
 import org.hse.moodactivities.adapters.MessageAdapter
 import org.hse.moodactivities.fragments.MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER
@@ -33,6 +35,7 @@ class ChatActivity : AppCompatActivity() {
         messagesView = findViewById(R.id.messages_view)
         messageInput = findViewById(R.id.message_input)
         sendButton = findViewById(R.id.send_button)
+        gptService.onCreate()
 
         // Set up adapter for messages ListView
         messageAdapter = MessageAdapter(this)
@@ -63,26 +66,29 @@ class ChatActivity : AppCompatActivity() {
             sendButton.alpha = BUTTON_DISABLED_ALPHA
             sendButton.isEnabled = false
 
-
-            messageAdapter.addMessage("You: $userMessage")
-            messageInput.setText("")
-
-            gptService.sendRequest(userMessage)
-            gptService.waitForResponse()
-            var response = gptService.getResponse()
-            if (response.first < HTTP_BAD_REQUEST) {
-                messageAdapter.addMessage("Chat: ${response.second}")
+            runBlocking {
+                val job = launch {
+                    gptService.sendRequest(userMessage)
+                    gptService.waitForResponse()
+                    var response = gptService.getResponse()
+                    if (response.first < HTTP_BAD_REQUEST) {
+                        messageAdapter.addMessage("Chat: ${response.second}")
+                        messagesView.smoothScrollToPosition(messageAdapter.count - 1)
+                        messageInput.isEnabled = true
+                        sendButton.alpha = BUTTON_ENABLED_ALPHA
+                        sendButton.isEnabled = true
+                    } else {
+                        // TODO: Handle errors
+                        messageAdapter.addMessage("Chat: ${response.second}")
+                        messagesView.smoothScrollToPosition(messageAdapter.count - 1)
+                        messageInput.isEnabled = true
+                        sendButton.alpha = BUTTON_ENABLED_ALPHA
+                        sendButton.isEnabled = true
+                    }
+                }
+                messageAdapter.addMessage("You: $userMessage")
                 messagesView.smoothScrollToPosition(messageAdapter.count - 1)
-                messageInput.isEnabled = true
-                sendButton.alpha = BUTTON_ENABLED_ALPHA
-                sendButton.isEnabled = true
-            } else {
-                // TODO: Handle errors
-                messageAdapter.addMessage("Chat: ${response.second}")
-                messagesView.smoothScrollToPosition(messageAdapter.count - 1)
-                messageInput.isEnabled = true
-                sendButton.alpha = BUTTON_ENABLED_ALPHA
-                sendButton.isEnabled = true
+                messageInput.setText("")
             }
         }
     }

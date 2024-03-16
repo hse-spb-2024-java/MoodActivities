@@ -1,6 +1,5 @@
 package org.hse.moodactivities.server;
 
-import org.hse.moodactivities.interceptors.JWTAuthServerInterceptor;
 import org.hse.moodactivities.services.AuthService;
 import org.hse.moodactivities.services.GptService;
 import org.hse.moodactivities.services.SurveyService;
@@ -29,7 +28,7 @@ public class AppServer {
                 .addService(new AuthService())
                 .addService(new SurveyService())
                 .addService(new GptService())
-                .intercept(new JWTAuthServerInterceptor())
+                // .intercept(new JWTAuthServerInterceptor())
                 .build();
 
         try {
