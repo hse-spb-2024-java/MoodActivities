@@ -17,7 +17,7 @@ class AuthViewModel : ViewModel() {
     private val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345)
         .usePlaintext()
         .build()
-    private val stub = AuthServiceGrpc.newBlockingStub(channel);
+    private val stub = AuthServiceGrpc.newBlockingStub(channel)
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?>
         get() = _errorMessage
@@ -62,7 +62,7 @@ class AuthViewModel : ViewModel() {
     }
 
     fun clearErrorMessage() {
-        _errorMessage.value = null;
+        _errorMessage.value = null
     }
 
     fun saveToken(sharedPreferences: SharedPreferences, token: String) {
@@ -72,6 +72,6 @@ class AuthViewModel : ViewModel() {
     }
 
     fun getToken(sharedPreferences: SharedPreferences): String? {
-        return sharedPreferences.getString("jwtToken", null);
+        return sharedPreferences.getString("jwtToken", null)
     }
 }
