@@ -6,27 +6,27 @@
         android:padding="16dp">
 
     <EditText
-            android:id="@+id/etLoginUsername"
+            android:id="@+id/et_login_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username" />
 
     <EditText
-            android:id="@+id/etLoginPassword"
+            android:id="@+id/et_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword" />
 
     <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/button_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Login"
             android:layout_gravity="center_horizontal"/>
 
     <Button
-            android:id="@+id/btnGoToRegister"
+            android:id="@+id/button_go_to_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Register"

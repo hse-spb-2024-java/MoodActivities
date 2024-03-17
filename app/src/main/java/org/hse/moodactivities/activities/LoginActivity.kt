@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnGoToRegister.setOnClickListener {
+        binding.buttonGoToRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        binding.btnLogin.setOnClickListener {
+        binding.buttonLogin.setOnClickListener {
             val username = binding.etLoginUsername.text.toString()
             val password = binding.etLoginPassword.text.toString()
 

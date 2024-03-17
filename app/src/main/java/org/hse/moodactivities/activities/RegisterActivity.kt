@@ -25,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        binding.btnRegister.setOnClickListener {
+        binding.buttonRegister.setOnClickListener {
             val username = binding.etRegisterUsername.text.toString()
             val password = binding.etRegisterPassword.text.toString()
             val confirmation = binding.etRegisterPasswordConfirm.text.toString()
