@@ -1,17 +1,21 @@
 package org.hse.moodactivities.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.LineChart
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.StatisticActivity
 import org.hse.moodactivities.services.ChartsService
 import org.hse.moodactivities.services.StatisticMode
+import java.time.DayOfWeek
 
 
 class InsightsScreenFragment : Fragment() {
@@ -36,7 +40,44 @@ class InsightsScreenFragment : Fragment() {
             ChartsService.setStatisticMode(StatisticMode.ACTIVITIES)
             startActivity(Intent(this.activity, StatisticActivity::class.java))
         }
+        createDaysInRow(view)
 
         return view
+    }
+
+    private val daysCardId: Array<Int> = arrayOf(
+        R.id.day_card_1, R.id.day_card_2,
+        R.id.day_card_3, R.id.day_card_4,
+        R.id.day_card_5, R.id.day_card_6,
+        R.id.day_card_7
+    )
+    private val daysTittleId: Array<Int> = arrayOf(
+        R.id.day_tittle_1, R.id.day_tittle_2,
+        R.id.day_tittle_3, R.id.day_tittle_4,
+        R.id.day_tittle_5, R.id.day_tittle_6,
+        R.id.day_tittle_7
+    )
+
+    private fun createDaysInRow(view: View?) {
+        // mock data
+        val days = arrayOf(
+            ChartsService.DayData(true, DayOfWeek.MONDAY),
+            ChartsService.DayData(false, DayOfWeek.TUESDAY),
+            ChartsService.DayData(false, DayOfWeek.WEDNESDAY),
+            ChartsService.DayData(true, DayOfWeek.THURSDAY),
+            ChartsService.DayData(true, DayOfWeek.FRIDAY),
+            ChartsService.DayData(true, DayOfWeek.SATURDAY),
+            ChartsService.DayData(true, DayOfWeek.SUNDAY),
+        )
+
+        for (i in 0..6) {
+            val color: Int = if (days[i].isNoted) {
+                Color.parseColor("#98FB98")
+            } else {
+                Color.parseColor("#FF6347")
+            }
+            view?.findViewById<CardView>(daysCardId[i])?.setCardBackgroundColor(color)
+            view?.findViewById<TextView>(daysTittleId[i])?.text = days[i].week.name
+        }
     }
 }

@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import org.hse.moodactivities.R
 import org.hse.moodactivities.utils.UiUtils
+import java.time.DayOfWeek
 import java.time.LocalDate
 import kotlin.random.Random
 
@@ -201,4 +202,6 @@ class ChartsService {
             return BitmapDrawable(resources, bitmap)
         }
     }
+
+    class DayData(var isNoted : Boolean, var week: DayOfWeek)
 }
