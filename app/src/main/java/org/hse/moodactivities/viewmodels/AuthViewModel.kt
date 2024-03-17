@@ -1,5 +1,6 @@
 package org.hse.moodactivities.viewmodels
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,9 @@ class AuthViewModel : ViewModel() {
         .usePlaintext()
         .build()
     private val stub = AuthServiceGrpc.newBlockingStub(channel);
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?>
+        get() = _errorMessage
 
     fun register(username: String, password: String): LiveData<RegistrationResponse> {
         val responseLiveData = MutableLiveData<RegistrationResponse>()
@@ -30,8 +34,8 @@ class AuthViewModel : ViewModel() {
                 val response = stub.registration(request)
                 responseLiveData.postValue(response)
             } catch (e: Exception) {
-                // TODO: XDDDDDDDDDDDD
                 e.printStackTrace()
+                _errorMessage.value = "Network error"
             }
         }
         return responseLiveData
@@ -50,10 +54,24 @@ class AuthViewModel : ViewModel() {
                 val response = stub.login(request)
                 responseLiveData.postValue(response)
             } catch (e: Exception) {
-                // TODO: XDDDDDDDDDDDD
                 e.printStackTrace()
+                _errorMessage.value = "Network error"
             }
         }
         return responseLiveData
+    }
+
+    fun clearErrorMessage() {
+        _errorMessage.value = null;
+    }
+
+    fun saveToken(sharedPreferences: SharedPreferences, token: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString("jwtToken", token)
+        editor.apply()
+    }
+
+    fun getToken(sharedPreferences: SharedPreferences): String? {
+        return sharedPreferences.getString("jwtToken", null);
     }
 }

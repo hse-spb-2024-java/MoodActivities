@@ -20,7 +20,8 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +30,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
         <activity android:name=".activities.MainScreenActivity"></activity>
     </application>
 

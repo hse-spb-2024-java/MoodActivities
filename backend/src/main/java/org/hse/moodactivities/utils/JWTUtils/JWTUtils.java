@@ -44,7 +44,7 @@ public class JWTUtils {
         PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(Dotenv.load().get("JWT_PRIVATE_KEY")));
         X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(Dotenv.load().get("JWT_PUBLIC_KEY")));
         try {
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA"); // Use "RSA", "DSA", or "EC" depending on your key type
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             JWT_PRIVATE_KEY = keyFactory.generatePrivate(privateKeySpec);
             JWT_PUBLIC_KEY = keyFactory.generatePublic(publicKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

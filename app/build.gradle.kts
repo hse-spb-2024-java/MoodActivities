@@ -29,7 +29,7 @@ dependencies {
     api("io.jsonwebtoken:jjwt-api:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-orgjson:0.12.5") {
-        exclude(group="org.json", module="json") //provided by Android natively
+        exclude(group="org.json", module="json")
     }
 
     testImplementation("junit:junit:4.13.2")

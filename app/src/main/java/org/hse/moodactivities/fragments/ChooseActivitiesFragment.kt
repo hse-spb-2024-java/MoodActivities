@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
-import org.hse.moodactivities.activities.MainActivity
+import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.adapters.ItemAdapter
 import org.hse.moodactivities.interfaces.Communicator
@@ -44,7 +44,7 @@ class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
 
         // button to home screen
         view.findViewById<Button>(R.id.return_home_button).setOnClickListener {
-            startActivity(Intent(this.activity, MainActivity::class.java))
+            startActivity(Intent(this.activity, MainScreenActivity::class.java))
         }
 
         // button to previous fragment
