@@ -5,8 +5,7 @@ option java_multiple_files = true;
 
 package responses;
 
-import "responses/stats-service/top-item.proto";
-
-message TopListResponse {
-    repeated TopItem topReport = 1;
+message TopItem {
+    string name = 1;
+    int32 amount = 2;
 }

@@ -17,7 +17,7 @@ import "responses/stats-service/weekly-report-response.proto";
 
 service StatsService {
   rpc GetFullReport(requests.FullReportRequest) returns (responses.FullReportResponse) {}
-  rpc GetEmotionsList(requests.TopListRequest) returns (responses.TopListResponse) {}
+  rpc GetTopList(requests.TopListRequest) returns (responses.TopListResponse) {}
   rpc GetUsersMood(requests.UsersMoodRequest) returns (responses.UsersMoodResponse) {}
   rpc GetWeeklyReport(requests.WeeklyReportRequest) returns (responses.WeeklyReportResponse) {}
 }
