@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
-import org.hse.moodactivities.activities.MainActivity
+import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.services.MoodService
 import org.hse.moodactivities.utils.UiUtils
@@ -26,7 +26,7 @@ class SummaryOfTheDayFragment : Fragment() {
 
         // button to finish
         view.findViewById<Button>(R.id.finish_button).setOnClickListener {
-            startActivity(Intent(this.activity, MainActivity::class.java))
+            startActivity(Intent(this.activity, MainScreenActivity::class.java))
         }
         return view
     }

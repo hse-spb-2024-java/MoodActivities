@@ -16,16 +16,18 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
     public void registration(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserve) {
         RegistrationResponse response = null;
-        if (!request.getPassword().equals(request.getConfirmedPassword())) {
-            response = RegistrationResponse.newBuilder()
-                    .setResponseType(RegistrationResponse.ResponseType.ERROR)
-                    .setMessage("Passwords do not match")
-                    .build();
-        }
+
         UserProfile newProfile = null;
         try {
-            newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
-        } catch (PersistenceException e) {
+            if (request.getPassword().isEmpty()) {
+                response = RegistrationResponse.newBuilder()
+                        .setResponseType(RegistrationResponse.ResponseType.ERROR)
+                        .setMessage("Password cannot be empty")
+                        .build();
+            } else {
+                newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
+            }
+        } catch (Exception e) {
             Throwable cause = e.getCause();
 
             while (cause != null && !(cause instanceof ConstraintViolationException)) {
@@ -58,7 +60,7 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             }
         }
 
-        if (response != null) {
+        if (response == null) {
             assert newProfile != null;
             response = RegistrationResponse.newBuilder()
                     .setResponseType(RegistrationResponse.ResponseType.SUCCESS)
@@ -81,20 +83,26 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             userProfileOpt = UserProfileRepository.findByEmail(request.getUserInfo());
         }
         if (userProfileOpt.isEmpty()) {
-            LoginResponse response = LoginResponse.newBuilder().setMessage("No user with such login").build();
+            LoginResponse response = LoginResponse.newBuilder()
+                    .setType(LoginResponse.responseType.ERROR)
+                    .setMessage("No user with such login").build();
             responseObserve.onNext(response);
             responseObserve.onCompleted();
             return;
         }
         UserProfile userProfile = userProfileOpt.get();
         if (!userProfile.validatePassword(request.getPassword())) {
-            LoginResponse response = LoginResponse.newBuilder().setMessage("Incorrect login or password").build();
+            LoginResponse response = LoginResponse.newBuilder()
+                    .setType(LoginResponse.responseType.ERROR)
+                    .setMessage("Incorrect login or password").build();
             responseObserve.onNext(response);
             responseObserve.onCompleted();
             return;
         }
         // Just generate JWT
-        LoginResponse response = LoginResponse.newBuilder().setToken(generateJwsForUserProfile(userProfile)).build();
+        LoginResponse response = LoginResponse.newBuilder()
+                .setType(LoginResponse.responseType.SUCCESS)
+                .setToken(generateJwsForUserProfile(userProfile)).build();
         responseObserve.onNext(response);
         responseObserve.onCompleted();
     }

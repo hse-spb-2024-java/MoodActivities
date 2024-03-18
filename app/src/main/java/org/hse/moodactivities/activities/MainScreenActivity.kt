@@ -10,15 +10,15 @@ import org.hse.moodactivities.fragments.HomeScreenFragment
 import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.fragments.ProfileScreenFragment
 import org.hse.moodactivities.R
-import org.hse.moodactivities.databinding.ActivityMainBinding
+import org.hse.moodactivities.databinding.MainScreenBinding
 
-class MainActivity : AppCompatActivity() {
+class MainScreenActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: MainScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = MainScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         replaceFragment(HomeScreenFragment())

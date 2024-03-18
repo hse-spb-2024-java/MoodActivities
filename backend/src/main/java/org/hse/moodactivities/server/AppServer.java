@@ -2,10 +2,14 @@ package org.hse.moodactivities.server;
 
 import io.grpc.*;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.SignatureAlgorithm;
 import org.hse.moodactivities.interceptors.*;
 import org.hse.moodactivities.services.*;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
+import java.security.KeyPair;
+import java.util.Base64;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
