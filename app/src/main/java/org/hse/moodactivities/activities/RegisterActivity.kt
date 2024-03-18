@@ -41,6 +41,18 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (password.isEmpty()) {
+                Log.d("RegistrationResponse", "Password cannot be empty");
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Password cannot be empty",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
+
+            val registrationResponseLiveData = authViewModel.register(username, password);
+
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
                     Snackbar.make(
@@ -52,7 +64,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
 
-            authViewModel.register(username, password).observe(this) { registrationResponse ->
+            registrationResponseLiveData.observe(this) { registrationResponse ->
                 if (registrationResponse.responseType == RegistrationResponse.ResponseType.ERROR) {
                     Log.d("RegistrationResponse", registrationResponse.message)
                     Snackbar.make(

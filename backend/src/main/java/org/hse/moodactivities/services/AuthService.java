@@ -16,9 +16,17 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
     public void registration(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserve) {
         RegistrationResponse response = null;
+
         UserProfile newProfile = null;
         try {
-            newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
+            if (request.getPassword().isEmpty()) {
+                response = RegistrationResponse.newBuilder()
+                        .setResponseType(RegistrationResponse.ResponseType.ERROR)
+                        .setMessage("Password cannot be empty")
+                        .build();
+            } else {
+                newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
+            }
         } catch (Exception e) {
             Throwable cause = e.getCause();
 

@@ -35,6 +35,18 @@ class LoginActivity : AppCompatActivity() {
             val username = binding.etLoginUsername.text.toString()
             val password = binding.etLoginPassword.text.toString()
 
+            if (password.isEmpty()) {
+                Log.d("LoginResponse", "Password cannot be empty");
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Password cannot be empty",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
+
+            val loginResponseLiveData = authViewModel.login(username, password);
+
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
                     Snackbar.make(
@@ -46,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            authViewModel.login(username, password).observe(this) { loginResponse ->
+            loginResponseLiveData.observe(this) { loginResponse ->
                 if (loginResponse.type == LoginResponse.responseType.ERROR) {
                     Log.d("LoginResponse", loginResponse.message)
                     Snackbar.make(
