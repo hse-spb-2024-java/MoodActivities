@@ -86,7 +86,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <com.github.mikephil.charting.charts.LineChart
-                                android:id="@+id/line_chart"
+                                android:id="@+id/week_mood_chart"
                                 android:layout_width="match_parent"
                                 android:layout_height="200dp" />
                         </LinearLayout>

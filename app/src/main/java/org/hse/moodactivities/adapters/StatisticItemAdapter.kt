@@ -12,13 +12,11 @@ import org.hse.moodactivities.models.StatisticItem
 import org.hse.moodactivities.services.ChartsService
 
 class StatisticItemAdapter(
-    var context: Context,
-    private var arrayList: ArrayList<StatisticItem>
-) :
-    RecyclerView.Adapter<StatisticItemAdapter.ItemHolder>() {
+    var context: Context, private var arrayList: ArrayList<StatisticItem>
+) : RecyclerView.Adapter<StatisticItemAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val viewHolder = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_statistic, parent, false)
+        val viewHolder =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_statistic, parent, false)
         return ItemHolder(viewHolder)
     }
 
@@ -29,7 +27,6 @@ class StatisticItemAdapter(
             append("#")
             append((position + 1).toString())
         }
-
         holder.name.text = item.getName()
         holder.icon.setImageResource(item.getIconId())
         holder.counter.text = ChartsService.createCounterText(item.getCounter())
@@ -39,8 +36,7 @@ class StatisticItemAdapter(
         return arrayList.size
     }
 
-    class ItemHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var position: TextView = itemView.findViewById(R.id.position)
         var name: TextView = itemView.findViewById(R.id.name)
         var icon: ImageView = itemView.findViewById(R.id.icon_image)

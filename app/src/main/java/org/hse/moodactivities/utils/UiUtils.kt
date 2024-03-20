@@ -8,6 +8,9 @@ const val BUTTON_ENABLED_ALPHA = 1.0f
 
 class UiUtils {
     companion object {
+        object Strings {
+            var RETURN_TO_INSIGHTS = "< Insights"
+        }
 
         fun getMoodImageIdByIndex(index: Int): Int {
             return when (index) {
