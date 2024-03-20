@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.charts.PieChart
 import org.hse.moodactivities.R
 import org.hse.moodactivities.adapters.StatisticItemAdapter
 import org.hse.moodactivities.models.StatisticItem
@@ -28,6 +29,8 @@ class StatisticActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.title).text = UiUtils.getStatisticTitle()
+
+        ChartsService.createDistributionChart(findViewById<PieChart>(R.id.distribution_chart))
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val gridLayoutManager =
