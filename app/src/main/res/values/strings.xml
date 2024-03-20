@@ -22,4 +22,5 @@
     <string name="choose_emotions_title">What emotions did you feel today?</string>
     <string name="rate_day_title">How was your day?</string>
     <string name="finish_title">Finish</string>
+    <string name="days_in_row">Days in row</string>
 </resources>

@@ -9,9 +9,10 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
@@ -26,9 +27,8 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
-import com.github.mikephil.charting.utils.MPPointF
 import org.hse.moodactivities.R
+import org.hse.moodactivities.models.StatisticItem
 import org.hse.moodactivities.utils.UiUtils
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -61,73 +61,121 @@ class ChartsService {
             return statisticMode
         }
 
+        fun getStatistic(): ArrayList<StatisticItem> {
+            // mock data
+            // todo: add custom icons (create frontend class to manipulate with emotions and activities)
+            return if (getStatisticMode() == StatisticMode.EMOTIONS) {
+                arrayListOf(
+                    StatisticItem("emotion 1", 30, R.drawable.widget_mood_icon),
+                    StatisticItem("emotion 2", 20, R.drawable.widget_mood_icon),
+                    StatisticItem("emotion 3", 10, R.drawable.widget_mood_icon),
+                    StatisticItem("emotion 4", 5, R.drawable.widget_mood_icon)
+                )
+            } else {
+                arrayListOf(
+                    StatisticItem("activity 1", 30, R.drawable.widget_mood_icon),
+                    StatisticItem("activity 2", 20, R.drawable.widget_mood_icon),
+                    StatisticItem("activity 3", 10, R.drawable.widget_mood_icon),
+                    StatisticItem("activity 4", 5, R.drawable.widget_mood_icon)
+                )
+            }
+        }
+
         fun setStatisticMode(statisticMode: StatisticMode) {
             this.statisticMode = statisticMode
         }
 
+        private object DaysInRowSettings {
+            const val RECORDED_COLOR = "#98FB98"
+            const val NOT_RECORDED_COLOR = "#FF6347"
+            const val CARD_INDEX = 0
+            const val TEXT_INDEX = 2
+            const val TEXT_SIZE = 12f
+            const val TEXT_COLOR = Color.BLACK
+        }
+
+        fun createDaysInRow(daysInRow: LinearLayout) {
+            // mock data
+            val days = arrayOf(
+                DayData(true, DayOfWeek.MONDAY),
+                DayData(false, DayOfWeek.TUESDAY),
+                DayData(false, DayOfWeek.WEDNESDAY),
+                DayData(true, DayOfWeek.THURSDAY),
+                DayData(true, DayOfWeek.FRIDAY),
+                DayData(true, DayOfWeek.SATURDAY),
+                DayData(true, DayOfWeek.SUNDAY),
+            )
+
+            for (dayIndex in 0..6) {
+                val layout = daysInRow.getChildAt(2 * dayIndex) as LinearLayout
+
+                val color: Int = if (days[dayIndex].isRecorded) {
+                    Color.parseColor(DaysInRowSettings.RECORDED_COLOR)
+                } else {
+                    Color.parseColor(DaysInRowSettings.NOT_RECORDED_COLOR)
+                }
+                val card = layout.getChildAt(DaysInRowSettings.CARD_INDEX) as CardView
+                card.setCardBackgroundColor(color)
+
+                val text = layout.getChildAt(DaysInRowSettings.TEXT_INDEX) as TextView
+                text.text = days[dayIndex].week.name.lowercase().subSequence(0, 3)
+                text.textSize = DaysInRowSettings.TEXT_SIZE
+                text.setTypeface(text.typeface, Typeface.BOLD)
+                text.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                text.setTextColor(DaysInRowSettings.TEXT_COLOR)
+            }
+        }
+
+        private object DistributionChartSettings {
+            const val HOLE_RADIUS = 58f
+            const val TEXT_SIZE = 14f
+        }
+
         fun createDistributionChart(pieChart: PieChart) {
+            val statistic = getStatistic()
+
             pieChart.setUsePercentValues(true)
             pieChart.description.isEnabled = false
-            pieChart.setExtraOffsets(5f, 5f, 5f, 5f)
-            pieChart.dragDecelerationFrictionCoef = 0.95f
-            pieChart.isDrawHoleEnabled = true
-            pieChart.setHoleColor(Color.WHITE)
-            pieChart.setTransparentCircleColor(Color.WHITE)
-            pieChart.setTransparentCircleAlpha(110)
-            pieChart.holeRadius = 58f
-            pieChart.transparentCircleRadius = 61f
-            pieChart.setDrawCenterText(true)
-            pieChart.rotationAngle = 0f
+            pieChart.holeRadius = DistributionChartSettings.HOLE_RADIUS
             pieChart.isRotationEnabled = true
             pieChart.isHighlightPerTapEnabled = true
 
             val entries = ArrayList<PieEntry>()
-            entries.add(PieEntry(70f))
-            entries.add(PieEntry(20f))
-            entries.add(PieEntry(10f))
+            for (entry: StatisticItem in statistic) {
+                entries.add(PieEntry(entry.getCounter().toFloat()))
+            }
 
-            val dataSet = PieDataSet(entries, "Mobile OS")
+            val dataSet = PieDataSet(entries, "statistic")
             dataSet.setDrawIcons(false)
-            dataSet.sliceSpace = 3f
-            dataSet.iconsOffset = MPPointF(0f, 40f)
-            dataSet.selectionShift = 5f
 
             val colors = ArrayList<Int>()
-            colors.add(ColorTemplate.getHoloBlue())
-            colors.add(Color.RED)
-            colors.add(Color.GREEN)
+            val rnd = Random.Default
+            for (color in 0..statistic.size) {
+                colors.add(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)))
+            }
             dataSet.colors = colors
 
             val data = PieData(dataSet)
             data.setValueFormatter(PercentFormatter())
-            data.setValueTextSize(15f)
+            data.setValueTextSize(DistributionChartSettings.TEXT_SIZE)
             data.setValueTypeface(Typeface.DEFAULT_BOLD)
             data.setValueTextColor(Color.WHITE)
 
             pieChart.data = data
 
-            pieChart.animateY(1400, Easing.EaseInOutQuad)
-
             pieChart.legend.isEnabled = false
-            pieChart.setEntryLabelColor(Color.WHITE)
-            pieChart.setEntryLabelTextSize(12f)
 
             pieChart.invalidate()
-
         }
 
         private fun getWeekMoodData(resources: Resources): MutableList<Entry> {
             // todo: replace with data from server response
-
             // mock data
             val mockEntries: MutableList<Entry> = ArrayList()
-            for (dayOfWeek in 0..7) {
+            for (dayOfWeek in 0..6) {
                 val moodRating = Random.nextInt(5)
                 val icon = getCroppedDrawable(
-                    resources,
-                    UiUtils.getMoodImageResourcesIdByIndex(moodRating),
-                    80,
-                    80
+                    resources, UiUtils.getMoodImageResourcesIdByIndex(moodRating), 80, 80
                 )
                 val entry = Entry(dayOfWeek.toFloat(), moodRating.toFloat() + 1f, icon)
                 mockEntries.add(entry)
@@ -161,13 +209,22 @@ class ChartsService {
         private object MoodChartSettings {
             const val Y_AXIS_MIN = 0.5f
             const val Y_AXIS_MAX = 5.5f
+            const val X_AXIS_MIN = -0.5f
+            const val X_AXIS_MAX = 7.5f
+            const val GRID_LINE_WIDTH = 1f
+            const val GRANULARITY = 1f
+            const val CHARTS_COLOR = "#55878D"
+            const val CHARTS_LINE_WIDTH = 2.5f
+            const val TEXT_SIZE = 12f
+            const val TEXT_COLOR = Color.LTGRAY
+            const val GRID_LINE_LENGTH = 30f
+            const val GRID_LINE_SPACE_LENGTH = 40f
+            const val GRID_LINE_PHASE = 0f
         }
 
         fun createWeekMoodCharts(resources: Resources, lineChart: LineChart) {
-
             val data = getWeekMoodData(resources)
 
-            // charts' format
             lineChart.axisRight.isEnabled = false
             val yAxis: YAxis = lineChart.axisLeft
             yAxis.setDrawAxisLine(true)
@@ -175,26 +232,30 @@ class ChartsService {
             yAxis.setDrawGridLinesBehindData(true)
             yAxis.setAxisMinimum(MoodChartSettings.Y_AXIS_MIN)
             yAxis.setAxisMaximum(MoodChartSettings.Y_AXIS_MAX)
-            yAxis.granularity = 1f
-            yAxis.gridLineWidth = 1f
+            yAxis.granularity = MoodChartSettings.GRANULARITY
+            yAxis.gridLineWidth = MoodChartSettings.GRID_LINE_WIDTH
             yAxis.gridColor = Color.LTGRAY
-            yAxis.enableGridDashedLine(30f, 40f, 0f)
+            yAxis.enableGridDashedLine(
+                MoodChartSettings.GRID_LINE_LENGTH,
+                MoodChartSettings.GRID_LINE_SPACE_LENGTH,
+                MoodChartSettings.GRID_LINE_PHASE
+            )
 
             val xAxis: XAxis = lineChart.xAxis
-            xAxis.textColor = Color.parseColor("#333333")
-            xAxis.setTextSize(11f)
-            xAxis.setAxisMinimum(-0.5f)
-            xAxis.setAxisMaximum(7.5f)
+            xAxis.textColor = MoodChartSettings.TEXT_COLOR
+            xAxis.setTextSize(MoodChartSettings.TEXT_SIZE)
+            xAxis.setAxisMinimum(MoodChartSettings.X_AXIS_MIN)
+            xAxis.setAxisMaximum(MoodChartSettings.X_AXIS_MAX)
             xAxis.setDrawAxisLine(true)
             xAxis.valueFormatter = LineChartXAxisValueFormatter()
             xAxis.setDrawGridLines(false)
             xAxis.setDrawLabels(true)
             xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.setGranularity(1f)
+            xAxis.granularity = MoodChartSettings.GRANULARITY
 
-            val dataSet = LineDataSet(data, "Label")
-            dataSet.setColor(Color.parseColor("#55878D"))
-            dataSet.setLineWidth(2.5f)
+            val dataSet = LineDataSet(data, "week mood")
+            dataSet.setColor(Color.parseColor(MoodChartSettings.CHARTS_COLOR))
+            dataSet.setLineWidth(MoodChartSettings.CHARTS_LINE_WIDTH)
 
             val legend: Legend = lineChart.legend
             legend.form = Legend.LegendForm.NONE
@@ -215,19 +276,34 @@ class ChartsService {
             // todo: set images id based on server response
             // mock data
             setItemData(
-                resources, view, R.id.activity_icon_1, R.drawable.widget_ask_icon,
-                R.id.activity_1, "study",
-                R.id.activity_counter_1, 24
+                resources,
+                view,
+                R.id.activity_icon_1,
+                R.drawable.widget_ask_icon,
+                R.id.activity_1,
+                "study",
+                R.id.activity_counter_1,
+                24
             )
             setItemData(
-                resources, view, R.id.activity_icon_2, R.drawable.widget_ask_icon,
-                R.id.activity_2, "work",
-                R.id.activity_counter_2, 20
+                resources,
+                view,
+                R.id.activity_icon_2,
+                R.drawable.widget_ask_icon,
+                R.id.activity_2,
+                "work",
+                R.id.activity_counter_2,
+                20
             )
             setItemData(
-                resources, view, R.id.activity_icon_3, R.drawable.widget_ask_icon,
-                R.id.activity_3, "sport",
-                R.id.activity_counter_3, 7
+                resources,
+                view,
+                R.id.activity_icon_3,
+                R.drawable.widget_ask_icon,
+                R.id.activity_3,
+                "sport",
+                R.id.activity_counter_3,
+                7
             )
         }
 
@@ -235,19 +311,34 @@ class ChartsService {
             // todo: set images id based on server response
             // mock data
             setItemData(
-                resources, view, R.id.emotion_icon_1, R.drawable.widget_ask_icon,
-                R.id.emotion_1, "sadness",
-                R.id.emotion_counter_1, 100
+                resources,
+                view,
+                R.id.emotion_icon_1,
+                R.drawable.widget_ask_icon,
+                R.id.emotion_1,
+                "sadness",
+                R.id.emotion_counter_1,
+                100
             )
             setItemData(
-                resources, view, R.id.emotion_icon_2, R.drawable.widget_ask_icon,
-                R.id.emotion_2, "anxiety",
-                R.id.emotion_counter_2, 66
+                resources,
+                view,
+                R.id.emotion_icon_2,
+                R.drawable.widget_ask_icon,
+                R.id.emotion_2,
+                "anxiety",
+                R.id.emotion_counter_2,
+                66
             )
             setItemData(
-                resources, view, R.id.emotion_icon_3, R.drawable.widget_ask_icon,
-                R.id.emotion_3, "shock",
-                R.id.emotion_counter_3, 50
+                resources,
+                view,
+                R.id.emotion_icon_3,
+                R.drawable.widget_ask_icon,
+                R.id.emotion_3,
+                "shock",
+                R.id.emotion_counter_3,
+                50
             )
         }
 
@@ -265,5 +356,5 @@ class ChartsService {
         }
     }
 
-    class DayData(var isNoted: Boolean, var week: DayOfWeek)
+    class DayData(var isRecorded: Boolean, var week: DayOfWeek)
 }
