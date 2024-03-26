@@ -3,8 +3,15 @@ package org.hse.moodactivities.server;
 import org.hse.moodactivities.services.AuthService;
 import org.hse.moodactivities.services.GptService;
 import org.hse.moodactivities.services.SurveyService;
+import io.grpc.*;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.SignatureAlgorithm;
+import org.hse.moodactivities.interceptors.*;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
+import java.security.KeyPair;
+import java.util.Base64;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -27,8 +34,7 @@ public class AppServer {
                 .executor(executor)
                 .addService(new AuthService())
                 .addService(new SurveyService())
-                .addService(new GptService())
-                // .intercept(new JWTAuthServerInterceptor())
+                .intercept(new JWTAuthServerInterceptor())
                 .build();
 
         try {

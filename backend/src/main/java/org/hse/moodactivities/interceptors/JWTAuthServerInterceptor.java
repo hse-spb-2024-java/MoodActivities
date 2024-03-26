@@ -9,6 +9,14 @@ import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 public class JWTAuthServerInterceptor implements ServerInterceptor {
     @Override
     public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
+        String methodName = serverCall.getMethodDescriptor().getFullMethodName();
+
+        if ("services.AuthService/Login".equals(methodName) ||
+            "services.AuthService/Registration".equals(methodName)) {
+            // This is auth, no JWT authorization required here
+            return serverCallHandler.startCall(serverCall, metadata);
+        }
+
         String value = metadata.get(JWTUtils.AUTHORIZATION_METADATA_KEY);
 
         Status status;
