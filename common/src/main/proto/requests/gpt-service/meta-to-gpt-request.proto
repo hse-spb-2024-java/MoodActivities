@@ -6,4 +6,6 @@ option java_multiple_files = true;
 package requests;
 
 message MetaToGptRequest {
+    string message = 1;
+    string meta = 2;
 }

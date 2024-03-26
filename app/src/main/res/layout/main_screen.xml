@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/white"
-        app:fabCradleMargin="-10dp"
+        app:fabCradleMargin="-20dp"
         app:fabCradleRoundedCornerRadius="50dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,11 +33,12 @@
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/chat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:baselineAlignBottom="false"
-        android:src="@drawable/bottom_menu_add_icon"
+        android:src="@drawable/bottom_menu_chat_icon"
         android:visibility="visible"
         app:borderWidth="0dp"
         app:elevation="15dp"
