@@ -60,7 +60,7 @@ dependencies {
 }
 
 application {
-    mainClass = "org.hse.moodactivities.server.AppServer"
+    mainClass = "org.hse.moodactivities.data.HelloWorld"
 }
 
 java {

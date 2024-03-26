@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.requests.defaults";
+option java_multiple_files = true;
+
+package enums;
+
+enum DayOfWeek {
+  MONDAY = 0;
+  TUESDAY = 1;
+  WEDNESDAY = 2;
+  THURSDAY = 3;
+  FRIDAY = 4;
+  SATURDAY = 5;
+  SUNDAY = 6;
+}

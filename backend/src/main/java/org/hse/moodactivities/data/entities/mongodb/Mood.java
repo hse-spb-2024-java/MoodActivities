@@ -1,14 +1,14 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
-import dev.morphia.annotations.Entity;
-
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Objects;
-import java.time.*;
+
+import dev.morphia.annotations.Entity;
 
 @Entity
-final class Mood implements Serializable {
+final public class Mood implements Serializable {
     @Serial
     private static long serialVersionUID = 0L;
     private String type;
