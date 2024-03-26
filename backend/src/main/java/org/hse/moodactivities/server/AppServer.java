@@ -34,6 +34,7 @@ public class AppServer {
                 .executor(executor)
                 .addService(new AuthService())
                 .addService(new SurveyService())
+                .addService(new GptService())
                 .intercept(new JWTAuthServerInterceptor())
                 .build();
 
