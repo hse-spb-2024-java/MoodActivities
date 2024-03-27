@@ -17,6 +17,8 @@ services:
     platform: linux/arm64
     networks:
       - main
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "27017:27017"
     env_file:
@@ -26,7 +28,6 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongodb_data:/data/db
-    command: --serviceExecutor adaptive
 
   adminer:
     image: adminer
