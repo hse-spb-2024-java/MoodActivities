@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MainScreenActivity
@@ -37,7 +38,7 @@ class SummaryOfTheDayFragment : Fragment() {
             UiUtils.getMoodImageResourcesIdByIndex(moodEvent.getMoodRate()!!)
         )
         // there is no GPT answer
-        val gptResponse : MoodService.Companion.GptMoodResponse = MoodService.getGptResponse()
+        val gptResponse : MoodService.Companion.GptMoodResponse = MoodService.getGptResponse(this.activity as AppCompatActivity)
         view.findViewById<TextView>(R.id.summary_title)?.text =
             gptResponse.shortSummary
         view.findViewById<TextView>(R.id.summary_description)?.text = gptResponse.fullSummary

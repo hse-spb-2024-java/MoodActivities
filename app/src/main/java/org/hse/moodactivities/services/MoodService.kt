@@ -1,9 +1,14 @@
 package org.hse.moodactivities.services
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest
 import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc
+import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.viewmodels.AuthViewModel
 
 class MoodService {
     companion object {
@@ -26,12 +31,18 @@ class MoodService {
         }
 
         // GPT describes user's day
-        fun getGptResponse(): GptMoodResponse {
+        fun getGptResponse(activity: AppCompatActivity): GptMoodResponse {
             val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345)
                 .usePlaintext()
                 .build()
 
+            val authViewModel = ViewModelProvider(activity)[AuthViewModel::class.java]
+
             val stub = SurveyServiceGrpc.newBlockingStub(channel)
+                .withInterceptors(
+                JwtClientInterceptor { authViewModel.getToken(
+                    activity.getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                )!! })
 
             val request = LongSurveyRequest.newBuilder()
                 .setMoodRating(moodEvent.getMoodRate()!! + 1)
