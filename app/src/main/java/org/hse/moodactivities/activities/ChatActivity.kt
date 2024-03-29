@@ -25,7 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var sendButton: AppCompatImageButton
     private lateinit var messagesView: ListView
     private lateinit var messageAdapter: MessageAdapter
-    private var gptService: GptService = GptService()
+    private var gptService: GptService = GptService(this as AppCompatActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,22 +1,27 @@
 package org.hse.moodactivities.services
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import io.grpc.stub.StreamObserver
 import org.hse.moodactivities.common.proto.requests.gpt.GptSessionRequest
 import org.hse.moodactivities.common.proto.responses.gpt.GptSessionResponse
 import org.hse.moodactivities.common.proto.services.GptServiceGrpc
+import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.utils.GptResponseListener
+import org.hse.moodactivities.viewmodels.AuthViewModel
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 import java.net.HttpURLConnection.HTTP_OK
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
-class GptService : Service(), GptResponseListener {
+class GptService(private var activity: AppCompatActivity) : Service(), GptResponseListener {
 
     private lateinit var channel: ManagedChannel
     private lateinit var gptServiceStub: GptServiceGrpc.GptServiceStub
@@ -34,7 +39,16 @@ class GptService : Service(), GptResponseListener {
         channel = ManagedChannelBuilder.forAddress("10.0.2.2", PORT)
             .usePlaintext()
             .build()
+
+        val authViewModel = ViewModelProvider(activity)[AuthViewModel::class.java]
+
         gptServiceStub = GptServiceGrpc.newStub(channel)
+            .withInterceptors(
+                JwtClientInterceptor {
+                    authViewModel.getToken(
+                        getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                    )!!
+                })
 
         responseListener = this
 
@@ -109,7 +123,6 @@ class GptService : Service(), GptResponseListener {
     }
 
     fun getResponse(): Pair<Int, String> {
-
         return Pair(responseCode, responseMessage)
     }
 
