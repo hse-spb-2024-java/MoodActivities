@@ -30,7 +30,6 @@ class GptService(private var activity: AppCompatActivity) : Service(), GptRespon
     private lateinit var responseListener: GptResponseListener
     private lateinit var responseMessage: String
     private var responseCode: Int = 0
-
     private val semaphore = Semaphore(0)
 
     override fun onCreate() {
@@ -46,7 +45,7 @@ class GptService(private var activity: AppCompatActivity) : Service(), GptRespon
             .withInterceptors(
                 JwtClientInterceptor {
                     authViewModel.getToken(
-                        getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                        activity.getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
                     )!!
                 })
 
