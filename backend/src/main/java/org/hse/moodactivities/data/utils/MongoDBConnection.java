@@ -5,22 +5,20 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 
-import dev.morphia.Datastore;
-import dev.morphia.Morphia;
-import dev.morphia.query.FindOptions;
-import dev.morphia.query.Query;
-import io.github.cdimascio.dotenv.Dotenv;
-
 import org.bson.Document;
+import org.hse.moodactivities.data.entities.mongodb.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hse.moodactivities.data.entities.mongodb.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import dev.morphia.Datastore;
+import dev.morphia.Morphia;
+import dev.morphia.query.FindOptions;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class MongoDBConnection implements AutoCloseable {
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBConnection.class);
@@ -38,7 +36,7 @@ public class MongoDBConnection implements AutoCloseable {
     private final MongoClient mongoClient;
 
     public MongoDBConnection(String host, int port, String dbName) {
-        mongoClient = MongoClients.create("mongodb://" + MONGO_USERNAME + ":" + MONGO_PASSWORD + "@" + host + ":" + port);
+        mongoClient = MongoClients.create("mongodb://" /*+ MONGO_USERNAME + ":" + MONGO_PASSWORD  + "@" */ + host + ":" + port);
         datastore = Morphia.createDatastore(mongoClient, dbName);
         database = mongoClient.getDatabase(dbName);
     }
