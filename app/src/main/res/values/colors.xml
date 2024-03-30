@@ -26,4 +26,8 @@
     <color name="white_smoke">#F5F5F5</color>
     <color name="dark_salmon">#B97862</color>
     <color name="gray_orange">#B5B8B1</color>
+    <color name="dark_gray">#A9A9A9</color>
+    <color name="light_gray">#DCDCDC</color>
+    <color name="dark_slate_gray">#2F4F4F</color>
+    <color name="light_slate_gray">#778899</color>
 </resources>

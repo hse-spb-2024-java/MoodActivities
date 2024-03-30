@@ -42,6 +42,20 @@ enum class StatisticMode {
     }
 }
 
+class TimePeriod(var value: Value) {
+    enum class Value {
+        WEEK, MONTH, YEAR, ALL_TIME;
+
+        override fun toString(): String {
+            if (this == ALL_TIME) {
+                return "all time"
+            }
+            return super.toString().lowercase()
+        }
+    }
+}
+
+
 
 class ChartsService {
     companion object {

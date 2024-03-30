@@ -47,7 +47,7 @@ class UiUtils {
 
         fun getStatisticTitle(): String {
             return buildString {
-                append("Month ").append(ChartsService.getStatisticMode().toString())
+                append(ChartsService.getStatisticMode().toString())
                     .append(" statistic")
             }
         }
