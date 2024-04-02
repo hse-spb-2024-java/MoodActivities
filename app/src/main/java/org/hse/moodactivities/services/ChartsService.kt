@@ -1,5 +1,6 @@
 package org.hse.moodactivities.services
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -11,8 +12,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
@@ -27,9 +30,16 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
+import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.R
+import org.hse.moodactivities.common.proto.requests.defaults.PeriodType
+import org.hse.moodactivities.common.proto.requests.stats.ReportType
+import org.hse.moodactivities.common.proto.requests.stats.TopListRequest
+import org.hse.moodactivities.common.proto.services.StatsServiceGrpc
+import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.models.StatisticItem
 import org.hse.moodactivities.utils.UiUtils
+import org.hse.moodactivities.viewmodels.AuthViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import kotlin.random.Random
@@ -56,7 +66,6 @@ class TimePeriod(var value: Value) {
 }
 
 
-
 class ChartsService {
     companion object {
         private var statisticMode: StatisticMode = StatisticMode.EMOTIONS
@@ -75,24 +84,61 @@ class ChartsService {
             return statisticMode
         }
 
-        fun getStatistic(): ArrayList<StatisticItem> {
-            // mock data
-            // todo: add custom icons (create frontend class to manipulate with emotions and activities)
-            return if (getStatisticMode() == StatisticMode.EMOTIONS) {
-                arrayListOf(
-                    StatisticItem("emotion 1", 30, R.drawable.widget_mood_icon),
-                    StatisticItem("emotion 2", 20, R.drawable.widget_mood_icon),
-                    StatisticItem("emotion 3", 10, R.drawable.widget_mood_icon),
-                    StatisticItem("emotion 4", 5, R.drawable.widget_mood_icon)
-                )
-            } else {
-                arrayListOf(
-                    StatisticItem("activity 1", 30, R.drawable.widget_mood_icon),
-                    StatisticItem("activity 2", 20, R.drawable.widget_mood_icon),
-                    StatisticItem("activity 3", 10, R.drawable.widget_mood_icon),
-                    StatisticItem("activity 4", 5, R.drawable.widget_mood_icon)
-                )
+        private fun toPeriodType(timePeriod: TimePeriod.Value): PeriodType {
+            return when (timePeriod) {
+                TimePeriod.Value.WEEK -> PeriodType.WEEK
+                TimePeriod.Value.MONTH -> PeriodType.MONTH
+                TimePeriod.Value.YEAR -> PeriodType.YEAR
+                TimePeriod.Value.ALL_TIME -> PeriodType.ALL
             }
+        }
+
+        private fun toReportType(): ReportType {
+            return when (statisticMode) {
+                StatisticMode.EMOTIONS -> ReportType.EMOTIONS
+                StatisticMode.ACTIVITIES -> ReportType.ACTIVITIES
+            }
+        }
+
+        fun getStatistic(
+            activity: AppCompatActivity, timePeriod: TimePeriod.Value
+        ): ArrayList<StatisticItem> {
+            val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345).usePlaintext().build()
+            val authViewModel = ViewModelProvider(activity)[AuthViewModel::class.java]
+            val stub =
+                StatsServiceGrpc.newBlockingStub(channel).withInterceptors(JwtClientInterceptor {
+                        authViewModel.getToken(
+                            activity.getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                        )!!
+                    })
+
+            val request = TopListRequest.newBuilder().setPeriod(toPeriodType(timePeriod))
+                .setReportType(toReportType()).build()
+            val response = stub.getTopList(request).topReportList
+
+            val responseList = ArrayList<StatisticItem>(response.size)
+            for (item in response) {
+                // todo: add custom icons (create frontend class to manipulate with emotions and activities)
+                responseList.add(StatisticItem(item.name, item.amount, R.drawable.widget_mood_icon))
+            }
+            return responseList
+            // mock data
+
+//            return if (getStatisticMode() == StatisticMode.EMOTIONS) {
+//                arrayListOf(
+//                    StatisticItem("emotion 1", 30, R.drawable.widget_mood_icon),
+//                    StatisticItem("emotion 2", 20, R.drawable.widget_mood_icon),
+//                    StatisticItem("emotion 3", 10, R.drawable.widget_mood_icon),
+//                    StatisticItem("emotion 4", 5, R.drawable.widget_mood_icon)
+//                )
+//            } else {
+//                arrayListOf(
+//                    StatisticItem("activity 1", 30, R.drawable.widget_mood_icon),
+//                    StatisticItem("activity 2", 20, R.drawable.widget_mood_icon),
+//                    StatisticItem("activity 3", 10, R.drawable.widget_mood_icon),
+//                    StatisticItem("activity 4", 5, R.drawable.widget_mood_icon)
+//                )
+//            }
         }
 
         fun setStatisticMode(statisticMode: StatisticMode) {
@@ -145,8 +191,8 @@ class ChartsService {
             const val TEXT_SIZE = 14f
         }
 
-        fun createDistributionChart(pieChart: PieChart) {
-            val statistic = getStatistic()
+        fun createDistributionChart(activity: AppCompatActivity, pieChart: PieChart) {
+            val statistic = getStatistic(activity, TimePeriod.Value.WEEK)
 
             pieChart.setUsePercentValues(true)
             pieChart.description.isEnabled = false
