@@ -42,17 +42,17 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                     }
                 }
                 UserDayMeta newMeta = new UserDayMeta(request);
-                newMeta.setDate(LocalDate.parse(request.getDate()));
+                newMeta.setDate(LocalDate.now());
                 String id = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
                 Map<String, Object> queryMap = new HashMap<>();
                 queryMap.put("id", id);
                 var existingEntities = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
-                if (existingEntities != null) {
+                if (existingEntities != null && !existingEntities.isEmpty()) {
                     User existingEntity = existingEntities.get(0);
                     existingEntity.updateMeta(newMeta);
                     MongoDBSingleton.getInstance().getConnection().getDatastore().merge(existingEntity);
                 } else {
-                    User newEntity = new User("123", List.of(newMeta));
+                    User newEntity = new User(id, List.of(newMeta));
                     MongoDBSingleton.getInstance().getConnection().saveEntity(newEntity);
                 }
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
