@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.stats";
+option java_multiple_files = true;
+
+package responses;
+
+import "responses/stats-service/top-item.proto";
+
+message TopListResponse {
+    repeated TopItem topReport = 1;
+}

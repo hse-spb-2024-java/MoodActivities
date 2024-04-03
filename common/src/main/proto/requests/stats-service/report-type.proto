@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.requests.stats";
+option java_multiple_files = true;
+
+package enums;
+
+enum ReportType {
+    ACTIVITIES = 0;
+    EMOTIONS = 1;
+}

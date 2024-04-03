@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.requests.stats";
+option java_multiple_files = true;
+
+package requests;
+
+import "defaults/period.proto";
+import "requests/stats-service/report-type.proto";
+
+message TopListRequest {
+    enums.PeriodType period = 1;
+    enums.ReportType reportType = 2;
+    int32 amount = 3;
+}
