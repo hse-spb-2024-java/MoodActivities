@@ -9,6 +9,7 @@ import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.models.MoodEvent
 import org.hse.moodactivities.viewmodels.AuthViewModel
+import java.time.LocalDate
 
 class MoodService {
     companion object {
@@ -39,6 +40,7 @@ class MoodService {
                 )!! })
 
             val request = LongSurveyRequest.newBuilder()
+                .setDate(LocalDate.now().toString())
                 .setMoodRating(moodEvent?.getMoodRate()!! + 1)
                 .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
                 .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
