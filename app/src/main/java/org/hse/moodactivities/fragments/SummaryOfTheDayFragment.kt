@@ -37,11 +37,10 @@ class SummaryOfTheDayFragment : Fragment() {
         view.findViewById<ImageView>(R.id.emoji)?.setImageResource(
             UiUtils.getMoodImageResourcesIdByIndex(moodEvent.getMoodRate()!!)
         )
-        // there is no GPT answer
-        val gptResponse : MoodService.Companion.GptMoodResponse = MoodService.getGptResponse(this.activity as AppCompatActivity)
+
+        val gptResponse = MoodService.getGptResponse(this.activity as AppCompatActivity)
         view.findViewById<TextView>(R.id.summary_title)?.text =
             gptResponse.shortSummary
         view.findViewById<TextView>(R.id.summary_description)?.text = gptResponse.fullSummary
-
     }
 }

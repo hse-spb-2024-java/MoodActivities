@@ -25,7 +25,7 @@ class UiUtils {
                 2 -> R.drawable.mood_flow_3
                 3 -> R.drawable.mood_flow_4
                 4 -> R.drawable.mood_flow_5
-                else -> -1 // unreachable
+                else -> R.drawable.widget_mood_icon // default icon
             }
         }
 

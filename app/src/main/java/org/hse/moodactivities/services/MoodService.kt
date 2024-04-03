@@ -12,7 +12,7 @@ import org.hse.moodactivities.viewmodels.AuthViewModel
 
 class MoodService {
     companion object {
-        private lateinit var moodEvent: MoodEvent
+        private var moodEvent: MoodEvent? = null
 
         class GptMoodResponse(var shortSummary : String, var fullSummary : String)
 
@@ -22,12 +22,6 @@ class MoodService {
 
         fun getDayRate(moodData: MoodEvent): String {
             return "It's okay"
-        }
-
-        // GPT describes user's day in one word
-        fun getGptShortResponse(): String {
-            val answer = "amazing"
-            return "Your day was " + answer
         }
 
         // GPT describes user's day
@@ -45,15 +39,23 @@ class MoodService {
                 )!! })
 
             val request = LongSurveyRequest.newBuilder()
-                .setMoodRating(moodEvent.getMoodRate()!! + 1)
-                .addAllActivities(moodEvent.getChosenActivities() as MutableIterable<String>)
-                .addAllEmotions(moodEvent.getChosenEmotions() as MutableIterable<String>)
+                .setMoodRating(moodEvent?.getMoodRate()!! + 1)
+                .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
+                .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
                 .setQuestion("What else can you say about your day?")
-                .setAnswer(moodEvent.getUserAnswer())
+                .setAnswer(moodEvent?.getUserAnswer() ?: "" )
                 .build()
 
             val response = stub.longSurvey(request)
             return GptMoodResponse(response.shortSummary, response.fullSummary)
+        }
+
+        fun getUserDailyMood() : Int? {
+            // todo: ask server to get today's average mood
+            if (moodEvent != null) {
+                return moodEvent?.getMoodRate()
+            }
+            return -1
         }
     }
 }

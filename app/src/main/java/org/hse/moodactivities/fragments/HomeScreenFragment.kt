@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
+import org.hse.moodactivities.services.MoodService
+import org.hse.moodactivities.utils.UiUtils
 import org.hse.moodactivities.utils.Utils
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -35,6 +38,9 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_screen, container, false)
+        view.rootView.findViewById<ImageView>(R.id.mood_widget_icon).setImageResource(
+            UiUtils.getMoodImageResourcesIdByIndex(MoodService.getUserDailyMood()!!)
+        )
         setCurrentDate(view)
         return view
     }
@@ -49,7 +55,6 @@ class HomeScreenFragment : Fragment() {
 
         val moodWidgetButton: Button = view.rootView.findViewById(R.id.mood_widget_button)
         moodWidgetButton.setOnClickListener {
-            Log.d("mood button", "clicked!")
             val moodFlowActivityIntent = Intent(this.activity, MoodFlowActivity::class.java)
             startActivity(moodFlowActivityIntent)
             this.activity?.finish()
