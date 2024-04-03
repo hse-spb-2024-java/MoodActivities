@@ -21,10 +21,6 @@ class MoodService {
             moodEvent = receivedMoodEvent
         }
 
-        fun getDayRate(moodData: MoodEvent): String {
-            return "It's okay"
-        }
-
         // GPT describes user's day
         fun getGptResponse(activity: AppCompatActivity): GptMoodResponse {
             val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345)
