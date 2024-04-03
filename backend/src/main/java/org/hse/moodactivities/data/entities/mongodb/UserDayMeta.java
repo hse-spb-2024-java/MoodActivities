@@ -1,9 +1,6 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest;
-import org.hse.moodactivities.common.proto.responses.survey.LongSurveyResponse;
-
-import dev.morphia.annotations.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import dev.morphia.annotations.Entity;
 
 @Entity("meta")
 public final class UserDayMeta implements Serializable {
@@ -75,7 +74,7 @@ public final class UserDayMeta implements Serializable {
     }
 
     public List<Activity> getActivityList() {
-        return Collections.unmodifiableList(activityList);
+        return activityList;
     }
 
     public List<Mood> getMoodList() {
