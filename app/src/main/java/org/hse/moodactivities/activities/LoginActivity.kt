@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
@@ -23,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonGoToRegister.setOnClickListener {
+        binding.tvRegisterRedirect.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
@@ -31,9 +30,9 @@ class LoginActivity : AppCompatActivity() {
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        binding.buttonLogin.setOnClickListener {
-            val username = binding.etLoginUsername.text.toString()
-            val password = binding.etLoginPassword.text.toString()
+        binding.btnLogin.setOnClickListener {
+            val username = binding.etUsername.text.toString()
+            val password = binding.etPassword.text.toString()
 
             if (password.isEmpty()) {
                 Log.d("LoginResponse", "Password cannot be empty");

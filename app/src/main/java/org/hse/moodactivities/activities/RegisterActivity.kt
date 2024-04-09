@@ -23,13 +23,29 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvLoginRedirect.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        binding.buttonRegister.setOnClickListener {
-            val username = binding.etRegisterUsername.text.toString()
-            val password = binding.etRegisterPassword.text.toString()
-            val confirmation = binding.etRegisterPasswordConfirm.text.toString()
+        binding.btnRegister.setOnClickListener {
+            val username = binding.etUsername.text.toString()
+            val password = binding.etPassword.text.toString()
+            val confirmation = binding.etPasswordConfirm.text.toString()
+            val agreedTerms = binding.cmTerms.isActivated()
+
+            if (!agreedTerms) {
+                Log.d("RegistrationResponse", "Did not agreed on terms")
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Please agree with the ToS if you want to register",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
 
             if (password != confirmation) {
                 Log.d("RegistrationResponse", "Passwords do not match")
