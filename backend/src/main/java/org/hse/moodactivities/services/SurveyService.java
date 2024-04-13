@@ -24,6 +24,25 @@ import io.grpc.stub.StreamObserver;
 public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(SurveyService.class);
 
+    private static String getSubstringAfterSecondCapital(String input) {
+        int capitalCount = 0;
+        int index = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (Character.isUpperCase(input.charAt(i))) {
+                capitalCount++;
+                if (capitalCount == 2) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        if (capitalCount < 2) {
+            return "";
+        } else {
+            return input.substring(index);
+        }
+    }
+
     @Override
     public void longSurvey(LongSurveyRequest request, StreamObserver<LongSurveyResponse> responseObserve) {
         LongSurveyResponse response;
@@ -31,14 +50,16 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
             GptMessages.GptMessage message = GptRequestFormatter.surveyRequest(request);
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(message));
             if (gptResponse.message() != null) {
-                String[] words = gptResponse.message().getContent().split("\\s+");
+                String[] sentences = gptResponse.message().getContent().split("\\.");
                 StringBuilder shortForm = new StringBuilder();
                 StringBuilder fullForm = new StringBuilder();
-                for (int i = 0; i < words.length; i++) {
-                    if (i < 3) {
-                        shortForm.append(words[i]);
+                for (int i = 0; i < sentences.length; i++) {
+                    if (i < 1) {
+                        shortForm.append(getSubstringAfterSecondCapital(sentences[i]) + ".");
+                    } else if (i == 1) {
+                        fullForm.append(getSubstringAfterSecondCapital(sentences[i]) + ".");
                     } else {
-                        fullForm.append(words[i]);
+                        fullForm.append(sentences[i] + ".");
                     }
                 }
                 UserDayMeta newMeta = new UserDayMeta(request);
