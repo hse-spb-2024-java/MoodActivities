@@ -24,6 +24,10 @@ public class MongoDBSingleton {
         return this.mongoDBConnection;
     }
 
+    public MongoDBConnection getQuestionsConnection() {
+        return this.mongoDBConnectionQuestions;
+    }
+
     public void closeConnection() {
         if (this.mongoDBConnection != null) {
             this.mongoDBConnection.close();

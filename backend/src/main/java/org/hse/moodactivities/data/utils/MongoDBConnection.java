@@ -127,7 +127,7 @@ public class MongoDBConnection implements AutoCloseable {
 
     public <T> T updateEntity(T entity) {
         Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("_id", datastore.getMapper().getId(entity));
+        queryMap.put("id", datastore.getMapper().getId(entity));
         User existingEntity = this.findEntityWithFilters(User.class, queryMap).get(0);
         if (existingEntity != null) {
             datastore.merge(entity);

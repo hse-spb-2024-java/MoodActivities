@@ -7,10 +7,13 @@ package services;
 
 import "requests/question-service/question-request.proto";
 import "requests/question-service/answer-request.proto";
+import "requests/question-service/check-answer-request.proto";
 import "responses/question-service/question-response.proto";
 import "responses/question-service/answer-response.proto";
+import "responses/question-service/check-answer-response.proto";
 
 service QuestionService {
   rpc GetDailyQuestion(requests.QuestionRequest) returns (responses.QuestionResponse) {}
+  rpc CheckDailyQuestion(requests.CheckAnswerRequest) returns (responses.CheckAnswerResponse) {}
   rpc SendDailyQuestionAnswer(requests.AnswerRequest) returns (responses.AnswerResponse) {}
 }

@@ -1,9 +1,6 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest;
-import org.hse.moodactivities.common.proto.responses.survey.LongSurveyResponse;
-
-import dev.morphia.annotations.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,6 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import dev.morphia.annotations.Entity;
+
 @Entity("meta")
 public final class UserDayMeta implements Serializable {
     @Serial
@@ -22,6 +21,7 @@ public final class UserDayMeta implements Serializable {
     private LocalDate date;
     private List<Activity> activityList = new ArrayList<>();
     private List<Mood> moodList = new ArrayList<>();
+    private String answerToQuestion;
     private double dailyScore;
     private String dailyConclusion;
 
@@ -53,6 +53,17 @@ public final class UserDayMeta implements Serializable {
         this.dailyConclusion = dailyConclusion;
     }
 
+    public void setAnswerToQuestion(String answer) {
+        answerToQuestion = answer;
+        if (date == null) {
+            date = LocalDate.now();
+        }
+    }
+
+    public String getAnswerToQuestion() {
+        return answerToQuestion;
+    }
+
     public UserDayMeta(final LocalDate date, final List<Activity> activityList, final double dailyScore, final String dailyConclusion) {
         this.date = date;
         this.activityList = activityList;
@@ -68,6 +79,14 @@ public final class UserDayMeta implements Serializable {
         for (var emotion : longSurveyRequest.getEmotionsList()) {
             moodList.add(new Mood(emotion, time, 0.5, ""));
         }
+    }
+
+    public UserDayMeta(LocalDate date) {
+        this.date = date;
+    }
+
+    public UserDayMeta() {
+
     }
 
     public LocalDate getDate() {

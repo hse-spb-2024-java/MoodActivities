@@ -1,6 +1,6 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
@@ -16,12 +16,12 @@ public class Question {
     private String questionText;
 
     @Property
-    private Date dateCreated;
+    private LocalDate dateCreated;
 
     public Question() {
     }
 
-    public Question(String questionText, Date dateCreated) {
+    public Question(String questionText, LocalDate dateCreated) {
         this.questionText = questionText;
         this.dateCreated = dateCreated;
     }
@@ -42,11 +42,11 @@ public class Question {
         this.questionText = questionText;
     }
 
-    public Date getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 

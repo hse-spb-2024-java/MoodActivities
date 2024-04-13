@@ -40,7 +40,9 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         if (users != null && !users.isEmpty()) {
             return users.get(0);
         } else {
-            return null;
+            User user = new User(userId, new ArrayList<>());
+            MongoDBSingleton.getInstance().getConnection().saveEntity(user);
+            return user;
         }
     }
 

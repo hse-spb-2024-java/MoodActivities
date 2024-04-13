@@ -1,8 +1,13 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
-import dev.morphia.annotations.*;
-
 import java.util.List;
+
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Field;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Index;
+import dev.morphia.annotations.IndexOptions;
+import dev.morphia.annotations.Indexes;
 
 @Entity("users")
 @Indexes(@Index(options = @IndexOptions(name = "id"), fields = @Field("id")))
@@ -46,6 +51,7 @@ public class User {
             for (var mood : meta.getMoodList()) {
                 lastMeta.addMood(mood);
             }
+            lastMeta.setAnswerToQuestion(meta.getAnswerToQuestion());
         } else {
             metas.add(meta);
         }
