@@ -82,7 +82,7 @@
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginStart="120dp"
+        android:layout_marginStart="0dp"
         android:layout_marginBottom="270dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,52 +127,4 @@
 
     </RelativeLayout>
     <!-- send end -->
-
-    <!-- regenerate start -->
-    <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginBottom="270dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/black"
-            app:cardCornerRadius="@dimen/widget_corner_radius">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/regenerate_title"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/regenerate_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </RelativeLayout>
-    <!-- regenerate end -->
 </androidx.constraintlayout.widget.ConstraintLayout>

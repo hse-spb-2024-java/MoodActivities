@@ -6,8 +6,11 @@ public class MongoDBSingleton {
     private static MongoDBSingleton instance;
     private MongoDBConnection mongoDBConnection;
 
+    private MongoDBConnection mongoDBConnectionQuestions;
+
     private MongoDBSingleton() {
-        this.mongoDBConnection = new MongoDBConnection();
+        this.mongoDBConnection = new MongoDBConnection(MongoDBConnection.connectionType.USERS);
+        this.mongoDBConnectionQuestions = new MongoDBConnection(MongoDBConnection.connectionType.QUESTIONS);
     }
 
     public static synchronized MongoDBSingleton getInstance() {

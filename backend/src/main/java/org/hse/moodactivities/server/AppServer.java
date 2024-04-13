@@ -4,6 +4,7 @@ import org.hse.moodactivities.interceptors.JWTAuthServerInterceptor;
 import org.hse.moodactivities.services.AuthService;
 import org.hse.moodactivities.services.QuestionService;
 import org.hse.moodactivities.services.SurveyService;
+import org.hse.moodactivities.utils.StringGenerationService;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
 import java.util.concurrent.ExecutorService;
@@ -21,6 +22,7 @@ public class AppServer {
 
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(10);
+        StringGenerationService.startScheduledGeneration();
 
         UserProfileRepository.createUserProfile("admin",  "12345678");
 

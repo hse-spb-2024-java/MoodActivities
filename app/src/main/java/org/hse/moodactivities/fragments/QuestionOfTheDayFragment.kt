@@ -1,6 +1,7 @@
 package org.hse.moodactivities.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.common.proto.requests.dailyQuestion.AnswerRequest
 import org.hse.moodactivities.common.proto.requests.dailyQuestion.QuestionRequest
 import org.hse.moodactivities.common.proto.services.QuestionServiceGrpc
@@ -96,11 +98,9 @@ class QuestionOfTheDayFragment : Fragment() {
         }
 
         // button to regenerate question
-        view.findViewById<Button>(R.id.regenerate_button).setOnClickListener {
-            val questionTitleTextView: TextView = view.findViewById(R.id.questionTitleTextView)
-            val questionTitle =
-                gptServiceStub.getDailyQuestion(QuestionRequest.getDefaultInstance())
-            questionTitleTextView.text = questionTitle.question
+        view.findViewById<Button>(R.id.return_home_button).setOnClickListener {
+            val mainActivityIntent = Intent(this.activity, MainScreenActivity::class.java)
+            startActivity(mainActivityIntent)
         }
 
         return view

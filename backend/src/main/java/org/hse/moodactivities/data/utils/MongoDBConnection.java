@@ -26,7 +26,8 @@ public class MongoDBConnection implements AutoCloseable {
     private static Dotenv dotenv = Dotenv.load();
     private static final String MONGO_HOST = dotenv.get("MONGO_HOST");
     private static final int MONGO_PORT = Integer.valueOf(dotenv.get("MONGO_PORT"));
-    private static final String MONGO_DBNAME = dotenv.get("MONGO_DBNAME");
+    private static final String MONGO_USERS_DBNAME = dotenv.get("MONGO_USERS_DBNAME");
+    private static final String MONGO_QUESTIONS_DBNAME = dotenv.get("MONGO_QUESTIONS_DBNAME");
 
     private static final String MONGO_USERNAME = dotenv.get("MONGO_USERNAME");
     private static final String MONGO_PASSWORD = dotenv.get("MONGO_PASSWORD");
@@ -35,14 +36,25 @@ public class MongoDBConnection implements AutoCloseable {
     private final MongoDatabase database;
     private final MongoClient mongoClient;
 
+    public enum connectionType {
+        USERS,
+        QUESTIONS
+    }
+
+    ;
+
     public MongoDBConnection(String host, int port, String dbName) {
         mongoClient = MongoClients.create("mongodb://" /*+ MONGO_USERNAME + ":" + MONGO_PASSWORD  + "@" */ + host + ":" + port);
         datastore = Morphia.createDatastore(mongoClient, dbName);
         database = mongoClient.getDatabase(dbName);
     }
 
-    public MongoDBConnection() {
-        this(MONGO_HOST, MONGO_PORT, MONGO_DBNAME);
+    public MongoDBConnection(connectionType type) {
+        this(MONGO_HOST, MONGO_PORT, (type == connectionType.USERS ? MONGO_USERS_DBNAME : MONGO_QUESTIONS_DBNAME));
+    }
+
+    public MongoDBConnection(String dbName) {
+        this(MONGO_HOST, MONGO_PORT, dbName);
     }
 
 
