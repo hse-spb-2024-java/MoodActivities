@@ -36,13 +36,13 @@ class QuestionOfTheDayFragment : Fragment() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var gptServiceStub: QuestionServiceGrpc.QuestionServiceBlockingStub
     private lateinit var userAnswer: EditText
-    private lateinit var nextButtonBackground: CardView
+    private lateinit var sendButtonBackground: CardView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_question_of_the_day, container, false)
 
-        nextButtonBackground = view.findViewById(R.id.send_button_background)
+        sendButtonBackground = view.findViewById(R.id.send_button_background)
 
         communicator = activity as Communicator
 
@@ -63,8 +63,6 @@ class QuestionOfTheDayFragment : Fragment() {
         val questionTitleTextView: TextView = view.findViewById(R.id.questionTitleTextView)
         val questionTitle = gptServiceStub.getDailyQuestion(QuestionRequest.getDefaultInstance())
         questionTitleTextView.text = questionTitle.question
-
-
         userAnswer = view.findViewById(R.id.edit_text)
         val filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAXIMAL_SIZE_OF_USER_ANSWER))
         userAnswer.filters = filters
@@ -77,9 +75,9 @@ class QuestionOfTheDayFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (userAnswer.text.isNotEmpty()) {
-                    nextButtonBackground.alpha = BUTTON_ENABLED_ALPHA
+                    sendButtonBackground.alpha = BUTTON_ENABLED_ALPHA
                 } else {
-                    nextButtonBackground.alpha = BUTTON_DISABLED_ALPHA
+                    sendButtonBackground.alpha = BUTTON_DISABLED_ALPHA
                 }
             }
         })

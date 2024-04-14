@@ -44,7 +44,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/next_button_background"
+                android:id="@+id/finish_button_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/black"

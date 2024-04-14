@@ -10,7 +10,7 @@
     <!-- widgets tittles and descriptions -->
     <string name="activity_widget_tittle">Activity for today</string>
     <string name="activity_widget_description">Go for a walk</string>
-    <string name="note_widget_tittle">Take\na note</string>
+    <string name="questions_widget_tittle">Daily\n question</string>
     <string name="mood_widget_tittle">Your today\'s\nmood</string>
     <string name="calendar_widget_tittle">Week statistic</string>
     <string name="ask_tittle">Ask AI for advice…</string>

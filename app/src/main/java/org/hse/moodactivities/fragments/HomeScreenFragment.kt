@@ -56,8 +56,8 @@ class HomeScreenFragment : Fragment() {
             this.activity?.finish()
         }
 
-        val noteWidgetButton: Button = view.rootView.findViewById(R.id.note_widget_button)
-        noteWidgetButton.setOnClickListener {
+        val questionWidgetButton: Button = view.rootView.findViewById(R.id.question_widget_button)
+        questionWidgetButton.setOnClickListener {
             val questionsActivity = Intent(this.activity, QuestionsActivity::class.java)
             startActivity(questionsActivity)
             this.activity?.finish()

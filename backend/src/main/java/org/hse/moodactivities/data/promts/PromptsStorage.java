@@ -1,5 +1,6 @@
 package org.hse.moodactivities.data.promts;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +12,7 @@ public class PromptsStorage {
 
     static {
         properties = new Properties();
-        try (InputStream inputStream = PromptsStorage.class.getClassLoader().getResourceAsStream(PROMPTS);) {
+        try (InputStream inputStream = new FileInputStream(PROMPTS);) {
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
