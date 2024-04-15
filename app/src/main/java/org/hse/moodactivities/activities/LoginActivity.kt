@@ -1,21 +1,41 @@
 package org.hse.moodactivities.activities
 
 import android.content.Context
-import org.hse.moodactivities.viewmodels.AuthViewModel
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager.OnActivityResultListener
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
 import org.hse.moodactivities.databinding.ActivityLoginBinding
+import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
+
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userViewModel: UserViewModel
+
+    private var RC_SIGN_IN = 9001;
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (requestCode == RC_SIGN_IN) {
+            authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            authViewModel.handleGoogleLogin(task)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +45,16 @@ class LoginActivity : AppCompatActivity() {
         binding.tvRegisterRedirect.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        binding.googleLogin.setOnClickListener {
+            val oauthIntent = mGoogleSignInClient.signInIntent
+            startActivityForResult(oauthIntent, RC_SIGN_IN);
         }
 
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]

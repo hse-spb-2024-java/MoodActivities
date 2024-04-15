@@ -1,10 +1,14 @@
 package org.hse.moodactivities.viewmodels
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.launch
 import org.hse.moodactivities.common.proto.requests.auth.LoginRequest
@@ -59,6 +63,16 @@ class AuthViewModel : ViewModel() {
             }
         }
         return responseLiveData
+    }
+
+    fun handleGoogleLogin(task: Task<GoogleSignInAccount>) {
+        try {
+            val account = task.getResult(ApiException::class.java)
+            Log.d("oauth", account.email.orEmpty())
+        } catch (e: ApiException) {
+            e.printStackTrace()
+            _errorMessage.value = "API error"
+        }
     }
 
     fun clearErrorMessage() {
