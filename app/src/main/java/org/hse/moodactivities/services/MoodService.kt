@@ -55,5 +55,9 @@ class MoodService {
             }
             return -1
         }
+
+        fun getEmotionId() {
+
+        }
     }
 }

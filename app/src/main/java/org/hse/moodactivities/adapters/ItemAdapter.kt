@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.ItemHolderFragment
-import org.hse.moodactivities.models.Item
+import org.hse.moodactivities.models.ActivatedItem
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
 class ItemAdapter(
     var context: Context,
-    private var arrayList: ArrayList<Item>
+    private var arrayList: ArrayList<ActivatedItem>
 ) :
     RecyclerView.Adapter<ItemAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
@@ -33,10 +33,10 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        val item: Item = arrayList[position]
+        val item : ActivatedItem = arrayList[position]
 
         holder.icon.setImageResource(item.getIconIndex())
-        holder.title.text = item.getText()
+        holder.title.text = item.getName()
         holder.cardView.setCardBackgroundColor(
             ContextCompat.getColor(
                 context,

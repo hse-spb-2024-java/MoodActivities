@@ -17,6 +17,8 @@ import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.adapters.ItemAdapter
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.interfaces.ItemHolderFragment
+import org.hse.moodactivities.models.ActivatedItem
+import org.hse.moodactivities.models.EMOTIONS
 import org.hse.moodactivities.models.Item
 import org.hse.moodactivities.models.MoodEvent
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
@@ -26,7 +28,7 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
     private lateinit var communicator: Communicator
     private var chosenEmotions: HashSet<String> = HashSet()
     private var recyclerView: RecyclerView? = null
-    private var emotionItem: ArrayList<Item>? = null
+    private var emotionItem: ArrayList<ActivatedItem>? = null
 
     private var itemsAdapters: ItemAdapter? = null
     private lateinit var nextButtonBackground: CardView
@@ -93,40 +95,17 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
         }
     }
 
-    private fun createItem(iconIndex: Int, text: String, iconColor: Int): Item {
-        return Item(
-            iconIndex, text, iconColor, chosenEmotions.contains(text)
+    private fun createActivatedItem(item: Item): ActivatedItem {
+        return ActivatedItem(
+            item.getName(),
+            item.getIconIndex(),
+            item.getIconColor(),
+            chosenEmotions.contains(item.getName())
         )
     }
 
-    private fun createEmotions(): ArrayList<Item> {
-        return arrayListOf(
-            createItem(R.drawable.icon_joy, "joy", R.color.peach),
-            createItem(R.drawable.icon_sadness, "sadness", R.color.peach),
-            createItem(R.drawable.icon_relax, "satisfaction", R.color.peach),
-            createItem(R.drawable.icon_inspiration, "inspiration", R.color.peach),
-            createItem(R.drawable.icon_anxiety, "anxiety", R.color.peach),
-            createItem(R.drawable.icon_love, "love", R.color.peach),
-            createItem(R.drawable.icon_optimism, "optimism", R.color.peach),
-            createItem(R.drawable.icon_disappointment, "disappointment", R.color.peach),
-            createItem(R.drawable.icon_anger, "anger", R.color.peach),
-            createItem(R.drawable.icon_meditation, "awareness", R.color.peach),
-            createItem(R.drawable.icon_fear, "fear", R.color.peach),
-            createItem(R.drawable.icon_drowsiness, "drowsiness", R.color.peach),
-            createItem(R.drawable.icon_thoughtfulness, "thoughtfulness", R.color.peach),
-            createItem(R.drawable.icon_lonely, "lonely", R.color.peach),
-            createItem(R.drawable.icon_gratitude, "gratitude", R.color.peach),
-            createItem(R.drawable.icon_irony, "irony", R.color.peach),
-            createItem(R.drawable.icon_trust, "trust", R.color.peach),
-            createItem(R.drawable.icon_party, "enthusiasm", R.color.peach),
-            createItem(R.drawable.icon_astonishment, "astonishment", R.color.peach),
-            createItem(R.drawable.icon_irritation, "irritation", R.color.peach),
-            createItem(R.drawable.icon_shock, "shock", R.color.peach),
-            createItem(R.drawable.icon_indifference, "indifference", R.color.peach),
-            createItem(R.drawable.icon_determination, "determination", R.color.peach),
-            createItem(R.drawable.icon_energy, "energy", R.color.peach),
-            createItem(R.drawable.icon_admiration, "admiration", R.color.peach)
-        )
+    private fun createEmotions(): ArrayList<ActivatedItem> {
+        return EMOTIONS.mapTo(ArrayList()) { createActivatedItem(it) }
     }
 
     override fun clickButton(buttonBackground: CardView, text: String) {

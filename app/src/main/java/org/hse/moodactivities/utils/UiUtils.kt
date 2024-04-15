@@ -2,7 +2,7 @@ package org.hse.moodactivities.utils
 
 import org.hse.moodactivities.R
 
-const val BUTTON_DISABLED_ALPHA = 0.6f
+const val BUTTON_DISABLED_ALPHA = 0.5f
 const val BUTTON_ENABLED_ALPHA = 1.0f
 
 class UiUtils {
@@ -39,5 +39,9 @@ class UiUtils {
                 else -> -1 // unreachable
             }
         }
+
+//        private val COLORS : HashMap<String, Color> = hashMapOf(
+//            "white" to Color("#FFFFFF")
+//        )
     }
 }
