@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><!-- item_message.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@drawable/message_from_user_shape"
+    android:layout_gravity="start">
 
     <!-- Sender Name TextView -->
     <TextView
@@ -17,7 +19,7 @@
 
     <!-- Message TextView -->
     <TextView
-        android:id="@+id/message_text"
+        android:id="@+id/text_message_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"

@@ -5,9 +5,9 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.widget.EditText
-import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.hse.moodactivities.R
@@ -23,7 +23,7 @@ import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 class ChatActivity : AppCompatActivity() {
     private lateinit var messageInput: EditText
     private lateinit var sendButton: AppCompatImageButton
-    private lateinit var messagesView: ListView
+    private lateinit var messagesView: RecyclerView
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var gptService: GptService
 
@@ -31,18 +31,15 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        // Initialize views
         messagesView = findViewById(R.id.messages_view)
         messageInput = findViewById(R.id.message_input)
         sendButton = findViewById(R.id.send_button)
         gptService = GptService(this as AppCompatActivity)
         gptService.onCreate()
 
-        // Set up adapter for messages ListView
         messageAdapter = MessageAdapter(this)
         messagesView.adapter = messageAdapter
 
-        // Set up input field
         val filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAXIMAL_SIZE_OF_USER_ANSWER))
         messageInput.filters = filters
         messageInput.maxLines = MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER

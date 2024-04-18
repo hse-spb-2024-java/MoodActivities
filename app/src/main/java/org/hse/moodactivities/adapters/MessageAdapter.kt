@@ -4,36 +4,83 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
+import org.hse.moodactivities.models.Message
 
-class MessageAdapter(context: Context) : ArrayAdapter<String>(context, R.layout.item_message) {
+class MessageAdapter(private val context: Context, private val messages: MutableList<Message>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val messages: MutableList<String> = mutableListOf()
+    companion object {
+        private const val USER_MESSAGE = 1
+        private const val SYSTEM_MESSAGE = 2
+    }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var view = convertView
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_message, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            USER_MESSAGE -> {
+                val view = inflater.inflate(R.layout.item_user_message, parent, false)
+                UserMessageViewHolder(view)
+            }
+
+            SYSTEM_MESSAGE -> {
+                val view = inflater.inflate(R.layout.item_system_message, parent, false)
+                SystemMessageViewHolder(view)
+            }
+
+            else -> throw IllegalArgumentException("Invalid view type")
         }
-
-        val messageTextView = view?.findViewById<TextView>(R.id.message_text)
-        messageTextView?.text = getItem(position)
-
-        return view!!
     }
 
-    fun addMessage(message: String) {
-        messages.add(message)
-        notifyDataSetChanged()
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val message = messages[position]
+        when (holder.itemViewType) {
+            USER_MESSAGE -> (holder as UserMessageViewHolder).bind(message)
+            SYSTEM_MESSAGE -> (holder as SystemMessageViewHolder).bind(message)
+        }
     }
 
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return messages.size
     }
 
-    override fun getItem(position: Int): String? {
-        return messages[position]
+    override fun getItemViewType(position: Int): Int {
+        val message = messages[position]
+        return if (message.isFromUser) {
+            USER_MESSAGE
+        } else {
+            SYSTEM_MESSAGE
+        }
+    }
+
+    fun addMessage(message: Message) {
+        messages.add(message)
+        notifyItemInserted(messages.size - 1)
+    }
+
+    fun getView(position: Int): View {
+        return LayoutInflater.from(context).inflate(
+            if (getItemViewType(position) == USER_MESSAGE) R.layout.item_user_message else R.layout.item_system_message,
+            null,
+            false
+        )
+    }
+
+    internal class UserMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
+
+        fun bind(message: Message) {
+            messageText.text = message.text
+        }
+    }
+
+    internal class SystemMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
+
+        fun bind(message: Message) {
+            messageText.text = message.text
+        }
     }
 }
