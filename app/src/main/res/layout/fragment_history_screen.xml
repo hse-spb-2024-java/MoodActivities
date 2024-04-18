@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="30dp"
@@ -37,146 +37,286 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="40dp"
-                android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="&lt;"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/previous_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="0" />
+                </RelativeLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="&lt;"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/previous_button"
-                    android:layout_width="match_parent"
+                    android:id="@+id/month_year_text_view"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:alpha="0" />
-            </RelativeLayout>
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <RelativeLayout
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="&gt;"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/next_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="0" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/monday"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/tuesday"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/wednesday"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/thursday"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/friday"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/saturday"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/sunday"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/calendar_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="320dp" />
 
             <TextView
-                android:id="@+id/month_year_text_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_bold"
-                android:textAlignment="center"
+                android:gravity="center"
+                android:text="Month statistic"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
-            <RelativeLayout
-                android:layout_width="40dp"
-                android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="70dp"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="&gt;"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/next_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:alpha="0" />
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/day_1_image"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle" />
+
+                    <TextView
+                        android:id="@+id/day_1_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/day_2_image"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle" />
+
+                    <TextView
+                        android:id="@+id/day_2_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/day_3_image"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle" />
+
+                    <TextView
+                        android:id="@+id/day_3_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/day_4_image"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle" />
+
+                    <TextView
+                        android:id="@+id/day_4_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/day_5_image"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle" />
+
+                    <TextView
+                        android:id="@+id/day_5_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:text="90%"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/day_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/monday"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/tuesday"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/wednesday"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/thursday"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/friday"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/saturday"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/sunday"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/calendar_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="320dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/day_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
-    </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

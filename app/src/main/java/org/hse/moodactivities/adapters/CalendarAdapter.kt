@@ -1,16 +1,24 @@
 package org.hse.moodactivities.adapters
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
+import org.hse.moodactivities.utils.UiUtils
+import java.time.LocalDate
+import java.time.Month
+import kotlin.random.Random
 
 
 internal class CalendarAdapter(
-    private val daysOfMonth: ArrayList<String>, onItemListener: OnItemListener
-) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
+    private val daysOfMonth: ArrayList<String>, private val currentMonth: Month,
+    onItemListener: OnItemListener,
+    ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
     private val onItemListener: OnItemListener
 
     init {
@@ -27,6 +35,19 @@ internal class CalendarAdapter(
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         holder.dayOfMonth.text = daysOfMonth[position]
+        if (holder.dayOfMonth.text.isEmpty()) {
+            val b: GradientDrawable = holder.dayOfMonthIndicator.background as GradientDrawable
+            b.setColor(Color.WHITE)
+        } else {
+            val moodIndicatorBackground: GradientDrawable = holder.dayOfMonthIndicator.background as GradientDrawable
+            // todo: ask server of user's mood at specific date
+            val randomUserMood : Int = Random.nextInt(0, 5)
+            val backgroundColor: Int = UiUtils.getColorForMoodStatistic(randomUserMood)
+            moodIndicatorBackground.setColor(backgroundColor)
+        }
+        if (currentMonth == LocalDate.now().month && holder.dayOfMonth.text == LocalDate.now().dayOfMonth.toString()) {
+            holder.dayOfMonth.setTextColor(Color.RED)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -41,9 +62,11 @@ internal class CalendarAdapter(
     class CalendarViewHolder(itemView: View, private val onItemListener: OnItemListener) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val dayOfMonth: TextView
+        val dayOfMonthIndicator: ImageView
 
         init {
             dayOfMonth = itemView.findViewById(R.id.cell_day_text)
+            dayOfMonthIndicator = itemView.findViewById(R.id.mood_indicator)
             itemView.setOnClickListener(this)
         }
 
