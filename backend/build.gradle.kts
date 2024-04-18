@@ -54,6 +54,9 @@ dependencies {
     // Bcrypt
     implementation("at.favre.lib:bcrypt:0.10.2")
 
+    // Google
+    implementation("com.google.api-client:google-api-client:1.31.5")
+
     // Tests
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")

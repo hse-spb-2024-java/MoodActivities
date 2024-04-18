@@ -16,5 +16,5 @@ service AuthService {
     rpc Registration(requests.RegistrationRequest) returns (responses.RegistrationResponse) {}
     rpc Login(requests.LoginRequest) returns (responses.LoginResponse) {}
 
-    rpc OAuthLogin(requests.OAuthLoginRequest) returns (responses.OAuthLoginResponse) {}
+    rpc OAuthLogin(requests.OauthLoginRequest) returns (responses.OauthLoginResponse) {}
 }

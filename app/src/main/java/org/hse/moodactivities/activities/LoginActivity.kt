@@ -3,16 +3,15 @@ package org.hse.moodactivities.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager.OnActivityResultListener
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import org.hse.moodactivities.R
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
+import org.hse.moodactivities.common.proto.responses.auth.OauthLoginResponse
 import org.hse.moodactivities.databinding.ActivityLoginBinding
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
@@ -33,7 +32,45 @@ class LoginActivity : AppCompatActivity() {
             authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            authViewModel.handleGoogleLogin(task)
+            val responseLiveData = authViewModel.handleGoogleLogin(task)
+
+            authViewModel.errorMessage.observe(this) {
+                if (it != null) {
+                    Snackbar.make(
+                        findViewById(android.R.id.content),
+                        it,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    authViewModel.clearErrorMessage()
+                }
+            }
+
+            responseLiveData.observe(this) { loginResponse ->
+                if (loginResponse.type == OauthLoginResponse.responseType.ERROR) {
+                    Log.d("oauth", loginResponse.message)
+                    Snackbar.make(
+                        findViewById(android.R.id.content),
+                        loginResponse.message,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    return@observe
+                }
+                userViewModel.updateUserFromJwt(
+                    applicationContext,
+                    loginResponse.token
+                )
+
+                authViewModel.saveToken(
+                    getSharedPreferences("userPreferences", Context.MODE_PRIVATE),
+                    loginResponse.token
+                )
+
+                userViewModel.user.observe(this) { user ->
+                    Log.d("oauth", user.id.toString())
+                }
+                val intent = Intent(this, MainScreenActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
@@ -49,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
+            .requestIdToken(applicationContext.resources.getString(R.string.app_id))
             .build()
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 

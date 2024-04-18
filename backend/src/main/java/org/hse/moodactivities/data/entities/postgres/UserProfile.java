@@ -3,11 +3,11 @@ package org.hse.moodactivities.data.entities.postgres;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.*;
 
-@Entity(name="UserProfile")
-@Table(name="user_profile_data")
+@Entity(name = "UserProfile")
+@Table(name = "user_profile_data")
 public class UserProfile {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -16,14 +16,42 @@ public class UserProfile {
     @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+
     private String hashedPassword;
 
-    public UserProfile() {}
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AuthProvider authProvider = AuthProvider.PLAIN;
 
-    public UserProfile(String login, String unhashedPassword) {
+    private String oauthId;
+
+    public UserProfile() {
+    }
+
+    private void initPlain(String login,
+                           String email,
+                           String unhashedPassword) {
         this.login = login;
+        this.email = email;
         this.hashedPassword = BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
+    }
+
+    private void initGoogle(String email,
+                            String id) {
+        this.login = email;
+        this.email = email;
+        this.oauthId = id;
+    }
+
+    public UserProfile(AuthProvider provider,
+                       String login,
+                       String email,
+                       String unhashedPassword,
+                       String id) {
+        switch (provider) {
+            case PLAIN -> initPlain(login, email, unhashedPassword);
+            case GOOGLE -> initGoogle(email, id);
+        }
     }
 
     // Getters and setters

@@ -5,6 +5,6 @@ option java_multiple_files = true;
 
 package requests;
 
-message OAuthLoginRequest {
+message OauthLoginRequest {
     string oauthToken = 1;
 }

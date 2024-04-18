@@ -12,8 +12,10 @@ import com.google.android.gms.tasks.Task
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.launch
 import org.hse.moodactivities.common.proto.requests.auth.LoginRequest
+import org.hse.moodactivities.common.proto.requests.auth.OauthLoginRequest
 import org.hse.moodactivities.common.proto.requests.auth.RegistrationRequest
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
+import org.hse.moodactivities.common.proto.responses.auth.OauthLoginResponse
 import org.hse.moodactivities.common.proto.responses.auth.RegistrationResponse
 import org.hse.moodactivities.common.proto.services.AuthServiceGrpc
 
@@ -26,11 +28,14 @@ class AuthViewModel : ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    fun register(username: String, password: String): LiveData<RegistrationResponse> {
+    fun register(username: String,
+                 email: String,
+                 password: String): LiveData<RegistrationResponse> {
         val responseLiveData = MutableLiveData<RegistrationResponse>()
         val request = RegistrationRequest.newBuilder()
             .setUsername(username)
             .setPassword(password)
+            .setEmail(email)
             .build()
 
         viewModelScope.launch {
@@ -65,14 +70,28 @@ class AuthViewModel : ViewModel() {
         return responseLiveData
     }
 
-    fun handleGoogleLogin(task: Task<GoogleSignInAccount>) {
+    fun handleGoogleLogin(task: Task<GoogleSignInAccount>): LiveData<OauthLoginResponse> {
+        val responseLiveData = MutableLiveData<OauthLoginResponse>()
         try {
             val account = task.getResult(ApiException::class.java)
-            Log.d("oauth", account.email.orEmpty())
+            val oauthToken = account.idToken;
+
+            val request = OauthLoginRequest.newBuilder().setOauthToken(oauthToken).build()
+            viewModelScope.launch {
+                try {
+                    val response = stub.oAuthLogin(request)
+                    responseLiveData.postValue(response)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _errorMessage.value = "Network error"
+                }
+            }
+            return responseLiveData;
         } catch (e: ApiException) {
             e.printStackTrace()
             _errorMessage.value = "API error"
         }
+        return responseLiveData;
     }
 
     fun clearErrorMessage() {

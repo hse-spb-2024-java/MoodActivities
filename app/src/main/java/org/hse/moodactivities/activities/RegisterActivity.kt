@@ -35,7 +35,8 @@ class RegisterActivity : AppCompatActivity() {
             val username = binding.etUsername.text.toString()
             val password = binding.etPassword.text.toString()
             val confirmation = binding.etPasswordConfirm.text.toString()
-            val agreedTerms = binding.cmTerms.isActivated()
+            val email = binding.etEmail.text.toString()
+            val agreedTerms = binding.cmTerms.isChecked()
 
             if (!agreedTerms) {
                 Log.d("RegistrationResponse", "Did not agreed on terms")
@@ -67,7 +68,21 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val registrationResponseLiveData = authViewModel.register(username, password);
+            if (email.isEmpty()) {
+                Log.d("RegistrationResponse", "Email cannot be empty");
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Email cannot be empty",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
+
+            val registrationResponseLiveData = authViewModel.register(
+                username,
+                email,
+                password
+            );
 
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
