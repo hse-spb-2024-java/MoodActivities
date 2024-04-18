@@ -6,11 +6,15 @@ option java_multiple_files = true;
 package services;
 
 import "requests/auth-service/login-request.proto";
+import "requests/auth-service/oauth-login-request.proto";
 import "requests/auth-service/registration-request.proto";
 import "responses/auth-service/login-response.proto";
 import "responses/auth-service/registration-response.proto";
+import "responses/auth-service/oauth-login-response.proto";
 
 service AuthService {
     rpc Registration(requests.RegistrationRequest) returns (responses.RegistrationResponse) {}
     rpc Login(requests.LoginRequest) returns (responses.LoginResponse) {}
+
+    rpc OAuthLogin(requests.OAuthLoginRequest) returns (responses.OAuthLoginResponse) {}
 }
