@@ -14,6 +14,7 @@ import org.hse.moodactivities.R
 import org.hse.moodactivities.adapters.MessageAdapter
 import org.hse.moodactivities.fragments.MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER
 import org.hse.moodactivities.fragments.MAXIMAL_SIZE_OF_USER_ANSWER
+import org.hse.moodactivities.models.Message
 import org.hse.moodactivities.services.GptService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
@@ -70,21 +71,21 @@ class ChatActivity : AppCompatActivity() {
                     gptService.waitForResponse()
                     var response = gptService.getResponse()
                     if (response.first < HTTP_BAD_REQUEST) {
-                        messageAdapter.addMessage("Chat: ${response.second}")
+                        messageAdapter.addMessage(Message(response.second, false))
                         messagesView.smoothScrollToPosition(messageAdapter.count - 1)
                         messageInput.isEnabled = true
                         sendButton.alpha = BUTTON_ENABLED_ALPHA
                         sendButton.isEnabled = true
                     } else {
                         // TODO: Handle errors
-                        messageAdapter.addMessage("Chat: ${response.second}")
+                        messageAdapter.addMessage(Message(response.second, false))
                         messagesView.smoothScrollToPosition(messageAdapter.count - 1)
                         messageInput.isEnabled = true
                         sendButton.alpha = BUTTON_ENABLED_ALPHA
                         sendButton.isEnabled = true
                     }
                 }
-                messageAdapter.addMessage("You: $userMessage")
+                messageAdapter.addMessage(Message(userMessage, true))
                 messagesView.smoothScrollToPosition(messageAdapter.count - 1)
                 messageInput.setText("")
             }
