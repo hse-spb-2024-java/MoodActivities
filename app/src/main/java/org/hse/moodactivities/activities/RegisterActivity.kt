@@ -39,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
             val agreedTerms = binding.cmTerms.isChecked()
 
             if (!agreedTerms) {
-                Log.d("RegistrationResponse", "Did not agreed on terms")
+                Log.i("RegistrationResponse", "Did not agreed on terms")
                 Snackbar.make(
                     findViewById(android.R.id.content),
                     "Please agree with the ToS if you want to register",

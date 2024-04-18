@@ -22,13 +22,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userViewModel: UserViewModel
 
-    private var RC_SIGN_IN = 9001;
+    private var RETURN_CODE_SIGN_IN = 9001;
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RETURN_CODE_SIGN_IN) {
             authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -47,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
             responseLiveData.observe(this) { loginResponse ->
                 if (loginResponse.type == OauthLoginResponse.responseType.ERROR) {
-                    Log.d("oauth", loginResponse.message)
+                    Log.i("oauth", loginResponse.message)
                     Snackbar.make(
                         findViewById(android.R.id.content),
                         loginResponse.message,
@@ -66,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                 )
 
                 userViewModel.user.observe(this) { user ->
-                    Log.d("oauth", user.id.toString())
+                    Log.i("oauth", user.id.toString())
                 }
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
@@ -84,15 +83,15 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val signInOPtions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestIdToken(applicationContext.resources.getString(R.string.app_id))
             .build()
-        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, signInOPtions)
 
         binding.googleLogin.setOnClickListener {
             val oauthIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(oauthIntent, RC_SIGN_IN);
+            startActivityForResult(oauthIntent, RETURN_CODE_SIGN_IN);
         }
 
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]

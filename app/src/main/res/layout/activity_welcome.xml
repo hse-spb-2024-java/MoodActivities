@@ -7,11 +7,11 @@
     tools:context=".activities.WelcomeScreenActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/goToRegister"
+        android:id="@+id/RegisterButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="I'm new here"
-        app:layout_constraintBottom_toTopOf="@id/goToLogin"
+        app:layout_constraintBottom_toTopOf="@id/LoginButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
@@ -22,7 +22,7 @@
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/goToLogin"
+        android:id="@+id/LoginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

@@ -14,16 +14,16 @@ public class UserProfileRepository {
     public static Optional<UserProfile> findByLogin(AuthProvider provider,
                                                     String login) {
         try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
-            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-            CriteriaQuery<UserProfile> cq = cb.createQuery(UserProfile.class);
-            Root<UserProfile> userProfile = cq.from(UserProfile.class);
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<UserProfile> criteriaQuery = criteriaBuilder.createQuery(UserProfile.class);
+            Root<UserProfile> userProfile = criteriaQuery.from(UserProfile.class);
 
-            cq.select(userProfile).where(cb.and(
-                    cb.equal(userProfile.get("login"), login),
-                    cb.equal(userProfile.get("authProvider"), provider)
+            criteriaQuery.select(userProfile).where(criteriaBuilder.and(
+                    criteriaBuilder.equal(userProfile.get("login"), login),
+                    criteriaBuilder.equal(userProfile.get("authProvider"), provider)
             ));
 
-            UserProfile result = entityManager.createQuery(cq).getSingleResult();
+            UserProfile result = entityManager.createQuery(criteriaQuery).getSingleResult();
             return Optional.ofNullable(result);
         } catch (Exception e) {
             return Optional.empty();
@@ -33,16 +33,16 @@ public class UserProfileRepository {
     public static Optional<UserProfile> findByEmail(AuthProvider provider,
                                                     String email) {
         try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
-            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-            CriteriaQuery<UserProfile> cq = cb.createQuery(UserProfile.class);
-            Root<UserProfile> userProfile = cq.from(UserProfile.class);
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<UserProfile> criteriaQuery = criteriaBuilder.createQuery(UserProfile.class);
+            Root<UserProfile> userProfile = criteriaQuery.from(UserProfile.class);
 
-            cq.select(userProfile).where(cb.and(
-                    cb.equal(userProfile.get("email"), email),
-                    cb.equal(userProfile.get("authProvider"), provider)
+            criteriaQuery.select(userProfile).where(criteriaBuilder.and(
+                    criteriaBuilder.equal(userProfile.get("email"), email),
+                    criteriaBuilder.equal(userProfile.get("authProvider"), provider)
             ));
 
-            UserProfile result = entityManager.createQuery(cq).getSingleResult();
+            UserProfile result = entityManager.createQuery(criteriaQuery).getSingleResult();
             return Optional.ofNullable(result);
         } catch (Exception e) {
             return Optional.empty();
@@ -52,16 +52,16 @@ public class UserProfileRepository {
     public static Optional<UserProfile> findByOauthId(AuthProvider provider,
                                                       String oauthId) {
         try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
-            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-            CriteriaQuery<UserProfile> cq = cb.createQuery(UserProfile.class);
-            Root<UserProfile> userProfile = cq.from(UserProfile.class);
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<UserProfile> criteriaQuery = criteriaBuilder.createQuery(UserProfile.class);
+            Root<UserProfile> userProfile = criteriaQuery.from(UserProfile.class);
 
-            cq.select(userProfile).where(cb.and(
-                    cb.equal(userProfile.get("oauthId"), oauthId),
-                    cb.equal(userProfile.get("authProvider"), provider)
+            criteriaQuery.select(userProfile).where(criteriaBuilder.and(
+                    criteriaBuilder.equal(userProfile.get("oauthId"), oauthId),
+                    criteriaBuilder.equal(userProfile.get("authProvider"), provider)
             ));
 
-            UserProfile result = entityManager.createQuery(cq).getSingleResult();
+            UserProfile result = entityManager.createQuery(criteriaQuery).getSingleResult();
             return Optional.ofNullable(result);
         } catch (Exception e) {
             return Optional.empty();

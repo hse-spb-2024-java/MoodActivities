@@ -24,9 +24,10 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="true"
             android:windowSoftInputMode="adjustResize">
         </activity>
+
+        <activity android:name=".activities.MainScreenActivity"/>
         <activity android:name=".activities.WelcomeScreenActivity"
             android:exported="true">
             <intent-filter>
@@ -41,7 +42,6 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".activities.MainScreenActivity" />
     </application>
 
 </manifest>

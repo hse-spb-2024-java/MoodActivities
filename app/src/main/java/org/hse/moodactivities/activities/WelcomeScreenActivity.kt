@@ -13,12 +13,12 @@ class WelcomeScreenActivity : AppCompatActivity() {
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.goToLogin.setOnClickListener{
+        binding.LoginButton.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        binding.goToRegister.setOnClickListener{
+        binding.RegisterButton.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
