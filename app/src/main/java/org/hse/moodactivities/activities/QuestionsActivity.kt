@@ -6,15 +6,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import org.hse.moodactivities.R
+import org.hse.moodactivities.common.proto.requests.dailyQuestion.CheckAnswerRequest
+import org.hse.moodactivities.fragments.EndOfDailyQuestionFragment
 import org.hse.moodactivities.fragments.QuestionOfTheDayFragment
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.interfaces.Data
+import org.hse.moodactivities.viewmodels.QuestionViewModel
 
 class QuestionsActivity : AppCompatActivity(), Communicator {
+    private lateinit var questionViewModel: QuestionViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        questionViewModel = QuestionViewModel()
+        questionViewModel.onCreateView(this)
         setContentView(R.layout.activity_mood_flow)
-        replaceFragment(QuestionOfTheDayFragment())
+        if (questionViewModel.check(CheckAnswerRequest.getDefaultInstance()) == false) {
+            replaceFragment(QuestionOfTheDayFragment())
+        } else {
+            replaceFragment(EndOfDailyQuestionFragment())
+        }
     }
 
     override fun replaceFragment(fragment: Fragment) {

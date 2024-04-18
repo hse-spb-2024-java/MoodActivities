@@ -44,7 +44,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 newMeta.setDate(LocalDate.parse(request.getDate()));
                 String id = "123"; // TODO: add map user -> id
                 Map<String, Object> queryMap = new HashMap<>();
-                queryMap.put("id", id);
+                queryMap.put("_id", id);
                 User existingEntity = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap).get(0);
                 if (existingEntity != null) {
                     existingEntity.updateMeta(newMeta);

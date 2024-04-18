@@ -105,6 +105,6 @@ class QuestionOfTheDayFragment : Fragment() {
     }
 
     companion object {
-        private const val PORT = 12345
+        const val PORT = 12345
     }
 }

@@ -41,7 +41,7 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
     public void checkDailyQuestion(CheckAnswerRequest request, StreamObserver<CheckAnswerResponse> responseObserver) {
         Map<String, Object> queryMap = new HashMap<>();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
-        queryMap.put("id", userId);
+        queryMap.put("_id", userId);
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
         User user;
         CheckAnswerResponse response = null;
@@ -67,7 +67,7 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
     public void sendDailyQuestionAnswer(AnswerRequest request, StreamObserver<AnswerResponse> responseObserver) {
         Map<String, Object> queryMap = new HashMap<>();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
-        queryMap.put("id", userId);
+        queryMap.put("_id", userId);
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
         User user;
         if (users != null && !users.isEmpty()) {
