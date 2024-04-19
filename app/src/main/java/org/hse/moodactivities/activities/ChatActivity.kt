@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -27,18 +28,22 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messagesView: RecyclerView
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var gptService: GptService
+    private val messages = mutableListOf<Message>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
         messagesView = findViewById(R.id.messages_view)
+        var layoutManager = LinearLayoutManager(this)
+        layoutManager.stackFromEnd = true
+        messagesView.layoutManager = layoutManager
         messageInput = findViewById(R.id.message_input)
         sendButton = findViewById(R.id.send_button)
         gptService = GptService(this as AppCompatActivity)
         gptService.onCreate()
 
-        messageAdapter = MessageAdapter(this)
+        messageAdapter = MessageAdapter(this, mutableListOf<Message>())
         messagesView.adapter = messageAdapter
 
         val filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAXIMAL_SIZE_OF_USER_ANSWER))
@@ -65,29 +70,36 @@ class ChatActivity : AppCompatActivity() {
             sendButton.alpha = BUTTON_DISABLED_ALPHA
             sendButton.isEnabled = false
 
+            var message = Message(userMessage, true)
+            messageAdapter.addMessage(message)
+            messages.add(message)
+            messagesView.smoothScrollToPosition(messages.size - 1)
+            messageInput.setText("")
+
             runBlocking {
                 val job = launch {
                     gptService.sendRequest(userMessage)
                     gptService.waitForResponse()
                     var response = gptService.getResponse()
                     if (response.first < HTTP_BAD_REQUEST) {
-                        messageAdapter.addMessage(Message(response.second, false))
-                        messagesView.smoothScrollToPosition(messageAdapter.count - 1)
+                        var message = Message(response.second, false)
+                        messageAdapter.addMessage(message)
+                        messages.add(message)
+                        messagesView.smoothScrollToPosition(messages.size - 1)
                         messageInput.isEnabled = true
                         sendButton.alpha = BUTTON_ENABLED_ALPHA
                         sendButton.isEnabled = true
                     } else {
                         // TODO: Handle errors
-                        messageAdapter.addMessage(Message(response.second, false))
-                        messagesView.smoothScrollToPosition(messageAdapter.count - 1)
+                        var message = Message(response.second, false)
+                        messageAdapter.addMessage(message)
+                        messages.add(message)
+                        messagesView.smoothScrollToPosition(messages.size - 1)
                         messageInput.isEnabled = true
                         sendButton.alpha = BUTTON_ENABLED_ALPHA
                         sendButton.isEnabled = true
                     }
                 }
-                messageAdapter.addMessage(Message(userMessage, true))
-                messagesView.smoothScrollToPosition(messageAdapter.count - 1)
-                messageInput.setText("")
             }
         }
     }
