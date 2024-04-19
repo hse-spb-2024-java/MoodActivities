@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannel
@@ -84,7 +83,6 @@ class GptService(private var activity: AppCompatActivity) : Service(), GptRespon
     }
 
     fun sendRequest(message: String) {
-        Log.d("chat", "get message from client")
         val request = GptSessionRequest.newBuilder()
             .setMessage(message)
             .build()
