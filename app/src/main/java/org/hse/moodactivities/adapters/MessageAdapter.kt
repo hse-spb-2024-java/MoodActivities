@@ -1,6 +1,7 @@
 package org.hse.moodactivities.adapters
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,6 +76,7 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
 
         fun bind(message: Message) {
             messageText.text = message.text
+            itemView.foregroundGravity = Gravity.END
         }
     }
 
@@ -83,6 +85,7 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
 
         fun bind(message: Message) {
             messageText.text = message.text
+            itemView.foregroundGravity = Gravity.START
         }
     }
 }
