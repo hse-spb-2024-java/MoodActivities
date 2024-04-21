@@ -61,8 +61,10 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
     }
 
     fun getView(position: Int): View {
+        val layout =
+            if (getItemViewType(position) == USER_MESSAGE) R.layout.item_user_message else R.layout.item_system_message
         return LayoutInflater.from(context).inflate(
-            if (getItemViewType(position) == USER_MESSAGE) R.layout.item_user_message else R.layout.item_system_message,
+            layout,
             null,
             false
         )
