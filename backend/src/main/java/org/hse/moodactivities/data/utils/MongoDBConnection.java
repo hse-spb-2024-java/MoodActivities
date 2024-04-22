@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 
 import org.bson.Document;
+import org.hse.moodactivities.data.entities.mongodb.Question;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,7 +129,12 @@ public class MongoDBConnection implements AutoCloseable {
     public <T> T updateEntity(T entity) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("_id", datastore.getMapper().getId(entity));
-        User existingEntity = this.findEntityWithFilters(User.class, queryMap).get(0);
+        T existingEntity = null;
+        if (entity instanceof User) {
+            existingEntity = (T) this.findEntityWithFilters(User.class, queryMap).get(0);
+        } else {
+            existingEntity = (T) this.findEntityWithFilters(Question.class, queryMap).get(0);
+        }
         if (existingEntity != null) {
             datastore.merge(entity);
             return entity;
@@ -136,6 +142,17 @@ public class MongoDBConnection implements AutoCloseable {
             LOGGER.error("Entity not found for update.");
             return null;
         }
+    }
+
+    public <T> Integer count(T entity) {
+        Map<String, Object> queryMap = new HashMap<>();
+        List<?> existingEntities = null;
+        if (entity instanceof User) {
+            existingEntities = this.findEntityWithFilters(User.class, queryMap);
+        } else {
+            existingEntities = this.findEntityWithFilters(Question.class, queryMap);
+        }
+        return existingEntities != null ? existingEntities.size() : 0;
     }
 
     public void close() {

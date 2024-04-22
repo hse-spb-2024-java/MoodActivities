@@ -21,7 +21,8 @@ public class Question {
     public Question() {
     }
 
-    public Question(String questionText, LocalDate dateCreated) {
+    public Question(String id, String questionText, LocalDate dateCreated) {
+        this.id = id;
         this.questionText = questionText;
         this.dateCreated = dateCreated;
     }

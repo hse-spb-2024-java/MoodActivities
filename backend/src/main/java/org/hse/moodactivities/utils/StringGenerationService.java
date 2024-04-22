@@ -18,7 +18,8 @@ public class StringGenerationService {
         if (response.statusCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
             lastGeneratedString = response.message().getContent();
             MongoDBSingleton instance = MongoDBSingleton.getInstance();
-            Question question = new Question(lastGeneratedString, LocalDate.now());
+            String id = String.valueOf(instance.getQuestionsConnection().count(new Question()));
+            Question question = new Question(id, lastGeneratedString, LocalDate.now());
             instance.getQuestionsConnection().saveEntity(question);
         }
     }
