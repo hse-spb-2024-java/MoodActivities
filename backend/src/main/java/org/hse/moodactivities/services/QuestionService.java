@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.grpc.stub.StreamObserver;
 
@@ -45,13 +46,11 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
         User user;
         CheckAnswerResponse response = null;
-        if (users == null || users.isEmpty()) {
-            response = CheckAnswerResponse.newBuilder().setHasAnswer(0).build();
-        } else {
+        if (users != null && !users.isEmpty()) {
             user = users.get(0);
             if (user.getMetas() != null && !user.getMetas().isEmpty()) {
                 UserDayMeta lastMeta = user.getMetas().getLast();
-                if (lastMeta.getDate() == LocalDate.now() && lastMeta.getAnswerToQuestion() != null) {
+                if (Objects.equals(lastMeta.getDate(), LocalDate.now()) && lastMeta.getAnswerToQuestion() != null) {
                     response = CheckAnswerResponse.newBuilder().setHasAnswer(1).setAnswer(lastMeta.getAnswerToQuestion()).build();
                 }
             }
@@ -76,7 +75,7 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
             user = new User(userId, new ArrayList<>());
             MongoDBSingleton.getInstance().getConnection().saveEntity(user);
         }
-        if (user.getMetas().isEmpty() || user.getMetas().getLast().getDate() != LocalDate.now()) {
+        if (user.getMetas() == null || user.getMetas().isEmpty() || user.getMetas().getLast().getDate() != LocalDate.now()) {
             UserDayMeta newMeta = new UserDayMeta(LocalDate.now());
             newMeta.setAnswerToQuestion(request.getAnswer());
             user.updateMeta(newMeta);

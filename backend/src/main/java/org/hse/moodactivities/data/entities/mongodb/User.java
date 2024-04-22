@@ -1,5 +1,6 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.morphia.annotations.Entity;
@@ -40,6 +41,9 @@ public class User {
     }
 
     public void updateMeta(final UserDayMeta meta) {
+        if (metas == null) {
+            metas = new ArrayList<>();
+        }
         if (metas.isEmpty()) {
             metas.add(meta);
         }

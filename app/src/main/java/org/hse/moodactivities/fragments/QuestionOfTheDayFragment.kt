@@ -86,8 +86,8 @@ class QuestionOfTheDayFragment : Fragment() {
         view.findViewById<Button>(R.id.send_button).setOnClickListener {
             if (userAnswer.text.isNotEmpty()) {
                 val request =
-                    AnswerRequest.newBuilder().setQuestion(questionTitleTextView.text as String?)
-                        .setAnswer(userAnswer.toString()).build()
+                    AnswerRequest.newBuilder().setQuestion(questionTitleTextView.text.toString())
+                        .setAnswer(userAnswer.text.toString()).build()
                 val response = gptServiceStub.sendDailyQuestionAnswer(request)
                 if (response.statusCode < HTTP_BAD_REQUEST) {
                     communicator.replaceFragment(EndOfDailyQuestionFragment())
