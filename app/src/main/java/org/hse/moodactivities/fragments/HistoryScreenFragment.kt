@@ -1,5 +1,6 @@
 package org.hse.moodactivities.fragments
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -9,12 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.DayInfoActivity
 import org.hse.moodactivities.adapters.CalendarAdapter
+import org.hse.moodactivities.services.CalendarService
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -140,10 +142,9 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
 
     override fun onItemClick(position: Int, dayText: String?) {
         if (!dayText.isNullOrEmpty()) {
-            // todo: show history for this day
-            val message =
-                "Selected Date $dayText" + " " + monthYearFromDate(selectedDate)
-            Toast.makeText(this.requireContext(), message, Toast.LENGTH_LONG).show()
+            CalendarService.setDate("$dayText" + " " + monthYearFromDate(selectedDate))
+            val dayInfoActivityIntent = Intent(this.activity, DayInfoActivity::class.java)
+            startActivity(dayInfoActivityIntent)
         }
     }
 }
