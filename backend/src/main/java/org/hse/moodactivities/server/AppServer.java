@@ -1,19 +1,21 @@
 package org.hse.moodactivities.server;
 
-import io.grpc.*;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.SignatureAlgorithm;
-import org.hse.moodactivities.interceptors.*;
-import org.hse.moodactivities.services.*;
+import org.hse.moodactivities.interceptors.JWTAuthServerInterceptor;
+import org.hse.moodactivities.services.AuthService;
+import org.hse.moodactivities.services.GptService;
+import org.hse.moodactivities.services.QuestionService;
+import org.hse.moodactivities.services.StatsService;
+import org.hse.moodactivities.services.SurveyService;
+import org.hse.moodactivities.utils.StringGenerationService;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
-import java.security.KeyPair;
-import java.util.Base64;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
 
 public class AppServer {
 
@@ -22,6 +24,7 @@ public class AppServer {
 
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(10);
+        StringGenerationService.startScheduledGeneration();
 
         UserProfileRepository.createUserProfile("admin",  "12345678");
 
@@ -29,7 +32,9 @@ public class AppServer {
                 .executor(executor)
                 .addService(new AuthService())
                 .addService(new SurveyService())
-//                .addService(new StatsService())
+                .addService(new QuestionService())
+                .addService(new GptService())
+                .addService(new StatsService())
                 .intercept(new JWTAuthServerInterceptor())
                 .build();
 

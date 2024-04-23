@@ -66,7 +66,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 newMeta.setDate(LocalDate.now());
                 String id = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
                 Map<String, Object> queryMap = new HashMap<>();
-                queryMap.put("id", id);
+                queryMap.put("_id", id);
                 var existingEntities = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
                 if (existingEntities != null && !existingEntities.isEmpty()) {
                     User existingEntity = existingEntities.get(0);

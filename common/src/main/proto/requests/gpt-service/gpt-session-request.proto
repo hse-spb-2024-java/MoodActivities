@@ -6,4 +6,5 @@ option java_multiple_files = true;
 package requests;
 
 message GptSessionRequest {
+    string message = 1;
 }

@@ -46,18 +46,18 @@ public class User {
         }
         if (metas.isEmpty()) {
             metas.add(meta);
-        } else {
-            UserDayMeta lastMeta = metas.getLast();
-            if (lastMeta.getDate().equals(meta.getDate())) {
-                for (var activity : meta.getActivityList()) {
-                    lastMeta.addActivity(activity);
-                }
-                for (var mood : meta.getMoodList()) {
-                    lastMeta.addMood(mood);
-                }
-            } else {
-                metas.add(meta);
+        }
+        UserDayMeta lastMeta = metas.getLast();
+        if (lastMeta.getDate().equals(meta.getDate())) {
+            for (var activity : meta.getActivityList()) {
+                lastMeta.addActivity(activity);
             }
+            for (var mood : meta.getMoodList()) {
+                lastMeta.addMood(mood);
+            }
+            lastMeta.setAnswerToQuestion(meta.getAnswerToQuestion());
+        } else {
+            metas.add(meta);
         }
     }
 
