@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
+import org.hse.moodactivities.activities.QuestionsActivity
 import org.hse.moodactivities.utils.Utils
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -55,9 +56,11 @@ class HomeScreenFragment : Fragment() {
             this.activity?.finish()
         }
 
-        val noteWidgetButton: Button = view.rootView.findViewById(R.id.note_widget_button)
-        noteWidgetButton.setOnClickListener {
-            Log.d("note button", "clicked!")
+        val questionWidgetButton: Button = view.rootView.findViewById(R.id.question_widget_button)
+        questionWidgetButton.setOnClickListener {
+            val questionsActivity = Intent(this.activity, QuestionsActivity::class.java)
+            startActivity(questionsActivity)
+            this.activity?.finish()
         }
 
         val askWidgetButton: Button = view.rootView.findViewById(R.id.ask_widget_button)

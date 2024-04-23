@@ -213,7 +213,7 @@
             android:layout_height="wrap_content" />
         <!-- space between widgets end -->
 
-        <!-- note widget begin -->
+        <!-- question widget begin -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="@dimen/medium_widget_width"
             android:layout_height="match_parent">
@@ -252,22 +252,22 @@
                                 android:backgroundTint="@color/peach_dimmed" />
 
                             <ImageView
-                                android:id="@+id/note_widget_icon"
+                                android:id="@+id/question_widget_icon"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_centerInParent="true"
-                                android:src="@drawable/widget_note_icon"
+                                android:src="@drawable/widget_question_icon"
                                 tools:ignore="ContentDescription" />
 
                         </RelativeLayout>
 
                         <TextView
-                            android:id="@+id/note_widget_tittle"
+                            android:id="@+id/question_widget_tittle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/roboto"
-                            android:text="@string/note_widget_tittle"
+                            android:text="@string/questions_widget_tittle"
                             android:textColor="@color/black"
                             android:textSize="@dimen/widget_font_size"
                             android:textStyle="bold" />
@@ -278,7 +278,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/note_widget_button"
+                android:id="@+id/question_widget_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0"
@@ -288,7 +288,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- note widget end -->
+        <!-- question widget end -->
 
     </LinearLayout>
 

@@ -34,13 +34,15 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
 
     private static User getUser(String userId) {
         Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("id", userId);
+        queryMap.put("_id", userId);
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
 
         if (users != null && !users.isEmpty()) {
             return users.get(0);
         } else {
-            return null;
+            User user = new User(userId, new ArrayList<>());
+            MongoDBSingleton.getInstance().getConnection().saveEntity(user);
+            return user;
         }
     }
 
