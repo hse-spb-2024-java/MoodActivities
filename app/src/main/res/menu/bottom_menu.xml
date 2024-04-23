@@ -12,8 +12,8 @@
         android:title="@string/history_tittle" />
 
     <item
-        android:id="@+id/bottom_menu_add"
-        android:enabled="false"
+        android:id="@+id/bottom_menu_chat"
+        android:icon="@drawable/bottom_menu_chat_icon"
         android:title="" />
 
     <item
