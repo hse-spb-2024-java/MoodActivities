@@ -59,5 +59,10 @@ class MoodService {
         fun getEmotionId() {
 
         }
+
+        fun getQuestion(): String {
+            // todo: ask server of the question
+            return "What else can say you about your day?"
+        }
     }
 }
