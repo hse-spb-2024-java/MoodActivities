@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_chat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".activities.ChatActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_smoke"
+        tools:context=".MainActivity">
+
+        <!-- App Name TextView -->
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="16dp"
+            android:text="@string/chat_name"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <!-- Messages RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/messages_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@id/input_bar"
+            android:layout_below="@id/app_name"
+            android:layout_marginBottom="8dp"
+            android:padding="8dp"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/input_bar"
+            app:layout_constraintTop_toBottomOf="@id/app_name" />
+
+        <!-- Input Bar -->
+        <LinearLayout
+            android:id="@+id/input_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/input_bar_background"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <!-- Message Input EditText -->
+            <EditText
+                android:id="@+id/message_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/chat_edit_text_background"
+                android:hint="@string/type_message_hint"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColorHint="@color/gray"
+                android:textSize="18sp" />
+
+            <!-- Send Button ImageButton -->
+            <ImageButton
+                android:id="@+id/send_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/chat_send_button_background"
+                android:contentDescription="@string/send_button_description"
+                android:padding="12dp"
+                android:src="@drawable/chat_icon_send" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
