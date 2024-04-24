@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,8 +59,8 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
             user = users.get(0);
             if (user.getMetas() != null && !user.getMetas().isEmpty()) {
                 UserDayMeta lastMeta = user.getMetas().getLast();
-                if (Objects.equals(lastMeta.getDate(), LocalDate.now()) && lastMeta.getAnswerToQuestion() != null) {
-                    response = CheckAnswerResponse.newBuilder().setHasAnswer(1).setAnswer(lastMeta.getAnswerToQuestion()).build();
+                if (Objects.equals(lastMeta.getDate(), LocalDate.now()) && lastMeta.getQuestion().getAnswer() != null) {
+                    response = CheckAnswerResponse.newBuilder().setHasAnswer(1).setAnswer(lastMeta.getQuestion().getAnswer()).build();
                 }
             }
         }
@@ -85,14 +86,16 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
         }
         if (user.getMetas() == null || user.getMetas().isEmpty() || user.getMetas().getLast().getDate() != LocalDate.now()) {
             UserDayMeta newMeta = new UserDayMeta(LocalDate.now());
-            newMeta.setAnswerToQuestion(request.getAnswer());
+            newMeta.getQuestion().setAnswer(request.getAnswer());
+            newMeta.getQuestion().setTime(LocalTime.now());
             user.updateMeta(newMeta);
             LOGGER.info("New record for:" + userId);
             MongoDBSingleton.getInstance().getConnection().updateEntity(user);
         } else {
             UserDayMeta oldMeta = user.getMetas().getLast();
-            if (oldMeta.getAnswerToQuestion() == null) {
-                oldMeta.setAnswerToQuestion(request.getAnswer());
+            if (oldMeta.getQuestion().getAnswer() == null) {
+                oldMeta.getQuestion().setAnswer(request.getAnswer());
+                oldMeta.getQuestion().setTime(LocalTime.now());
                 user.updateMeta(oldMeta);
                 LOGGER.info("Update record for:" + userId);
                 MongoDBSingleton.getInstance().getConnection().updateEntity(user);

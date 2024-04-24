@@ -1,8 +1,10 @@
 package org.hse.moodactivities.services;
 
+import org.hse.moodactivities.common.proto.requests.defaults.ActivityRecord;
 import org.hse.moodactivities.common.proto.requests.defaults.DayOfWeek;
 import org.hse.moodactivities.common.proto.requests.defaults.MoodRecord;
 import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
+import org.hse.moodactivities.common.proto.requests.defaults.QuestionRecord;
 import org.hse.moodactivities.common.proto.requests.stats.AllDayRequest;
 import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.FullReportRequest;
@@ -140,10 +142,13 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                     .addAllRecords(records)
                     .setDate(request.getDate())
                     .setScore(meta.getDailyScore())
-                    .setDailyQuestion(meta.getDailyQuestion())
-                    .setDailyQuestionsAnswer(meta.getAnswerToQuestion())
-                    .setDailyActivity(meta.getDailyActivity())
-                    .setDailyActivityReport(meta.getDailyActivityReport())
+                    .setQuestion(QuestionRecord.newBuilder()
+                            .setQuestion(meta.getQuestion().getQuestion())
+                            .setAnswer(meta.getQuestion().getAnswer()).build())
+                    .setActivity(ActivityRecord.newBuilder()
+                            .setActivity(meta.getActivity().getActivity())
+                            .setReport(meta.getActivity().getReport())
+                            .build())
                     .build();
         }
         responseObserver.onNext(response);

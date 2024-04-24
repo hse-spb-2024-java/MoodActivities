@@ -4,6 +4,8 @@ option java_package = "org.hse.moodactivities.common.proto.responses.stats";
 option java_multiple_files = true;
 
 import "defaults/mood-record.proto";
+import "defaults/question-record.proto";
+import "defaults/activity-record.proto";
 
 package responses;
 
@@ -11,9 +13,7 @@ message AllDayResponse {
     string date = 1;
     double score = 2;
     repeated defaults.MoodRecord records = 3;
-    string dailyQuestion = 4;
-    string dailyQuestionsAnswer = 5;
+    defaults.QuestionRecord question = 4;
+    defaults.ActivityRecord activity = 5;
     string summary = 6;
-    string dailyActivity = 7;
-    string dailyActivityReport = 8;
 }

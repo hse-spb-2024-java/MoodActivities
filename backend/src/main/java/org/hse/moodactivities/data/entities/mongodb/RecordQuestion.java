@@ -7,13 +7,13 @@ import java.util.Objects;
 import dev.morphia.annotations.Entity;
 
 @Entity
-public final class MoodFlowQuestion implements Serializable {
+public final class RecordQuestion implements Serializable {
     @Serial
     private static long serialVersionUID = 0L;
     private final String question;
     private final String answer;
 
-    public MoodFlowQuestion(String question, String answer) {
+    public RecordQuestion(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
@@ -30,7 +30,7 @@ public final class MoodFlowQuestion implements Serializable {
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (MoodFlowQuestion) obj;
+        var that = (RecordQuestion) obj;
         return Objects.equals(this.question, that.question) &&
                 Objects.equals(this.answer, that.answer);
     }

@@ -21,17 +21,14 @@ public class UserDayMeta implements Serializable {
     private LocalDate date;
     private List<MoodFlowRecord> records;
 
-    private String dailyQuestion;
-    private String answerToQuestion;
+    private DailyQuestion question;
     private double dailyScore = 0;
+    private DailyActivity activity;
     private String dailyConclusion;
-    private String dailyActivity;
-    private String dailyActivityReport;
 
     public void setDate(LocalDate date) {
         this.date = date;
     }
-
 
     public void setDailyScore(double dailyScore) {
         this.dailyScore = dailyScore;
@@ -39,17 +36,6 @@ public class UserDayMeta implements Serializable {
 
     public void setDailyConclusion(String dailyConclusion) {
         this.dailyConclusion = dailyConclusion;
-    }
-
-    public void setAnswerToQuestion(String answer) {
-        answerToQuestion = answer;
-        if (date == null) {
-            date = LocalDate.now();
-        }
-    }
-
-    public String getAnswerToQuestion() {
-        return answerToQuestion;
     }
 
     public List<MoodFlowRecord> getRecords() {
@@ -64,30 +50,6 @@ public class UserDayMeta implements Serializable {
     public void addRecords(MoodFlowRecord record) {
         this.records.add(record);
         calculateDailyScore();
-    }
-
-    public String getDailyQuestion() {
-        return this.dailyQuestion;
-    }
-
-    public void setDailyQuestion(final String dailyQuestion) {
-        this.dailyQuestion = dailyQuestion;
-    }
-
-    public String getDailyActivity() {
-        return this.dailyActivity;
-    }
-
-    public void setDailyActivity(final String dailyActivity) {
-        this.dailyActivity = dailyActivity;
-    }
-
-    public String getDailyActivityReport() {
-        return this.dailyActivityReport;
-    }
-
-    public void setDailyActivityReport(final String dailyActivityReport) {
-        this.dailyActivityReport = dailyActivityReport;
     }
 
     public UserDayMeta(LocalDate date, List<MoodFlowRecord> records, double dailyScore, String dailyConclusion) {
@@ -110,7 +72,7 @@ public class UserDayMeta implements Serializable {
         if (this.records == null) {
             this.records = new ArrayList<>();
         }
-        MoodFlowQuestion question = new MoodFlowQuestion(longSurveyRequest.getQuestion(), longSurveyRequest.getAnswer());
+        RecordQuestion question = new RecordQuestion(longSurveyRequest.getQuestion(), longSurveyRequest.getAnswer());
         MoodFlowRecord newRecord = new MoodFlowRecord();
         newRecord.setActivities(activityList);
         newRecord.setMoods(moodList);
@@ -141,6 +103,22 @@ public class UserDayMeta implements Serializable {
 
     public String getDailyConclusion() {
         return dailyConclusion;
+    }
+
+    public DailyQuestion getQuestion() {
+        return this.question == null ? new DailyQuestion() : this.question;
+    }
+
+    public void setQuestion(DailyQuestion question) {
+        this.question = question;
+    }
+
+    public DailyActivity getActivity() {
+        return this.activity == null ? new DailyActivity() : this.activity;
+    }
+
+    public void setActivity(DailyActivity activity) {
+        this.activity = activity;
     }
 
     private void calculateDailyScore() {

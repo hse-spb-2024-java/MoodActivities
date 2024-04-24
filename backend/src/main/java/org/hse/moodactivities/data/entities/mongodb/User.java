@@ -61,7 +61,6 @@ public class User {
                     lastMeta.addRecords(incomingRecord);
                 }
             }
-            lastMeta.setAnswerToQuestion(meta.getAnswerToQuestion());
         } else {
             metas.add(meta);
         }

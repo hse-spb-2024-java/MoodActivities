@@ -15,9 +15,11 @@ public class MoodFlowRecord implements Serializable {
     private ArrayList<Mood> moods;
     private ArrayList<Activity> activities;
     private LocalTime time;
-    private MoodFlowQuestion question;
+    private RecordQuestion question;
 
     private double score;
+
+    private String shortSummary;
 
     public double getScore() {
         return this.score;
@@ -59,12 +61,20 @@ public class MoodFlowRecord implements Serializable {
         this.time = time;
     }
 
-    public MoodFlowQuestion getQuestion() {
+    public RecordQuestion getQuestion() {
         return this.question;
     }
 
-    public void setQuestion(MoodFlowQuestion question) {
+    public void setQuestion(RecordQuestion question) {
         this.question = question;
+    }
+
+    public String getShortSummary() {
+        return this.shortSummary;
+    }
+
+    public void setShortSummary(final String shortSummary) {
+        this.shortSummary = shortSummary;
     }
 
     @Override
