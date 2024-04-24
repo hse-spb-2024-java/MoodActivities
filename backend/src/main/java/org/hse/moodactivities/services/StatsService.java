@@ -72,6 +72,9 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     }
 
     private static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+        if (metas == null) {
+            return new ArrayList<>();
+        }
         int size = metas.size();
         if (size >= periodToInt(period)) {
             metas = metas.subList(size - periodToInt(period), size);
