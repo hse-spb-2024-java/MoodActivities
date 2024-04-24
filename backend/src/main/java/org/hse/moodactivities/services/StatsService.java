@@ -108,7 +108,10 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
             return null;
         }
         LocalDate finalDate = date;
-        List<UserDayMeta> acceptedMetas = metas.stream().filter(meta -> meta.getDate().equals(finalDate)).limit(1).toList();
+        List<UserDayMeta> acceptedMetas = metas.stream()
+                .filter(meta -> meta.getDate().equals(finalDate))
+                .limit(1)
+                .toList();
         return acceptedMetas.isEmpty() ? null : acceptedMetas.getLast();
     }
 
@@ -152,7 +155,9 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
         UserDayMeta meta = getMetaByDate(user, request.getDate());
-        DaysMoodResponse response = DaysMoodResponse.newBuilder().setScore(meta == null ? 0 : meta.getDailyScore()).build();
+        DaysMoodResponse response = DaysMoodResponse.newBuilder()
+                .setScore(meta == null ? 0 : meta.getDailyScore())
+                .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -164,14 +169,24 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         User user = getUser(userId);
         List<String> result = null;
         if (reportType == ReportType.ACTIVITIES) {
-            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
-                    .map((recordItem) -> recordItem.getActivities()).flatMap(List::stream).map(activityItem -> activityItem.getType()).toList();
+            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod())
+                    .stream()
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getActivities())
+                    .flatMap(List::stream)
+                    .map(activityItem -> activityItem.getType())
+                    .toList();
 
         } else {
-            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
-                    .map((recordItem) -> recordItem.getMoods()).flatMap(List::stream).map(moodItem -> moodItem.getType()).toList();
+            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod())
+                    .stream()
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getMoods())
+                    .flatMap(List::stream)
+                    .map(moodItem -> moodItem.getType())
+                    .toList();
         }
         FullReportResponse response = FullReportResponse.newBuilder().addAllReport(result).build();
         responseObserver.onNext(response);
@@ -186,12 +201,18 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         Stream<String> stream;
         if (reportType == ReportType.ACTIVITIES) {
             stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
-                    .map((recordItem) -> recordItem.getActivities()).flatMap(List::stream).map(activityItem -> activityItem.getType());
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getActivities())
+                    .flatMap(List::stream)
+                    .map(activityItem -> activityItem.getType());
         } else {
             stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
-                    .map((recordItem) -> recordItem.getMoods()).flatMap(List::stream).map(moodItem -> moodItem.getType());
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getMoods())
+                    .flatMap(List::stream)
+                    .map(moodItem -> moodItem.getType());
         }
         List<TopItem> result = stream
                 .collect(
@@ -230,7 +251,9 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     public void getWeeklyReport(WeeklyReportRequest request, StreamObserver<WeeklyReportResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         List<UserDayMeta> metas = getCorrectDaysSublist(getUser(userId).getMetas(), PeriodType.WEEK);
-        List<DayOfWeek> days = metas.stream().map(item -> DayOfWeek.forNumber(item.getDate().getDayOfWeek().getValue() - 1)).toList();
+        List<DayOfWeek> days = metas.stream()
+                .map(item -> DayOfWeek.forNumber(item.getDate().getDayOfWeek().getValue() - 1))
+                .toList();
         WeeklyReportResponse response = WeeklyReportResponse.newBuilder().addAllListOfDays(days).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
