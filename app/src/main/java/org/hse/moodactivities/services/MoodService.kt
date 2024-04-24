@@ -65,9 +65,8 @@ class MoodService {
                             activity.getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
                         )!!
                     })
-            var localDate = LocalDate.now()
-            var date =
-                localDate.year.toString() + "-" + localDate.month.toString() + "-" + localDate.dayOfMonth.toString()
+
+            var date = getDate()
             return statsServiceBlockingStub.getDaysMood(
                 DaysMoodRequest.newBuilder().setDate(date).build()
             ).score.toInt()
@@ -76,5 +75,17 @@ class MoodService {
         fun getEmotionId() {
 
         }
+
+        private fun getDate(): String {
+            var localDate = LocalDate.now()
+            var date = StringBuilder()
+            date.append(localDate.year.toString() + "-")
+            var month = localDate.month.value.toString()
+            date.append((if (month.length == 2) month else "0" + month) + "-")
+            var day = localDate.dayOfMonth.toString()
+            date.append(if (day.length == 2) day else "0" + day)
+            return date.toString()
+        }
+
     }
 }
