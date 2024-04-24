@@ -7,12 +7,14 @@ package services;
 
 import "requests/stats-service/all-day-request.proto";
 import "requests/stats-service/top-list-request.proto";
+import "requests/stats-service/days-mood-request.proto";
 import "requests/stats-service/full-report-request.proto";
 import "requests/stats-service/users-mood-request.proto";
 import "requests/stats-service/weekly-report-request.proto";
 
 import "responses/stats-service/all-day-response.proto";
 import "responses/stats-service/top-list-response.proto";
+import "responses/stats-service/days-mood-response.proto";
 import "responses/stats-service/full-report-response.proto";
 import "responses/stats-service/users-mood-response.proto";
 import "responses/stats-service/weekly-report-response.proto";
@@ -20,6 +22,7 @@ import "responses/stats-service/weekly-report-response.proto";
 service StatsService {
   rpc AllDayReport(requests.AllDayRequest) returns (responses.AllDayResponse) {}
   rpc GetFullReport(requests.FullReportRequest) returns (responses.FullReportResponse) {}
+  rpc GetDaysMood(requests.DaysMoodRequest) returns (responses.DaysMoodResponse) {}
   rpc GetTopList(requests.TopListRequest) returns (responses.TopListResponse) {}
   rpc GetUsersMood(requests.UsersMoodRequest) returns (responses.UsersMoodResponse) {}
   rpc GetWeeklyReport(requests.WeeklyReportRequest) returns (responses.WeeklyReportResponse) {}

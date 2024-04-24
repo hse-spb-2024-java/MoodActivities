@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
@@ -40,7 +41,7 @@ class HomeScreenFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_screen, container, false)
         view.rootView.findViewById<ImageView>(R.id.mood_widget_icon).setImageResource(
-            UiUtils.getMoodImageResourcesIdByIndex(MoodService.getUserDailyMood()!!)
+            UiUtils.getMoodImageResourcesIdByIndex(MoodService.getUserDailyMood(this.activity as AppCompatActivity)!!)
         )
         setCurrentDate(view)
         return view

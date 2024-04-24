@@ -4,12 +4,14 @@ import org.hse.moodactivities.common.proto.requests.defaults.DayOfWeek;
 import org.hse.moodactivities.common.proto.requests.defaults.MoodRecord;
 import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
 import org.hse.moodactivities.common.proto.requests.stats.AllDayRequest;
+import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.FullReportRequest;
 import org.hse.moodactivities.common.proto.requests.stats.ReportType;
 import org.hse.moodactivities.common.proto.requests.stats.TopListRequest;
 import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
 import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
+import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
 import org.hse.moodactivities.common.proto.responses.stats.FullReportResponse;
 import org.hse.moodactivities.common.proto.responses.stats.TopItem;
 import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
@@ -141,6 +143,16 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                     .setDailyActivityReport(meta.getDailyActivityReport())
                     .build();
         }
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getDaysMood(DaysMoodRequest request, StreamObserver<DaysMoodResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        UserDayMeta meta = getMetaByDate(user, request.getDate());
+        DaysMoodResponse response = DaysMoodResponse.newBuilder().setScore(meta == null ? 0 : meta.getDailyScore()).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

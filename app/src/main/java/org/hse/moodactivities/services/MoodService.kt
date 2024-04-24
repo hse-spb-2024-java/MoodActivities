@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannelBuilder
+import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest
+import org.hse.moodactivities.common.proto.services.StatsServiceGrpc
 import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc
+import org.hse.moodactivities.fragments.QuestionOfTheDayFragment
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.models.MoodEvent
 import org.hse.moodactivities.viewmodels.AuthViewModel
@@ -40,29 +43,38 @@ class MoodService {
                 .setMoodRating(moodEvent?.getMoodRate()!! + 1)
                 .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
                 .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
-                .setQuestion("What else can you say about your day?")
-                .setAnswer(moodEvent?.getUserAnswer() ?: "" )
+                .setQuestion(moodEvent?.getQuestion())
+                .setAnswer(moodEvent?.getUserAnswer() ?: "")
                 .build()
 
             val response = stub.longSurvey(request)
             return GptMoodResponse(response.shortSummary, response.fullSummary)
         }
 
-        fun getUserDailyMood() : Int? {
-            // todo: ask server to get today's average mood
-            if (moodEvent != null) {
-                return moodEvent?.getMoodRate()
-            }
-            return -1
+        fun getUserDailyMood(activity: AppCompatActivity): Int? {
+            val channel =
+                ManagedChannelBuilder.forAddress("10.0.2.2", QuestionOfTheDayFragment.PORT)
+                    .usePlaintext().build()
+
+            val authViewModel = ViewModelProvider(activity)[AuthViewModel::class.java]
+
+            val statsServiceBlockingStub = StatsServiceGrpc.newBlockingStub(channel)
+                .withInterceptors(
+                    JwtClientInterceptor {
+                        authViewModel.getToken(
+                            activity.getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                        )!!
+                    })
+            var localDate = LocalDate.now()
+            var date =
+                localDate.year.toString() + "-" + localDate.month.toString() + "-" + localDate.dayOfMonth.toString()
+            return statsServiceBlockingStub.getDaysMood(
+                DaysMoodRequest.newBuilder().setDate(date).build()
+            ).score.toInt()
         }
 
         fun getEmotionId() {
 
-        }
-
-        fun getQuestion(): String {
-            // todo: ask server of the question
-            return "What else can say you about your day?"
         }
     }
 }
