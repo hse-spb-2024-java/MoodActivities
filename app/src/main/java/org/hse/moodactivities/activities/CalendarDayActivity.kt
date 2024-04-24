@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.hse.moodactivities.adapters.DailyItemAdapter
+import org.hse.moodactivities.adapters.CalendarDayAdapter
 import org.hse.moodactivities.databinding.ActivityDayInfoBinding
 import org.hse.moodactivities.models.DailyActivityModel
 import org.hse.moodactivities.models.DailyInfoModel
@@ -14,7 +14,7 @@ import org.hse.moodactivities.models.MoodActivity
 import org.hse.moodactivities.models.MoodEmotion
 import org.hse.moodactivities.services.CalendarService
 
-class DayInfoActivity : AppCompatActivity() {
+class CalendarDayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDayInfoBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +29,13 @@ class DayInfoActivity : AppCompatActivity() {
         // set chosen date
         binding.dayInfoTittle.text = CalendarService.getDate()
 
-        // create
+        // create widgets
         setWidgets()
     }
 
     private fun setWidgets() {
         val widgets = getWidgets()
-        val dailyItemAdapter = DailyItemAdapter(widgets)
+        val dailyItemAdapter = CalendarDayAdapter(widgets)
         val layoutManager: RecyclerView.LayoutManager =
             GridLayoutManager(this, 1)
         binding.calendarDayRecyclerView.setLayoutManager(layoutManager)

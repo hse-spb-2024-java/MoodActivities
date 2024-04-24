@@ -20,7 +20,7 @@
             android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".activities.DayInfoActivity"
+            android:name=".activities.CalendarDayActivity"
             android:exported="true" />
         <activity
             android:name=".activities.LoginActivity"
