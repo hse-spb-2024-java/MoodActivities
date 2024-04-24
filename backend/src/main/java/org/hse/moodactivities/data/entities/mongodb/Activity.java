@@ -39,6 +39,9 @@ final public class Activity implements Serializable {
         this.comments = comments;
     }
 
+    public Activity() {
+    }
+
     public String getType() {
         return this.type;
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.common.proto.requests.dailyQuestion.CheckAnswerRequest
+import org.hse.moodactivities.common.proto.requests.dailyQuestion.QuestionRequest
 import org.hse.moodactivities.common.proto.services.QuestionServiceGrpc
 import org.hse.moodactivities.fragments.QuestionOfTheDayFragment
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
@@ -35,6 +36,10 @@ class QuestionViewModel {
     fun check(request: CheckAnswerRequest): Boolean? {
         val checker = gptServiceStub.checkDailyQuestion(request)
         return checker.hasAnswer == 1
+    }
+
+    fun getRandomQuestion(): String? {
+        return gptServiceStub.getDailyQuestion(QuestionRequest.getDefaultInstance()).question
     }
 
     companion object {

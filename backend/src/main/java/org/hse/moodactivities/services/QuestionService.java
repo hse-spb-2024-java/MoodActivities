@@ -39,6 +39,14 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
     }
 
     @Override
+    public void getRandomQuestion(QuestionRequest request, StreamObserver<QuestionResponse> responseObserver) {
+        String question = StringGenerationService.getRandomQuestion();
+        QuestionResponse serviceResponse = QuestionResponse.newBuilder().setQuestion(question).setStatusCode(HTTP_OK).build();
+        responseObserver.onNext(serviceResponse);
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void checkDailyQuestion(CheckAnswerRequest request, StreamObserver<CheckAnswerResponse> responseObserver) {
         Map<String, Object> queryMap = new HashMap<>();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();

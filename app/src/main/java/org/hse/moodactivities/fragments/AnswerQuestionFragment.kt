@@ -14,7 +14,7 @@ import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.models.MoodEvent
-import org.hse.moodactivities.services.MoodService
+import org.hse.moodactivities.viewmodels.QuestionViewModel
 
 const val MAXIMAL_SIZE_OF_USER_ANSWER = 100
 const val MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER = 8
@@ -24,6 +24,8 @@ class AnswerDailyQuestionFragment : Fragment() {
     private lateinit var userAnswer: EditText
     private lateinit var question: TextView
     private lateinit var nextButtonBackground: CardView
+    private lateinit var questionViewModel: QuestionViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -39,7 +41,11 @@ class AnswerDailyQuestionFragment : Fragment() {
         userAnswer.filters = filters
         userAnswer.maxLines = MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER
 
+        questionViewModel = QuestionViewModel()
+        questionViewModel.onCreateView(this.requireActivity())
+
         question = view.findViewById(R.id.question)
+        question.text = questionViewModel.getRandomQuestion()
 
         communicator = activity as Communicator
 
@@ -64,8 +70,7 @@ class AnswerDailyQuestionFragment : Fragment() {
 
         // button to regenerate question
         view.findViewById<Button>(R.id.regenerate_button).setOnClickListener {
-            val question = MoodService.getQuestion()
-            this.question.text = question
+            this.question.text = questionViewModel.getRandomQuestion()
         }
 
         return view

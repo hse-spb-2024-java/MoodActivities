@@ -39,6 +39,9 @@ final public class Mood implements Serializable {
         this.comments = comments;
     }
 
+    public Mood() {
+    }
+
     public double getScore() {
         return this.score;
     }
