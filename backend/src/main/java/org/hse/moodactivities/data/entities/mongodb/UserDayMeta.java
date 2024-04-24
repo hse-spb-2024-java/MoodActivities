@@ -20,6 +20,8 @@ public class UserDayMeta implements Serializable {
 
     private LocalDate date;
     private List<MoodFlowRecord> records;
+
+    private String dailyQuestion;
     private String answerToQuestion;
     private double dailyScore = 0;
     private String dailyConclusion;
@@ -54,10 +56,20 @@ public class UserDayMeta implements Serializable {
 
     public void setRecords(List<MoodFlowRecord> records) {
         this.records = records;
+        calculateDailyScore();
     }
 
     public void addRecords(MoodFlowRecord record) {
         this.records.add(record);
+        calculateDailyScore();
+    }
+
+    public String getDailyQuestion() {
+        return this.dailyQuestion;
+    }
+
+    public void setDailyQuestion(final String dailyQuestion) {
+        this.dailyQuestion = dailyQuestion;
     }
 
     public UserDayMeta(LocalDate date, List<MoodFlowRecord> records, double dailyScore, String dailyConclusion) {
