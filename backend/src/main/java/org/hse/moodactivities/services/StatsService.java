@@ -89,20 +89,17 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         ReportType reportType = request.getReportType();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
-        Stream<List<String>> stream;
+        List<String> result = null;
         if (reportType == ReportType.ACTIVITIES) {
-            stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getActivityList().stream()
-                            .map(activityItem -> activityItem.getType()).toList());
+            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getActivities()).flatMap(List::stream).map(activityItem -> activityItem.getType()).toList();
+
         } else {
-            stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getMoodList().stream()
-                            .map(moodItem -> moodItem.getType()).toList());
+            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getMoods()).flatMap(List::stream).map(moodItem -> moodItem.getType()).toList();
         }
-        List<String> result = stream.limit(period)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-        ;
         FullReportResponse response = FullReportResponse.newBuilder().addAllReport(result).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -114,19 +111,18 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         ReportType reportType = request.getReportType();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
-        Stream<List<String>> stream;
+        Stream<String> stream;
         if (reportType == ReportType.ACTIVITIES) {
             stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getActivityList().stream()
-                            .map(activityItem -> activityItem.getType()).toList());
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getActivities()).flatMap(List::stream).map(activityItem -> activityItem.getType());
         } else {
             stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getMoodList().stream()
-                            .map(moodItem -> moodItem.getType()).toList());
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList())).flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getMoods()).flatMap(List::stream).map(moodItem -> moodItem.getType());
         }
         List<TopItem> result = stream
-                .flatMap(List::stream).
-                collect(
+                .collect(
                         Collectors.groupingBy(
                                 s -> s,
                                 Collectors.counting()
