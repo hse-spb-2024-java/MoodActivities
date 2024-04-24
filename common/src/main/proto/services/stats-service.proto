@@ -5,7 +5,7 @@ option java_multiple_files = true;
 
 package services;
 
-import "requests/stats-service/add-day-request.proto";
+import "requests/stats-service/all-day-request.proto";
 import "requests/stats-service/top-list-request.proto";
 import "requests/stats-service/full-report-request.proto";
 import "requests/stats-service/users-mood-request.proto";

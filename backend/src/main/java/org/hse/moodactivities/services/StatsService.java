@@ -137,6 +137,8 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                     .setScore(meta.getDailyScore())
                     .setDailyQuestion(meta.getDailyQuestion())
                     .setDailyQuestionsAnswer(meta.getAnswerToQuestion())
+                    .setDailyActivity(meta.getDailyActivity())
+                    .setDailyActivityReport(meta.getDailyActivityReport())
                     .build();
         }
         responseObserver.onNext(response);
@@ -145,7 +147,6 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
 
     @Override
     public void getFullReport(FullReportRequest request, StreamObserver<FullReportResponse> responseObserver) {
-        int period = periodToInt(request.getPeriod());
         ReportType reportType = request.getReportType();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
@@ -167,7 +168,6 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
 
     @Override
     public void getTopList(TopListRequest request, StreamObserver<TopListResponse> responseObserver) {
-        int period = periodToInt(request.getPeriod());
         ReportType reportType = request.getReportType();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
