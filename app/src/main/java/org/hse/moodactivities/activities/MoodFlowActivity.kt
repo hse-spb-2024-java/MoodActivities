@@ -30,6 +30,7 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
         fragmentTransaction.commit()
         if (fragment is SummaryOfTheDayFragment) {
             MoodService.setMoodEvent(moodEvent)
+            dayRate = MoodService.getDayRate(moodEvent)
         }
     }
 

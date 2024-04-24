@@ -29,7 +29,6 @@ public class AppServer {
                 .executor(executor)
                 .addService(new AuthService())
                 .addService(new SurveyService())
-//                .addService(new StatsService())
                 .intercept(new JWTAuthServerInterceptor())
                 .build();
 

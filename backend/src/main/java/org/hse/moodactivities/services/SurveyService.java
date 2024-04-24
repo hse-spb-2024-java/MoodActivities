@@ -9,14 +9,13 @@ import org.hse.moodactivities.utils.GptClientRequest;
 import org.hse.moodactivities.utils.GptMessages;
 import org.hse.moodactivities.utils.GptRequestFormatter;
 import org.hse.moodactivities.utils.GptResponse;
-import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.grpc.stub.StreamObserver;
@@ -43,16 +42,15 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 }
                 UserDayMeta newMeta = new UserDayMeta(request);
                 newMeta.setDate(LocalDate.parse(request.getDate()));
-                String id = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+                String id = "123"; // TODO: add map user -> id
                 Map<String, Object> queryMap = new HashMap<>();
                 queryMap.put("id", id);
-                var existingEntities = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
-                if (existingEntities != null) {
-                    User existingEntity = existingEntities.get(0);
+                User existingEntity = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap).get(0);
+                if (existingEntity != null) {
                     existingEntity.updateMeta(newMeta);
                     MongoDBSingleton.getInstance().getConnection().getDatastore().merge(existingEntity);
                 } else {
-                    User newEntity = new User("123", List.of(newMeta));
+                    User newEntity = new User("123", Arrays.asList(newMeta));
                     MongoDBSingleton.getInstance().getConnection().saveEntity(newEntity);
                 }
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
