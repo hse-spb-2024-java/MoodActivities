@@ -53,6 +53,7 @@ class AnswerDailyQuestionFragment : Fragment() {
         view.findViewById<Button>(R.id.next_button).setOnClickListener {
             if (userAnswer.text.isNotEmpty()) {
                 val moodEvent = MoodEvent()
+                moodEvent.setQuestion(question.text.toString())
                 moodEvent.setUserAnswer(userAnswer.text.toString())
                 communicator.passData(moodEvent)
                 communicator.replaceFragment(SummaryOfTheDayFragment())

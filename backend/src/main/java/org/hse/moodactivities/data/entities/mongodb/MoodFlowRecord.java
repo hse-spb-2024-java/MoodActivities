@@ -17,6 +17,18 @@ public class MoodFlowRecord implements Serializable {
     private LocalTime time;
     private RecordQuestion question;
 
+    public MoodFlowRecord(final ArrayList<Mood> moods, final ArrayList<Activity> activities, final LocalTime time, final RecordQuestion question, final double score, final String shortSummary) {
+        this.moods = moods;
+        this.activities = activities;
+        this.time = time;
+        this.question = question;
+        this.score = score;
+        this.shortSummary = shortSummary;
+    }
+
+    public MoodFlowRecord() {
+    }
+
     private double score;
 
     private String shortSummary;

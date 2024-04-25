@@ -10,12 +10,15 @@ import dev.morphia.annotations.Entity;
 public final class RecordQuestion implements Serializable {
     @Serial
     private static long serialVersionUID = 0L;
-    private final String question;
-    private final String answer;
+    private String question;
+    private String answer;
 
     public RecordQuestion(String question, String answer) {
         this.question = question;
         this.answer = answer;
+    }
+
+    public RecordQuestion() {
     }
 
     public String getQuestion() {

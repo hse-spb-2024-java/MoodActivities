@@ -43,7 +43,6 @@ class MoodService {
                 .setMoodRating(moodEvent?.getMoodRate()!! + 1)
                 .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
                 .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
-                .setQuestion(moodEvent?.getQuestion())
                 .setAnswer(moodEvent?.getUserAnswer() ?: "")
                 .build()
 
@@ -67,9 +66,12 @@ class MoodService {
                     })
 
             var date = getDate()
-            return statsServiceBlockingStub.getDaysMood(
+
+            val result = statsServiceBlockingStub.getDaysMood(
                 DaysMoodRequest.newBuilder().setDate(date).build()
             ).score.toInt()
+            channel.shutdown()
+            return result
         }
 
         fun getEmotionId() {

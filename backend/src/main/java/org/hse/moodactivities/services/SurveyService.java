@@ -72,7 +72,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                     User existingEntity = existingEntities.get(0);
                     existingEntity.updateMeta(newMeta);
                     existingEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
-                    MongoDBSingleton.getInstance().getConnection().getDatastore().merge(existingEntity);
+                    MongoDBSingleton.getInstance().getConnection().updateEntity(existingEntity);
                 } else {
                     User newEntity = new User(id, List.of(newMeta));
                     newEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
