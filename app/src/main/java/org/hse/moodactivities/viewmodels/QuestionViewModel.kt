@@ -39,7 +39,7 @@ class QuestionViewModel {
     }
 
     fun getRandomQuestion(): String? {
-        return gptServiceStub.getDailyQuestion(QuestionRequest.getDefaultInstance()).question
+        return gptServiceStub.getRandomQuestion(QuestionRequest.getDefaultInstance()).question
     }
 
     companion object {
