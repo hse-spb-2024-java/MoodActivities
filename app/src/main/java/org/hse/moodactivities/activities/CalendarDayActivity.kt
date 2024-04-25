@@ -35,11 +35,11 @@ class CalendarDayActivity : AppCompatActivity() {
 
     private fun setWidgets() {
         val widgets = getWidgets()
-        val dailyItemAdapter = CalendarDayAdapter(widgets)
+        val calendarDayAdapter = CalendarDayAdapter(widgets)
         val layoutManager: RecyclerView.LayoutManager =
             GridLayoutManager(this, 1)
         binding.calendarDayRecyclerView.setLayoutManager(layoutManager)
-        binding.calendarDayRecyclerView.setAdapter(dailyItemAdapter)
+        binding.calendarDayRecyclerView.setAdapter(calendarDayAdapter)
     }
 
     private fun getWidgets(): ArrayList<DailyItemModel> {

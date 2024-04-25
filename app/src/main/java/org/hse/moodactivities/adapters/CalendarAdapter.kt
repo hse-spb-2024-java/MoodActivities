@@ -18,7 +18,7 @@ import kotlin.random.Random
 internal class CalendarAdapter(
     private val daysOfMonth: ArrayList<String>, private val currentMonth: Month,
     onItemListener: OnItemListener,
-    ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
+) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
     private val onItemListener: OnItemListener
 
     init {
@@ -36,12 +36,14 @@ internal class CalendarAdapter(
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         holder.dayOfMonth.text = daysOfMonth[position]
         if (holder.dayOfMonth.text.isEmpty()) {
-            val b: GradientDrawable = holder.dayOfMonthIndicator.background as GradientDrawable
-            b.setColor(Color.WHITE)
+            val backgroundColor: GradientDrawable =
+                holder.dayOfMonthIndicator.background as GradientDrawable
+            backgroundColor.setColor(Color.WHITE)
         } else {
-            val moodIndicatorBackground: GradientDrawable = holder.dayOfMonthIndicator.background as GradientDrawable
+            val moodIndicatorBackground: GradientDrawable =
+                holder.dayOfMonthIndicator.background as GradientDrawable
             // todo: ask server of user's mood at specific date
-            val randomUserMood : Int = Random.nextInt(0, 5)
+            val randomUserMood: Int = Random.nextInt(0, 5)
             val backgroundColor: Int = UiUtils.getColorForMoodStatistic(randomUserMood)
             moodIndicatorBackground.setColor(backgroundColor)
         }
@@ -57,7 +59,6 @@ internal class CalendarAdapter(
     interface OnItemListener {
         fun onItemClick(position: Int, dayText: String?)
     }
-
 
     class CalendarViewHolder(itemView: View, private val onItemListener: OnItemListener) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
