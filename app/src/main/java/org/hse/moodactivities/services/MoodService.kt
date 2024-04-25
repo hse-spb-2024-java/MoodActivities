@@ -1,6 +1,7 @@
 package org.hse.moodactivities.services
 
 import android.content.Context
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannelBuilder
@@ -67,11 +68,12 @@ class MoodService {
 
             var date = getDate()
 
-            val result = statsServiceBlockingStub.getDaysMood(
+            val daysMood = statsServiceBlockingStub.getDaysMood(
                 DaysMoodRequest.newBuilder().setDate(date).build()
             ).score.toInt()
             channel.shutdown()
-            return result
+            Log.i("mood", daysMood.toString())
+            return daysMood - 1
         }
 
         fun getEmotionId() {
