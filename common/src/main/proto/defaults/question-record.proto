@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.requests.defaults";
+option java_multiple_files = true;
+
+package defaults;
+
+message QuestionRecord {
+    string time = 1;
+    string question = 2;
+    string answer = 3;
+}

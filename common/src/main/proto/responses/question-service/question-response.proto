@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.dailyQuestion";
+option java_multiple_files = true;
+
+package responses;
+
+message QuestionResponse {
+    int32 statusCode = 1;
+    string question = 2;
+}

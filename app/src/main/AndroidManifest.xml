@@ -23,6 +23,10 @@
             android:name=".activities.CalendarDayActivity"
             android:exported="true" />
         <activity
+            android:name=".activities.ChatActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
             android:name=".activities.LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
@@ -31,6 +35,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.QuestionsActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="adjustResize" />

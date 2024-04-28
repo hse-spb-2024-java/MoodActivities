@@ -1,8 +1,14 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
-import dev.morphia.annotations.*;
-
+import java.util.ArrayList;
 import java.util.List;
+
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Field;
+import dev.morphia.annotations.Id;
+import dev.morphia.annotations.Index;
+import dev.morphia.annotations.IndexOptions;
+import dev.morphia.annotations.Indexes;
 
 @Entity("users")
 @Indexes(@Index(options = @IndexOptions(name = "id"), fields = @Field("id")))
@@ -35,16 +41,25 @@ public class User {
     }
 
     public void updateMeta(final UserDayMeta meta) {
+        if (metas == null) {
+            metas = new ArrayList<>();
+        }
         if (metas.isEmpty()) {
             metas.add(meta);
         }
         UserDayMeta lastMeta = metas.getLast();
         if (lastMeta.getDate().equals(meta.getDate())) {
-            for (var activity : meta.getActivityList()) {
-                lastMeta.addActivity(activity);
-            }
-            for (var mood : meta.getMoodList()) {
-                lastMeta.addMood(mood);
+            for (var incomingRecord : meta.getRecords()) {
+                boolean contains = false;
+                for (var existingRecord : lastMeta.getRecords()) {
+                    if (incomingRecord.getTime().equals(existingRecord.getTime())) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains) {
+                    lastMeta.addRecords(incomingRecord);
+                }
             }
         } else {
             metas.add(meta);

@@ -17,17 +17,18 @@ import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.adapters.ItemAdapter
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.interfaces.ItemHolderFragment
+import org.hse.moodactivities.models.ACTIVITIES
+import org.hse.moodactivities.models.ActivatedItem
 import org.hse.moodactivities.models.Item
 import org.hse.moodactivities.models.MoodEvent
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
-import kotlin.collections.HashSet
 
 class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
     private lateinit var communicator: Communicator
     private var chosenActivities: HashSet<String> = HashSet()
     private var recyclerView: RecyclerView? = null
-    private var items: ArrayList<Item>? = null
+    private var items: ArrayList<ActivatedItem>? = null
     private var gridLayoutManager: GridLayoutManager? = null
     private var itemsAdapters: ItemAdapter? = null
     private lateinit var nextButtonBackground: CardView
@@ -98,40 +99,17 @@ class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
         }
     }
 
-    private fun createItem(iconIndex: Int, text: String, iconColor: Int): Item {
-        return Item(iconIndex, text, iconColor, chosenActivities.contains(text))
+    private fun createActivatedItem(item: Item): ActivatedItem {
+        return ActivatedItem(
+            item.getName(),
+            item.getIconIndex(),
+            item.getIconColor(),
+            chosenActivities.contains(item.getName())
+        )
     }
 
-    private fun createActivities(): ArrayList<Item> {
-        return arrayListOf(
-            createItem(R.drawable.icon_books, "read", R.color.gray),
-            createItem(R.drawable.icon_family, "family", R.color.gray),
-            createItem(R.drawable.icon_work, "work", R.color.gray),
-            createItem(R.drawable.icon_walking, "walk", R.color.gray),
-            createItem(R.drawable.icon_sport, "sport", R.color.gray),
-            createItem(R.drawable.icon_study, "study", R.color.gray),
-            createItem(R.drawable.icon_movie, "watch movie", R.color.gray),
-            createItem(R.drawable.icon_friends, "friends", R.color.gray),
-            createItem(R.drawable.icon_cook, "cook", R.color.gray),
-            createItem(R.drawable.icon_meditation, "meditation", R.color.gray),
-            createItem(R.drawable.icon_music, "listen music", R.color.gray),
-            createItem(R.drawable.icon_art, "art", R.color.gray),
-            createItem(R.drawable.icon_photo, "photo", R.color.gray),
-            createItem(R.drawable.icon_dance, "dance", R.color.gray),
-            createItem(R.drawable.icon_pet, "play with pet", R.color.gray),
-            createItem(R.drawable.icon_museum, "museum", R.color.gray),
-            createItem(R.drawable.icon_language, "learn new language", R.color.gray),
-            createItem(R.drawable.icon_board_games, "board games", R.color.gray),
-            createItem(R.drawable.icon_video_games, "video games", R.color.gray),
-            createItem(R.drawable.icon_instrument, "play music", R.color.gray),
-            createItem(R.drawable.icon_date, "date", R.color.gray),
-            createItem(R.drawable.icon_shopping, "shopping", R.color.gray),
-            createItem(R.drawable.icon_party, "party", R.color.gray),
-            createItem(R.drawable.icon_attractions, "attractions", R.color.gray),
-            createItem(R.drawable.icon_holiday, "holiday", R.color.gray),
-            createItem(R.drawable.icon_concert, "concert", R.color.gray),
-            createItem(R.drawable.icon_gardening, "gardening", R.color.gray)
-        )
+    private fun createActivities(): ArrayList<ActivatedItem> {
+        return ACTIVITIES.mapTo(ArrayList()) { createActivatedItem(it) }
     }
 
     override fun clickButton(buttonBackground: CardView, text: String) {
