@@ -3,7 +3,7 @@ package org.hse.moodactivities.utils
 import org.hse.moodactivities.R
 import org.hse.moodactivities.services.ChartsService
 
-const val BUTTON_DISABLED_ALPHA = 0.6f
+const val BUTTON_DISABLED_ALPHA = 0.5f
 const val BUTTON_ENABLED_ALPHA = 1.0f
 
 class UiUtils {
@@ -30,7 +30,7 @@ class UiUtils {
                 2 -> R.drawable.mood_flow_3
                 3 -> R.drawable.mood_flow_4
                 4 -> R.drawable.mood_flow_5
-                else -> -1 // unreachable
+                else -> R.drawable.widget_mood_icon // default icon
             }
         }
 

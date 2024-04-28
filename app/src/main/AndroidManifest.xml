@@ -16,11 +16,15 @@
         tools:targetApi="31">
         <activity
             android:name=".activities.StatisticActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".activities.MoodFlowActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".activities.ChatActivity"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true"
@@ -32,11 +36,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".activities.QuestionsActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".activities.RegisterActivity"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".activities.MainScreenActivity"></activity>
     </application>
 

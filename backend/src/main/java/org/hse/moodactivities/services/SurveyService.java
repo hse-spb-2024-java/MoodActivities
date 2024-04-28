@@ -9,19 +9,39 @@ import org.hse.moodactivities.utils.GptClientRequest;
 import org.hse.moodactivities.utils.GptMessages;
 import org.hse.moodactivities.utils.GptRequestFormatter;
 import org.hse.moodactivities.utils.GptResponse;
+import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.grpc.stub.StreamObserver;
 
 public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(SurveyService.class);
+
+    private static String getSubstringAfterSecondCapital(String input) {
+        int capitalCount = 0;
+        int index = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (Character.isUpperCase(input.charAt(i))) {
+                capitalCount++;
+                if (capitalCount == 2) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        if (capitalCount < 2) {
+            return "";
+        } else {
+            return input.substring(index);
+        }
+    }
 
     @Override
     public void longSurvey(LongSurveyRequest request, StreamObserver<LongSurveyResponse> responseObserve) {
@@ -30,27 +50,32 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
             GptMessages.GptMessage message = GptRequestFormatter.surveyRequest(request);
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(message));
             if (gptResponse.message() != null) {
-                String[] words = gptResponse.message().getContent().split("\\s+");
+                String[] sentences = gptResponse.message().getContent().split("\\.");
                 StringBuilder shortForm = new StringBuilder();
                 StringBuilder fullForm = new StringBuilder();
-                for (int i = 0; i < words.length; i++) {
-                    if (i < 3) {
-                        shortForm.append(words[i]);
+                for (int i = 0; i < sentences.length; i++) {
+                    if (i < 1) {
+                        shortForm.append(getSubstringAfterSecondCapital(sentences[i]) + ".");
+                    } else if (i == 1) {
+                        fullForm.append(getSubstringAfterSecondCapital(sentences[i]) + ".");
                     } else {
-                        fullForm.append(words[i]);
+                        fullForm.append(sentences[i] + ".");
                     }
                 }
                 UserDayMeta newMeta = new UserDayMeta(request);
-                newMeta.setDate(LocalDate.parse(request.getDate()));
-                String id = "123"; // TODO: add map user -> id
+                newMeta.setDate(LocalDate.now());
+                String id = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
                 Map<String, Object> queryMap = new HashMap<>();
-                queryMap.put("id", id);
-                User existingEntity = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap).get(0);
-                if (existingEntity != null) {
+                queryMap.put("_id", id);
+                var existingEntities = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
+                if (existingEntities != null && !existingEntities.isEmpty()) {
+                    User existingEntity = existingEntities.get(0);
                     existingEntity.updateMeta(newMeta);
-                    MongoDBSingleton.getInstance().getConnection().getDatastore().merge(existingEntity);
+                    existingEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
+                    MongoDBSingleton.getInstance().getConnection().updateEntity(existingEntity);
                 } else {
-                    User newEntity = new User("123", Arrays.asList(newMeta));
+                    User newEntity = new User(id, List.of(newMeta));
+                    newEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
                     MongoDBSingleton.getInstance().getConnection().saveEntity(newEntity);
                 }
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();

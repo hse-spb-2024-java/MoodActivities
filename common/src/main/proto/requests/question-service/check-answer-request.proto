@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.requests.dailyQuestion";
+option java_multiple_files = true;
+
+package requests;
+
+message CheckAnswerRequest {}

@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 
 import org.bson.Document;
+import org.hse.moodactivities.data.entities.mongodb.Question;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,8 @@ public class MongoDBConnection implements AutoCloseable {
     private static Dotenv dotenv = Dotenv.load();
     private static final String MONGO_HOST = dotenv.get("MONGO_HOST");
     private static final int MONGO_PORT = Integer.valueOf(dotenv.get("MONGO_PORT"));
-    private static final String MONGO_DBNAME = dotenv.get("MONGO_DBNAME");
+    private static final String MONGO_USERS_DBNAME = dotenv.get("MONGO_USERS_DBNAME");
+    private static final String MONGO_QUESTIONS_DBNAME = dotenv.get("MONGO_QUESTIONS_DBNAME");
 
     private static final String MONGO_USERNAME = dotenv.get("MONGO_USERNAME");
     private static final String MONGO_PASSWORD = dotenv.get("MONGO_PASSWORD");
@@ -35,14 +37,25 @@ public class MongoDBConnection implements AutoCloseable {
     private final MongoDatabase database;
     private final MongoClient mongoClient;
 
+    public enum connectionType {
+        USERS,
+        QUESTIONS
+    }
+
+    ;
+
     public MongoDBConnection(String host, int port, String dbName) {
         mongoClient = MongoClients.create("mongodb://" /*+ MONGO_USERNAME + ":" + MONGO_PASSWORD  + "@" */ + host + ":" + port);
         datastore = Morphia.createDatastore(mongoClient, dbName);
         database = mongoClient.getDatabase(dbName);
     }
 
-    public MongoDBConnection() {
-        this(MONGO_HOST, MONGO_PORT, MONGO_DBNAME);
+    public MongoDBConnection(connectionType type) {
+        this(MONGO_HOST, MONGO_PORT, (type == connectionType.USERS ? MONGO_USERS_DBNAME : MONGO_QUESTIONS_DBNAME));
+    }
+
+    public MongoDBConnection(String dbName) {
+        this(MONGO_HOST, MONGO_PORT, dbName);
     }
 
 
@@ -116,7 +129,12 @@ public class MongoDBConnection implements AutoCloseable {
     public <T> T updateEntity(T entity) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("_id", datastore.getMapper().getId(entity));
-        User existingEntity = this.findEntityWithFilters(User.class, queryMap).get(0);
+        T existingEntity = null;
+        if (entity instanceof User) {
+            existingEntity = (T) this.findEntityWithFilters(User.class, queryMap).get(0);
+        } else {
+            existingEntity = (T) this.findEntityWithFilters(Question.class, queryMap).get(0);
+        }
         if (existingEntity != null) {
             datastore.merge(entity);
             return entity;
@@ -124,6 +142,17 @@ public class MongoDBConnection implements AutoCloseable {
             LOGGER.error("Entity not found for update.");
             return null;
         }
+    }
+
+    public <T> Integer count(T entity) {
+        Map<String, Object> queryMap = new HashMap<>();
+        List<?> existingEntities = null;
+        if (entity instanceof User) {
+            existingEntities = this.findEntityWithFilters(User.class, queryMap);
+        } else {
+            existingEntities = this.findEntityWithFilters(Question.class, queryMap);
+        }
+        return existingEntities != null ? existingEntities.size() : 0;
     }
 
     public void close() {

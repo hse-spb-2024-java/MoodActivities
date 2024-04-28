@@ -1,22 +1,20 @@
 package org.hse.moodactivities.fragments
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.models.MoodEvent
-import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
-import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
+import org.hse.moodactivities.viewmodels.QuestionViewModel
 
 const val MAXIMAL_SIZE_OF_USER_ANSWER = 100
 const val MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER = 8
@@ -24,7 +22,10 @@ const val MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER = 8
 class AnswerDailyQuestionFragment : Fragment() {
     private lateinit var communicator: Communicator
     private lateinit var userAnswer: EditText
+    private lateinit var question: TextView
     private lateinit var nextButtonBackground: CardView
+    private lateinit var questionViewModel: QuestionViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -39,20 +40,12 @@ class AnswerDailyQuestionFragment : Fragment() {
         val filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAXIMAL_SIZE_OF_USER_ANSWER))
         userAnswer.filters = filters
         userAnswer.maxLines = MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER
-        userAnswer.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable) {}
+        questionViewModel = QuestionViewModel()
+        questionViewModel.onCreateView(this.requireActivity())
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (userAnswer.text.isNotEmpty()) {
-                    nextButtonBackground.alpha = BUTTON_ENABLED_ALPHA
-                } else {
-                    nextButtonBackground.alpha = BUTTON_DISABLED_ALPHA
-                }
-            }
-        })
+        question = view.findViewById(R.id.question)
+        question.text = questionViewModel.getRandomQuestion()
 
         communicator = activity as Communicator
 
@@ -60,6 +53,7 @@ class AnswerDailyQuestionFragment : Fragment() {
         view.findViewById<Button>(R.id.next_button).setOnClickListener {
             if (userAnswer.text.isNotEmpty()) {
                 val moodEvent = MoodEvent()
+                moodEvent.setQuestion(question.text.toString())
                 moodEvent.setUserAnswer(userAnswer.text.toString())
                 communicator.passData(moodEvent)
                 communicator.replaceFragment(SummaryOfTheDayFragment())
@@ -69,9 +63,15 @@ class AnswerDailyQuestionFragment : Fragment() {
         // button to previous fragment
         view.findViewById<Button>(R.id.back_button).setOnClickListener {
             val moodEvent = MoodEvent()
+            moodEvent.setQuestion(question.text.toString())
             moodEvent.setUserAnswer(userAnswer.text.toString())
             communicator.passData(moodEvent)
             communicator.replaceFragment(ChooseEmotionsFragment())
+        }
+
+        // button to regenerate question
+        view.findViewById<Button>(R.id.regenerate_button).setOnClickListener {
+            this.question.text = questionViewModel.getRandomQuestion()
         }
 
         return view
