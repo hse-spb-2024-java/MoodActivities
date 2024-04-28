@@ -24,6 +24,15 @@ public class StringGenerationService {
         }
     }
 
+    public static String getRandomQuestion() {
+        StringBuilder requestString = new StringBuilder(PromptsStorage.getString("dailyQuestion.request"));
+        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString.toString()));
+        if (response.statusCode() != null && response.statusCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+            return response.message().getContent();
+        }
+        return response.response();
+    }
+
     public static String getLastGeneratedString() {
         synchronized (StringGenerationService.class) {
             if (lastGeneratedString == null) {

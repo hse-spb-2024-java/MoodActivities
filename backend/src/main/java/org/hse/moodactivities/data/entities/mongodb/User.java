@@ -49,13 +49,18 @@ public class User {
         }
         UserDayMeta lastMeta = metas.getLast();
         if (lastMeta.getDate().equals(meta.getDate())) {
-            for (var activity : meta.getActivityList()) {
-                lastMeta.addActivity(activity);
+            for (var incomingRecord : meta.getRecords()) {
+                boolean contains = false;
+                for (var existingRecord : lastMeta.getRecords()) {
+                    if (incomingRecord.getTime().equals(existingRecord.getTime())) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains) {
+                    lastMeta.addRecords(incomingRecord);
+                }
             }
-            for (var mood : meta.getMoodList()) {
-                lastMeta.addMood(mood);
-            }
-            lastMeta.setAnswerToQuestion(meta.getAnswerToQuestion());
         } else {
             metas.add(meta);
         }

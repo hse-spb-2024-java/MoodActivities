@@ -12,7 +12,6 @@ final public class Activity implements Serializable {
     @Serial
     private static long serialVersionUID = 0L;
     private String type;
-    private LocalTime time;
     private double score;
 
 
@@ -26,10 +25,6 @@ final public class Activity implements Serializable {
         this.type = type;
     }
 
-    public void setTime(final LocalTime time) {
-        this.time = time;
-    }
-
     public void setScore(final double score) {
         this.score = score;
     }
@@ -40,17 +35,15 @@ final public class Activity implements Serializable {
 
     Activity(String type, LocalTime time, double score, String comments) {
         this.type = type;
-        this.time = time;
         this.score = score;
         this.comments = comments;
     }
 
-    public String getType() {
-        return this.type;
+    public Activity() {
     }
 
-    public LocalTime getTime() {
-        return this.time;
+    public String getType() {
+        return this.type;
     }
 
     public double getScore() {
@@ -68,20 +61,18 @@ final public class Activity implements Serializable {
         var that = (Activity) obj;
         return Objects.equals(this.type, that.type) &&
                 Double.doubleToLongBits(this.score) == Double.doubleToLongBits(that.score) &&
-                Objects.equals(this.time, that.time) &&
                 Objects.equals(this.comments, that.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, time, score, comments);
+        return Objects.hash(type, score, comments);
     }
 
     @Override
     public String toString() {
         return "Activity[" +
                 "type=" + type + ", " +
-                "time=" + time + ", " +
                 "score=" + score + ", " +
                 "comments=" + comments + ']';
     }

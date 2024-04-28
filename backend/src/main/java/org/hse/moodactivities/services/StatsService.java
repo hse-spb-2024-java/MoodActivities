@@ -1,12 +1,19 @@
 package org.hse.moodactivities.services;
 
+import org.hse.moodactivities.common.proto.requests.defaults.ActivityRecord;
 import org.hse.moodactivities.common.proto.requests.defaults.DayOfWeek;
+import org.hse.moodactivities.common.proto.requests.defaults.MoodRecord;
 import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
+import org.hse.moodactivities.common.proto.requests.defaults.QuestionRecord;
+import org.hse.moodactivities.common.proto.requests.stats.AllDayRequest;
+import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.FullReportRequest;
 import org.hse.moodactivities.common.proto.requests.stats.ReportType;
 import org.hse.moodactivities.common.proto.requests.stats.TopListRequest;
 import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
+import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
+import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
 import org.hse.moodactivities.common.proto.responses.stats.FullReportResponse;
 import org.hse.moodactivities.common.proto.responses.stats.TopItem;
 import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
@@ -20,6 +27,8 @@ import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +76,9 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     }
 
     private static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+        if (metas == null) {
+            return new ArrayList<>();
+        }
         int size = metas.size();
         if (size >= periodToInt(period)) {
             metas = metas.subList(size - periodToInt(period), size);
@@ -83,26 +95,104 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return isCorrect ? metas : new ArrayList<>();
     }
 
+    private static UserDayMeta getMetaByDate(User user, String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = null;
+        try {
+            date = LocalDate.parse(dateString, formatter);
+
+        } catch (DateTimeParseException e) {
+            System.out.println("Error parsing the date: " + e.getMessage());
+            return null;
+        }
+        List<UserDayMeta> metas = user.getMetas();
+        if (metas == null || metas.isEmpty()) {
+            return null;
+        }
+        LocalDate finalDate = date;
+        List<UserDayMeta> acceptedMetas = metas.stream()
+                .filter(meta -> meta.getDate().equals(finalDate))
+                .limit(1)
+                .toList();
+        return acceptedMetas.isEmpty() ? null : acceptedMetas.getLast();
+    }
+
+    @Override
+    public void allDayReport(AllDayRequest request, StreamObserver<AllDayResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        List<MoodRecord> records = new ArrayList<>();
+        UserDayMeta meta = getMetaByDate(user, request.getDate());
+        AllDayResponse response = null;
+        if (meta == null) {
+            response = AllDayResponse.newBuilder().setDate(request.getDate()).build();
+        } else {
+            for (var record : meta.getRecords()) {
+                MoodRecord newRecord = MoodRecord.newBuilder()
+                        .addAllMoods(record.getMoods().stream().map(item -> item.getType()).toList())
+                        .addAllActivities(record.getActivities().stream().map(item -> item.getType()).toList())
+                        .setQuestion(record.getQuestion().getQuestion())
+                        .setAnswer(record.getQuestion().getAnswer())
+                        .setScore(record.getScore())
+                        .build();
+                records.add(newRecord);
+            }
+
+            response = AllDayResponse.newBuilder()
+                    .addAllRecords(records)
+                    .setDate(request.getDate())
+                    .setScore(meta.getDailyScore())
+                    .setQuestion(QuestionRecord.newBuilder()
+                            .setQuestion(meta.getQuestion().getQuestion())
+                            .setAnswer(meta.getQuestion().getAnswer()).build())
+                    .setActivity(ActivityRecord.newBuilder()
+                            .setActivity(meta.getActivity().getActivity())
+                            .setReport(meta.getActivity().getReport())
+                            .build())
+                    .build();
+        }
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getDaysMood(DaysMoodRequest request, StreamObserver<DaysMoodResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        UserDayMeta meta = getMetaByDate(user, request.getDate());
+        DaysMoodResponse response = DaysMoodResponse.newBuilder()
+                .setScore(meta == null ? 0 : meta.getDailyScore())
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
     @Override
     public void getFullReport(FullReportRequest request, StreamObserver<FullReportResponse> responseObserver) {
-        int period = periodToInt(request.getPeriod());
         ReportType reportType = request.getReportType();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
-        Stream<List<String>> stream;
+        List<String> result = null;
         if (reportType == ReportType.ACTIVITIES) {
-            stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getActivityList().stream()
-                            .map(activityItem -> activityItem.getType()).toList());
+            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod())
+                    .stream()
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getActivities())
+                    .flatMap(List::stream)
+                    .map(activityItem -> activityItem.getType())
+                    .toList();
+
         } else {
-            stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getMoodList().stream()
-                            .map(moodItem -> moodItem.getType()).toList());
+            result = getCorrectDaysSublist(user.getMetas(), request.getPeriod())
+                    .stream()
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getMoods())
+                    .flatMap(List::stream)
+                    .map(moodItem -> moodItem.getType())
+                    .toList();
         }
-        List<String> result = stream.limit(period)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-        ;
         FullReportResponse response = FullReportResponse.newBuilder().addAllReport(result).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -110,23 +200,27 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
 
     @Override
     public void getTopList(TopListRequest request, StreamObserver<TopListResponse> responseObserver) {
-        int period = periodToInt(request.getPeriod());
         ReportType reportType = request.getReportType();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
-        Stream<List<String>> stream;
+        Stream<String> stream;
         if (reportType == ReportType.ACTIVITIES) {
             stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getActivityList().stream()
-                            .map(activityItem -> activityItem.getType()).toList());
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getActivities())
+                    .flatMap(List::stream)
+                    .map(activityItem -> activityItem.getType());
         } else {
             stream = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                    .map((item) -> item.getMoodList().stream()
-                            .map(moodItem -> moodItem.getType()).toList());
+                    .map((item) -> item.getRecords().stream().collect(Collectors.toList()))
+                    .flatMap(List::stream)
+                    .map((recordItem) -> recordItem.getMoods())
+                    .flatMap(List::stream)
+                    .map(moodItem -> moodItem.getType());
         }
         List<TopItem> result = stream
-                .flatMap(List::stream).
-                collect(
+                .collect(
                         Collectors.groupingBy(
                                 s -> s,
                                 Collectors.counting()
@@ -162,7 +256,9 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     public void getWeeklyReport(WeeklyReportRequest request, StreamObserver<WeeklyReportResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         List<UserDayMeta> metas = getCorrectDaysSublist(getUser(userId).getMetas(), PeriodType.WEEK);
-        List<DayOfWeek> days = metas.stream().map(item -> DayOfWeek.forNumber(item.getDate().getDayOfWeek().getValue() - 1)).toList();
+        List<DayOfWeek> days = metas.stream()
+                .map(item -> DayOfWeek.forNumber(item.getDate().getDayOfWeek().getValue() - 1))
+                .toList();
         WeeklyReportResponse response = WeeklyReportResponse.newBuilder().addAllListOfDays(days).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
