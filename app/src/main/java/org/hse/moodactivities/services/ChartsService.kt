@@ -320,40 +320,45 @@ class ChartsService(activity: AppCompatActivity) {
     fun createFrequentlyUsedActivities(resources: Resources, view: View) {
         // todo: set images id based on server response
         val response = stub.getTopList(
-            TopListRequest.newBuilder().setPeriod(PeriodType.ALL).setReportType(toReportType())
+            TopListRequest.newBuilder().setPeriod(PeriodType.ALL)
+                .setReportType(ReportType.ACTIVITIES)
                 .build()
         )
         for (item in response.topReportList) {
-            setItemData(
-                resources,
-                view,
-                R.id.activity_icon_1,
-                R.drawable.widget_ask_icon,
-                R.id.activity_1,
-                item.name,
-                R.id.activity_counter_1,
-                item.amount
-            )
+            Item.getActivityByName(item.name)?.let {
+                setItemData(
+                    resources,
+                    view,
+                    it.getIconIndex(),
+                    R.drawable.widget_ask_icon,
+                    R.id.activity_1,
+                    item.name,
+                    R.id.activity_counter_1,
+                    item.amount
+                )
+            }
         }
     }
 
     fun createFrequentlyUsedEmotions(resources: Resources, view: View) {
         // todo: set images id based on server response
         val response = stub.getTopList(
-            TopListRequest.newBuilder().setPeriod(PeriodType.ALL).setReportType(toReportType())
+            TopListRequest.newBuilder().setPeriod(PeriodType.ALL).setReportType(ReportType.EMOTIONS)
                 .build()
         )
         for (item in response.topReportList) {
-            setItemData(
-                resources,
-                view,
-                R.id.emotion_icon_1,
-                R.drawable.widget_ask_icon,
-                R.id.emotion_1,
-                item.name,
-                R.id.emotion_counter_1,
-                item.amount
-            )
+            Item.getEmotionByName(item.name)?.let {
+                setItemData(
+                    resources,
+                    view,
+                    it.getIconIndex(),
+                    R.drawable.widget_ask_icon,
+                    R.id.emotion_1,
+                    item.name,
+                    R.id.emotion_counter_1,
+                    item.amount
+                )
+            }
         }
     }
 
