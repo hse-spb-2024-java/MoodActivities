@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.LineChart
 import org.hse.moodactivities.R
@@ -20,6 +21,7 @@ import org.hse.moodactivities.services.TimePeriod
 
 class InsightsScreenFragment : Fragment() {
     private var moodFlowTimePeriod: TimePeriod = TimePeriod(TimePeriod.Value.WEEK)
+    private lateinit var chartsService: ChartsService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -57,10 +59,11 @@ class InsightsScreenFragment : Fragment() {
         }
 
         val weekMoodChart = view.findViewById<LineChart>(R.id.week_mood_chart)
-        ChartsService.createWeekMoodCharts(this.requireActivity().resources, weekMoodChart)
+        chartsService = ChartsService(this.requireActivity() as AppCompatActivity)
+        chartsService.createWeekMoodCharts(this.requireActivity().resources, weekMoodChart)
 
-        ChartsService.createFrequentlyUsedEmotions(this.requireActivity().resources, view)
-        ChartsService.createFrequentlyUsedActivities(this.requireActivity().resources, view)
+        chartsService.createFrequentlyUsedEmotions(this.requireActivity().resources, view)
+        chartsService.createFrequentlyUsedActivities(this.requireActivity().resources, view)
 
         view.findViewById<Button>(R.id.emotions_statistic).setOnClickListener {
             ChartsService.setStatisticMode(StatisticMode.EMOTIONS)
@@ -85,7 +88,7 @@ class InsightsScreenFragment : Fragment() {
             )
         }
 
-        ChartsService.createDaysInRow(view.findViewById(R.id.days_in_row))
+        chartsService.createDaysInRow(view.findViewById(R.id.days_in_row))
 
         return view
     }

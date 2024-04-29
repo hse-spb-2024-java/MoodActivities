@@ -19,6 +19,8 @@ class StatisticActivity : AppCompatActivity() {
     private var currentTimePeriod: TimePeriod.Value = TimePeriod.Value.WEEK
     private var currentActiveCard: Int = R.id.week_background
     private var currentActiveText: Int = R.id.week_text
+    var chartsService: ChartsService = ChartsService(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistic)
@@ -53,7 +55,7 @@ class StatisticActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.title).text = UiUtils.getStatisticTitle()
 
-        ChartsService.createDistributionChart(this, findViewById(R.id.distribution_chart))
+        chartsService.createDistributionChart(findViewById(R.id.distribution_chart))
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val gridLayoutManager = GridLayoutManager(
@@ -61,7 +63,7 @@ class StatisticActivity : AppCompatActivity() {
         )
         recyclerView?.layoutManager = gridLayoutManager
         recyclerView?.setHasFixedSize(true)
-        val items = ChartsService.getStatistic(this, TimePeriod.Value.WEEK)
+        val items = chartsService.getStatistic(TimePeriod.Value.WEEK)
         val itemsAdapters = applicationContext?.let {
             StatisticItemAdapter(it, items)
         }

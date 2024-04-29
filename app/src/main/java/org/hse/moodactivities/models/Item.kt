@@ -74,4 +74,14 @@ open class Item(
     fun getIconIndex(): Int {
         return iconIndex
     }
+
+    companion object {
+        fun getEmotionByName(name: String): Item? {
+            return EMOTIONS.find { it.name == name }
+        }
+
+        fun getActivityByName(name: String): Item? {
+            return ACTIVITIES.find { it.name == name }
+        }
+    }
 }
