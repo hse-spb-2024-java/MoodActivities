@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.adapters.CalendarDayAdapter
 import org.hse.moodactivities.databinding.ActivityCalendarDayBinding
-import org.hse.moodactivities.models.DailyActivityModel
+import org.hse.moodactivities.models.DailyActivityItemModel
 import org.hse.moodactivities.models.DailyEmptyItemModel
-import org.hse.moodactivities.models.DailyInfoModel
+import org.hse.moodactivities.models.DailyInfoItemModel
 import org.hse.moodactivities.models.DailyItemModel
 import org.hse.moodactivities.models.MoodActivity
 import org.hse.moodactivities.models.MoodEmotion
@@ -52,17 +52,17 @@ class CalendarDayActivity : AppCompatActivity() {
         // setup daily activity
         val dailyActivity = response.getDailyActivity()
         if (dailyActivity.getDailyActivity().isNotEmpty()) {
-            val dailyActivityModel = DailyActivityModel(
+            val dailyActivityItemModel = DailyActivityItemModel(
                 dailyActivity.getDailyActivity(),
                 dailyActivity.getUserImpressions(),
                 dailyActivity.getTime()
             )
-            widgets.add(dailyActivityModel)
+            widgets.add(dailyActivityItemModel)
         }
         // setup daily question
         val dailyQuestion = response.getDailyQuestion()
         if (dailyQuestion.getDailyQuestion().isNotEmpty()) {
-            val dailyQuestionModel = DailyActivityModel(
+            val dailyQuestionModel = DailyActivityItemModel(
                 dailyQuestion.getDailyQuestion(),
                 dailyQuestion.getAnswerToDailyQuestion(),
                 dailyQuestion.getTime()
@@ -83,7 +83,7 @@ class CalendarDayActivity : AppCompatActivity() {
                 emotions.add(MoodEmotion(emotion))
             }
             widgets.add(
-                DailyInfoModel(
+                DailyInfoItemModel(
                     moodRecord.getDescription()!!,
                     moodRecord.getMoodRate()!!,
                     moodRecord.getQuestion()!!,
@@ -94,6 +94,7 @@ class CalendarDayActivity : AppCompatActivity() {
                 )
             )
         }
+        // add empty widget to show that there is no data for that day
         if (widgets.isEmpty()) {
             widgets.add(DailyEmptyItemModel("00:00"))
         }

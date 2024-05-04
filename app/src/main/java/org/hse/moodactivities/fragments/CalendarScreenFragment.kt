@@ -22,8 +22,7 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
-
-class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
+class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     private lateinit var monthYearText: TextView
     private lateinit var calendarRecyclerView: RecyclerView
     private lateinit var calendarAdapter: CalendarAdapter
@@ -32,7 +31,7 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_history_screen, container, false)
+        val view = inflater.inflate(R.layout.fragment_calendar_screen, container, false)
 
         selectedDate = LocalDate.now()
         calendarRecyclerView = view.findViewById(R.id.calendar_recycler_view)
@@ -53,6 +52,8 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
             setMonthStatistic()
         }
 
+        // set colors to month statistic images
+        // todo in themes: move to ui service
         val moodBackground1: GradientDrawable =
             view.findViewById<ImageView>(R.id.day_1_image).background as GradientDrawable
         moodBackground1.setColor(Color.parseColor("#483D8B"))
@@ -77,6 +78,20 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         setMonthStatistic()
     }
 
+    private fun getPercents(part: Int, summary: Int): Int {
+        if (summary == 0) {
+            return (100 * part)
+        }
+        return (100 * part) / summary
+    }
+
+    private fun createTextWithPercents(part: Int, summary: Int): String {
+        return buildString {
+            append(getPercents(part, summary).toString())
+            append("%")
+        }
+    }
+
     private fun setMonthStatistic() {
         // todo: ask server for statistic
         val monthStatistic = intArrayOf(
@@ -92,37 +107,15 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         }
 
         view?.findViewById<TextView>(R.id.day_1_text)?.text =
-            buildString {
-                append(getPercents(monthStatistic[0], sum).toString())
-                append("%")
-            }
+            createTextWithPercents(monthStatistic[0], sum)
         view?.findViewById<TextView>(R.id.day_2_text)?.text =
-            buildString {
-                append(getPercents(monthStatistic[1], sum).toString())
-                append("%")
-            }
+            createTextWithPercents(monthStatistic[1], sum)
         view?.findViewById<TextView>(R.id.day_3_text)?.text =
-            buildString {
-                append(getPercents(monthStatistic[2], sum).toString())
-                append("%")
-            }
+            createTextWithPercents(monthStatistic[2], sum)
         view?.findViewById<TextView>(R.id.day_4_text)?.text =
-            buildString {
-                append(getPercents(monthStatistic[3], sum).toString())
-                append("%")
-            }
+            createTextWithPercents(monthStatistic[3], sum)
         view?.findViewById<TextView>(R.id.day_5_text)?.text =
-            buildString {
-                append(getPercents(monthStatistic[4], sum).toString())
-                append("%")
-            }
-    }
-
-    private fun getPercents(part: Int, summary: Int): Int {
-        if (summary == 0) {
-            return (100 * part)
-        }
-        return (100 * part) / summary
+            createTextWithPercents(monthStatistic[4], sum)
     }
 
     private fun setMonthView() {
@@ -135,7 +128,7 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         calendarRecyclerView.setAdapter(calendarAdapter)
     }
 
-    private fun daysInMonthArray(date: LocalDate?): ArrayList<String> {
+    private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
         val daysInMonthArray = ArrayList<String>()
         val yearMonth = YearMonth.from(date)
         val daysInMonth = yearMonth.lengthOfMonth()
@@ -153,9 +146,9 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         return daysInMonthArray
     }
 
-    private fun monthYearFromDate(date: LocalDate?): String {
+    private fun monthYearFromDate(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy")
-        return date!!.format(formatter)
+        return date.format(formatter)
     }
 
     override fun onItemClick(position: Int, dayText: String?) {

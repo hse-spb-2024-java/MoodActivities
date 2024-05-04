@@ -1,6 +1,6 @@
 package org.hse.moodactivities.models
 
-class DailyActivityModel(
+class DailyActivityItemModel(
     private var dailyActivity: String,
     private var userImpressions: String,
     time: String,

@@ -1,6 +1,6 @@
 package org.hse.moodactivities.models
 
-class DailyInfoModel(
+class DailyInfoItemModel(
     private var shortDescription: String,
     private var moodRating: Int,
     private var question: String,

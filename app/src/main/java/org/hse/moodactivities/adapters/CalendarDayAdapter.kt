@@ -7,11 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
-import org.hse.moodactivities.models.DailyActivityModel
-import org.hse.moodactivities.models.DailyInfoModel
+import org.hse.moodactivities.models.DailyActivityItemModel
+import org.hse.moodactivities.models.DailyInfoItemModel
 import org.hse.moodactivities.models.DailyItemModel
 import org.hse.moodactivities.models.DailyItemType
-import org.hse.moodactivities.models.DailyQuestionModel
+import org.hse.moodactivities.models.DailyQuestionItemModel
 import org.hse.moodactivities.utils.UiUtils
 
 enum class ViewType(val type: Int) {
@@ -50,15 +50,15 @@ class CalendarDayAdapter(
 
         when (dailyItem.dailyItemType) {
             DailyItemType.DAILY_INFO -> fillHolderFromDailyInfoModel(
-                holder, dailyItem as DailyInfoModel
+                holder, dailyItem as DailyInfoItemModel
             )
 
             DailyItemType.DAILY_QUESTION -> fillHolderFromDailyQuestionModel(
-                holder, dailyItem as DailyQuestionModel
+                holder, dailyItem as DailyQuestionItemModel
             )
 
             DailyItemType.DAILY_ACTIVITY -> fillHolderFromDailyActivityModel(
-                holder, dailyItem as DailyActivityModel
+                holder, dailyItem as DailyActivityItemModel
             )
 
             DailyItemType.DAILY_EMPTY -> {}
@@ -67,44 +67,44 @@ class CalendarDayAdapter(
 
     companion object {
         private fun fillHolderFromDailyInfoModel(
-            holder: CalendarDayViewHolder, dailyInfoModel: DailyInfoModel
+            holder: CalendarDayViewHolder, dailyInfoItemModel: DailyInfoItemModel
         ) {
             val view = holder.getView()
             view.findViewById<TextView>(R.id.short_description).text =
-                dailyInfoModel.getShortDescription()
-            view.findViewById<TextView>(R.id.daily_question).text = dailyInfoModel.getQuestion()
+                dailyInfoItemModel.getShortDescription()
+            view.findViewById<TextView>(R.id.daily_question).text = dailyInfoItemModel.getQuestion()
             view.findViewById<TextView>(R.id.daily_answer).text =
-                dailyInfoModel.getAnswerToQuestion()
-            view.findViewById<TextView>(R.id.time).text = dailyInfoModel.getTime()
+                dailyInfoItemModel.getAnswerToQuestion()
+            view.findViewById<TextView>(R.id.time).text = dailyInfoItemModel.getTime()
             view.findViewById<ImageView>(R.id.day_mood).setImageResource(
-                UiUtils.getMoodImageResourcesIdByIndex(dailyInfoModel.getMoodRating())
+                UiUtils.getMoodImageResourcesIdByIndex(dailyInfoItemModel.getMoodRating())
             )
             view.findViewById<TextView>(R.id.activities).text =
-                dailyInfoModel.getActivities().joinToString(", ") { it.getName() }
+                dailyInfoItemModel.getActivities().joinToString(", ") { it.getName() }
             view.findViewById<TextView>(R.id.emotions).text =
-                dailyInfoModel.getEmotions().joinToString(", ") { it.getName() }
+                dailyInfoItemModel.getEmotions().joinToString(", ") { it.getName() }
         }
 
         private fun fillHolderFromDailyQuestionModel(
-            holder: CalendarDayViewHolder, dailyQuestionModel: DailyQuestionModel
+            holder: CalendarDayViewHolder, dailyQuestionItemModel: DailyQuestionItemModel
         ) {
             val view = holder.getView()
             view.findViewById<TextView>(R.id.daily_question).text =
-                dailyQuestionModel.getDailyQuestion()
+                dailyQuestionItemModel.getDailyQuestion()
             view.findViewById<TextView>(R.id.answer_to_daily_question).text =
-                dailyQuestionModel.getAnswerToDailyQuestion()
-            view.findViewById<TextView>(R.id.time).text = dailyQuestionModel.getTime()
+                dailyQuestionItemModel.getAnswerToDailyQuestion()
+            view.findViewById<TextView>(R.id.time).text = dailyQuestionItemModel.getTime()
         }
 
         private fun fillHolderFromDailyActivityModel(
-            holder: CalendarDayViewHolder, dailyActivityModel: DailyActivityModel
+            holder: CalendarDayViewHolder, dailyActivityItemModel: DailyActivityItemModel
         ) {
             val view = holder.getView()
             view.findViewById<TextView>(R.id.daily_activity).text =
-                dailyActivityModel.getDailyActivity()
+                dailyActivityItemModel.getDailyActivity()
             view.findViewById<TextView>(R.id.user_impressions).text =
-                dailyActivityModel.getUserImpressions()
-            view.findViewById<TextView>(R.id.time).text = dailyActivityModel.getTime()
+                dailyActivityItemModel.getUserImpressions()
+            view.findViewById<TextView>(R.id.time).text = dailyActivityItemModel.getTime()
         }
     }
 
