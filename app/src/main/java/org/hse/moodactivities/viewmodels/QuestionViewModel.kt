@@ -8,8 +8,8 @@ import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.common.proto.requests.dailyQuestion.CheckAnswerRequest
 import org.hse.moodactivities.common.proto.requests.dailyQuestion.QuestionRequest
 import org.hse.moodactivities.common.proto.services.QuestionServiceGrpc
-import org.hse.moodactivities.fragments.QuestionOfTheDayFragment
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
+import org.hse.moodactivities.services.UserService
 
 class QuestionViewModel {
     private lateinit var channel: ManagedChannel
@@ -19,7 +19,7 @@ class QuestionViewModel {
         owner: FragmentActivity
     ) {
         channel =
-            ManagedChannelBuilder.forAddress("10.0.2.2", QuestionOfTheDayFragment.PORT)
+            ManagedChannelBuilder.forAddress("10.0.2.2", UserService.PORT)
                 .usePlaintext().build()
 
         authViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]

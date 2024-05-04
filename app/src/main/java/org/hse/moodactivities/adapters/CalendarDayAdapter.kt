@@ -15,7 +15,7 @@ import org.hse.moodactivities.models.DailyQuestionModel
 import org.hse.moodactivities.utils.UiUtils
 
 enum class ViewType(val type: Int) {
-    ACTIVITY(0), QUESTION(1), INFO(2)
+    ACTIVITY(0), QUESTION(1), INFO(2), EMPTY(3)
 }
 
 class CalendarDayAdapter(
@@ -25,7 +25,8 @@ class CalendarDayAdapter(
         val layoutId = when (viewType) {
             ViewType.ACTIVITY.type -> R.layout.widget_daily_activity
             ViewType.QUESTION.type -> R.layout.widget_daily_question
-            else -> R.layout.widget_daily_info
+            ViewType.INFO.type -> R.layout.widget_daily_info
+            else -> R.layout.widget_daily_empty_item
         }
         val viewHolder = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
         return CalendarDayViewHolder(viewHolder)
@@ -39,7 +40,8 @@ class CalendarDayAdapter(
         return when (dailyItemsList[position].dailyItemType) {
             DailyItemType.DAILY_ACTIVITY -> ViewType.ACTIVITY.type
             DailyItemType.DAILY_QUESTION -> ViewType.QUESTION.type
-            else -> ViewType.INFO.type
+            DailyItemType.DAILY_INFO -> ViewType.INFO.type
+            else -> ViewType.EMPTY.type
         }
     }
 
@@ -58,6 +60,8 @@ class CalendarDayAdapter(
             DailyItemType.DAILY_ACTIVITY -> fillHolderFromDailyActivityModel(
                 holder, dailyItem as DailyActivityModel
             )
+
+            DailyItemType.DAILY_EMPTY -> {}
         }
     }
 

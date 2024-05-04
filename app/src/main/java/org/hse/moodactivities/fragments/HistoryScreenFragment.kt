@@ -160,7 +160,9 @@ class HistoryScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
 
     override fun onItemClick(position: Int, dayText: String?) {
         if (!dayText.isNullOrEmpty()) {
-            CalendarService.setDate("$dayText" + " " + monthYearFromDate(selectedDate))
+            val day = dayText.toLong()
+            selectedDate.minusDays(day - selectedDate.dayOfMonth)
+            CalendarService.setDate(selectedDate)
             val dayInfoActivityIntent = Intent(this.activity, CalendarDayActivity::class.java)
             startActivity(dayInfoActivityIntent)
         }
