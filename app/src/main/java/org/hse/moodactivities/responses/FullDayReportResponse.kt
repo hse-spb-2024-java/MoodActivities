@@ -24,7 +24,7 @@ class FullDayReportResponse {
         for (i in 0..<response.recordsCount) {
             val record = response.getRecords(i)
             val moodEvent = MoodEvent()
-            moodEvent.setMoodRate(record.moodsCount)
+            moodEvent.setMoodRate(record.score.toInt())
             moodEvent.setQuestion(record.question)
             moodEvent.setUserAnswer(record.answer)
             moodEvent.setChosenActivities(initActivities(record))

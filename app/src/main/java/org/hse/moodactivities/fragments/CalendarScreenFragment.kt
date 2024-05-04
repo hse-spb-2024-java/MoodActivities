@@ -166,8 +166,8 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     override fun onItemClick(position: Int, dayText: String?) {
         if (!dayText.isNullOrEmpty()) {
             val day = dayText.toLong()
-            selectedDate.minusDays(day - selectedDate.dayOfMonth)
-            CalendarService.setDate(selectedDate)
+            val date = selectedDate.plusDays(day - selectedDate.dayOfMonth)
+            CalendarService.setDate(date)
             val dayInfoActivityIntent = Intent(this.activity, CalendarDayActivity::class.java)
             startActivity(dayInfoActivityIntent)
         }

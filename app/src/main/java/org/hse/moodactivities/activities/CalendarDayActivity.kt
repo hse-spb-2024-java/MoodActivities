@@ -67,7 +67,7 @@ class CalendarDayActivity : AppCompatActivity() {
             )
             widgets.add(dailyActivityItemModel)
         } else {
-            Log.i(
+            Log.d(
                 LOG_TAG, "User hasn't completed the activity for " + binding.dayInfoTittle.text
             )
         }
@@ -81,7 +81,7 @@ class CalendarDayActivity : AppCompatActivity() {
             )
             widgets.add(dailyQuestionModel)
         } else {
-            Log.i(
+            Log.d(
                 LOG_TAG, "User hasn't answered the question for " + binding.dayInfoTittle.text
             )
         }
@@ -93,7 +93,7 @@ class CalendarDayActivity : AppCompatActivity() {
             // set activities
             val activities = ArrayList<MoodActivity>()
             if (moodRecord.getChosenActivities().isNullOrEmpty()) {
-                Log.i(LOG_TAG, "Activities in mood record are empty")
+                Log.d(LOG_TAG, "Activities in mood record are empty")
             } else {
                 for (activity in moodRecord.getChosenActivities()!!) {
                     activities.add(MoodActivity(activity))
@@ -102,7 +102,7 @@ class CalendarDayActivity : AppCompatActivity() {
             // set emotions
             val emotions = ArrayList<MoodEmotion>()
             if (moodRecord.getChosenEmotions().isNullOrEmpty()) {
-                Log.i(LOG_TAG, "Emotions in mood record are empty")
+                Log.d(LOG_TAG, "Emotions in mood record are empty")
             } else {
                 for (emotion in moodRecord.getChosenEmotions()!!) {
                     emotions.add(MoodEmotion(emotion))
@@ -125,7 +125,7 @@ class CalendarDayActivity : AppCompatActivity() {
         // add empty widget to show that there is no data for that day
         if (widgets.isEmpty()) {
             widgets.add(DailyEmptyItemModel(DEFAULT_TIME))
-            Log.i(LOG_TAG, "There is no information for the date " + binding.dayInfoTittle.text)
+            Log.d(LOG_TAG, "There is no information for the date " + binding.dayInfoTittle.text)
         }
         // sort by time
         widgets.sortWith { widget1, widget2 ->

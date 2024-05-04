@@ -34,7 +34,7 @@ class SummaryOfTheDayFragment : Fragment() {
 
     private fun restoreFragmentData(activity: MoodFlowActivity, view: View) {
         val moodEvent = activity.getMoodEvent()
-        val moodRate= moodEvent.getMoodRate() ?: -1
+        val moodRate = moodEvent.getMoodRate() ?: -1
         view.findViewById<ImageView>(R.id.emoji)?.setImageResource(
             UiUtils.getMoodImageResourcesIdByIndex(moodRate)
         )
