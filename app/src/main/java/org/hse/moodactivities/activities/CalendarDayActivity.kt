@@ -84,7 +84,7 @@ class CalendarDayActivity : AppCompatActivity() {
             }
             widgets.add(
                 DailyInfoItemModel(
-                    moodRecord.getDescription()!!,
+                    "",
                     moodRecord.getMoodRate()!!,
                     moodRecord.getQuestion()!!,
                     moodRecord.getUserAnswer()!!,

@@ -134,21 +134,32 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         .setQuestion(record.getQuestion().getQuestion())
                         .setAnswer(record.getQuestion().getAnswer())
                         .setScore(record.getScore())
+                        .setTime(record.getTime().toString())
                         .build();
                 records.add(newRecord);
+            }
+
+            QuestionRecord question = null;
+            if (meta.getQuestion().getQuestion() != null) {
+                question = QuestionRecord.newBuilder()
+                        .setQuestion(meta.getQuestion().getQuestion())
+                        .setAnswer(meta.getQuestion().getAnswer()).build();
+            }
+
+            ActivityRecord activity = null;
+            if (meta.getActivity().getActivity() != null) {
+                activity = ActivityRecord.newBuilder()
+                        .setActivity(meta.getActivity().getActivity())
+                        .setReport(meta.getActivity().getReport())
+                        .build();
             }
 
             response = AllDayResponse.newBuilder()
                     .addAllRecords(records)
                     .setDate(request.getDate())
                     .setScore(meta.getDailyScore())
-                    .setQuestion(QuestionRecord.newBuilder()
-                            .setQuestion(meta.getQuestion().getQuestion())
-                            .setAnswer(meta.getQuestion().getAnswer()).build())
-                    .setActivity(ActivityRecord.newBuilder()
-                            .setActivity(meta.getActivity().getActivity())
-                            .setReport(meta.getActivity().getReport())
-                            .build())
+                    .setQuestion(question == null ? QuestionRecord.getDefaultInstance() : question)
+                    .setActivity(activity == null ? ActivityRecord.getDefaultInstance() : activity)
                     .build();
         }
         responseObserver.onNext(response);
