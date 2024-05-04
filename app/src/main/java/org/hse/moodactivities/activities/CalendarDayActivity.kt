@@ -1,6 +1,7 @@
 package org.hse.moodactivities.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,12 +11,17 @@ import org.hse.moodactivities.models.DailyActivityItemModel
 import org.hse.moodactivities.models.DailyEmptyItemModel
 import org.hse.moodactivities.models.DailyInfoItemModel
 import org.hse.moodactivities.models.DailyItemModel
+import org.hse.moodactivities.models.DailyItemModel.Companion.DEFAULT_TIME
 import org.hse.moodactivities.models.MoodActivity
 import org.hse.moodactivities.models.MoodEmotion
 import org.hse.moodactivities.services.CalendarService
 import java.time.format.DateTimeFormatter
 
 class CalendarDayActivity : AppCompatActivity() {
+    companion object {
+        private const val LOG_TAG = "calendar day"
+    }
+
     private lateinit var binding: ActivityCalendarDayBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +40,8 @@ class CalendarDayActivity : AppCompatActivity() {
 
         // create widgets
         setWidgets()
+
+        Log.i(LOG_TAG, "Show user's information for the date " + binding.dayInfoTittle.text)
     }
 
     private fun setWidgets() {
@@ -58,6 +66,10 @@ class CalendarDayActivity : AppCompatActivity() {
                 dailyActivity.getTime()
             )
             widgets.add(dailyActivityItemModel)
+        } else {
+            Log.i(
+                LOG_TAG, "User hasn't completed the activity for " + binding.dayInfoTittle.text
+            )
         }
         // setup daily question
         val dailyQuestion = response.getDailyQuestion()
@@ -68,22 +80,38 @@ class CalendarDayActivity : AppCompatActivity() {
                 dailyQuestion.getTime()
             )
             widgets.add(dailyQuestionModel)
+        } else {
+            Log.i(
+                LOG_TAG, "User hasn't answered the question for " + binding.dayInfoTittle.text
+            )
         }
         // setup mood records
         val moodEvents = response.getMoodEvents()
-        val moodRecordsCount = moodEvents.size - 1
-        for (pos in 0..moodRecordsCount) {
+        for (pos in 0..<moodEvents.size) {
             val moodRecord = moodEvents[pos]
+
+            // set activities
             val activities = ArrayList<MoodActivity>()
-            for (activity in moodRecord.getChosenActivities()!!) {
-                activities.add(MoodActivity(activity))
+            if (moodRecord.getChosenActivities().isNullOrEmpty()) {
+                Log.i(LOG_TAG, "Activities in mood record are empty")
+            } else {
+                for (activity in moodRecord.getChosenActivities()!!) {
+                    activities.add(MoodActivity(activity))
+                }
             }
+            // set emotions
             val emotions = ArrayList<MoodEmotion>()
-            for (emotion in moodRecord.getChosenEmotions()!!) {
-                emotions.add(MoodEmotion(emotion))
+            if (moodRecord.getChosenEmotions().isNullOrEmpty()) {
+                Log.i(LOG_TAG, "Emotions in mood record are empty")
+            } else {
+                for (emotion in moodRecord.getChosenEmotions()!!) {
+                    emotions.add(MoodEmotion(emotion))
+                }
             }
+
             widgets.add(
                 DailyInfoItemModel(
+                    // TODO: add description after adding to mood flow
                     "",
                     moodRecord.getMoodRate()!!,
                     moodRecord.getQuestion()!!,
@@ -96,7 +124,8 @@ class CalendarDayActivity : AppCompatActivity() {
         }
         // add empty widget to show that there is no data for that day
         if (widgets.isEmpty()) {
-            widgets.add(DailyEmptyItemModel("00:00"))
+            widgets.add(DailyEmptyItemModel(DEFAULT_TIME))
+            Log.i(LOG_TAG, "There is no information for the date " + binding.dayInfoTittle.text)
         }
         // sort by time
         widgets.sortWith { widget1, widget2 ->

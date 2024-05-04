@@ -1,6 +1,7 @@
 package org.hse.moodactivities.services
 
 import android.content.Context
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannelBuilder
@@ -14,6 +15,7 @@ import java.time.format.DateTimeFormatter
 
 class CalendarService {
     companion object {
+        private const val LOG_TAG = "calendar service"
         private lateinit var chosenDate: LocalDate
 
         fun setDate(date: LocalDate) {
@@ -31,9 +33,7 @@ class CalendarService {
             val channel =
                 ManagedChannelBuilder.forAddress(UserService.ADDRESS, UserService.PORT)
                     .usePlaintext().build()
-
             val authViewModel = ViewModelProvider(activity)[AuthViewModel::class.java]
-
             val stub = StatsServiceGrpc.newBlockingStub(channel)
                 .withInterceptors(
                     JwtClientInterceptor {
@@ -43,9 +43,14 @@ class CalendarService {
                     })
 
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val request = AllDayRequest.newBuilder().setDate(date.format(formatter)).build()
+            val formattedDate = date.format(formatter)
+
+            Log.i(LOG_TAG, "Ask server for day information for the date $formattedDate")
+            val request = AllDayRequest.newBuilder().setDate(formattedDate).build()
             val serverResponse = stub.allDayReport(request)
             channel.shutdown()
+
+            // parse server response
             val response = FullDayReportResponse()
             response.init(serverResponse)
             return response

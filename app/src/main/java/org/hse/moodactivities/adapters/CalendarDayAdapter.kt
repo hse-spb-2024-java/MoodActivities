@@ -22,12 +22,7 @@ class CalendarDayAdapter(
     private var dailyItemsList: ArrayList<DailyItemModel>
 ) : RecyclerView.Adapter<CalendarDayAdapter.CalendarDayViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarDayViewHolder {
-        val layoutId = when (viewType) {
-            ViewType.ACTIVITY.type -> R.layout.widget_daily_activity
-            ViewType.QUESTION.type -> R.layout.widget_daily_question
-            ViewType.INFO.type -> R.layout.widget_daily_info
-            else -> R.layout.widget_daily_empty_item
-        }
+        val layoutId = getLayoutId(viewType)
         val viewHolder = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
         return CalendarDayViewHolder(viewHolder)
     }
@@ -37,7 +32,7 @@ class CalendarDayAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (dailyItemsList[position].dailyItemType) {
+        return when (dailyItemsList[position].getDailyItemType()) {
             DailyItemType.DAILY_ACTIVITY -> ViewType.ACTIVITY.type
             DailyItemType.DAILY_QUESTION -> ViewType.QUESTION.type
             DailyItemType.DAILY_INFO -> ViewType.INFO.type
@@ -48,7 +43,7 @@ class CalendarDayAdapter(
     override fun onBindViewHolder(holder: CalendarDayViewHolder, position: Int) {
         val dailyItem: DailyItemModel = dailyItemsList[position]
 
-        when (dailyItem.dailyItemType) {
+        when (dailyItem.getDailyItemType()) {
             DailyItemType.DAILY_INFO -> fillHolderFromDailyInfoModel(
                 holder, dailyItem as DailyInfoItemModel
             )
@@ -66,6 +61,15 @@ class CalendarDayAdapter(
     }
 
     companion object {
+        private fun getLayoutId(viewType: Int): Int {
+            return when (viewType) {
+                ViewType.ACTIVITY.type -> R.layout.widget_daily_activity_item
+                ViewType.QUESTION.type -> R.layout.widget_daily_question_item
+                ViewType.INFO.type -> R.layout.widget_daily_info_item
+                else -> R.layout.widget_daily_empty_item
+            }
+        }
+
         private fun fillHolderFromDailyInfoModel(
             holder: CalendarDayViewHolder, dailyInfoItemModel: DailyInfoItemModel
         ) {

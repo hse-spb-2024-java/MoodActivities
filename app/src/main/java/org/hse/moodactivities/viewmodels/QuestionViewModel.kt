@@ -19,7 +19,7 @@ class QuestionViewModel {
         owner: FragmentActivity
     ) {
         channel =
-            ManagedChannelBuilder.forAddress("10.0.2.2", UserService.PORT)
+            ManagedChannelBuilder.forAddress(UserService.ADDRESS, UserService.PORT)
                 .usePlaintext().build()
 
         authViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]
@@ -33,16 +33,12 @@ class QuestionViewModel {
                 })
     }
 
-    fun check(request: CheckAnswerRequest): Boolean? {
+    fun check(request: CheckAnswerRequest): Boolean {
         val checker = gptServiceStub.checkDailyQuestion(request)
         return checker.hasAnswer == 1
     }
 
     fun getRandomQuestion(): String? {
         return gptServiceStub.getRandomQuestion(QuestionRequest.getDefaultInstance()).question
-    }
-
-    companion object {
-        private const val PORT = 12345
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,14 @@ import java.time.format.DateTimeFormatter
 import kotlin.random.Random
 
 class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
+    companion object {
+        private const val LOG_TAG = "calendar"
+        private const val PERCENT_SIGN = "%"
+        private const val PERCENT_AMOUNT = 100
+        private const val DAYS_OF_WEEK_AMOUNT = 7
+        private const val EMPTY_DAY_STRING = ""
+    }
+
     private lateinit var monthYearText: TextView
     private lateinit var calendarRecyclerView: RecyclerView
     private lateinit var calendarAdapter: CalendarAdapter
@@ -78,17 +87,17 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         setMonthStatistic()
     }
 
-    private fun getPercents(part: Int, summary: Int): Int {
-        if (summary == 0) {
-            return (100 * part)
+    private fun getPercents(nominator: Int, denominator: Int): Int {
+        if (denominator == 0) {
+            return (PERCENT_AMOUNT * nominator)
         }
-        return (100 * part) / summary
+        return (PERCENT_AMOUNT * nominator) / denominator
     }
 
-    private fun createTextWithPercents(part: Int, summary: Int): String {
+    private fun createTextWithPercents(nominator: Int, summary: Int): String {
         return buildString {
-            append(getPercents(part, summary).toString())
-            append("%")
+            append(getPercents(nominator, summary).toString())
+            append(PERCENT_SIGN)
         }
     }
 
@@ -123,9 +132,11 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         val daysInMonth = daysInMonthArray(selectedDate)
         calendarAdapter = CalendarAdapter(daysInMonth, selectedDate.month, this)
         val layoutManager: RecyclerView.LayoutManager =
-            GridLayoutManager(this.requireContext(), 7)
+            GridLayoutManager(this.requireContext(), DAYS_OF_WEEK_AMOUNT)
         calendarRecyclerView.setLayoutManager(layoutManager)
         calendarRecyclerView.setAdapter(calendarAdapter)
+
+        Log.i(LOG_TAG, "Create calendar for month " + selectedDate.month)
     }
 
     private fun daysInMonthArray(date: LocalDate): ArrayList<String> {
@@ -134,13 +145,14 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         val daysInMonth = yearMonth.lengthOfMonth()
         val firstOfMonth = selectedDate.withDayOfMonth(1)
         val dayOfWeek = firstOfMonth.getDayOfWeek().value
-        for (i in 1 + 7 * (dayOfWeek / 7)..daysInMonth + dayOfWeek) {
-            if (i <= dayOfWeek) {
-                daysInMonthArray.add("")
-            } else if (i > daysInMonth + dayOfWeek) {
+
+        for (i in 1 + DAYS_OF_WEEK_AMOUNT * (dayOfWeek / DAYS_OF_WEEK_AMOUNT)..daysInMonth + dayOfWeek) {
+            if (i < dayOfWeek) {
+                daysInMonthArray.add(EMPTY_DAY_STRING)
+            } else if (i >= daysInMonth + dayOfWeek ) {
                 break
             } else {
-                daysInMonthArray.add((i - dayOfWeek).toString())
+                daysInMonthArray.add((i - dayOfWeek + 1).toString())
             }
         }
         return daysInMonthArray

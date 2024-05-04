@@ -6,7 +6,7 @@ import org.hse.moodactivities.models.DailyActivityItemModel
 import org.hse.moodactivities.models.DailyQuestionItemModel
 import org.hse.moodactivities.models.MoodEvent
 
-class FullDayReportResponse() {
+class FullDayReportResponse {
     private lateinit var dailyQuestion: DailyQuestionItemModel
     private lateinit var dailyActivity: DailyActivityItemModel
     private lateinit var moodEvents: ArrayList<MoodEvent>
@@ -21,7 +21,7 @@ class FullDayReportResponse() {
         dailyActivity = DailyActivityItemModel(activity, impressions, dailyActivityTime)
         moodEvents = ArrayList()
         moodEvents.ensureCapacity(response.recordsCount)
-        for (i in 0..response.recordsCount - 1) {
+        for (i in 0..<response.recordsCount) {
             val record = response.getRecords(i)
             val moodEvent = MoodEvent()
             moodEvent.setMoodRate(record.moodsCount)
@@ -36,8 +36,7 @@ class FullDayReportResponse() {
 
     private fun initActivities(record: MoodRecord): HashSet<String> {
         val activities = HashSet<String>()
-        val activitiesCount = record.activitiesCount - 1
-        for (pos in 0..activitiesCount) {
+        for (pos in 0..<record.activitiesCount) {
             activities.add(record.getActivities(pos))
         }
         return activities
@@ -45,8 +44,7 @@ class FullDayReportResponse() {
 
     private fun initEmotions(record: MoodRecord): HashSet<String> {
         val emotions = HashSet<String>()
-        val emotionsCount = record.moodsCount - 1
-        for (pos in 0..emotionsCount) {
+        for (pos in 0..<record.moodsCount) {
             emotions.add(record.getMoods(pos))
         }
         return emotions

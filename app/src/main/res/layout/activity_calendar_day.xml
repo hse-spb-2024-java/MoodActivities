@@ -46,12 +46,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/return_home" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/calendar_day_recycler_view"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_info_tittle" />
+        app:layout_constraintTop_toBottomOf="@+id/day_info_tittle">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendar_day_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,10 @@ internal class CalendarAdapter(
     private val daysOfMonth: ArrayList<String>, private val currentMonth: Month,
     onItemListener: OnItemListener,
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
+    companion object {
+        const val LINE_AMOUNT_IN_CALENDAR = 6
+    }
+
     private val onItemListener: OnItemListener
 
     init {
@@ -29,26 +33,26 @@ internal class CalendarAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.calendar_cell, parent, false)
         val layoutParams = view.layoutParams
-        layoutParams.height = (parent.height * 0.166666666).toInt()
+        layoutParams.height = (parent.height / LINE_AMOUNT_IN_CALENDAR)
         return CalendarViewHolder(view, onItemListener)
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        holder.dayOfMonth.text = daysOfMonth[position]
-        if (holder.dayOfMonth.text.isEmpty()) {
+        holder.getDayOfMonth().text = daysOfMonth[position]
+        if (holder.getDayOfMonth().text.isEmpty()) {
             val backgroundColor: GradientDrawable =
-                holder.dayOfMonthIndicator.background as GradientDrawable
+                holder.getDayOfMonthIndicator().background as GradientDrawable
             backgroundColor.setColor(Color.WHITE)
         } else {
             val moodIndicatorBackground: GradientDrawable =
-                holder.dayOfMonthIndicator.background as GradientDrawable
-            // todo: ask server of user's mood at specific date
+                holder.getDayOfMonthIndicator().background as GradientDrawable
+            // TODO: ask server of user's mood at specific date
             val randomUserMood: Int = Random.nextInt(0, 5)
             val backgroundColor: Int = UiUtils.getColorForMoodStatistic(randomUserMood)
             moodIndicatorBackground.setColor(backgroundColor)
         }
-        if (currentMonth == LocalDate.now().month && holder.dayOfMonth.text == LocalDate.now().dayOfMonth.toString()) {
-            holder.dayOfMonth.setTextColor(Color.RED)
+        if (currentMonth == LocalDate.now().month && holder.getDayOfMonth().text == LocalDate.now().dayOfMonth.toString()) {
+            holder.getDayOfMonth().setTextColor(Color.RED)
         }
     }
 
@@ -62,8 +66,8 @@ internal class CalendarAdapter(
 
     class CalendarViewHolder(itemView: View, private val onItemListener: OnItemListener) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val dayOfMonth: TextView
-        val dayOfMonthIndicator: ImageView
+        private val dayOfMonth: TextView
+        private val dayOfMonthIndicator: ImageView
 
         init {
             dayOfMonth = itemView.findViewById(R.id.cell_day_text)
@@ -73,6 +77,14 @@ internal class CalendarAdapter(
 
         override fun onClick(view: View) {
             onItemListener.onItemClick(getAdapterPosition(), dayOfMonth.getText() as String)
+        }
+
+        fun getDayOfMonth(): TextView {
+            return dayOfMonth
+        }
+
+        fun getDayOfMonthIndicator(): ImageView {
+            return dayOfMonthIndicator
         }
     }
 }
