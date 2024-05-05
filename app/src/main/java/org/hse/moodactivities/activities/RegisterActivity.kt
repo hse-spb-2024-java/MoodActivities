@@ -23,7 +23,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvLoginRedirect.setOnClickListener {
+        binding.loginRedirectText.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -31,12 +31,12 @@ class RegisterActivity : AppCompatActivity() {
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        binding.btnRegister.setOnClickListener {
-            val username = binding.etUsername.text.toString()
-            val password = binding.etPassword.text.toString()
-            val confirmation = binding.etPasswordConfirm.text.toString()
-            val email = binding.etEmail.text.toString()
-            val agreedTerms = binding.cmTerms.isChecked()
+        binding.registerButton.setOnClickListener {
+            val username = binding.usernameInput.text.toString()
+            val password = binding.passwordInput.text.toString()
+            val confirmation = binding.passwordConfirmInput.text.toString()
+            val email = binding.emailInput.text.toString()
+            val agreedTerms = binding.termsCheckbox.isChecked
 
             if (!agreedTerms) {
                 Log.i("RegistrationResponse", "Did not agreed on terms")
