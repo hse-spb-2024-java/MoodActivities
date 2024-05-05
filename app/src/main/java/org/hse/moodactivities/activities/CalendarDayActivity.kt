@@ -111,8 +111,7 @@ class CalendarDayActivity : AppCompatActivity() {
 
             widgets.add(
                 DailyInfoItemModel(
-                    // TODO: add description after adding to mood flow
-                    "",
+                    moodRecord.getDescription()!!,
                     moodRecord.getMoodRate()!!,
                     moodRecord.getQuestion()!!,
                     moodRecord.getUserAnswer()!!,

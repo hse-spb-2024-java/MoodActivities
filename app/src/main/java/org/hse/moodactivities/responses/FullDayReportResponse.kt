@@ -30,6 +30,7 @@ class FullDayReportResponse {
             moodEvent.setChosenActivities(initActivities(record))
             moodEvent.setChosenEmotions(initEmotions(record))
             moodEvent.setTime(record.time)
+            moodEvent.setDescription(record.shortSummary)
             moodEvents.add(moodEvent)
         }
     }
