@@ -11,17 +11,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.CalendarDayActivity
 import org.hse.moodactivities.adapters.CalendarAdapter
+import org.hse.moodactivities.responses.MonthStatisticResponse
 import org.hse.moodactivities.services.CalendarService
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import kotlin.random.Random
 
 class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     companion object {
@@ -37,28 +38,24 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     private lateinit var calendarAdapter: CalendarAdapter
     private lateinit var selectedDate: LocalDate
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_calendar_screen, container, false)
 
         selectedDate = LocalDate.now()
         calendarRecyclerView = view.findViewById(R.id.calendar_recycler_view)
         monthYearText = view.findViewById(R.id.month_year_text_view)
-        setMonthView()
 
         // button to next month
         view.findViewById<Button>(R.id.next_button).setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
-            setMonthView()
-            setMonthStatistic()
+            initMonthData()
         }
 
         // button to previous month
         view.findViewById<Button>(R.id.previous_button).setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
-            setMonthView()
-            setMonthStatistic()
+            initMonthData()
         }
 
         // set colors to month statistic images
@@ -84,7 +81,15 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setMonthStatistic()
+        initMonthData()
+    }
+
+    private fun initMonthData() {
+        val response = CalendarService.getMonthMoodStatistic(
+            this.activity as AppCompatActivity, selectedDate.month.value, selectedDate.year
+        )
+        setMonthView(response)
+        setMonthMoodStatistic(response)
     }
 
     private fun getPercents(nominator: Int, denominator: Int): Int {
@@ -101,15 +106,16 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         }
     }
 
-    private fun setMonthStatistic() {
-        // todo: ask server for statistic
-        val monthStatistic = intArrayOf(
-            Random.nextInt(1, 30),
-            Random.nextInt(1, 30),
-            Random.nextInt(1, 30),
-            Random.nextInt(1, 30),
-            Random.nextInt(1, 30)
-        )
+    private fun setMonthMoodStatistic(response: MonthStatisticResponse) {
+        val monthStatistic = intArrayOf(0, 0, 0, 0, 0)
+
+        val moodRates = response.getMoodRates()
+        for (moodRate in moodRates.entries) {
+            if (moodRate.value != 0) {
+                monthStatistic[moodRate.value - 1]++
+            }
+        }
+
         var sum = 0
         for (i in 0..4) {
             sum += monthStatistic[i]
@@ -127,10 +133,10 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
             createTextWithPercents(monthStatistic[4], sum)
     }
 
-    private fun setMonthView() {
+    private fun setMonthView(response: MonthStatisticResponse) {
         monthYearText.text = monthYearFromDate(selectedDate)
         val daysInMonth = daysInMonthArray(selectedDate)
-        calendarAdapter = CalendarAdapter(daysInMonth, selectedDate.month, this)
+        calendarAdapter = CalendarAdapter(daysInMonth, selectedDate.month, response, this)
         val layoutManager: RecyclerView.LayoutManager =
             GridLayoutManager(this.requireContext(), DAYS_OF_WEEK_AMOUNT)
         calendarRecyclerView.setLayoutManager(layoutManager)
@@ -149,7 +155,7 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         for (i in 1 + DAYS_OF_WEEK_AMOUNT * (dayOfWeek / DAYS_OF_WEEK_AMOUNT)..daysInMonth + dayOfWeek) {
             if (i < dayOfWeek) {
                 daysInMonthArray.add(EMPTY_DAY_STRING)
-            } else if (i >= daysInMonth + dayOfWeek ) {
+            } else if (i >= daysInMonth + dayOfWeek) {
                 break
             } else {
                 daysInMonthArray.add((i - dayOfWeek + 1).toString())

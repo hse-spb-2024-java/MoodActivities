@@ -49,7 +49,7 @@ class UiUtils {
                 2 -> Color.parseColor("#FFFACD")
                 3 -> Color.parseColor("#FFB6C1")
                 4 -> Color.parseColor("#90EE90")
-                else -> -1 //
+                else -> Color.WHITE
             }
         }
     }

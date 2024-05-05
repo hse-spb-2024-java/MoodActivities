@@ -81,7 +81,7 @@ class CalendarDayAdapter(
                 dailyInfoItemModel.getAnswerToQuestion()
             view.findViewById<TextView>(R.id.time).text = dailyInfoItemModel.getTime()
             view.findViewById<ImageView>(R.id.day_mood).setImageResource(
-                UiUtils.getMoodImageResourcesIdByIndex(dailyInfoItemModel.getMoodRating())
+                UiUtils.getMoodImageResourcesIdByIndex(dailyInfoItemModel.getMoodRating() - 1)
             )
             view.findViewById<TextView>(R.id.activities).text =
                 dailyInfoItemModel.getActivities().joinToString(", ") { it.getName() }
