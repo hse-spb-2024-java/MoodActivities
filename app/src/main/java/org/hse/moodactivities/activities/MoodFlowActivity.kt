@@ -47,6 +47,9 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
         if (receivedMoodEvent.getUserAnswer() != null) {
             moodEvent.setUserAnswer(receivedMoodEvent.getUserAnswer()!!)
         }
+        if (receivedMoodEvent.getQuestion() != null) {
+            moodEvent.setQuestion(receivedMoodEvent.getQuestion()!!)
+        }
     }
 
     fun getMoodEvent() : MoodEvent {

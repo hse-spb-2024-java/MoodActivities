@@ -45,6 +45,7 @@ class MoodService {
                 .setMoodRating(moodEvent?.getMoodRate()!! + 1)
                 .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
                 .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
+                .setQuestion(moodEvent?.getQuestion() ?: "")
                 .setAnswer(moodEvent?.getUserAnswer() ?: "")
                 .build()
 

@@ -84,8 +84,9 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
             user = new User(userId, new ArrayList<>());
             MongoDBSingleton.getInstance().getConnection().saveEntity(user);
         }
-        if (user.getMetas() == null || user.getMetas().isEmpty() || user.getMetas().getLast().getDate() != LocalDate.now()) {
+        if (user.getMetas() == null || user.getMetas().isEmpty() || !user.getMetas().getLast().getDate().equals(LocalDate.now())) {
             UserDayMeta newMeta = new UserDayMeta(LocalDate.now());
+            newMeta.getQuestion().setQuestion(request.getQuestion());
             newMeta.getQuestion().setAnswer(request.getAnswer());
             newMeta.getQuestion().setTime(LocalTime.now());
             user.updateMeta(newMeta);
@@ -94,6 +95,7 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
         } else {
             UserDayMeta oldMeta = user.getMetas().getLast();
             if (oldMeta.getQuestion().getAnswer() == null) {
+                oldMeta.getQuestion().setQuestion(request.getQuestion());
                 oldMeta.getQuestion().setAnswer(request.getAnswer());
                 oldMeta.getQuestion().setTime(LocalTime.now());
                 user.updateMeta(oldMeta);

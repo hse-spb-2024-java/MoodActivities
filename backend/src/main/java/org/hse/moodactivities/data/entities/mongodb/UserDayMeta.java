@@ -109,7 +109,10 @@ public class UserDayMeta implements Serializable {
     }
 
     public DailyQuestion getQuestion() {
-        return this.question == null ? new DailyQuestion() : this.question;
+        if (this.question == null) {
+            this.question = new DailyQuestion();
+        }
+        return this.question;
     }
 
     public void setQuestion(DailyQuestion question) {
@@ -117,7 +120,10 @@ public class UserDayMeta implements Serializable {
     }
 
     public DailyActivity getActivity() {
-        return this.activity == null ? new DailyActivity() : this.activity;
+        if (this.activity == null) {
+            this.activity = new DailyActivity();
+        }
+        return this.activity;
     }
 
     public void setActivity(DailyActivity activity) {
