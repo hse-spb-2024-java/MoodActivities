@@ -120,6 +120,26 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return acceptedMetas.isEmpty() ? null : acceptedMetas.getLast();
     }
 
+    private static String removeMS(String time) {
+        int lastDotIndex = time.lastIndexOf('.');
+        if (lastDotIndex != -1) {
+            String result = time.substring(0, lastDotIndex);
+            return result;
+        } else {
+            throw new RuntimeException("bad time format in db");
+        }
+    }
+
+    private static String removeSeconds(String time) {
+        int endIndex = 5;
+        if (endIndex < time.length()) {
+            String result = time.substring(0, endIndex);
+            return result;
+        } else {
+            throw new RuntimeException("bad time format in db");
+        }
+    }
+
     @Override
     public void allDayReport(AllDayRequest request, StreamObserver<AllDayResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
@@ -137,7 +157,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         .setQuestion(record.getQuestion().getQuestion())
                         .setAnswer(record.getQuestion().getAnswer())
                         .setScore(record.getScore())
-                        .setTime(record.getTime().toString())
+                        .setTime(removeSeconds(record.getTime().toString()))
                         .setShortSummary(record.getShortSummary())
                         .build();
                 records.add(newRecord);
