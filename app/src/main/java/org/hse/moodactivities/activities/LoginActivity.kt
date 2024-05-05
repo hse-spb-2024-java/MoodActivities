@@ -83,11 +83,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val signInOPtions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestIdToken(applicationContext.resources.getString(R.string.app_id))
             .build()
-        val mGoogleSignInClient = GoogleSignIn.getClient(this, signInOPtions)
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
 
         binding.googleLogin.setOnClickListener {
             val oauthIntent = mGoogleSignInClient.signInIntent

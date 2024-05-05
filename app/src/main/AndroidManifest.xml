@@ -24,9 +24,14 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activities.LoginActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize|stateHidden">
         </activity>
 
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            >
+        </activity>
         <activity android:name=".activities.MainScreenActivity"/>
         <activity android:name=".activities.WelcomeScreenActivity"
             android:exported="true">
@@ -38,9 +43,6 @@
         </activity>
         <activity
             android:name=".activities.QuestionsActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="adjustResize" />
     </application>
 
