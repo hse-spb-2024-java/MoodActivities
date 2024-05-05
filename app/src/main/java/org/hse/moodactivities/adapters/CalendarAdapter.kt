@@ -9,14 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
+import org.hse.moodactivities.responses.MonthStatisticResponse
 import org.hse.moodactivities.utils.UiUtils
 import java.time.LocalDate
 import java.time.Month
-import kotlin.random.Random
 
 
-internal class CalendarAdapter(
+class CalendarAdapter(
     private val daysOfMonth: ArrayList<String>, private val currentMonth: Month,
+    response: MonthStatisticResponse,
     onItemListener: OnItemListener,
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
     companion object {
@@ -24,9 +25,11 @@ internal class CalendarAdapter(
     }
 
     private val onItemListener: OnItemListener
+    private val moodRates: HashMap<Int, Int>
 
     init {
         this.onItemListener = onItemListener
+        this.moodRates = response.getMoodRates()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
@@ -46,9 +49,10 @@ internal class CalendarAdapter(
         } else {
             val moodIndicatorBackground: GradientDrawable =
                 holder.getDayOfMonthIndicator().background as GradientDrawable
-            // TODO: ask server of user's mood at specific date
-            val randomUserMood: Int = Random.nextInt(0, 5)
-            val backgroundColor: Int = UiUtils.getColorForMoodStatistic(randomUserMood)
+
+            val day = daysOfMonth[position].toInt()
+            val moodRate: Int = if (moodRates.containsKey(day)) moodRates[day]!! else -1
+            val backgroundColor = UiUtils.getColorForMoodStatistic(moodRate)
             moodIndicatorBackground.setColor(backgroundColor)
         }
         if (currentMonth == LocalDate.now().month && holder.getDayOfMonth().text == LocalDate.now().dayOfMonth.toString()) {
