@@ -23,6 +23,7 @@ import org.hse.moodactivities.services.CalendarService
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     companion object {
@@ -111,7 +112,9 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
 
         val moodRates = response.getMoodRates()
         for (moodRate in moodRates.entries) {
-            monthStatistic[moodRate.value]++
+            if (moodRate.value != 0) {
+                monthStatistic[moodRate.value - 1]++
+            }
         }
 
         var sum = 0

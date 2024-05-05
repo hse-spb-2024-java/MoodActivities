@@ -13,9 +13,10 @@ import org.hse.moodactivities.responses.MonthStatisticResponse
 import org.hse.moodactivities.utils.UiUtils
 import java.time.LocalDate
 import java.time.Month
+import kotlin.random.Random
 
 
-class CalendarAdapter(
+internal class CalendarAdapter(
     private val daysOfMonth: ArrayList<String>, private val currentMonth: Month,
     response: MonthStatisticResponse,
     onItemListener: OnItemListener,
@@ -52,7 +53,7 @@ class CalendarAdapter(
 
             val day = daysOfMonth[position].toInt()
             val moodRate: Int = if (moodRates.containsKey(day)) moodRates[day]!! else -1
-            val backgroundColor = UiUtils.getColorForMoodStatistic(moodRate)
+            val backgroundColor = UiUtils.getColorForMoodStatistic(moodRate - 1)
             moodIndicatorBackground.setColor(backgroundColor)
         }
         if (currentMonth == LocalDate.now().month && holder.getDayOfMonth().text == LocalDate.now().dayOfMonth.toString()) {
