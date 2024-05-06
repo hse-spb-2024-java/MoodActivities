@@ -1,31 +1,39 @@
 package org.hse.moodactivities.services;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import io.grpc.stub.StreamObserver;
-import jakarta.persistence.PersistenceException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hse.moodactivities.common.proto.services.*;
 import org.hse.moodactivities.common.proto.requests.auth.*;
 import org.hse.moodactivities.common.proto.responses.auth.*;
+import org.hse.moodactivities.data.entities.postgres.AuthProvider;
 import org.hse.moodactivities.data.entities.postgres.UserProfile;
+import org.hse.moodactivities.utils.GoogleUtils;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
+import java.util.Collections;
 import java.util.Optional;
 
 public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
     public void registration(RegistrationRequest request, StreamObserver<RegistrationResponse> responseObserve) {
-        RegistrationResponse response = null;
+        RegistrationResponse.Builder response = RegistrationResponse.newBuilder();
 
         UserProfile newProfile = null;
         try {
             if (request.getPassword().isEmpty()) {
-                response = RegistrationResponse.newBuilder()
-                        .setResponseType(RegistrationResponse.ResponseType.ERROR)
-                        .setMessage("Password cannot be empty")
-                        .build();
+                response.setResponseType(RegistrationResponse.ResponseType.ERROR)
+                        .setMessage("Password cannot be empty");
             } else {
-                newProfile = UserProfileRepository.createUserProfile(request.getUsername(), request.getPassword());
+                newProfile = UserProfileRepository.createPlainUserProfile(
+                        request.getUsername(),
+                        request.getEmail(),
+                        request.getPassword()
+                );
             }
         } catch (Exception e) {
             Throwable cause = e.getCause();
@@ -35,42 +43,32 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             }
 
             if (cause == null) {
-                response = RegistrationResponse.newBuilder()
-                        .setResponseType(RegistrationResponse.ResponseType.ERROR)
-                        .setMessage("Unknown error")
-                        .build();
+                response.setResponseType(RegistrationResponse.ResponseType.ERROR)
+                        .setMessage("Unknown error");
             } else {
                 // Constraint violation
                 ConstraintViolationException cve = (ConstraintViolationException) cause;
                 String constraintName = cve.getConstraintName();
 
                 if (constraintName != null && (constraintName.contains("login"))) {
-                    response = RegistrationResponse.newBuilder()
-                            .setResponseType(RegistrationResponse.ResponseType.ERROR)
-                            .setMessage("User with such login already exists")
-                            .build();
+                    response.setResponseType(RegistrationResponse.ResponseType.ERROR)
+                            .setMessage("User with such login already exists");
                 } else {
                     // Total and utter CATASTROPHE!
                     System.err.println("Constraint check failed in non-constrained field!");
-                    response = RegistrationResponse.newBuilder()
-                            .setResponseType(RegistrationResponse.ResponseType.ERROR)
-                            .setMessage("Unknown error")
-                            .build();
+                    response.setResponseType(RegistrationResponse.ResponseType.ERROR)
+                            .setMessage("Unknown error");
                 }
             }
         }
 
-        if (response == null) {
-            assert newProfile != null;
-            response = RegistrationResponse.newBuilder()
-                    .setResponseType(RegistrationResponse.ResponseType.SUCCESS)
+        if (newProfile != null) {
+            response.setResponseType(RegistrationResponse.ResponseType.SUCCESS)
                     .setMessage("")
-                    .setToken(generateJwsForUserProfile(newProfile))
-                    .build();
+                    .setToken(generateJwsForUserProfile(newProfile));
         }
 
-
-        responseObserve.onNext(response);
+        responseObserve.onNext(response.build());
         responseObserve.onCompleted();
     }
 
@@ -78,9 +76,9 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     public void login(LoginRequest request, StreamObserver<LoginResponse> responseObserve) {
         Optional<UserProfile> userProfileOpt = Optional.empty();
         if (request.getType() == LoginRequest.loginType.LOGIN) {
-            userProfileOpt = UserProfileRepository.findByLogin(request.getUserInfo());
+            userProfileOpt = UserProfileRepository.findByLogin(AuthProvider.PLAIN, request.getUserInfo());
         } else if (request.getType() == LoginRequest.loginType.MAIL) {
-            userProfileOpt = UserProfileRepository.findByEmail(request.getUserInfo());
+            userProfileOpt = UserProfileRepository.findByEmail(AuthProvider.PLAIN, request.getUserInfo());
         }
         if (userProfileOpt.isEmpty()) {
             LoginResponse response = LoginResponse.newBuilder()
@@ -111,5 +109,52 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
         return JWTUtils.getBuilder()
                 .subject(String.valueOf(userProfile.getId()))
                 .compact();
+    }
+
+    @Override
+    public void oAuthLogin(OauthLoginRequest request, StreamObserver<OauthLoginResponse> responseObserver) {
+        String oauthToken = request.getOauthToken();
+        GoogleIdToken.Payload payload = parseAndVerifyGoogleToken(oauthToken);
+
+        OauthLoginResponse.Builder responseBuilder = OauthLoginResponse.newBuilder();
+        if (payload != null) {
+            String email = payload.getEmail();
+            String oauthId = payload.getSubject();
+
+            Optional<UserProfile> optUserProfile = UserProfileRepository.findByOauthId(
+                    AuthProvider.GOOGLE, oauthId
+            );
+            UserProfile profile = optUserProfile.orElse(
+                    // TODO: proper error handling
+                    UserProfileRepository.createGoogleUserProfile(email, oauthId)
+            );
+            responseBuilder.setType(OauthLoginResponse.responseType.SUCCESS)
+                    .setToken(generateJwsForUserProfile(profile));
+        } else {
+            responseBuilder.setType(OauthLoginResponse.responseType.ERROR)
+                    .setMessage("Failed to validate oauth token");
+        }
+
+        responseObserver.onNext(responseBuilder.build());
+        responseObserver.onCompleted();
+    }
+
+    public GoogleIdToken.Payload parseAndVerifyGoogleToken(String idToken) {
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                .setAudience(Collections.singletonList(GoogleUtils.APP_ID))
+                .build();
+
+        try {
+            GoogleIdToken token = verifier.verify(idToken);
+            if (token != null) {
+                GoogleIdToken.Payload payload = token.getPayload();
+                return payload;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

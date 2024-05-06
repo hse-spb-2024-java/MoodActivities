@@ -26,7 +26,7 @@ public class AppServer {
         ExecutorService executor = Executors.newFixedThreadPool(10);
         StringGenerationService.startScheduledGeneration();
 
-        UserProfileRepository.createUserProfile("admin",  "12345678");
+        UserProfileRepository.createPlainUserProfile("admin",  "", "12345678");
 
         Server server = ServerBuilder.forPort(12345)
                 .executor(executor)

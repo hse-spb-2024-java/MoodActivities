@@ -32,6 +32,8 @@ dependencies {
         exclude(group="org.json", module="json")
     }
 
+    implementation("com.google.android.gms:play-services-auth:20.0.0")
+
     testImplementation("junit:junit:4.13.2")
 
     testImplementation(platform("org.junit:junit-bom:5.7.0"))

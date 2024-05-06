@@ -12,7 +12,8 @@ public class JWTAuthServerInterceptor implements ServerInterceptor {
         String methodName = serverCall.getMethodDescriptor().getFullMethodName();
 
         if ("services.AuthService/Login".equals(methodName) ||
-            "services.AuthService/Registration".equals(methodName)) {
+            "services.AuthService/Registration".equals(methodName) ||
+            "services.AuthService/OAuthLogin".equals(methodName)) {
             // This is auth, no JWT authorization required here
             return serverCallHandler.startCall(serverCall, metadata);
         }
