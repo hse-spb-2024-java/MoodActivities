@@ -2,9 +2,9 @@ package org.hse.moodactivities.activities
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.common.proto.responses.auth.RegistrationResponse
@@ -23,13 +23,30 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.loginRedirectText.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        binding.buttonRegister.setOnClickListener {
-            val username = binding.etRegisterUsername.text.toString()
-            val password = binding.etRegisterPassword.text.toString()
-            val confirmation = binding.etRegisterPasswordConfirm.text.toString()
+        binding.registerButton.setOnClickListener {
+            val username = binding.usernameInput.text.toString()
+            val password = binding.passwordInput.text.toString()
+            val confirmation = binding.passwordConfirmInput.text.toString()
+            val email = binding.emailInput.text.toString()
+            val agreedTerms = binding.termsCheckbox.isChecked
+
+            if (!agreedTerms) {
+                Log.i("RegistrationResponse", "Did not agreed on terms")
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Please agree with the ToS if you want to register",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
 
             if (password != confirmation) {
                 Log.d("RegistrationResponse", "Passwords do not match")
@@ -51,7 +68,21 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val registrationResponseLiveData = authViewModel.register(username, password);
+            if (email.isEmpty()) {
+                Log.d("RegistrationResponse", "Email cannot be empty");
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Email cannot be empty",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
+
+            val registrationResponseLiveData = authViewModel.register(
+                username,
+                email,
+                password
+            );
 
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {

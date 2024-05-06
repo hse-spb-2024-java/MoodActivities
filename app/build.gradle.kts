@@ -29,8 +29,10 @@ dependencies {
     api("io.jsonwebtoken:jjwt-api:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-orgjson:0.12.5") {
-        exclude(group="org.json", module="json")
+        exclude(group = "org.json", module = "json")
     }
+
+    implementation("com.google.android.gms:play-services-auth:20.0.0")
 
     testImplementation("junit:junit:4.13.2")
 
