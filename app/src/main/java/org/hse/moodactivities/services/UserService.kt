@@ -8,4 +8,9 @@ class UserService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
+
+    companion object {
+        const val ADDRESS = "10.0.2.2"
+        const val PORT = 12345
+    }
 }

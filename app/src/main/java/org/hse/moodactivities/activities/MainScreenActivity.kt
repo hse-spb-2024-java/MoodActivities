@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.hse.moodactivities.R
 import org.hse.moodactivities.databinding.MainScreenBinding
-import org.hse.moodactivities.fragments.HistoryScreenFragment
+import org.hse.moodactivities.fragments.CalendarScreenFragment
 import org.hse.moodactivities.fragments.HomeScreenFragment
 import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.fragments.ProfileScreenFragment
@@ -29,7 +29,7 @@ class MainScreenActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bottom_menu_home -> replaceFragment(HomeScreenFragment())
-                R.id.bottom_menu_history -> replaceFragment(HistoryScreenFragment())
+                R.id.bottom_menu_history -> replaceFragment(CalendarScreenFragment())
                 R.id.bottom_menu_insights -> replaceFragment(InsightsScreenFragment())
                 R.id.bottom_menu_profile -> replaceFragment(ProfileScreenFragment())
             }

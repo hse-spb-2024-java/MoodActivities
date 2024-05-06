@@ -1,7 +1,14 @@
 package org.hse.moodactivities.data.entities.postgres;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity(name = "UserProfile")
 @Table(name = "user_profile_data")

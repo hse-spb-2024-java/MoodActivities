@@ -1,7 +1,6 @@
 package org.hse.moodactivities.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,6 @@ class ItemAdapter(
             )
         )
         if (item.getIsActive()) {
-            Log.d("change", "set background")
             holder.cardView.alpha = BUTTON_ENABLED_ALPHA
         }
 

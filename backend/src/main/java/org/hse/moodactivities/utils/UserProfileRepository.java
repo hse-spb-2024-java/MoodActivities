@@ -1,14 +1,15 @@
 package org.hse.moodactivities.utils;
 
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import org.hse.moodactivities.data.entities.postgres.AuthProvider;
 import org.hse.moodactivities.data.entities.postgres.UserProfile;
 import org.hse.moodactivities.data.utils.HibernateUtils;
 
 import java.util.Optional;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 public class UserProfileRepository {
     public static Optional<UserProfile> findByLogin(AuthProvider provider,

@@ -1,7 +1,6 @@
 package org.hse.moodactivities.viewmodels
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,9 +27,11 @@ class AuthViewModel : ViewModel() {
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    fun register(username: String,
-                 email: String,
-                 password: String): LiveData<RegistrationResponse> {
+    fun register(
+        username: String,
+        email: String,
+        password: String
+    ): LiveData<RegistrationResponse> {
         val responseLiveData = MutableLiveData<RegistrationResponse>()
         val request = RegistrationRequest.newBuilder()
             .setUsername(username)

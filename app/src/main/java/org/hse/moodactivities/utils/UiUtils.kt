@@ -1,5 +1,6 @@
 package org.hse.moodactivities.utils
 
+import android.graphics.Color
 import org.hse.moodactivities.R
 
 const val BUTTON_DISABLED_ALPHA = 0.5f
@@ -40,8 +41,16 @@ class UiUtils {
             }
         }
 
-//        private val COLORS : HashMap<String, Color> = hashMapOf(
-//            "white" to Color("#FFFFFF")
-//        )
+        fun getColorForMoodStatistic(userMood: Int) : Int {
+            return when (userMood) {
+                // todo: add specific colors for color theme
+                0 -> Color.parseColor("#483D8B")
+                1 -> Color.parseColor("#6495ED")
+                2 -> Color.parseColor("#FFFACD")
+                3 -> Color.parseColor("#FFB6C1")
+                4 -> Color.parseColor("#90EE90")
+                else -> Color.WHITE
+            }
+        }
     }
 }

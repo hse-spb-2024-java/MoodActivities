@@ -12,4 +12,5 @@ message MoodRecord {
     string question = 4;
     string answer = 5;
     double score = 6;
+    string shortSummary = 7;
 }

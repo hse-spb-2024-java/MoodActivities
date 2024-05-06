@@ -4,11 +4,15 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import io.grpc.stub.StreamObserver;
+
 import org.hibernate.exception.ConstraintViolationException;
-import org.hse.moodactivities.common.proto.services.*;
-import org.hse.moodactivities.common.proto.requests.auth.*;
-import org.hse.moodactivities.common.proto.responses.auth.*;
+import org.hse.moodactivities.common.proto.requests.auth.LoginRequest;
+import org.hse.moodactivities.common.proto.requests.auth.OauthLoginRequest;
+import org.hse.moodactivities.common.proto.requests.auth.RegistrationRequest;
+import org.hse.moodactivities.common.proto.responses.auth.LoginResponse;
+import org.hse.moodactivities.common.proto.responses.auth.OauthLoginResponse;
+import org.hse.moodactivities.common.proto.responses.auth.RegistrationResponse;
+import org.hse.moodactivities.common.proto.services.AuthServiceGrpc;
 import org.hse.moodactivities.data.entities.postgres.AuthProvider;
 import org.hse.moodactivities.data.entities.postgres.UserProfile;
 import org.hse.moodactivities.utils.GoogleUtils;
@@ -17,6 +21,8 @@ import org.hse.moodactivities.utils.UserProfileRepository;
 
 import java.util.Collections;
 import java.util.Optional;
+
+import io.grpc.stub.StreamObserver;
 
 public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
     @Override
