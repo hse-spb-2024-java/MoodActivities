@@ -2,6 +2,7 @@ plugins {
     id("application")
     id("java")
     id("com.google.protobuf") version "0.9.4"
+    id("com.google.gms.google-services") version "4.4.1" apply false
 }
 
 
@@ -13,6 +14,15 @@ dependencies {
 
     // Env Reader
     implementation("io.github.cdimascio:dotenv-java:2.2.0")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-common:21.0.0")
+    implementation("com.google.firebase:firebase-admin:9.2.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.0")
+
+    // OAUTH
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
 
     // JSON
     implementation("com.googlecode.json-simple:json-simple:1.1.1")

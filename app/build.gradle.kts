@@ -19,6 +19,8 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.jetbrains:annotations:16.0.2")
 
+    implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
