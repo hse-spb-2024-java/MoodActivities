@@ -29,6 +29,10 @@ public class MoodFlowRecord implements Serializable {
     public MoodFlowRecord() {
     }
 
+    public MoodFlowRecord(String time) {
+        this.time = LocalTime.parse(time);
+    }
+
     private double score;
 
     private String shortSummary;
