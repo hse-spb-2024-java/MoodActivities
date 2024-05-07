@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1073966508989",
+    "project_id": "moodactivities-b5587",
+    "storage_bucket": "moodactivities-b5587.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073966508989:android:4345d47008134db26f00d4",
+        "android_client_info": {
+          "package_name": "org.hse.moodactivities"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7DewUaAV5boImUOZZvRfhRdxQP8GOoy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
