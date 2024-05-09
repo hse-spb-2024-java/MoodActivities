@@ -80,8 +80,17 @@ open class Item(
             return EMOTIONS.find { it.name == name }
         }
 
+        fun getEmotionIconIdByName(name: String): Int? {
+            return EMOTIONS.find { it.name == name }?.iconIndex
+        }
+
+
         fun getActivityByName(name: String): Item? {
             return ACTIVITIES.find { it.name == name }
+        }
+
+        fun getActivityIconIdByName(name: String): Int? {
+            return ACTIVITIES.find { it.name == name }?.iconIndex
         }
     }
 }

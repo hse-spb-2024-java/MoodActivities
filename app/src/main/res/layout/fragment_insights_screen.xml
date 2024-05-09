@@ -117,7 +117,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_gravity="center"
-                                                android:text="Week"
+
                                                 android:textColor="@color/white"
                                                 android:textStyle="bold" />
                                         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -152,7 +152,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="200dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +215,6 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
-                                            android:text="Week"
                                             android:textColor="@color/white"
                                             android:textStyle="bold" />
                                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -241,7 +240,7 @@
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="80dp"
-                                android:layout_height="120dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="30dp"
                                 android:backgroundTint="@color/white"
@@ -254,18 +253,6 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:gravity="center"
-                                        android:text="1"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
 
                                     <ImageView
                                         android:id="@+id/emotion_icon_1"
@@ -310,7 +297,7 @@
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="80dp"
-                                android:layout_height="120dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="30dp"
                                 android:layout_marginBottom="0dp"
@@ -324,18 +311,6 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="5dp"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:gravity="center"
-                                        android:text="2"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
 
                                     <ImageView
                                         android:id="@+id/emotion_icon_2"
@@ -380,7 +355,7 @@
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="80dp"
-                                android:layout_height="120dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:backgroundTint="@color/white"
                                 app:cardCornerRadius="20dp"
@@ -392,18 +367,6 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="5dp"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:gravity="center"
-                                        android:text="3"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
 
                                     <ImageView
                                         android:id="@+id/emotion_icon_3"
@@ -478,7 +441,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="200dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -541,7 +504,6 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
-                                            android:text="All time"
                                             android:textColor="@color/white"
                                             android:textStyle="bold" />
                                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -567,7 +529,7 @@
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="80dp"
-                                android:layout_height="120dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="30dp"
                                 android:backgroundTint="@color/white"
@@ -580,18 +542,6 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="5dp"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:gravity="center"
-                                        android:text="1"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
 
                                     <ImageView
                                         android:id="@+id/activity_icon_1"
@@ -636,7 +586,7 @@
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="80dp"
-                                android:layout_height="120dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:layout_marginEnd="30dp"
                                 android:layout_marginBottom="0dp"
@@ -650,18 +600,6 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="5dp"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:gravity="center"
-                                        android:text="2"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
 
                                     <ImageView
                                         android:id="@+id/activity_icon_2"
@@ -706,7 +644,7 @@
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="80dp"
-                                android:layout_height="120dp"
+                                android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:backgroundTint="@color/white"
                                 app:cardCornerRadius="20dp"
@@ -718,18 +656,6 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="10dp"
                                     android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="5dp"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:gravity="center"
-                                        android:text="3"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
 
                                     <ImageView
                                         android:id="@+id/activity_icon_3"
@@ -795,9 +721,7 @@
                                 android:alpha="0" />
                         </RelativeLayout>
                     </LinearLayout>
-
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -53,7 +53,7 @@ class MoodService {
             return GptMoodResponse(response.shortSummary, response.fullSummary)
         }
 
-        fun getUserDailyMood(activity: AppCompatActivity): Int? {
+        fun getUserDailyMood(activity: AppCompatActivity): Int {
             val channel =
                 ManagedChannelBuilder.forAddress("10.0.2.2", QuestionOfTheDayFragment.PORT)
                     .usePlaintext().build()

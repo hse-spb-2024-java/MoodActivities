@@ -227,7 +227,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         ))
                 .entrySet().stream()
                 .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
-                .limit(3).map(entry -> TopItem.newBuilder()
+                .map(entry -> TopItem.newBuilder()
                         .setName(entry.getKey())
                         .setAmount(Math.toIntExact(entry.getValue()))
                         .build())

@@ -39,6 +39,9 @@ public class UserDayMeta implements Serializable {
     }
 
     public List<MoodFlowRecord> getRecords() {
+        if (this.records == null) {
+            this.records = new ArrayList<>();
+        }
         return Collections.unmodifiableList(this.records);
     }
 
