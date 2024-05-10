@@ -48,7 +48,6 @@ import org.hse.moodactivities.viewmodels.AuthViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.random.Random
 
 enum class StatisticMode {
@@ -340,11 +339,14 @@ class ChartsService(activity: AppCompatActivity) {
         resources: Resources, view: View, timePeriod: TimePeriod.Value
     ) {
         val response = stub.getTopList(
-            TopListRequest.newBuilder().setPeriod(toPeriodType(timePeriod))
-                .setReportType(ReportType.ACTIVITIES).build()
+            TopListRequest.newBuilder()
+                .setPeriod(toPeriodType(timePeriod))
+                .setReportType(ReportType.ACTIVITIES)
+                .setAmount(AMOUNT_IN_TOP_BY_FREQUENCY)
+                .build()
         )
-        val activitiesList = response.topReportList.subList(0, 3)
-        for (index in 0..<3) {
+        val activitiesList = response.topReportList.subList(0, AMOUNT_IN_TOP_BY_FREQUENCY)
+        for (index in 0..<AMOUNT_IN_TOP_BY_FREQUENCY) {
             val item = activitiesList[index]
             Item.getActivityByName(item.name)?.let {
                 setItemData(
@@ -393,11 +395,14 @@ class ChartsService(activity: AppCompatActivity) {
         resources: Resources, view: View, timePeriod: TimePeriod.Value
     ) {
         val response = stub.getTopList(
-            TopListRequest.newBuilder().setPeriod(toPeriodType(timePeriod))
-                .setReportType(ReportType.EMOTIONS).build()
+            TopListRequest.newBuilder()
+                .setPeriod(toPeriodType(timePeriod))
+                .setReportType(ReportType.EMOTIONS)
+                .setAmount(AMOUNT_IN_TOP_BY_FREQUENCY)
+                .build()
         )
-        val emotionsList = response.topReportList.subList(0, 3)
-        for (index in 0..<3) {
+        val emotionsList = response.topReportList.subList(0, AMOUNT_IN_TOP_BY_FREQUENCY)
+        for (index in 0..<AMOUNT_IN_TOP_BY_FREQUENCY) {
             val item = emotionsList[index]
             Item.getEmotionByName(item.name)?.let {
                 setItemData(
@@ -417,6 +422,8 @@ class ChartsService(activity: AppCompatActivity) {
 
     companion object {
         private var statisticMode: StatisticMode = StatisticMode.EMOTIONS
+
+        private const val AMOUNT_IN_TOP_BY_FREQUENCY = 3
 
         fun createCounterText(counter: Int): String {
             return buildString {

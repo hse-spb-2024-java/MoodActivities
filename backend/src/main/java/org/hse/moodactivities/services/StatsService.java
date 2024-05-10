@@ -117,6 +117,10 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return acceptedMetas.isEmpty() ? null : acceptedMetas.getLast();
     }
 
+    private static int mapAmount(int amount) {
+        return amount == 0 ? Integer.MAX_VALUE : amount;
+    }
+
     @Override
     public void allDayReport(AllDayRequest request, StreamObserver<AllDayResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
@@ -227,6 +231,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         ))
                 .entrySet().stream()
                 .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
+                .limit(mapAmount(request.getAmount()))
                 .map(entry -> TopItem.newBuilder()
                         .setName(entry.getKey())
                         .setAmount(Math.toIntExact(entry.getValue()))
