@@ -47,11 +47,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/activity_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/steel_blue"
-                app:cardCornerRadius="@dimen/widget_corner_radius">
+                app:cardCornerRadius="@dimen/widget_corner_radius"
+                app:cardElevation="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,20 +67,24 @@
                         android:layout_marginStart="25dp"
                         android:layout_marginEnd="25dp">
 
-                        <View
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/activity_circle"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_centerVertical="true"
-                            android:background="@drawable/circle"
-                            android:backgroundTint="@color/steel_blue_dimmed" />
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
 
-                        <ImageView
-                            android:id="@+id/activity_widget"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/widget_advice_icon"
-                            tools:ignore="ContentDescription" />
+                            <ImageView
+                                android:id="@+id/activity_widget"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/widget_advice_icon"
+                                tools:ignore="ContentDescription" />
+
+                        </androidx.cardview.widget.CardView>
+
 
                     </RelativeLayout>
 
@@ -146,9 +151,9 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/mood_flow_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/rosy_brown"
                     app:cardCornerRadius="@dimen/widget_corner_radius">
 
                     <LinearLayout
@@ -163,20 +168,23 @@
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="15dp">
 
-                            <View
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/circle"
-                                android:backgroundTint="@color/rosy_brown_dimmed" />
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/mood_flow_circle"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_centerVertical="true"
+                                app:cardCornerRadius="20dp"
+                                app:cardElevation="0dp">
 
-                            <ImageView
-                                android:id="@+id/mood_widget_icon"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/widget_mood_icon"
-                                tools:ignore="ContentDescription" />
+                                <ImageView
+                                    android:id="@+id/mood_widget_icon"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/widget_mood_icon"
+                                    tools:ignore="ContentDescription" />
+
+                            </androidx.cardview.widget.CardView>
 
                         </RelativeLayout>
 
@@ -227,9 +235,9 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/question_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/peach"
                     app:cardCornerRadius="@dimen/widget_corner_radius">
 
                     <LinearLayout
@@ -244,20 +252,22 @@
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="15dp">
 
-                            <View
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/circle"
-                                android:backgroundTint="@color/peach_dimmed" />
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/question_circle"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_centerVertical="true"
+                                app:cardCornerRadius="20dp"
+                                app:cardElevation="0dp">
 
-                            <ImageView
-                                android:id="@+id/question_widget_icon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/widget_question_icon"
-                                tools:ignore="ContentDescription" />
+                                <ImageView
+                                    android:id="@+id/question_widget_icon"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/widget_question_icon"
+                                    tools:ignore="ContentDescription" />
+                            </androidx.cardview.widget.CardView>
 
                         </RelativeLayout>
 
@@ -321,10 +331,10 @@
 
         <!-- week widget day 1 begin -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/day_1"
             android:layout_width="@dimen/small_widget_width"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
             app:cardCornerRadius="@dimen/widget_corner_small_radius">
 
             <LinearLayout
@@ -371,10 +381,10 @@
 
         <!-- week widget day 2 begin -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/day_2"
             android:layout_width="@dimen/small_widget_width"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
             app:cardCornerRadius="@dimen/widget_corner_small_radius">
 
             <LinearLayout
@@ -422,10 +432,10 @@
 
         <!-- week widget day 3 begin -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/day_3"
             android:layout_width="@dimen/small_widget_width"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
             app:cardCornerRadius="@dimen/widget_corner_small_radius">
 
             <LinearLayout
@@ -472,10 +482,10 @@
 
         <!-- week widget day 4 begin -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/day_4"
             android:layout_width="@dimen/small_widget_width"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
             app:cardCornerRadius="@dimen/widget_corner_small_radius">
 
             <LinearLayout
@@ -523,10 +533,10 @@
 
         <!-- week widget day 5 begin -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/day_5"
             android:layout_width="@dimen/small_widget_width"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
             app:cardCornerRadius="@dimen/widget_corner_small_radius">
 
             <LinearLayout
@@ -587,10 +597,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/chat_widget"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/long_widget_height"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/pink"
                 app:cardCornerRadius="@dimen/widget_corner_radius">
 
                 <LinearLayout
