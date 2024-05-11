@@ -90,9 +90,15 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
             List<UserDayMeta> metas = userOptional.get().getMetas();
             if (metas != null && !metas.isEmpty()) {
                 UserDayMeta meta = metas.getLast();
-                if (meta.getDate().equals(LocalDate.parse(request.getDate()))
-                        && meta.getActivity().getActivity() != null) {
-                    responseBuilder.setWasCompleted(1);
+                if (meta.getDate().equals(LocalDate.parse(request.getDate()))) {
+                    DailyActivity report = meta.getActivity();
+                    if (report.getActivity() != null) {
+                        responseBuilder.setWasCompleted(1);
+                        responseBuilder.setActivity(report.getActivity());
+                    }
+                    if (report.getReport() != null) {
+                        responseBuilder.setWasRecorded(1);
+                    }
                 }
             }
         }
