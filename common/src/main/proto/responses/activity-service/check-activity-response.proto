@@ -8,4 +8,6 @@ package responses;
 message CheckActivityResponse {
   int32 statusCode = 1;
   int32 wasCompleted = 2;
+  int32 wasRecorded = 3;
+  string activity = 4;
 }
