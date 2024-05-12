@@ -8,6 +8,7 @@
     <color name="gray">#616161</color>
     <color name="white">#FFFFFFFF</color>
     <color name="steel_blue">#68A0A6</color>
+    <color name="background_blue">#33CEDFE8</color>
     <color name="steel_blue_dimmed">#55878D</color>
     <color name="rosy_brown">#A66F6F</color>
     <color name="rosy_brown_dimmed">#865A5A</color>
@@ -19,11 +20,16 @@
     <color name="light_steel_blue">#A1B4CC</color>
     <color name="light_steel_blue_dimmed">#8597B0</color>
     <color name="asparagus">#BCD7A5</color>
+    <color name="asparagus_light">#D9EACB</color>
     <color name="corn_silk">#FFF8DC</color>
     <color name="tan">#BEAC94</color>
     <color name="white_smoke">#F5F5F5</color>
     <color name="dark_salmon">#B97862</color>
     <color name="gray_orange">#B5B8B1</color>
+    <color name="dark_gray">#A9A9A9</color>
+    <color name="light_gray">#DCDCDC</color>
+    <color name="dark_slate_gray">#2F4F4F</color>
+    <color name="light_slate_gray">#778899</color>
     <color name="light_salmon">#FFA07A</color>
     <color name="light_pink">#FFB6C1</color>
     <color name="pale_violet_red">#DB7093</color>
@@ -53,5 +59,4 @@
     <color name="pastel_gray">#CECECE</color>
     <color name="pastel_red">#FFB3B3</color>
     <color name="pastel_turkis">#96FFFF</color>
-    <color name="light_gray">#d3d3d3</color>
 </resources>

@@ -2,12 +2,17 @@ package org.hse.moodactivities.utils
 
 import android.graphics.Color
 import org.hse.moodactivities.R
+import org.hse.moodactivities.services.ChartsService
 
 const val BUTTON_DISABLED_ALPHA = 0.5f
 const val BUTTON_ENABLED_ALPHA = 1.0f
 
 class UiUtils {
     companion object {
+        object Strings {
+            var RETURN_TO_INSIGHTS = "< Insights"
+        }
+
         fun getMoodImageIdByIndex(index: Int): Int {
             return when (index) {
                 0 -> R.id.mood_1_image
@@ -41,7 +46,14 @@ class UiUtils {
             }
         }
 
-        fun getColorForMoodStatistic(userMood: Int) : Int {
+        fun getStatisticTitle(): String {
+            return buildString {
+                append(ChartsService.getStatisticMode().toString())
+                    .append(" statistic")
+            }
+        }
+
+        fun getColorForMoodStatistic(userMood: Int): Int {
             return when (userMood) {
                 // todo: add specific colors for color theme
                 0 -> Color.parseColor("#483D8B")

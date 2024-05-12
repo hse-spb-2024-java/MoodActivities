@@ -23,7 +23,7 @@ class ItemAdapter(
     RecyclerView.Adapter<ItemAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val viewHolder = LayoutInflater.from(parent.context)
-            .inflate(R.layout.grid_view_layout_items, parent, false)
+            .inflate(R.layout.item_mood_flow, parent, false)
         return ItemHolder(viewHolder, parent)
     }
 
@@ -32,7 +32,7 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        val item : ActivatedItem = arrayList[position]
+        val item: ActivatedItem = arrayList[position]
 
         holder.icon.setImageResource(item.getIconIndex())
         holder.title.text = item.getName()
