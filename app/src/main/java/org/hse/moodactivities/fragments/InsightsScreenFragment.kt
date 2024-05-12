@@ -3,6 +3,8 @@ package org.hse.moodactivities.fragments
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -100,6 +102,7 @@ class InsightsScreenFragment : Fragment() {
         // create dialog to change time periods in charts
         dialog = Dialog(this.requireContext())
         dialog.setContentView(R.layout.dialog_choose_time_period)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(true)
 
         // set week button

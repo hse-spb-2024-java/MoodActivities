@@ -31,6 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     }
 
     private static boolean isDateCorrect(LocalDate possibleDate, LocalDate today, int diff) {
-        return ChronoUnit.DAYS.between(possibleDate, today) <= diff;
+        return today.toEpochDay() - possibleDate.toEpochDay() < diff;
     }
 
     private static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
@@ -251,7 +252,8 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                 .map((item) -> UsersMood.newBuilder()
                         .setDate(item.getDate().toString())
                         .setScore(((Double) item.getDailyScore()).intValue()).build())
-                .limit(period).toList();
+                .limit(period)
+                .sorted((lhs, rhs) -> LocalDate.parse(lhs.getDate()).compareTo(LocalDate.parse(rhs.getDate()))).toList();
         UsersMoodResponse response = UsersMoodResponse.newBuilder().addAllUsersMoods(result).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();

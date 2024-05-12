@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -48,6 +47,7 @@ import org.hse.moodactivities.viewmodels.AuthViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.random.Random
 
 enum class StatisticMode {
@@ -82,7 +82,9 @@ class ChartsService(activity: AppCompatActivity) {
             )!!
         })
 
-    private class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
+    private lateinit var startDate: LocalDate
+
+    private inner class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
         override fun getFormattedValue(value: Float): String {
             var date = LocalDate.now()
             date = date.minusDays(value.toLong())
@@ -112,7 +114,6 @@ class ChartsService(activity: AppCompatActivity) {
         val request = TopListRequest.newBuilder().setPeriod(toPeriodType(timePeriod))
             .setReportType(toReportType()).build()
         val response = stub.getTopList(request).topReportList
-
         val responseList = ArrayList<StatisticItem>(response.size)
         for (item in response) {
             (if (toReportType() == ReportType.EMOTIONS) Item.getEmotionByName(item.name)
@@ -133,13 +134,14 @@ class ChartsService(activity: AppCompatActivity) {
         const val TEXT_INDEX = 2
         const val TEXT_SIZE = 12f
         const val TEXT_COLOR = Color.BLACK
+        const val WEEK_DAYS_AMOUNT = 7
     }
 
 
     fun createDaysInRow(daysInRow: LinearLayout) {
         val response = stub.getWeeklyReport(WeeklyReportRequest.getDefaultInstance());
         val days = ArrayList<DayData>()
-        for (dayIndex in 0..6) {
+        for (dayIndex in 0..<DaysInRowSettings.WEEK_DAYS_AMOUNT) {
             val layout = daysInRow.getChildAt(2 * dayIndex) as LinearLayout
             val day =
                 response.listOfDaysList.find { DayOfWeek.valueOf(it.name) == DayOfWeek.of(dayIndex + 1) }
@@ -173,20 +175,24 @@ class ChartsService(activity: AppCompatActivity) {
     fun createDistributionChart(pieChart: PieChart, timePeriod: TimePeriod.Value) {
         val statistic = getStatistic(timePeriod)
 
+        // create pie chart settings
         pieChart.setUsePercentValues(true)
         pieChart.description.isEnabled = false
         pieChart.holeRadius = DistributionChartSettings.HOLE_RADIUS
         pieChart.isRotationEnabled = true
         pieChart.isHighlightPerTapEnabled = true
 
+        // create entries for data set
         val entries = ArrayList<PieEntry>()
         for (entry: StatisticItem in statistic) {
             entries.add(PieEntry(entry.getCounter().toFloat()))
         }
 
+        // create dataset fot pie chart
         val dataSet = PieDataSet(entries, "statistic")
         dataSet.setDrawIcons(false)
 
+        // create colors for pie chart
         // todo: add colors in themes
         val colors = ArrayList<Int>()
         val rnd = Random.Default
@@ -195,21 +201,22 @@ class ChartsService(activity: AppCompatActivity) {
         }
         dataSet.colors = colors
 
+        // create formatted data
         val data = PieData(dataSet)
         data.setValueFormatter(PercentFormatter())
         data.setValueTextSize(DistributionChartSettings.TEXT_SIZE)
         data.setValueTypeface(Typeface.DEFAULT_BOLD)
         data.setValueTextColor(Color.WHITE)
-
         pieChart.data = data
 
+        // create legend
         pieChart.legend.isEnabled = false
 
         pieChart.invalidate()
     }
 
     private var moodChartPeriod = TimePeriod.Value.WEEK
-    private var maxValue : Long = 0
+    private var maxValue: Long = 0
 
     @SuppressLint("SimpleDateFormat")
     private fun getMoodData(
@@ -219,17 +226,23 @@ class ChartsService(activity: AppCompatActivity) {
         val entries: MutableList<Entry> = ArrayList()
         val recordedItems =
             stub.getUsersMood(UsersMoodRequest.newBuilder().setPeriod(toPeriodType(period)).build())
+        val minDate =
+            if (recordedItems.usersMoodsList.isEmpty()) null else LocalDate.parse(recordedItems.usersMoodsList[0].date)
+        getStartDate(period, minDate)
         for (item in recordedItems.usersMoodsList) {
             val dateString = item.date
             val score = item.score
             val date = LocalDate.parse(dateString).toEpochDay()
-            val localDate = LocalDate.now().toEpochDay()
-            val icon = getCroppedDrawable(
-                resources, UiUtils.getMoodImageResourcesIdByIndex(score), 80, 80
-            )
-            Log.i("mood", (localDate - date).toString())
-            maxValue = max(maxValue, localDate - date)
-            val entry = Entry((localDate - date).toFloat(), score + 1f, icon)
+            val startDate = startDate.toEpochDay()
+            maxValue = max(maxValue, date - startDate)
+            val entry = if (period == TimePeriod.Value.WEEK || period == TimePeriod.Value.MONTH) {
+                val icon = getCroppedDrawable(
+                    resources, UiUtils.getMoodImageResourcesIdByIndex(score), 80, 80
+                )
+                Entry((date - startDate).toFloat(), score + 1f, icon)
+            } else {
+                Entry((date - startDate).toFloat(), score + 1f)
+            }
             entries.add(entry)
         }
         return entries
@@ -252,6 +265,7 @@ class ChartsService(activity: AppCompatActivity) {
     }
 
     fun createMoodCharts(resources: Resources, lineChart: LineChart, period: TimePeriod.Value) {
+        maxValue = 0
         val data = getMoodData(resources, period)
 
         lineChart.axisRight.isEnabled = false
@@ -335,18 +349,36 @@ class ChartsService(activity: AppCompatActivity) {
         }
     }
 
+    private fun getStartDate(timePeriod: TimePeriod.Value, minDate: LocalDate?) {
+        startDate = when (timePeriod) {
+            TimePeriod.Value.WEEK -> {
+                LocalDate.now().minusDays(7)
+            }
+
+            TimePeriod.Value.MONTH -> {
+                LocalDate.now().minusMonths(1)
+            }
+
+            TimePeriod.Value.YEAR -> {
+                LocalDate.now().minusYears(1)
+            }
+
+            else -> {
+                minDate ?: LocalDate.now()
+            }
+        }
+    }
+
     fun createFrequentlyUsedActivities(
         resources: Resources, view: View, timePeriod: TimePeriod.Value
     ) {
         val response = stub.getTopList(
-            TopListRequest.newBuilder()
-                .setPeriod(toPeriodType(timePeriod))
-                .setReportType(ReportType.ACTIVITIES)
-                .setAmount(AMOUNT_IN_TOP_BY_FREQUENCY)
-                .build()
+            TopListRequest.newBuilder().setPeriod(toPeriodType(timePeriod))
+                .setReportType(ReportType.ACTIVITIES).setAmount(AMOUNT_IN_TOP_BY_FREQUENCY).build()
         )
-        val activitiesList = response.topReportList.subList(0, AMOUNT_IN_TOP_BY_FREQUENCY)
-        for (index in 0..<AMOUNT_IN_TOP_BY_FREQUENCY) {
+        val amount = min(response.topReportList.size, AMOUNT_IN_TOP_BY_FREQUENCY)
+        val activitiesList = response.topReportList.subList(0, amount)
+        for (index in 0..<amount) {
             val item = activitiesList[index]
             Item.getActivityByName(item.name)?.let {
                 setItemData(
@@ -361,7 +393,6 @@ class ChartsService(activity: AppCompatActivity) {
                 )
             }
         }
-        // todo: set default, when response has less than 3 items
     }
 
     private fun getEmotionsIcon(index: Int): Int {
@@ -395,14 +426,12 @@ class ChartsService(activity: AppCompatActivity) {
         resources: Resources, view: View, timePeriod: TimePeriod.Value
     ) {
         val response = stub.getTopList(
-            TopListRequest.newBuilder()
-                .setPeriod(toPeriodType(timePeriod))
-                .setReportType(ReportType.EMOTIONS)
-                .setAmount(AMOUNT_IN_TOP_BY_FREQUENCY)
-                .build()
+            TopListRequest.newBuilder().setPeriod(toPeriodType(timePeriod))
+                .setReportType(ReportType.EMOTIONS).setAmount(AMOUNT_IN_TOP_BY_FREQUENCY).build()
         )
-        val emotionsList = response.topReportList.subList(0, AMOUNT_IN_TOP_BY_FREQUENCY)
-        for (index in 0..<AMOUNT_IN_TOP_BY_FREQUENCY) {
+        val amount = min(AMOUNT_IN_TOP_BY_FREQUENCY, response.topReportList.size)
+        val emotionsList = response.topReportList.subList(0, amount)
+        for (index in 0..<amount) {
             val item = emotionsList[index]
             Item.getEmotionByName(item.name)?.let {
                 setItemData(
@@ -417,7 +446,6 @@ class ChartsService(activity: AppCompatActivity) {
                 )
             }
         }
-        // todo: set default, when response has less than 3 items
     }
 
     companion object {
@@ -444,7 +472,6 @@ class ChartsService(activity: AppCompatActivity) {
             const val Y_AXIS_MIN = 0.5f
             const val Y_AXIS_MAX = 5.5f
             const val X_AXIS_MIN = -0.5f
-            const val X_AXIS_MAX = 9.5f
             const val GRID_LINE_WIDTH = 1f
             const val GRANULARITY = 1f
             const val CHARTS_COLOR = "#55878D"
