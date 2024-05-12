@@ -10,7 +10,7 @@ import java.util.List;
 public class UserTest {
 
     @Test
-    public void testUpdateMeta_AddNewMeta() {
+    public void testUpdateMetaAddNewMeta() {
         User user = new User("1", new ArrayList<>());
         UserDayMeta meta = new UserDayMeta(LocalDate.of(2024, 5, 7));
         meta.addRecord(new MoodFlowRecord("12:00"));
@@ -19,7 +19,7 @@ public class UserTest {
     }
 
     @Test
-    public void testUpdateMeta_AddExistingMetaRecord() {
+    public void testUpdateMetaAddExistingMetaRecord() {
         List<UserDayMeta> metas = new ArrayList<>();
         UserDayMeta meta = new UserDayMeta(LocalDate.of(2024, 5, 7));
         meta.addRecord(new MoodFlowRecord("09:00"));
@@ -34,7 +34,7 @@ public class UserTest {
     }
 
     @Test
-    public void testUpdateMeta_AddNewMetaWithNewRecord() {
+    public void testUpdateMetaAddNewMetaWithNewRecord() {
         List<UserDayMeta> metas = new ArrayList<>();
         UserDayMeta meta = new UserDayMeta(LocalDate.of(2024, 5, 7));
         meta.addRecord(new MoodFlowRecord("09:00"));

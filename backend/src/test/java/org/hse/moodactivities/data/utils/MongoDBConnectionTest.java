@@ -30,14 +30,14 @@ class MongoDBConnectionTest {
     }
 
     @Test
-    void saveEntity_SingleEntity_Success() {
+    void saveEntitySingleEntitySuccess() {
         User user = new User("John", new ArrayList<>());
         User savedUser = testConnection.saveEntity(user);
         assertNotNull(savedUser);
     }
 
     @Test
-    void saveEntity_ListOfEntities_Success() {
+    void saveEntityListOfEntitiesSuccess() {
         List<User> userList = List.of(
                 new User("Alice", new ArrayList<>()),
                 new User("Bob", new ArrayList<>())
@@ -48,7 +48,7 @@ class MongoDBConnectionTest {
     }
 
     @Test
-    void deleteEntity_SingleEntity_Success() {
+    void deleteEntitySingleEntitySuccess() {
         User user = new User("Jane", new ArrayList<>());
         User savedUser = testConnection.saveEntity(user);
         assertNotNull(savedUser);
@@ -56,7 +56,7 @@ class MongoDBConnectionTest {
     }
 
     @Test
-    void deleteEntity_ListOfEntities_Success() {
+    void deleteEntityListOfEntitiesSuccess() {
         List<User> userList = List.of(
                 new User("Michael", new ArrayList<>()),
                 new User("Emma", new ArrayList<>())
@@ -71,7 +71,7 @@ class MongoDBConnectionTest {
     }
 
     @Test
-    void findEntity_ReturnsListOfEntities_Success() {
+    void findEntityReturnsListOfEntitiesSuccess() {
         User user = new User("Andrew", new ArrayList<>());
         List<User> userList = testConnection.findEntity(User.class);
         assertNotNull(userList);
@@ -79,7 +79,7 @@ class MongoDBConnectionTest {
     }
 
     @Test
-    void findEntityWithFilters_ReturnsFilteredEntities_Success() {
+    void findEntityWithFiltersReturnsFilteredEntitiesSuccess() {
         Map<String, Object> filter = new HashMap<>();
         filter.put("_id", "John");
 
@@ -91,7 +91,7 @@ class MongoDBConnectionTest {
     }
 
     @Test
-    void updateEntity_EntityExists_Success() {
+    void updateEntityEntityExistsSuccess() {
         User user = new User("Test", new ArrayList<>());
 
         User savedUser = testConnection.saveEntity(user);
@@ -108,7 +108,7 @@ class MongoDBConnectionTest {
     }
 
     @Test
-    void count_ReturnsNumberOfEntities_Success() {
+    void countReturnsNumberOfEntitiesSuccess() {
         int userCount = testConnection.count(new User());
         assertTrue(userCount >= 0);
     }
