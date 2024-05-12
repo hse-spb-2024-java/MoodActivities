@@ -2,7 +2,7 @@ package org.hse.moodactivities.color_themes
 
 class CalmnessColorTheme() : ColorTheme(
     ColorThemeType.CALMNESS_THEME,
-    Mode.DAY,
+    LightMode.DAY,
     getColorByName("mint cream")!!, // all colors exist
     getColorByName("khaki")!!,
     getColorByName("dimmed khaki")!!,

@@ -1,7 +1,6 @@
 package org.hse.moodactivities.fragments
 
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +11,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,10 +21,10 @@ import org.hse.moodactivities.activities.CalendarDayActivity
 import org.hse.moodactivities.adapters.CalendarAdapter
 import org.hse.moodactivities.responses.MonthStatisticResponse
 import org.hse.moodactivities.services.CalendarService
+import org.hse.moodactivities.services.ThemesService
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import kotlin.random.Random
 
 class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     companion object {
@@ -63,19 +64,19 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         // todo in themes: move to ui service
         val moodBackground1: GradientDrawable =
             view.findViewById<ImageView>(R.id.day_1_image).background as GradientDrawable
-        moodBackground1.setColor(Color.parseColor("#483D8B"))
+        moodBackground1.setColor(ThemesService.getMoodIndicatorColorByScore(1))
         val moodBackground2: GradientDrawable =
             view.findViewById<ImageView>(R.id.day_2_image).background as GradientDrawable
-        moodBackground2.setColor(Color.parseColor("#6495ED"))
+        moodBackground2.setColor(ThemesService.getMoodIndicatorColorByScore(2))
         val moodBackground3: GradientDrawable =
             view.findViewById<ImageView>(R.id.day_3_image).background as GradientDrawable
-        moodBackground3.setColor(Color.parseColor("#FFFACD"))
+        moodBackground3.setColor(ThemesService.getMoodIndicatorColorByScore(3))
         val moodBackground4: GradientDrawable =
             view.findViewById<ImageView>(R.id.day_4_image).background as GradientDrawable
-        moodBackground4.setColor(Color.parseColor("#FFB6C1"))
+        moodBackground4.setColor(ThemesService.getMoodIndicatorColorByScore(4))
         val moodBackground5: GradientDrawable =
             view.findViewById<ImageView>(R.id.day_5_image).background as GradientDrawable
-        moodBackground5.setColor(Color.parseColor("#90EE90"))
+        moodBackground5.setColor(ThemesService.getMoodIndicatorColorByScore(5))
 
         return view
     }
@@ -83,6 +84,7 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMonthData()
+        setColorTheme()
     }
 
     private fun initMonthData() {
@@ -178,5 +180,19 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
             val dayInfoActivityIntent = Intent(this.activity, CalendarDayActivity::class.java)
             startActivity(dayInfoActivityIntent)
         }
+    }
+
+    private fun setColorTheme() {
+        // set background color
+        view?.findViewById<ConstraintLayout>(R.id.calendar_screen_fragment_layout)
+            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set color to calendar widget background
+        view?.findViewById<CardView>(R.id.calendar_card)
+            ?.setCardBackgroundColor(ThemesService.getColor3())
+
+        // set color to month statistic widget
+        view?.findViewById<CardView>(R.id.month_statistic_card)
+            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
     }
 }

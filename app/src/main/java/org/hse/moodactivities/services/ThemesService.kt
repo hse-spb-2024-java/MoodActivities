@@ -9,9 +9,22 @@ class ThemesService {
         private var colorThemes: HashMap<ColorThemeType, ColorTheme> =
             hashMapOf(ColorThemeType.CALMNESS_THEME to CalmnessColorTheme())
 
-        private var mode = ColorTheme.Mode.DAY
+        private var lightMode = ColorTheme.LightMode.DAY
         private var colorThemeType = ColorThemeType.CALMNESS_THEME
         private var colorTheme: ColorTheme = colorThemes[ColorThemeType.CALMNESS_THEME]!!
+
+        fun changeColorTheme(newColorThemeType: ColorThemeType) {
+            colorThemeType = newColorThemeType
+            colorTheme = colorThemes[colorThemeType]!!
+        }
+
+        fun changeLightMode(newLightMode: ColorTheme.LightMode) {
+            lightMode = newLightMode
+        }
+
+        fun getMoodIndicatorColorByScore(score: Int): Int {
+            return ColorTheme.getMoodIndicatorColorByScore(score)
+        }
 
         fun getBackgroundColor(): Int {
             return colorTheme.getBackgroundColor()

@@ -106,7 +106,7 @@ class HomeScreenFragment : Fragment() {
 
     private fun setColorTheme() {
         // set background color
-        view?.findViewById<LinearLayout>(R.id.home_frame_layout)
+        view?.findViewById<LinearLayout>(R.id.home_screen_fragment_layout)
             ?.setBackgroundColor(ThemesService.getBackgroundColor())
 
         // set colors to activity widget

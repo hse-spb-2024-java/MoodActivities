@@ -1,6 +1,7 @@
 package org.hse.moodactivities.color_themes
 
 import android.graphics.Color
+import org.hse.moodactivities.services.ThemesService
 
 enum class ColorThemeType {
     ENERGY_THEME, CALMNESS_THEME, CHEERFULNESS_THEME, INSPIRATION_THEME, PRODUCTIVITY_THEME,
@@ -9,7 +10,7 @@ enum class ColorThemeType {
 
 open class ColorTheme(
     private var colorThemeType: ColorThemeType,
-    private var mode: Mode,
+    private var lightMode: LightMode,
     private var backgroundColor: Int,
     private var color1: Int,
     private var dimmedColor1: Int,
@@ -21,7 +22,7 @@ open class ColorTheme(
     private var dimmedColor4: Int,
     private var color5: Int,
 ) {
-    enum class Mode {
+    enum class LightMode {
         DAY, NIGHT
     }
 
@@ -29,8 +30,8 @@ open class ColorTheme(
         return colorThemeType
     }
 
-    fun getMode(): Mode {
-        return mode
+    fun getMode(): LightMode {
+        return lightMode
     }
 
     fun getBackgroundColor(): Int {
@@ -76,6 +77,11 @@ open class ColorTheme(
     companion object {
         private val colors: HashMap<String, Int> =
             hashMapOf(
+                "pastel red" to Color.parseColor("#E66360"),
+                "pastel orange" to Color.parseColor("#F0B365"),
+                "pastel yellow" to Color.parseColor("#E9EC6B"),
+                "bright green" to Color.parseColor("#B3E820"),
+                "green" to Color.parseColor("#00AE58"),
                 "mint cream" to Color.parseColor("#F7FBF8"),
                 "khaki" to Color.parseColor("#BFA89E"),
                 "dimmed khaki" to Color.parseColor("#B19589"),
@@ -90,6 +96,18 @@ open class ColorTheme(
 
         fun getColorByName(name: String): Int? {
             return colors[name]
+        }
+
+        fun getMoodIndicatorColorByScore(score: Int): Int {
+            return when (score) {
+                1 -> colors["pastel red"]!!
+                2 -> colors["pastel orange"]!!
+                3 -> colors["pastel yellow"]!!
+                4 -> colors["bright green"]!!
+                5 -> colors["green"]!!
+                else -> ThemesService.getColor3()
+            }
+
         }
     }
 }

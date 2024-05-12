@@ -3,8 +3,10 @@ package org.hse.moodactivities.activities
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.hse.moodactivities.R
 import org.hse.moodactivities.adapters.CalendarDayAdapter
 import org.hse.moodactivities.databinding.ActivityCalendarDayBinding
 import org.hse.moodactivities.models.DailyActivityItemModel
@@ -15,6 +17,7 @@ import org.hse.moodactivities.models.DailyItemModel.Companion.DEFAULT_TIME
 import org.hse.moodactivities.models.MoodActivity
 import org.hse.moodactivities.models.MoodEmotion
 import org.hse.moodactivities.services.CalendarService
+import org.hse.moodactivities.services.ThemesService
 import java.time.format.DateTimeFormatter
 
 class CalendarDayActivity : AppCompatActivity() {
@@ -131,5 +134,11 @@ class CalendarDayActivity : AppCompatActivity() {
             widget2.getTime().compareTo(widget1.getTime())
         }
         return widgets
+    }
+
+    private fun setColorTheme() {
+        // set background color
+        findViewById<ConstraintLayout>(R.id.calendar_day_activity_layout)
+            ?.setBackgroundColor(ThemesService.getBackgroundColor())
     }
 }
