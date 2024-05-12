@@ -78,7 +78,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return ChronoUnit.DAYS.between(possibleDate, today) <= diff;
     }
 
-    private static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+    static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
         if (metas == null) {
             return new ArrayList<>();
         }

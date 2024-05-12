@@ -1,15 +1,23 @@
 package org.hse.moodactivities.services;
 
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+
 import org.hse.moodactivities.common.proto.requests.activity.CheckActivityRequest;
 import org.hse.moodactivities.common.proto.requests.activity.GetActivityRequest;
 import org.hse.moodactivities.common.proto.requests.activity.RecordActivityRequest;
+import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
 import org.hse.moodactivities.common.proto.responses.activity.CheckActivityResponse;
 import org.hse.moodactivities.common.proto.responses.activity.GetActivityResponse;
 import org.hse.moodactivities.common.proto.responses.activity.RecordActivityResponse;
 import org.hse.moodactivities.common.proto.services.ActivityServiceGrpc;
 import org.hse.moodactivities.data.entities.mongodb.DailyActivity;
+import org.hse.moodactivities.data.entities.mongodb.MoodFlowRecord;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
+import org.hse.moodactivities.data.promts.PromptsStorage;
+import org.hse.moodactivities.utils.GptClientRequest;
+import org.hse.moodactivities.utils.GptMessages;
+import org.hse.moodactivities.utils.GptResponse;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
 
@@ -32,9 +40,69 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         return (users != null && !users.isEmpty()) ? Optional.of(users.get(0)) : Optional.empty();
     }
 
-    private String activityPromptCreator(List<UserDayMeta> metas, LocalDate date) {
-        // TODO: idea for gpt
-        return "touch the grass";
+    private List<String> unwrapRecords(List<MoodFlowRecord> records) {
+        ArrayList<String> emotionsAndActivities = new ArrayList<>();
+        StringBuilder activities = new StringBuilder();
+        StringBuilder emotions = new StringBuilder();
+        for (var record : records) {
+            for (var activity : record.getActivities()) {
+                activities.append(activity.getType() + ", ");
+            }
+            for (var emotion : record.getMoods()) {
+                emotions.append(emotion.getType() + ", ");
+            }
+        }
+        emotionsAndActivities.add(emotions.toString());
+        emotionsAndActivities.add(activities.toString());
+        return emotionsAndActivities;
+    }
+
+    private Optional<String> activityPromptCreator(List<UserDayMeta> metas, LocalDate date) {
+        StringBuilder requestString = new StringBuilder(PromptsStorage.getString("dailyActivity.defaultRequest"));
+        List<UserDayMeta> weeklySublist = StatsService.getCorrectDaysSublist(metas, PeriodType.WEEK);
+        if (!weeklySublist.isEmpty()) {
+            int recordedDays = 0;
+            int moodSum = 0;
+            String activities = null;
+            String emotions = null;
+            String lastGeneratedActivity = null;
+            String lastGeneratedActivityReport = null;
+            for (var day : weeklySublist) {
+                if (day.getDailyScore() != 0) {
+                    recordedDays += 1;
+                    moodSum += day.getDailyScore();
+                }
+            }
+            for (int i = weeklySublist.size() - 1; i >= 0; i--) {
+                UserDayMeta meta = weeklySublist.get(i);
+                if (meta.getRecords().size() > 0 && emotions == null) {
+                    List<String> unwrappedRecords = unwrapRecords(meta.getRecords());
+                    emotions = unwrappedRecords.get(0);
+                    activities = unwrappedRecords.get(1);
+                }
+                if (meta.getActivity().getReport() != null && lastGeneratedActivity == null) {
+                    lastGeneratedActivity = meta.getActivity().getActivity();
+                    lastGeneratedActivityReport = meta.getActivity().getReport();
+                }
+            }
+            if (recordedDays > 0) {
+                String formattedMoodSum = String.format(PromptsStorage.getString("dailyActivity.addMoodToRequest"), moodSum / recordedDays);
+                requestString.append(formattedMoodSum);
+            }
+            if (emotions != null) {
+                String formattedEmotions = String.format(PromptsStorage.getString("dailyActivity.addDailyRecordRequest"), activities, emotions);
+                requestString.append(formattedEmotions);
+            }
+            if (lastGeneratedActivity != null) {
+                String formattedActivities = String.format(PromptsStorage.getString("dailyActivity.addPreviousActivities"), lastGeneratedActivity, lastGeneratedActivityReport);
+                requestString.append(formattedActivities);
+            }
+        }
+        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString.toString()));
+        if (response.statusCode() < HTTP_BAD_REQUEST) {
+            return Optional.of(response.message().getContent());
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -46,10 +114,13 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
             user.setMetas(new ArrayList<>());
         }
         LocalDate date = LocalDate.parse(request.getDate());
-        String activityString = activityPromptCreator(user.getMetas(), date);
+        Optional<String> activityString = activityPromptCreator(user.getMetas(), date);
+        if (activityString.isEmpty()) {
+            responseObserver.onError(new RuntimeException("GPT unavailable"));
+        }
         DailyActivity activity = new DailyActivity();
         activity.setTime(LocalTime.now());
-        activity.setActivity(activityString);
+        activity.setActivity(activityString.get());
         if (user.getMetas().isEmpty() || !user.getMetas().getLast().getDate().equals(date)) {
             UserDayMeta newMeta = new UserDayMeta();
             newMeta.setActivity(activity);
@@ -64,6 +135,9 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         } else {
             MongoDBSingleton.getInstance().getConnection().updateEntity(user);
         }
+        GetActivityResponse response = GetActivityResponse.newBuilder().setActivity(activityString.get()).setStatusCode(200).build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
     }
 
     @Override
