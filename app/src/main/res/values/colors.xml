@@ -30,7 +30,6 @@
     <color name="light_gray">#DCDCDC</color>
     <color name="dark_slate_gray">#2F4F4F</color>
     <color name="light_slate_gray">#778899</color>
-
     <color name="light_salmon">#FFA07A</color>
     <color name="light_pink">#FFB6C1</color>
     <color name="pale_violet_red">#DB7093</color>
@@ -42,7 +41,6 @@
     <color name="orchid">#DA70D6</color>
     <color name="medium_purple">#9370DB</color>
     <color name="sky_blue">#87CEEB</color>
-
     <color name="pastel_light_blue">#C6E2FF</color>
     <color name="pastel_green">#CCFFCC</color>
     <color name="pastel_yellow">#FFFF99</color>
@@ -61,6 +59,4 @@
     <color name="pastel_gray">#CECECE</color>
     <color name="pastel_red">#FFB3B3</color>
     <color name="pastel_turkis">#96FFFF</color>
-
-
 </resources>

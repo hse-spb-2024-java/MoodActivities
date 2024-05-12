@@ -8,6 +8,7 @@ import org.hse.moodactivities.common.proto.requests.defaults.QuestionRecord;
 import org.hse.moodactivities.common.proto.requests.stats.AllDayRequest;
 import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.FullReportRequest;
+import org.hse.moodactivities.common.proto.requests.stats.MoodForTheMonthRequest;
 import org.hse.moodactivities.common.proto.requests.stats.ReportType;
 import org.hse.moodactivities.common.proto.requests.stats.TopListRequest;
 import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
@@ -15,6 +16,7 @@ import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
 import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
 import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
 import org.hse.moodactivities.common.proto.responses.stats.FullReportResponse;
+import org.hse.moodactivities.common.proto.responses.stats.MoodForTheMonthResponse;
 import org.hse.moodactivities.common.proto.responses.stats.TopItem;
 import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
 import org.hse.moodactivities.common.proto.responses.stats.UsersMood;
@@ -27,6 +29,7 @@ import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -118,8 +121,29 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return acceptedMetas.isEmpty() ? null : acceptedMetas.getLast();
     }
 
+
     private static int mapAmount(int amount) {
         return amount == 0 ? Integer.MAX_VALUE : amount;
+    }
+
+    private static String removeMS(String time) {
+        int lastDotIndex = time.lastIndexOf('.');
+        if (lastDotIndex != -1) {
+            String result = time.substring(0, lastDotIndex);
+            return result;
+        } else {
+            throw new RuntimeException("bad time format in db");
+        }
+    }
+
+    private static String removeSeconds(String time) {
+        int endIndex = 5;
+        if (endIndex < time.length()) {
+            String result = time.substring(0, endIndex);
+            return result;
+        } else {
+            throw new RuntimeException("bad time format in db");
+        }
     }
 
     @Override
@@ -139,21 +163,33 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         .setQuestion(record.getQuestion().getQuestion())
                         .setAnswer(record.getQuestion().getAnswer())
                         .setScore(record.getScore())
+                        .setTime(removeSeconds(record.getTime().toString()))
+                        .setShortSummary(record.getShortSummary())
                         .build();
                 records.add(newRecord);
+            }
+
+            QuestionRecord question = null;
+            if (meta.getQuestion().getQuestion() != null) {
+                question = QuestionRecord.newBuilder()
+                        .setQuestion(meta.getQuestion().getQuestion())
+                        .setAnswer(meta.getQuestion().getAnswer()).build();
+            }
+
+            ActivityRecord activity = null;
+            if (meta.getActivity().getActivity() != null) {
+                activity = ActivityRecord.newBuilder()
+                        .setActivity(meta.getActivity().getActivity())
+                        .setReport(meta.getActivity().getReport())
+                        .build();
             }
 
             response = AllDayResponse.newBuilder()
                     .addAllRecords(records)
                     .setDate(request.getDate())
                     .setScore(meta.getDailyScore())
-                    .setQuestion(QuestionRecord.newBuilder()
-                            .setQuestion(meta.getQuestion().getQuestion())
-                            .setAnswer(meta.getQuestion().getAnswer()).build())
-                    .setActivity(ActivityRecord.newBuilder()
-                            .setActivity(meta.getActivity().getActivity())
-                            .setReport(meta.getActivity().getReport())
-                            .build())
+                    .setQuestion(question == null ? QuestionRecord.getDefaultInstance() : question)
+                    .setActivity(activity == null ? ActivityRecord.getDefaultInstance() : activity)
                     .build();
         }
         responseObserver.onNext(response);
@@ -267,6 +303,25 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                 .map(item -> DayOfWeek.forNumber(item.getDate().getDayOfWeek().getValue() - 1))
                 .toList();
         WeeklyReportResponse response = WeeklyReportResponse.newBuilder().addAllListOfDays(days).build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getMoodForTheMonth(MoodForTheMonthRequest request, StreamObserver<MoodForTheMonthResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        List<UserDayMeta> metas = getUser(userId).getMetas();
+        List<DaysMoodResponse> responses = metas.stream()
+                .filter((item) ->
+                        (item.getDate().getMonth().equals(Month.of(request.getMonth()))) &&
+                                item.getDate().getYear() == request.getYear())
+                .map((item) -> DaysMoodResponse.newBuilder()
+                        .setDate(item.getDate().toString())
+                        .setScore(item.getDailyScore()).build()
+                ).collect(Collectors.toList());
+        MoodForTheMonthResponse response = MoodForTheMonthResponse.newBuilder()
+                .addAllRecordedDays(responses)
+                .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

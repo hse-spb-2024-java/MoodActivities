@@ -24,6 +24,7 @@ import org.hse.moodactivities.common.proto.requests.dailyQuestion.QuestionReques
 import org.hse.moodactivities.common.proto.services.QuestionServiceGrpc
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.interfaces.Communicator
+import org.hse.moodactivities.services.UserService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 import org.hse.moodactivities.viewmodels.AuthViewModel
@@ -47,7 +48,7 @@ class QuestionOfTheDayFragment : Fragment() {
         communicator = activity as Communicator
 
         channel =
-            ManagedChannelBuilder.forAddress("10.0.2.2", Companion.PORT).usePlaintext().build()
+            ManagedChannelBuilder.forAddress(UserService.ADDRESS, UserService.PORT).usePlaintext().build()
 
         authViewModel = ViewModelProvider(this.requireActivity())[AuthViewModel::class.java]
 
@@ -102,9 +103,5 @@ class QuestionOfTheDayFragment : Fragment() {
         }
 
         return view
-    }
-
-    companion object {
-        const val PORT = 12345
     }
 }

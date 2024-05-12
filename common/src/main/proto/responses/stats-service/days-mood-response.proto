@@ -7,4 +7,5 @@ package responses;
 
 message DaysMoodResponse {
     double score = 1;
+    string date = 2;
 }
