@@ -23,10 +23,7 @@ class StatisticItemAdapter(
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         val item: StatisticItem = arrayList[position]
 
-        holder.position.text = buildString {
-            append("#")
-            append((position + 1).toString())
-        }
+        holder.position.text = createPositionTittle(position + 1)
         holder.name.text = item.getName()
         holder.icon.setImageResource(item.getIconId())
         holder.counter.text = ChartsService.createCounterText(item.getCounter())
@@ -41,5 +38,12 @@ class StatisticItemAdapter(
         var name: TextView = itemView.findViewById(R.id.name)
         var icon: ImageView = itemView.findViewById(R.id.icon_image)
         var counter: TextView = itemView.findViewById(R.id.counter)
+    }
+
+    private fun createPositionTittle(position: Int): String {
+        return buildString {
+            append("#")
+            append((position).toString())
+        }
     }
 }

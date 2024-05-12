@@ -43,6 +43,7 @@
                     android:layout_height="50dp"
                     android:gravity="center"
                     android:orientation="horizontal">
+
                     <!-- day 1 -->
                     <LinearLayout
                         android:layout_width="30dp"
@@ -68,6 +69,7 @@
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="match_parent" />
+
                     <!-- day 2 -->
                     <LinearLayout
                         android:layout_width="30dp"
@@ -93,6 +95,7 @@
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="match_parent" />
+
                     <!-- day 3 -->
                     <LinearLayout
                         android:layout_width="30dp"
@@ -118,6 +121,7 @@
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="match_parent" />
+
                     <!-- day 4 -->
                     <LinearLayout
                         android:layout_width="30dp"
@@ -143,6 +147,7 @@
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="match_parent" />
+
                     <!-- day 5 -->
                     <LinearLayout
                         android:layout_width="30dp"
@@ -193,6 +198,7 @@
                     <Space
                         android:layout_width="20dp"
                         android:layout_height="match_parent" />
+
                     <!-- day 7 -->
                     <LinearLayout
                         android:layout_width="30dp"

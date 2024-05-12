@@ -83,6 +83,8 @@ class ChartsService(activity: AppCompatActivity) {
         })
 
     private lateinit var startDate: LocalDate
+    private var moodChartPeriod = TimePeriod.Value.WEEK
+    private var maxValue: Long = 0
 
     private inner class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
         override fun getFormattedValue(value: Float): String {
@@ -92,19 +94,53 @@ class ChartsService(activity: AppCompatActivity) {
         }
     }
 
-    private fun toPeriodType(timePeriod: TimePeriod.Value): PeriodType {
-        return when (timePeriod) {
-            TimePeriod.Value.WEEK -> PeriodType.WEEK
-            TimePeriod.Value.MONTH -> PeriodType.MONTH
-            TimePeriod.Value.YEAR -> PeriodType.YEAR
-            TimePeriod.Value.ALL_TIME -> PeriodType.ALL
-        }
+    private object DaysInRowSettings {
+        const val RECORDED_COLOR = "#98FB98"
+        const val NOT_RECORDED_COLOR = "#FF6347"
+        const val CARD_INDEX = 0
+        const val TEXT_INDEX = 2
+        const val TEXT_SIZE = 12f
+        const val TEXT_COLOR = Color.BLACK
+        const val WEEK_DAYS_AMOUNT = 7
     }
 
-    private fun toReportType(): ReportType {
-        return when (statisticMode) {
-            StatisticMode.EMOTIONS -> ReportType.EMOTIONS
-            StatisticMode.ACTIVITIES -> ReportType.ACTIVITIES
+    private object MoodChartSettings {
+        const val Y_AXIS_MIN = 0.5f
+        const val Y_AXIS_MAX = 5.5f
+        const val X_AXIS_MIN = -0.5f
+        const val GRID_LINE_WIDTH = 1f
+        const val GRANULARITY = 1f
+        const val CHARTS_COLOR = "#55878D"
+        const val CHARTS_LINE_WIDTH = 2.5f
+        const val TEXT_SIZE = 12f
+        const val TEXT_COLOR = Color.LTGRAY
+        const val GRID_LINE_LENGTH = 30f
+        const val GRID_LINE_SPACE_LENGTH = 40f
+        const val GRID_LINE_PHASE = 0f
+    }
+
+    private object DistributionChartSettings {
+        const val HOLE_RADIUS = 58f
+        const val TEXT_SIZE = 14f
+    }
+
+    private fun getStartDate(timePeriod: TimePeriod.Value, minDate: LocalDate?) {
+        startDate = when (timePeriod) {
+            TimePeriod.Value.WEEK -> {
+                LocalDate.now().minusDays(7)
+            }
+
+            TimePeriod.Value.MONTH -> {
+                LocalDate.now().minusMonths(1)
+            }
+
+            TimePeriod.Value.YEAR -> {
+                LocalDate.now().minusYears(1)
+            }
+
+            else -> {
+                minDate ?: LocalDate.now()
+            }
         }
     }
 
@@ -127,22 +163,14 @@ class ChartsService(activity: AppCompatActivity) {
         return responseList
     }
 
-    private object DaysInRowSettings {
-        const val RECORDED_COLOR = "#98FB98"
-        const val NOT_RECORDED_COLOR = "#FF6347"
-        const val CARD_INDEX = 0
-        const val TEXT_INDEX = 2
-        const val TEXT_SIZE = 12f
-        const val TEXT_COLOR = Color.BLACK
-        const val WEEK_DAYS_AMOUNT = 7
-    }
-
-
     fun createDaysInRow(daysInRow: LinearLayout) {
         val response = stub.getWeeklyReport(WeeklyReportRequest.getDefaultInstance());
         val days = ArrayList<DayData>()
         for (dayIndex in 0..<DaysInRowSettings.WEEK_DAYS_AMOUNT) {
+            // layout of the day
             val layout = daysInRow.getChildAt(2 * dayIndex) as LinearLayout
+
+            // get day data
             val day =
                 response.listOfDaysList.find { DayOfWeek.valueOf(it.name) == DayOfWeek.of(dayIndex + 1) }
             if (day != null) {
@@ -150,6 +178,8 @@ class ChartsService(activity: AppCompatActivity) {
             } else {
                 days.add(DayData(false, DayOfWeek.of(dayIndex + 1)))
             }
+
+            // set color for the day
             val color: Int = if (days[dayIndex].isRecorded) {
                 Color.parseColor(DaysInRowSettings.RECORDED_COLOR)
             } else {
@@ -158,6 +188,7 @@ class ChartsService(activity: AppCompatActivity) {
             val card = layout.getChildAt(DaysInRowSettings.CARD_INDEX) as CardView
             card.setCardBackgroundColor(color)
 
+            // set week name
             val text = layout.getChildAt(DaysInRowSettings.TEXT_INDEX) as TextView
             text.text = days[dayIndex].week.name.lowercase().subSequence(0, 3)
             text.textSize = DaysInRowSettings.TEXT_SIZE
@@ -167,10 +198,72 @@ class ChartsService(activity: AppCompatActivity) {
         }
     }
 
-    private object DistributionChartSettings {
-        const val HOLE_RADIUS = 58f
-        const val TEXT_SIZE = 14f
+    fun createMoodCharts(resources: Resources, lineChart: LineChart, timePeriod: TimePeriod.Value) {
+        maxValue = 0
+        val data = getMoodData(resources, timePeriod)
+
+        // set axis settings
+        lineChart.axisRight.isEnabled = false
+
+        // set y-axis settings
+        val yAxis: YAxis = lineChart.axisLeft
+        yAxis.setDrawAxisLine(true)
+        yAxis.setDrawGridLines(true)
+        yAxis.setDrawGridLinesBehindData(true)
+        yAxis.setAxisMinimum(MoodChartSettings.Y_AXIS_MIN)
+        yAxis.setAxisMaximum(MoodChartSettings.Y_AXIS_MAX)
+        yAxis.granularity = MoodChartSettings.GRANULARITY
+        yAxis.gridLineWidth = MoodChartSettings.GRID_LINE_WIDTH
+        yAxis.gridColor = Color.LTGRAY
+        yAxis.enableGridDashedLine(
+            MoodChartSettings.GRID_LINE_LENGTH,
+            MoodChartSettings.GRID_LINE_SPACE_LENGTH,
+            MoodChartSettings.GRID_LINE_PHASE
+        )
+
+        // set x-axis settings
+        val xAxis: XAxis = lineChart.xAxis
+        xAxis.textColor = MoodChartSettings.TEXT_COLOR
+        xAxis.setTextSize(MoodChartSettings.TEXT_SIZE)
+        xAxis.setAxisMinimum(MoodChartSettings.X_AXIS_MIN)
+        if (timePeriod == TimePeriod.Value.WEEK) {
+            maxValue = 7
+        } else if (timePeriod == TimePeriod.Value.MONTH) {
+            maxValue = 30
+        } else if (timePeriod == TimePeriod.Value.YEAR) {
+            maxValue = 365
+        }
+        xAxis.setAxisMaximum(0.5f + maxValue)
+        xAxis.setDrawAxisLine(true)
+        xAxis.valueFormatter = LineChartXAxisValueFormatter()
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawLabels(true)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.granularity = 20.toFloat() / maxValue
+
+        // create dataset
+        val dataSet = LineDataSet(data, "week mood")
+        dataSet.setColor(Color.parseColor(MoodChartSettings.CHARTS_COLOR))
+        dataSet.setLineWidth(MoodChartSettings.CHARTS_LINE_WIDTH)
+
+        // set legend description
+        val legend: Legend = lineChart.legend
+        legend.form = Legend.LegendForm.NONE
+        legend.textColor = Color.WHITE
+
+        // set description enabled
+        val description = Description()
+        description.isEnabled = false
+        lineChart.description = description
+
+        // set data
+        val lineData = LineData(dataSet)
+        lineData.setDrawValues(false)
+        lineChart.setData(lineData)
+
+        lineChart.invalidate()
     }
+
 
     fun createDistributionChart(pieChart: PieChart, timePeriod: TimePeriod.Value) {
         val statistic = getStatistic(timePeriod)
@@ -215,159 +308,38 @@ class ChartsService(activity: AppCompatActivity) {
         pieChart.invalidate()
     }
 
-    private var moodChartPeriod = TimePeriod.Value.WEEK
-    private var maxValue: Long = 0
-
     @SuppressLint("SimpleDateFormat")
     private fun getMoodData(
-        resources: Resources, period: TimePeriod.Value
+        resources: Resources, timePeriod: TimePeriod.Value
     ): MutableList<Entry> {
-        moodChartPeriod = period
+        moodChartPeriod = timePeriod
         val entries: MutableList<Entry> = ArrayList()
-        val recordedItems =
-            stub.getUsersMood(UsersMoodRequest.newBuilder().setPeriod(toPeriodType(period)).build())
+        val recordedItems = stub.getUsersMood(
+            UsersMoodRequest.newBuilder().setPeriod(toPeriodType(timePeriod)).build()
+        )
         val minDate =
             if (recordedItems.usersMoodsList.isEmpty()) null else LocalDate.parse(recordedItems.usersMoodsList[0].date)
-        getStartDate(period, minDate)
+        getStartDate(timePeriod, minDate)
         for (item in recordedItems.usersMoodsList) {
             val dateString = item.date
             val score = item.score
             val date = LocalDate.parse(dateString).toEpochDay()
             val startDate = startDate.toEpochDay()
             maxValue = max(maxValue, date - startDate)
-            val entry = if (period == TimePeriod.Value.WEEK || period == TimePeriod.Value.MONTH) {
-                val icon = getCroppedDrawable(
-                    resources, UiUtils.getMoodImageResourcesIdByIndex(score), 80, 80
-                )
-                Entry((date - startDate).toFloat(), score + 1f, icon)
-            } else {
-                Entry((date - startDate).toFloat(), score + 1f)
-            }
+            val entry =
+                if (timePeriod == TimePeriod.Value.WEEK || timePeriod == TimePeriod.Value.MONTH) {
+                    val icon = getCroppedDrawable(
+                        resources, UiUtils.getMoodImageResourcesIdByIndex(score), 80, 80
+                    )
+                    Entry((date - startDate).toFloat(), score + 1f, icon)
+                } else {
+                    Entry((date - startDate).toFloat(), score + 1f)
+                }
             entries.add(entry)
         }
         return entries
     }
 
-    private fun setItemData(
-        resources: Resources,
-        view: View,
-        imageId: Int,
-        imageIconId: Int,
-        tittleId: Int,
-        tittle: String,
-        counterId: Int,
-        counter: Int
-    ) {
-        view.findViewById<ImageView>(imageId)
-            .setImageDrawable(getCroppedDrawable(resources, imageIconId, 90, 90))
-        view.findViewById<TextView>(tittleId).text = tittle
-        view.findViewById<TextView>(counterId).text = createCounterText(counter)
-    }
-
-    fun createMoodCharts(resources: Resources, lineChart: LineChart, period: TimePeriod.Value) {
-        maxValue = 0
-        val data = getMoodData(resources, period)
-
-        lineChart.axisRight.isEnabled = false
-        val yAxis: YAxis = lineChart.axisLeft
-        yAxis.setDrawAxisLine(true)
-        yAxis.setDrawGridLines(true)
-        yAxis.setDrawGridLinesBehindData(true)
-        yAxis.setAxisMinimum(MoodChartSettings.Y_AXIS_MIN)
-        yAxis.setAxisMaximum(MoodChartSettings.Y_AXIS_MAX)
-        yAxis.granularity = MoodChartSettings.GRANULARITY
-        yAxis.gridLineWidth = MoodChartSettings.GRID_LINE_WIDTH
-        yAxis.gridColor = Color.LTGRAY
-        yAxis.enableGridDashedLine(
-            MoodChartSettings.GRID_LINE_LENGTH,
-            MoodChartSettings.GRID_LINE_SPACE_LENGTH,
-            MoodChartSettings.GRID_LINE_PHASE
-        )
-
-        val xAxis: XAxis = lineChart.xAxis
-        xAxis.textColor = MoodChartSettings.TEXT_COLOR
-        xAxis.setTextSize(MoodChartSettings.TEXT_SIZE)
-        xAxis.setAxisMinimum(MoodChartSettings.X_AXIS_MIN)
-        if (period == TimePeriod.Value.WEEK) {
-            maxValue = 7
-        } else if (period == TimePeriod.Value.MONTH) {
-            maxValue = 30
-        } else if (period == TimePeriod.Value.YEAR) {
-            maxValue = 365
-        }
-        xAxis.setAxisMaximum(0.5f + maxValue)
-        xAxis.setDrawAxisLine(true)
-        xAxis.valueFormatter = LineChartXAxisValueFormatter()
-        xAxis.setDrawGridLines(false)
-        xAxis.setDrawLabels(true)
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.granularity = 20.toFloat() / maxValue
-
-        val dataSet = LineDataSet(data, "week mood")
-        dataSet.setColor(Color.parseColor(MoodChartSettings.CHARTS_COLOR))
-        dataSet.setLineWidth(MoodChartSettings.CHARTS_LINE_WIDTH)
-
-        val legend: Legend = lineChart.legend
-        legend.form = Legend.LegendForm.NONE
-        legend.textColor = Color.WHITE
-
-        val description = Description()
-        description.isEnabled = false
-        lineChart.description = description
-
-        val lineData = LineData(dataSet)
-        lineData.setDrawValues(false)
-        lineChart.setData(lineData)
-
-        lineChart.invalidate()
-    }
-
-    private fun getActivityIcon(index: Int): Int {
-        return when (index) {
-            0 -> R.id.activity_icon_1
-            1 -> R.id.activity_icon_2
-            2 -> R.id.activity_icon_3
-            else -> -1
-        }
-    }
-
-    private fun getActivityText(index: Int): Int {
-        return when (index) {
-            0 -> R.id.activity_1
-            1 -> R.id.activity_2
-            2 -> R.id.activity_3
-            else -> -1
-        }
-    }
-
-    private fun getActivityCounterId(index: Int): Int {
-        return when (index) {
-            0 -> R.id.activity_counter_1
-            1 -> R.id.activity_counter_2
-            2 -> R.id.activity_counter_3
-            else -> -1
-        }
-    }
-
-    private fun getStartDate(timePeriod: TimePeriod.Value, minDate: LocalDate?) {
-        startDate = when (timePeriod) {
-            TimePeriod.Value.WEEK -> {
-                LocalDate.now().minusDays(7)
-            }
-
-            TimePeriod.Value.MONTH -> {
-                LocalDate.now().minusMonths(1)
-            }
-
-            TimePeriod.Value.YEAR -> {
-                LocalDate.now().minusYears(1)
-            }
-
-            else -> {
-                minDate ?: LocalDate.now()
-            }
-        }
-    }
 
     fun createFrequentlyUsedActivities(
         resources: Resources, view: View, timePeriod: TimePeriod.Value
@@ -384,42 +356,16 @@ class ChartsService(activity: AppCompatActivity) {
                 setItemData(
                     resources,
                     view,
-                    getActivityIcon(index),
+                    getActivityIconId(index),
                     Item.getActivityIconIdByName(item.name)!!,
-                    getActivityText(index),
+                    getActivityTextId(index),
                     item.name,
                     getActivityCounterId(index),
                     item.amount
                 )
             }
         }
-    }
-
-    private fun getEmotionsIcon(index: Int): Int {
-        return when (index) {
-            0 -> R.id.emotion_icon_1
-            1 -> R.id.emotion_icon_2
-            2 -> R.id.emotion_icon_3
-            else -> -1
-        }
-    }
-
-    private fun getEmotionsText(index: Int): Int {
-        return when (index) {
-            0 -> R.id.emotion_1
-            1 -> R.id.emotion_2
-            2 -> R.id.emotion_3
-            else -> -1
-        }
-    }
-
-    private fun getEmotionsCounterId(index: Int): Int {
-        return when (index) {
-            0 -> R.id.emotion_counter_1
-            1 -> R.id.emotion_counter_2
-            2 -> R.id.emotion_counter_3
-            else -> -1
-        }
+        setDefaultFrequentlyUsedActivitiesItems(resources, view, amount)
     }
 
     fun createFrequentlyUsedEmotions(
@@ -437,21 +383,59 @@ class ChartsService(activity: AppCompatActivity) {
                 setItemData(
                     resources,
                     view,
-                    getEmotionsIcon(index),
+                    getEmotionIconId(index),
                     Item.getEmotionIconIdByName(item.name)!!,
-                    getEmotionsText(index),
+                    getEmotionTextId(index),
                     item.name,
-                    getEmotionsCounterId(index),
+                    getEmotionCounterId(index),
                     item.amount
                 )
             }
         }
+        setDefaultFrequentlyUsedEmotionsItems(resources, view, amount)
+    }
+
+    private fun setDefaultFrequentlyUsedActivitiesItems(
+        resources: Resources, view: View, startIndex: Int
+    ) {
+        for (index in startIndex..<AMOUNT_IN_TOP_BY_FREQUENCY) {
+            setItemData(
+                resources,
+                view,
+                getActivityIconId(index),
+                Item.getDefaultIconId(),
+                getActivityTextId(index),
+                NOT_ENOUGH_DATA,
+                getActivityCounterId(index),
+                0
+            )
+        }
+    }
+
+    private fun setDefaultFrequentlyUsedEmotionsItems(
+        resources: Resources, view: View, startIndex: Int
+    ) {
+        for (index in startIndex..<AMOUNT_IN_TOP_BY_FREQUENCY) {
+            setItemData(
+                resources,
+                view,
+                getEmotionIconId(index),
+                Item.getDefaultIconId(),
+                getEmotionTextId(index),
+                NOT_ENOUGH_DATA,
+                getEmotionCounterId(index),
+                0
+            )
+        }
     }
 
     companion object {
+        private const val AMOUNT_IN_TOP_BY_FREQUENCY = 3
+        private const val NOT_ENOUGH_DATA = "Not enough data"
+
         private var statisticMode: StatisticMode = StatisticMode.EMOTIONS
 
-        private const val AMOUNT_IN_TOP_BY_FREQUENCY = 3
+        class DayData(var isRecorded: Boolean, var week: DayOfWeek)
 
         fun createCounterText(counter: Int): String {
             return buildString {
@@ -468,21 +452,23 @@ class ChartsService(activity: AppCompatActivity) {
             this.statisticMode = statisticMode
         }
 
-        private object MoodChartSettings {
-            const val Y_AXIS_MIN = 0.5f
-            const val Y_AXIS_MAX = 5.5f
-            const val X_AXIS_MIN = -0.5f
-            const val GRID_LINE_WIDTH = 1f
-            const val GRANULARITY = 1f
-            const val CHARTS_COLOR = "#55878D"
-            const val CHARTS_LINE_WIDTH = 2.5f
-            const val TEXT_SIZE = 12f
-            const val TEXT_COLOR = Color.LTGRAY
-            const val GRID_LINE_LENGTH = 30f
-            const val GRID_LINE_SPACE_LENGTH = 40f
-            const val GRID_LINE_PHASE = 0f
+        private fun toPeriodType(timePeriod: TimePeriod.Value): PeriodType {
+            return when (timePeriod) {
+                TimePeriod.Value.WEEK -> PeriodType.WEEK
+                TimePeriod.Value.MONTH -> PeriodType.MONTH
+                TimePeriod.Value.YEAR -> PeriodType.YEAR
+                TimePeriod.Value.ALL_TIME -> PeriodType.ALL
+            }
         }
 
+        private fun toReportType(): ReportType {
+            return when (statisticMode) {
+                StatisticMode.EMOTIONS -> ReportType.EMOTIONS
+                StatisticMode.ACTIVITIES -> ReportType.ACTIVITIES
+            }
+        }
+
+        // ui utils
         private fun getCroppedDrawable(
             resources: Resources, drawableId: Int, width: Int, height: Int
         ): Drawable {
@@ -496,6 +482,74 @@ class ChartsService(activity: AppCompatActivity) {
             return BitmapDrawable(resources, bitmap)
         }
 
-        class DayData(var isRecorded: Boolean, var week: DayOfWeek)
+        private fun setItemData(
+            resources: Resources,
+            view: View,
+            imageId: Int,
+            imageIconId: Int,
+            tittleId: Int,
+            tittle: String,
+            counterId: Int,
+            counter: Int
+        ) {
+            view.findViewById<ImageView>(imageId)
+                .setImageDrawable(getCroppedDrawable(resources, imageIconId, 90, 90))
+            view.findViewById<TextView>(tittleId).text = tittle
+            view.findViewById<TextView>(counterId).text = createCounterText(counter)
+        }
+
+        private fun getActivityIconId(index: Int): Int {
+            return when (index) {
+                0 -> R.id.activity_icon_1
+                1 -> R.id.activity_icon_2
+                2 -> R.id.activity_icon_3
+                else -> -1
+            }
+        }
+
+        private fun getActivityTextId(index: Int): Int {
+            return when (index) {
+                0 -> R.id.activity_1
+                1 -> R.id.activity_2
+                2 -> R.id.activity_3
+                else -> -1
+            }
+        }
+
+        private fun getActivityCounterId(index: Int): Int {
+            return when (index) {
+                0 -> R.id.activity_counter_1
+                1 -> R.id.activity_counter_2
+                2 -> R.id.activity_counter_3
+                else -> -1
+            }
+        }
+
+        private fun getEmotionIconId(index: Int): Int {
+            return when (index) {
+                0 -> R.id.emotion_icon_1
+                1 -> R.id.emotion_icon_2
+                2 -> R.id.emotion_icon_3
+                else -> -1
+            }
+        }
+
+        private fun getEmotionTextId(index: Int): Int {
+            return when (index) {
+                0 -> R.id.emotion_1
+                1 -> R.id.emotion_2
+                2 -> R.id.emotion_3
+                else -> -1
+            }
+        }
+
+        private fun getEmotionCounterId(index: Int): Int {
+            return when (index) {
+                0 -> R.id.emotion_counter_1
+                1 -> R.id.emotion_counter_2
+                2 -> R.id.emotion_counter_3
+                else -> -1
+            }
+        }
     }
 }

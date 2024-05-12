@@ -35,7 +35,7 @@ class InsightsScreenFragment : Fragment() {
     // charts settings
     private lateinit var chartsService: ChartsService
     private lateinit var moodChart: LineChart
-    private var chartType: ChartsType = ChartsType.MOOD_CHART
+    private var changingTimePeriodChartType: ChartsType = ChartsType.MOOD_CHART
     private lateinit var moodChartLabel: TextView
     private lateinit var emotionsChartLabel: TextView
     private lateinit var activitiesChartLabel: TextView
@@ -46,7 +46,7 @@ class InsightsScreenFragment : Fragment() {
     }
 
     private fun setTimePeriodToChart(timePeriod: TimePeriod.Value) {
-        when (chartType) {
+        when (changingTimePeriodChartType) {
             ChartsType.MOOD_CHART -> {
                 chartsService.createMoodCharts(resources, moodChart, timePeriod)
                 changeTimeLabel(moodChartLabel, timePeriod)
@@ -58,7 +58,7 @@ class InsightsScreenFragment : Fragment() {
             }
 
             ChartsType.ACTIVITIES_CHART -> {
-                chartsService.createFrequentlyUsedEmotions(resources, requireView(), timePeriod)
+                chartsService.createFrequentlyUsedActivities(resources, requireView(), timePeriod)
                 changeTimeLabel(activitiesChartLabel, timePeriod)
             }
         }
@@ -125,17 +125,17 @@ class InsightsScreenFragment : Fragment() {
         // create time labels to change time periods
         // create mood time label
         view.findViewById<Button>(R.id.mood_flow_time_label_button).setOnClickListener {
-            chartType = ChartsType.MOOD_CHART
+            changingTimePeriodChartType = ChartsType.MOOD_CHART
             dialog.show()
         }
         // create emotions time label
         view.findViewById<Button>(R.id.emotions_time_label_button).setOnClickListener {
-            chartType = ChartsType.EMOTIONS_CHART
+            changingTimePeriodChartType = ChartsType.EMOTIONS_CHART
             dialog.show()
         }
         // create activities time label
         view.findViewById<Button>(R.id.activities_time_label_button).setOnClickListener {
-            chartType = ChartsType.ACTIVITIES_CHART
+            changingTimePeriodChartType = ChartsType.ACTIVITIES_CHART
             dialog.show()
         }
 
