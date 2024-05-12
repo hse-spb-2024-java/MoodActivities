@@ -50,8 +50,10 @@ class UiUtils {
             return buildString {
                 append(ChartsService.getStatisticMode().toString())
                     .append(" statistic")
+            }
+        }
 
-        fun getColorForMoodStatistic(userMood: Int) : Int {
+        fun getColorForMoodStatistic(userMood: Int): Int {
             return when (userMood) {
                 // todo: add specific colors for color theme
                 0 -> Color.parseColor("#483D8B")
