@@ -1,18 +1,20 @@
 package org.hse.moodactivities.activities
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.hse.moodactivities.R
 import org.hse.moodactivities.databinding.MainScreenBinding
 import org.hse.moodactivities.fragments.CalendarScreenFragment
 import org.hse.moodactivities.fragments.HomeScreenFragment
 import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.fragments.ProfileScreenFragment
+import org.hse.moodactivities.services.ThemesService
+
 
 class MainScreenActivity : AppCompatActivity() {
 
@@ -32,15 +34,15 @@ class MainScreenActivity : AppCompatActivity() {
                 R.id.bottom_menu_history -> replaceFragment(CalendarScreenFragment())
                 R.id.bottom_menu_insights -> replaceFragment(InsightsScreenFragment())
                 R.id.bottom_menu_profile -> replaceFragment(ProfileScreenFragment())
+                R.id.bottom_menu_chat -> {
+                    val chatActivity = Intent(this, ChatActivity::class.java)
+                    startActivity(chatActivity)
+                }
             }
             true
         }
 
-        findViewById<FloatingActionButton>(R.id.chat_button).setOnClickListener {
-            val chatActivity = Intent(this, ChatActivity::class.java)
-            startActivity(chatActivity)
-            this.finish()
-        }
+        setColorTheme()
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -48,5 +50,14 @@ class MainScreenActivity : AppCompatActivity() {
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.activity_main_frame_layout, fragment)
         fragmentTransaction.commit()
+    }
+
+    private fun setColorTheme() {
+        window.statusBarColor = ThemesService.getBackgroundColor()
+        // set color to
+        window.navigationBarColor = ThemesService.getColor2()
+        binding.bottomNavigationView.setBackgroundColor(ThemesService.getColor2())
+        binding.bottomNavigationView.itemTextColor = ColorStateList.valueOf(ThemesService.getButtonColor())
+        binding.bottomNavigationView.itemIconTintList = ColorStateList.valueOf(ThemesService.getButtonColor())
     }
 }

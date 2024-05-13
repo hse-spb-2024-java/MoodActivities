@@ -4,6 +4,8 @@ class CalmnessColorTheme() : ColorTheme(
     ColorThemeType.CALMNESS_THEME,
     LightMode.DAY,
     getColorByName("mint cream")!!, // all colors exist
+    getColorByName("dimmed mint cream")!!,
+    getColorByName("dark khaki")!!,
     getColorByName("space cadet")!!,
     getColorByName("khaki")!!,
     getColorByName("dimmed khaki")!!,

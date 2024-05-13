@@ -3,6 +3,7 @@
 
     <item
         android:id="@+id/bottom_menu_home"
+        android:iconTint="@color/black"
         android:icon="@drawable/bottom_menu_home_icon"
         android:title="@string/home_screen_tittle" />
 
@@ -14,7 +15,7 @@
     <item
         android:id="@+id/bottom_menu_chat"
         android:icon="@drawable/bottom_menu_chat_icon"
-        android:title="" />
+        android:title="Chat" />
 
     <item
         android:id="@+id/bottom_menu_insights"

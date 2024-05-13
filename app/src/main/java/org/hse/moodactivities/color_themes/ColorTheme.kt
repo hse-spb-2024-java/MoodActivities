@@ -4,14 +4,15 @@ import android.graphics.Color
 import org.hse.moodactivities.services.ThemesService
 
 enum class ColorThemeType {
-    ENERGY_THEME, CALMNESS_THEME, CHEERFULNESS_THEME, INSPIRATION_THEME, PRODUCTIVITY_THEME,
-    ROMANTIC_THEME, CONFIDENCE_THEME
+    ENERGY_THEME, CALMNESS_THEME, CHEERFULNESS_THEME, INSPIRATION_THEME, PRODUCTIVITY_THEME, ROMANTIC_THEME, CONFIDENCE_THEME
 }
 
 open class ColorTheme(
     private var colorThemeType: ColorThemeType,
     private var lightMode: LightMode,
     private var backgroundColor: Int,
+    private var dimmedBackgroundColor: Int,
+    private var buttonColor: Int,
     private var fontColor: Int,
     private var color1: Int,
     private var dimmedColor1: Int,
@@ -38,6 +39,14 @@ open class ColorTheme(
 
     fun getBackgroundColor(): Int {
         return backgroundColor
+    }
+
+    fun getDimmedBackgroundColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    fun getButtonColor(): Int {
+        return buttonColor
     }
 
     fun getFontColor(): Int {
@@ -85,26 +94,29 @@ open class ColorTheme(
     }
 
     companion object {
-        private val colors: HashMap<String, Int> =
-            hashMapOf(
-                "space cadet" to Color.parseColor("#283044"),
-                "pastel red" to Color.parseColor("#E66360"),
-                "pastel orange" to Color.parseColor("#F0B365"),
-                "pastel yellow" to Color.parseColor("#E9EC6B"),
-                "bright green" to Color.parseColor("#B3E820"),
-                "green" to Color.parseColor("#00AE58"),
-                "mint cream" to Color.parseColor("#F7FBF8"),
-                "khaki" to Color.parseColor("#BFA89E"),
-                "dimmed khaki" to Color.parseColor("#B19589"),
-                "timberwolf" to Color.parseColor("#D5CFC6"),
-                "dimmed timberwolf" to Color.parseColor("#C4BBAE"),
-                "azure" to Color.parseColor("#CFE0E2"),
-                "dimmed azure" to Color.parseColor("#B4CFD2"),
-                "columbia blue" to Color.parseColor("#B2CBD5"),
-                "dimmed columbia blue" to Color.parseColor("#99BAC7"),
-                "powder blue" to Color.parseColor("#95B6C8"),
-                "dimmed powder blue" to Color.parseColor("#7EA6BC"),
-            )
+        private val colors: HashMap<String, Int> = hashMapOf(
+            "space cadet" to Color.parseColor("#283044"),
+            "pastel red" to Color.parseColor("#E66360"),
+            "pastel orange" to Color.parseColor("#F0B365"),
+            "pastel yellow" to Color.parseColor("#E9EC6B"),
+            "bright green" to Color.parseColor("#B3E820"),
+            "mint cream" to Color.parseColor("#F7FBF8"),
+            "dimmed mint cream" to Color.parseColor("#EDF6EF"),
+            "payne's gray" to Color.parseColor("#3C4F60"),
+            "green" to Color.parseColor("#00AE58"),
+            "khaki" to Color.parseColor("#BFA89E"),
+            "dimmed khaki" to Color.parseColor("#B19589"),
+            "dark khaki" to Color.parseColor("#846557"),
+            "timberwolf" to Color.parseColor("#D5CFC6"),
+            "dimmed timberwolf" to Color.parseColor("#C4BBAE"),
+            "azure" to Color.parseColor("#CFE0E2"),
+            "dimmed azure" to Color.parseColor("#B4CFD2"),
+            "columbia blue" to Color.parseColor("#B2CBD5"),
+            "dimmed columbia blue" to Color.parseColor("#99BAC7"),
+            "powder blue" to Color.parseColor("#95B6C8"),
+            "dimmed powder blue" to Color.parseColor("#7EA6BC"),
+            "black" to Color.parseColor("#000000"),
+        )
 
         fun getColorByName(name: String): Int? {
             return colors[name]
