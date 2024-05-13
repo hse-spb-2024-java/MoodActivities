@@ -12,6 +12,7 @@ open class ColorTheme(
     private var colorThemeType: ColorThemeType,
     private var lightMode: LightMode,
     private var backgroundColor: Int,
+    private var fontColor: Int,
     private var color1: Int,
     private var dimmedColor1: Int,
     private var color2: Int,
@@ -21,6 +22,7 @@ open class ColorTheme(
     private var color4: Int,
     private var dimmedColor4: Int,
     private var color5: Int,
+    private var dimmedColor5: Int,
 ) {
     enum class LightMode {
         DAY, NIGHT
@@ -36,6 +38,10 @@ open class ColorTheme(
 
     fun getBackgroundColor(): Int {
         return backgroundColor
+    }
+
+    fun getFontColor(): Int {
+        return fontColor
     }
 
     fun getColor1(): Int {
@@ -74,9 +80,14 @@ open class ColorTheme(
         return color5
     }
 
+    fun getDimmedColor5(): Int {
+        return dimmedColor5
+    }
+
     companion object {
         private val colors: HashMap<String, Int> =
             hashMapOf(
+                "space cadet" to Color.parseColor("#283044"),
                 "pastel red" to Color.parseColor("#E66360"),
                 "pastel orange" to Color.parseColor("#F0B365"),
                 "pastel yellow" to Color.parseColor("#E9EC6B"),
@@ -92,6 +103,7 @@ open class ColorTheme(
                 "columbia blue" to Color.parseColor("#B2CBD5"),
                 "dimmed columbia blue" to Color.parseColor("#99BAC7"),
                 "powder blue" to Color.parseColor("#95B6C8"),
+                "dimmed powder blue" to Color.parseColor("#7EA6BC"),
             )
 
         fun getColorByName(name: String): Int? {

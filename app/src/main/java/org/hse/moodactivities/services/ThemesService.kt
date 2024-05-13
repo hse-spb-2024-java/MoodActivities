@@ -30,6 +30,10 @@ class ThemesService {
             return colorTheme.getBackgroundColor()
         }
 
+        fun getFontColor() : Int {
+            return colorTheme.getFontColor()
+        }
+
         fun getColor1(): Int {
             return colorTheme.getColor1()
         }
@@ -64,6 +68,10 @@ class ThemesService {
 
         fun getColor5(): Int {
             return colorTheme.getColor5()
+        }
+
+        fun getDimmedColor5(): Int {
+            return colorTheme.getDimmedColor5()
         }
     }
 }

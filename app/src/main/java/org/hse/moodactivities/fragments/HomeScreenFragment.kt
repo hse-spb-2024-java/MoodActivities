@@ -142,5 +142,11 @@ class HomeScreenFragment : Fragment() {
         // set color to chat widget
         view?.findViewById<CardView>(R.id.chat_widget)
             ?.setCardBackgroundColor(ThemesService.getColor5())
+
+        // set font color to tittles
+        view?.findViewById<TextView>(R.id.home_screen_tittle)
+            ?.setTextColor(ThemesService.getFontColor())
+        view?.findViewById<TextView>(R.id.week_widget_tittle)
+            ?.setTextColor(ThemesService.getFontColor())
     }
 }

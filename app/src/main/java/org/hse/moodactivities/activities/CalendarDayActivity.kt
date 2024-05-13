@@ -2,6 +2,7 @@ package org.hse.moodactivities.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +15,7 @@ import org.hse.moodactivities.models.DailyEmptyItemModel
 import org.hse.moodactivities.models.DailyInfoItemModel
 import org.hse.moodactivities.models.DailyItemModel
 import org.hse.moodactivities.models.DailyItemModel.Companion.DEFAULT_TIME
+import org.hse.moodactivities.models.DailyQuestionItemModel
 import org.hse.moodactivities.models.MoodActivity
 import org.hse.moodactivities.models.MoodEmotion
 import org.hse.moodactivities.services.CalendarService
@@ -45,6 +47,8 @@ class CalendarDayActivity : AppCompatActivity() {
         setWidgets()
 
         Log.i(LOG_TAG, "Show user's information for the date " + binding.dayInfoTittle.text)
+
+        setColorTheme()
     }
 
     private fun setWidgets() {
@@ -77,7 +81,7 @@ class CalendarDayActivity : AppCompatActivity() {
         // setup daily question
         val dailyQuestion = response.getDailyQuestion()
         if (dailyQuestion.getDailyQuestion().isNotEmpty()) {
-            val dailyQuestionModel = DailyActivityItemModel(
+            val dailyQuestionModel = DailyQuestionItemModel(
                 dailyQuestion.getDailyQuestion(),
                 dailyQuestion.getAnswerToDailyQuestion(),
                 dailyQuestion.getTime()
@@ -140,5 +144,9 @@ class CalendarDayActivity : AppCompatActivity() {
         // set background color
         findViewById<ConstraintLayout>(R.id.calendar_day_activity_layout)
             ?.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set font color to tittle
+        findViewById<TextView>(R.id.day_info_tittle)
+            ?.setTextColor(ThemesService.getFontColor())
     }
 }

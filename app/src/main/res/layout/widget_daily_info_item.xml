@@ -5,11 +5,11 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/widget_card"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/light_steel_blue_dimmed"
         app:cardCornerRadius="25dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,9 +80,9 @@
                 android:textSize="18dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/question_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/light_steel_blue"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
@@ -107,9 +107,9 @@
                 android:textSize="18dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/activities_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/light_steel_blue"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
@@ -134,9 +134,9 @@
                 android:textSize="18dp" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/emotions_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/light_steel_blue"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 

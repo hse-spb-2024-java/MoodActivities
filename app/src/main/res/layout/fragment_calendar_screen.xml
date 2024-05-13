@@ -66,10 +66,10 @@
                             android:layout_height="match_parent">
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/left_arrow"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_margin="5dp"
-                                app:cardBackgroundColor="@color/white_smoke"
                                 app:cardCornerRadius="15dp"
                                 app:cardElevation="0dp">
 
@@ -108,10 +108,10 @@
                             android:layout_height="match_parent">
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/right_arrow"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_margin="5dp"
-                                app:cardBackgroundColor="@color/white_smoke"
                                 app:cardCornerRadius="15dp"
                                 app:cardElevation="0dp">
 

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.models.DailyActivityItemModel
@@ -12,6 +13,7 @@ import org.hse.moodactivities.models.DailyInfoItemModel
 import org.hse.moodactivities.models.DailyItemModel
 import org.hse.moodactivities.models.DailyItemType
 import org.hse.moodactivities.models.DailyQuestionItemModel
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.utils.UiUtils
 
 enum class ViewType(val type: Int) {
@@ -87,6 +89,16 @@ class CalendarDayAdapter(
                 dailyInfoItemModel.getActivities().joinToString(", ") { it.getName() }
             view.findViewById<TextView>(R.id.emotions).text =
                 dailyInfoItemModel.getEmotions().joinToString(", ") { it.getName() }
+
+            // set color theme
+            view.findViewById<CardView>(R.id.widget_card)
+                .setCardBackgroundColor(ThemesService.getColor4())
+            view.findViewById<CardView>(R.id.question_card)
+                .setCardBackgroundColor(ThemesService.getDimmedColor4())
+            view.findViewById<CardView>(R.id.activities_card)
+                .setCardBackgroundColor(ThemesService.getDimmedColor4())
+            view.findViewById<CardView>(R.id.emotions_card)
+                .setCardBackgroundColor(ThemesService.getDimmedColor4())
         }
 
         private fun fillHolderFromDailyQuestionModel(
@@ -98,6 +110,12 @@ class CalendarDayAdapter(
             view.findViewById<TextView>(R.id.answer_to_daily_question).text =
                 dailyQuestionItemModel.getAnswerToDailyQuestion()
             view.findViewById<TextView>(R.id.time).text = dailyQuestionItemModel.getTime()
+
+            // set color theme
+            view.findViewById<CardView>(R.id.widget_card)
+                .setCardBackgroundColor(ThemesService.getColor2())
+            view.findViewById<CardView>(R.id.question_card)
+                .setCardBackgroundColor(ThemesService.getDimmedColor2())
         }
 
         private fun fillHolderFromDailyActivityModel(
@@ -109,6 +127,11 @@ class CalendarDayAdapter(
             view.findViewById<TextView>(R.id.user_impressions).text =
                 dailyActivityItemModel.getUserImpressions()
             view.findViewById<TextView>(R.id.time).text = dailyActivityItemModel.getTime()
+            // set color theme
+            view.findViewById<CardView>(R.id.widget_card)
+                .setCardBackgroundColor(ThemesService.getColor5())
+            view.findViewById<CardView>(R.id.activity_card)
+                .setCardBackgroundColor(ThemesService.getDimmedColor5())
         }
     }
 
