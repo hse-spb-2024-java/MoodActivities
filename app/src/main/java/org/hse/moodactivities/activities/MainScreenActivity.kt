@@ -2,6 +2,7 @@ package org.hse.moodactivities.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -13,6 +14,7 @@ import org.hse.moodactivities.fragments.CalendarScreenFragment
 import org.hse.moodactivities.fragments.HomeScreenFragment
 import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.fragments.ProfileScreenFragment
+import org.hse.moodactivities.services.UserService
 
 class MainScreenActivity : AppCompatActivity() {
 
@@ -41,6 +43,14 @@ class MainScreenActivity : AppCompatActivity() {
             startActivity(chatActivity)
             this.finish()
         }
+
+        val location = UserService.getCurrentLocation(this)
+        if (location != null) {
+            Log.i("loc", "lat: " + location.latitude + "\nlong:" + location.longitude)
+        } else {
+            Log.i("loc", "error")
+        }
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
