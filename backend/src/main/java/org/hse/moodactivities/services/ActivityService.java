@@ -120,7 +120,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         }
         DailyActivity activity = new DailyActivity();
         activity.setTime(LocalTime.now());
-        activity.setActivity(activityString.get());
+        activity.setActivity(activityString.orElse(""));
         if (user.getMetas().isEmpty() || !user.getMetas().getLast().getDate().equals(date)) {
             UserDayMeta newMeta = new UserDayMeta();
             newMeta.setActivity(activity);
@@ -135,7 +135,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         } else {
             MongoDBSingleton.getInstance().getConnection().updateEntity(user);
         }
-        GetActivityResponse response = GetActivityResponse.newBuilder().setActivity(activityString.get()).setStatusCode(200).build();
+        GetActivityResponse response = GetActivityResponse.newBuilder().setActivity(activityString.orElse("")).setStatusCode(200).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

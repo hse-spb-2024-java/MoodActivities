@@ -83,9 +83,9 @@ class MoodService {
             val date = StringBuilder()
             date.append(localDate.year.toString() + "-")
             val month = localDate.month.value.toString()
-            date.append((if (month.length == 2) month else "0" + month) + "-")
+            date.append((if (month.length == 2) month else "0$month") + "-")
             val day = localDate.dayOfMonth.toString()
-            date.append(if (day.length == 2) day else "0" + day)
+            date.append(if (day.length == 2) day else "0$day")
             return date.toString()
         }
 

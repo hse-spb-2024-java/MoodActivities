@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".activities.DailyActivity">
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/roboto"
-        android:text="Daily activity"
+        android:text="Daily activity "
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold|italic"
@@ -27,9 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:fontFamily="@font/roboto"
-        android:text="date"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,39 +57,58 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0" />
-
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/timer"
-        android:layout_margin="30dp"
+        android:id="@+id/activity_tittle"
         android:layout_width="match_parent"
-        android:textAlignment="center"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/roboto"
-        android:text="time left: 00:00:00"
+        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/activity_text_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/activity_text_background"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/gray_orange"
+        app:cardCornerRadius="@dimen/widget_corner_small_radius"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/activity_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto"
+            android:textSize="20dp" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/activity"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="10dp"
+        android:id="@+id/timer"
         android:layout_width="match_parent"
-        android:textAlignment="center"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:fontFamily="@font/roboto"
-        android:text="activity text"
+        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timer" />
+        app:layout_constraintTop_toBottomOf="@id/activity_text_background" />
 
     <RelativeLayout
         android:layout_width="110dp"
@@ -102,6 +120,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/completed_button_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/black"
@@ -111,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/regenerate_tittle"
+                android:text="Complete"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +139,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/regenerate_button"
+            android:id="@+id/complete_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
@@ -128,7 +147,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
