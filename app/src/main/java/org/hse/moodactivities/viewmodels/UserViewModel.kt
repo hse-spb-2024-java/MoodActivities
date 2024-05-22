@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.jsonwebtoken.Jwts
 import org.hse.moodactivities.R
+import org.hse.moodactivities.models.AuthType
 import org.hse.moodactivities.models.User
 import java.security.KeyFactory
 import java.security.spec.X509EncodedKeySpec
@@ -19,7 +20,7 @@ class UserViewModel : ViewModel() {
         _user.value = newUser
     }
 
-    fun updateUserFromJwt(context: Context, token: String) {
+    fun updateUserFromJwt(context: Context, token: String, authType: AuthType) {
         val publicKeyBytes = Base64.getDecoder().decode(context.resources.getString(R.string.public_key));
         val keySpec = X509EncodedKeySpec(publicKeyBytes);
         val keyFactory = KeyFactory.getInstance("RSA");
@@ -31,7 +32,8 @@ class UserViewModel : ViewModel() {
 
         val claims = parser.parseSignedClaims(token)
 
-        val newUser = User(id=claims.payload.subject.toLong())
+        // TODO: get authType through JWT token
+        val newUser = User(id=claims.payload.subject.toLong(), authType)
         _user.value = newUser
     }
 }

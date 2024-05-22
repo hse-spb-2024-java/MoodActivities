@@ -14,6 +14,8 @@ import org.hse.moodactivities.databinding.ActivityRegisterBinding
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
+import org.hse.moodactivities.models.AuthType
+
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -111,7 +113,7 @@ class RegisterActivity : AppCompatActivity() {
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(
-                    applicationContext, registrationResponse.token
+                    applicationContext, registrationResponse.token, AuthType.PLAIN
                 )
 
                 authViewModel.saveToken(

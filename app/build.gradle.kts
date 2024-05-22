@@ -43,7 +43,9 @@ dependencies {
         exclude(group = "org.json", module = "json")
     }
 
-    implementation("com.google.android.gms:play-services-auth:20.0.0")
+    // Google Services
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("com.google.android.gms:play-services-fitness:21.1.0")
 
     // location
     implementation("com.google.android.gms:play-services-location:21.0.1")
