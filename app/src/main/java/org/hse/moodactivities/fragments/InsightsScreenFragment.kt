@@ -26,6 +26,7 @@ import org.hse.moodactivities.services.TimePeriod
 class InsightsScreenFragment : Fragment() {
     companion object {
         val DEFAULT_TIME_PERIOD = TimePeriod.Value.WEEK
+        const val NO_DATA_TITTLE = "No data"
     }
 
     enum class ChartsType {
@@ -140,6 +141,14 @@ class InsightsScreenFragment : Fragment() {
         view.findViewById<Button>(R.id.activities_time_label_button).setOnClickListener {
             changingTimePeriodChartType = ChartsType.ACTIVITIES_CHART
             dialog.show()
+        }
+
+        // set users steps
+        val stepsCounterTextView = view.findViewById<TextView>(R.id.steps_counter)
+        if (true) { // todo: check permission / data availability
+            stepsCounterTextView.text = NO_DATA_TITTLE
+        } else {
+            stepsCounterTextView.text = "0" // todo: set right value
         }
 
         setColorTheme(view)
