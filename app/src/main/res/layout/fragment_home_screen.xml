@@ -93,19 +93,13 @@
                             android:id="@+id/activity_widget_tittle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:fontFamily="@font/roboto"
-                            android:text="@string/activity_widget_tittle"
+                            android:text="Look at the activity we have\nprepared for you today!"
+                            android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/widget_font_size"
                             android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/activity_widget_description"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/activity_widget_description"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/widget_font_size" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -184,9 +178,10 @@
                             android:id="@+id/mood_widget_tittle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
+                            android:layout_gravity="center"
                             android:fontFamily="@font/roboto"
                             android:text="@string/mood_widget_tittle"
+                            android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/widget_font_size"
                             android:textStyle="bold" />
@@ -265,16 +260,15 @@
                             android:id="@+id/question_widget_tittle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
+                            android:layout_gravity="center"
                             android:fontFamily="@font/roboto"
-                            android:text="@string/questions_widget_tittle"
+                            android:text="Daily\nquestion"
+                            android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/widget_font_size"
                             android:textStyle="bold" />
-
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
 
             <Button

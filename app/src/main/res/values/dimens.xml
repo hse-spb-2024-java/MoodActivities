@@ -4,7 +4,7 @@
     <dimen name="screen_tittle_font_size">25sp</dimen>
     <dimen name="home_screen_tittle_font_size">18sp</dimen>
     <dimen name="widget_tittle_font_size">16sp</dimen>
-    <dimen name="widget_font_size">14sp</dimen>
+    <dimen name="widget_font_size">15sp</dimen>
 
     <!-- corner radius -->
     <dimen name="widget_corner_radius">25dp</dimen>

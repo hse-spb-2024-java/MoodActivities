@@ -59,6 +59,7 @@ class DailyActivity : AppCompatActivity() {
                 dialog.findViewById<TextView>(R.id.users_impressions).text.toString()
             ActivityService.recordDailyActivity(this, usersImpressions)
             dialog.dismiss()
+            this.finish()
         }
 
     }
