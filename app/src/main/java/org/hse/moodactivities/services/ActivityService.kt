@@ -18,7 +18,8 @@ class ActivityService {
          * Check activity availability (= check it wasn't recorded today).
          */
         private fun checkActivityAvailability(activity: AppCompatActivity): Boolean {
-            val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345).usePlaintext().build()
+            val channel = ManagedChannelBuilder.forAddress(UserService.ADDRESS, UserService.PORT)
+                .usePlaintext().build()
 
             val authViewModel = ViewModelProvider(activity)[AuthViewModel::class.java]
             val stub =
