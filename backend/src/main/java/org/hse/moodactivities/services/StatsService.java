@@ -32,7 +32,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +74,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     }
 
     private static boolean isDateCorrect(LocalDate possibleDate, LocalDate today, int diff) {
-        return ChronoUnit.DAYS.between(possibleDate, today) <= diff;
+        return today.toEpochDay() - possibleDate.toEpochDay() < diff;
     }
 
     static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
@@ -118,6 +117,11 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                 .limit(1)
                 .toList();
         return acceptedMetas.isEmpty() ? null : acceptedMetas.getLast();
+    }
+
+
+    private static int mapAmount(int amount) {
+        return amount == 0 ? Integer.MAX_VALUE : amount;
     }
 
     private static String removeMS(String time) {
@@ -262,7 +266,8 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         ))
                 .entrySet().stream()
                 .sorted((e1, e2) -> Long.compare(e2.getValue(), e1.getValue()))
-                .limit(3).map(entry -> TopItem.newBuilder()
+                .limit(mapAmount(request.getAmount()))
+                .map(entry -> TopItem.newBuilder()
                         .setName(entry.getKey())
                         .setAmount(Math.toIntExact(entry.getValue()))
                         .build())
@@ -281,7 +286,8 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                 .map((item) -> UsersMood.newBuilder()
                         .setDate(item.getDate().toString())
                         .setScore(((Double) item.getDailyScore()).intValue()).build())
-                .limit(period).toList();
+                .limit(period)
+                .sorted((lhs, rhs) -> LocalDate.parse(lhs.getDate()).compareTo(LocalDate.parse(rhs.getDate()))).toList();
         UsersMoodResponse response = UsersMoodResponse.newBuilder().addAllUsersMoods(result).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
