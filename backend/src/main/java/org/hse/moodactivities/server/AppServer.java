@@ -31,12 +31,12 @@ public class AppServer {
 
         Server server = ServerBuilder.forPort(12345)
                 .executor(executor)
-                .addService(new AuthService())
-                .addService(new SurveyService())
-                .addService(new QuestionService())
-                .addService(new GptService())
-                .addService(new StatsService())
                 .addService(new ActivityService())
+                .addService(new AuthService())
+                .addService(new GptService())
+                .addService(new QuestionService())
+                .addService(new StatsService())
+                .addService(new SurveyService())
                 .intercept(new JWTAuthServerInterceptor())
                 .build();
 

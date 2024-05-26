@@ -73,8 +73,8 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
                     moodSum += day.getDailyScore();
                 }
             }
-            for (int i = weeklySublist.size() - 1; i >= 0; i--) {
-                UserDayMeta meta = weeklySublist.get(i);
+            for (int metaIndex = weeklySublist.size() - 1; metaIndex >= 0; metaIndex--) {
+                UserDayMeta meta = weeklySublist.get(metaIndex);
                 if (meta.getRecords().size() > 0 && emotions == null) {
                     List<String> unwrappedRecords = unwrapRecords(meta.getRecords());
                     emotions = unwrappedRecords.get(0);
@@ -145,10 +145,12 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         Optional<User> userOptional = getUser(userId);
         User user = userOptional.isEmpty() ? new User() : userOptional.get();
+
         DailyActivity record = user.getMetas().getLast().getActivity();
         record.setTime(LocalTime.now());
         record.setReport(request.getRecord());
         user.getMetas().getLast().setActivity(record);
+
         MongoDBSingleton.getInstance().getConnection().updateEntity(user);
         RecordActivityResponse response = RecordActivityResponse.newBuilder().setStatusCode(200).build();
         responseObserver.onNext(response);
@@ -164,8 +166,10 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
             List<UserDayMeta> metas = userOptional.get().getMetas();
             if (metas != null && !metas.isEmpty()) {
                 UserDayMeta meta = metas.getLast();
+
                 if (meta.getDate().equals(LocalDate.parse(request.getDate()))) {
                     DailyActivity report = meta.getActivity();
+
                     if (report.getActivity() != null) {
                         responseBuilder.setWasCompleted(1);
                         responseBuilder.setActivity(report.getActivity());
@@ -176,9 +180,11 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
                 }
             }
         }
+
         if (responseBuilder.getWasCompleted() != 1) {
             responseBuilder.setWasCompleted(0);
         }
+
         responseBuilder.setStatusCode(200);
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();
