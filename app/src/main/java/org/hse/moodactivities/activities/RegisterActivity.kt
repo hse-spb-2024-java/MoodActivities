@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.common.proto.responses.auth.RegistrationResponse
 import org.hse.moodactivities.databinding.ActivityRegisterBinding
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
 
@@ -23,9 +24,10 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.loginRedirectText.setOnClickListener {
+        binding.loginRedirectButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            this.finish()
         }
 
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
@@ -79,17 +81,13 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             val registrationResponseLiveData = authViewModel.register(
-                username,
-                email,
-                password
+                username, email, password
             );
 
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
                     Snackbar.make(
-                        findViewById(android.R.id.content),
-                        it,
-                        Snackbar.LENGTH_LONG
+                        findViewById(android.R.id.content), it, Snackbar.LENGTH_LONG
                     ).show()
                     authViewModel.clearErrorMessage()
                 }
@@ -106,8 +104,7 @@ class RegisterActivity : AppCompatActivity() {
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(
-                    applicationContext,
-                    registrationResponse.token
+                    applicationContext, registrationResponse.token
                 )
 
                 authViewModel.saveToken(
@@ -120,7 +117,30 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
+                this.finish()
             }
         }
+
+        setColorTheme()
+    }
+
+    private fun setColorTheme() {
+        // set color to status bar
+        window.statusBarColor = ThemesService.getBackgroundColor()
+
+        // set background color
+        binding.registerScreenBackground.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set input fields colors
+        binding.usernameInputBackground.setCardBackgroundColor(ThemesService.getColor3())
+        binding.emailInputBackground.setCardBackgroundColor(ThemesService.getColor3())
+        binding.passwordInputBackground.setCardBackgroundColor(ThemesService.getColor3())
+        binding.passwordConfirmInputBackground.setCardBackgroundColor(ThemesService.getColor3())
+
+        // set register button color
+        binding.registerButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
+
+        binding.loginRedirectText.setTextColor(ThemesService.getColor4())
+        binding.registerText.setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }

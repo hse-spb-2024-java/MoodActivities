@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
 import org.hse.moodactivities.databinding.ActivityLoginBinding
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
 
@@ -23,9 +24,10 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.registerRedirectText.setOnClickListener {
+        binding.registerRedirectButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            this.finish()
         }
 
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
@@ -85,5 +87,25 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        setColorTheme()
+    }
+
+    private fun setColorTheme() {
+        // set color to status bar
+        window.statusBarColor = ThemesService.getBackgroundColor()
+
+        // set background color
+        binding.loginScreenLayout.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set input fields colors
+        binding.usernameInputBackground.setCardBackgroundColor(ThemesService.getColor3())
+        binding.passwordInputBackground.setCardBackgroundColor(ThemesService.getColor3())
+
+        // set register button color
+        binding.loginButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
+
+        binding.registerRedirectText.setTextColor(ThemesService.getColor4())
+        binding.loginText.setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }

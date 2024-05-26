@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.R
 import org.hse.moodactivities.common.proto.responses.auth.OauthLoginResponse
 import org.hse.moodactivities.databinding.ActivityWelcomeBinding
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
 
@@ -35,9 +36,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
                     Snackbar.make(
-                        findViewById(android.R.id.content),
-                        it,
-                        Snackbar.LENGTH_LONG
+                        findViewById(android.R.id.content), it, Snackbar.LENGTH_LONG
                     ).show()
                     authViewModel.clearErrorMessage()
                 }
@@ -54,8 +53,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(
-                    applicationContext,
-                    loginResponse.token
+                    applicationContext, loginResponse.token
                 )
 
                 authViewModel.saveToken(
@@ -90,15 +88,30 @@ class WelcomeScreenActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestIdToken(applicationContext.resources.getString(R.string.app_id))
-            .build()
+        val signInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                .requestIdToken(applicationContext.resources.getString(R.string.app_id)).build()
         val mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
 
         binding.googleLoginButton.setOnClickListener {
             val oauthIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(oauthIntent, RETURN_CODE_SIGN_IN);
         }
+
+        setColorTheme()
+    }
+
+    private fun setColorTheme() {
+        // set color to status bar
+        window.statusBarColor = ThemesService.getBackgroundColor()
+
+        // set background color
+        binding.welcomeScreenBackground.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set buttons colors
+        binding.registerButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
+        binding.registerButtonText.setTextColor(ThemesService.getDimmedBackgroundColor())
+        binding.loginButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
+        binding.loginButtonText.setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }

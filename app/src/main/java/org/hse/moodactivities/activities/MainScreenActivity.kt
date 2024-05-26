@@ -53,7 +53,9 @@ class MainScreenActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        // set color to status bar
         window.statusBarColor = ThemesService.getBackgroundColor()
+
         // set color to
         window.navigationBarColor = ThemesService.getColor2()
         binding.bottomNavigationView.setBackgroundColor(ThemesService.getColor2())
