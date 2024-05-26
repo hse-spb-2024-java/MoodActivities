@@ -58,6 +58,8 @@ val ACTIVITIES: ArrayList<Item> = arrayListOf(
     Item("concert", R.drawable.icon_concert, R.color.pastel_raspberry),
 )
 
+val DEFAULT_ITEM: Item = Item("question", R.drawable.widget_mood_icon, R.color.gray)
+
 open class Item(
     private var name: String,
     private var iconIndex: Int,
@@ -73,5 +75,33 @@ open class Item(
 
     fun getIconIndex(): Int {
         return iconIndex
+    }
+
+    companion object {
+        fun getEmotionByName(name: String): Item? {
+            return EMOTIONS.find { it.name == name }
+        }
+
+        fun getEmotionIconIdByName(name: String): Int? {
+            return EMOTIONS.find { it.name == name }?.iconIndex
+        }
+
+
+        fun getActivityByName(name: String): Item? {
+            return ACTIVITIES.find { it.name == name }
+        }
+
+        fun getActivityIconIdByName(name: String): Int? {
+            return ACTIVITIES.find { it.name == name }?.iconIndex
+        }
+
+        fun getDefaultItem(): Item {
+            return DEFAULT_ITEM
+        }
+
+        fun getDefaultIconId(): Int {
+            return DEFAULT_ITEM.iconIndex
+        }
+
     }
 }

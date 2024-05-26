@@ -43,7 +43,7 @@ class MoodEvent : Data {
         return this.userAnswer
     }
 
-    fun setQuestion(question: String){
+    fun setQuestion(question: String) {
         this.question = question
     }
 

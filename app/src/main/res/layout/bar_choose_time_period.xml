@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="340dp"
+    android:layout_height="28dp"
+    android:layout_marginTop="150dp"
+    app:cardBackgroundColor="@color/light_gray"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="1dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- week button -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/week_background"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:cardBackgroundColor="@color/dark_gray"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/week_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto"
+                android:text="Week"
+                android:textColor="@color/dark_slate_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/week_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:alpha="0" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- month button -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/month_background"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:cardBackgroundColor="@color/light_gray"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/month_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto"
+                android:text="Month"
+                android:textColor="@color/light_slate_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/month_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:alpha="0" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- year button -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/year_background"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:cardBackgroundColor="@color/light_gray"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/year_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto"
+                android:text="Year"
+                android:textColor="@color/light_slate_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/year_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:alpha="0" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- all time button -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/all_time_background"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:cardBackgroundColor="@color/light_gray"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/all_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto"
+                android:text="All time"
+                android:textColor="@color/light_slate_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/all_time_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:alpha="0" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

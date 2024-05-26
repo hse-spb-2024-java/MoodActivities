@@ -57,6 +57,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- email input -->
     <androidx.cardview.widget.CardView
         android:id="@+id/email_input_background"
         android:layout_width="match_parent"
@@ -128,6 +129,7 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- confirm password input -->
     <androidx.cardview.widget.CardView
         android:id="@+id/password_confirm_input_background"
         android:layout_width="match_parent"
