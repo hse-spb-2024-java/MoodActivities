@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.DailyActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.activities.QuestionsActivity
 import org.hse.moodactivities.services.MoodService
@@ -58,7 +59,8 @@ class HomeScreenFragment : Fragment() {
 
         val activityWidgetButton: Button = view.rootView.findViewById(R.id.activity_widget_button)
         activityWidgetButton.setOnClickListener {
-            Log.d("activity button", "clicked!")
+            val dailyActivityIntent = Intent(this.activity, DailyActivity::class.java)
+            startActivity(dailyActivityIntent)
         }
 
         val moodWidgetButton: Button = view.rootView.findViewById(R.id.mood_widget_button)

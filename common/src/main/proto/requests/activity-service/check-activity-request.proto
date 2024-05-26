@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.requests.activity";
+option java_multiple_files = true;
+
+package requests;
+
+message CheckActivityRequest {
+  string date = 1;
+  string meta = 2;
+}

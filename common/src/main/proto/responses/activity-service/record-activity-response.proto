@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.activity";
+option java_multiple_files = true;
+
+package responses;
+
+message RecordActivityResponse {
+  int32 statusCode = 1;
+}

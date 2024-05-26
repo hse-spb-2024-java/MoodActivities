@@ -19,6 +19,9 @@
             android:name=".activities.StatisticActivity"
             android:exported="true" />
         <activity
+            android:name=".activities.DailyActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.MoodFlowActivity"
             android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustPan" />
