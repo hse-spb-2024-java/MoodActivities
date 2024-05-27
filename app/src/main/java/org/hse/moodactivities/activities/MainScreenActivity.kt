@@ -57,9 +57,9 @@ class MainScreenActivity : AppCompatActivity() {
         window.statusBarColor = ThemesService.getBackgroundColor()
 
         // set color to
-        window.navigationBarColor = ThemesService.getColor2()
-        binding.bottomNavigationView.setBackgroundColor(ThemesService.getColor2())
-        binding.bottomNavigationView.itemTextColor = ColorStateList.valueOf(ThemesService.getButtonColor())
-        binding.bottomNavigationView.itemIconTintList = ColorStateList.valueOf(ThemesService.getButtonColor())
+        window.navigationBarColor = ThemesService.getDimmedColor6()
+        binding.bottomNavigationView.setBackgroundColor(ThemesService.getDimmedColor6())
+        binding.bottomNavigationView.itemTextColor = ColorStateList.valueOf(ThemesService.getColor6())
+        binding.bottomNavigationView.itemIconTintList = ColorStateList.valueOf(ThemesService.getColor6())
     }
 }

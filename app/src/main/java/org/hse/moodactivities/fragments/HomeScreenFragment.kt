@@ -150,5 +150,7 @@ class HomeScreenFragment : Fragment() {
             ?.setTextColor(ThemesService.getFontColor())
         view?.findViewById<TextView>(R.id.week_widget_tittle)
             ?.setTextColor(ThemesService.getFontColor())
+        view?.findViewById<TextView>(R.id.ask_widget_text)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }

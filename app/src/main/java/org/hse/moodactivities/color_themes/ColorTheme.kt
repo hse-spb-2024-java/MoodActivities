@@ -4,7 +4,7 @@ import android.graphics.Color
 import org.hse.moodactivities.services.ThemesService
 
 enum class ColorThemeType {
-    ENERGY_THEME, CALMNESS_THEME, CHEERFULNESS_THEME, INSPIRATION_THEME, PRODUCTIVITY_THEME, ROMANTIC_THEME, CONFIDENCE_THEME
+    CALMNESS, TWILIGHT, FOREST, ENERGY_THEME, CHEERFULNESS_THEME, INSPIRATION_THEME, PRODUCTIVITY_THEME, ROMANTIC_THEME, CONFIDENCE_THEME
 }
 
 open class ColorTheme(
@@ -12,7 +12,6 @@ open class ColorTheme(
     private var lightMode: LightMode,
     private var backgroundColor: Int,
     private var dimmedBackgroundColor: Int,
-    private var buttonColor: Int,
     private var fontColor: Int,
     private var color1: Int,
     private var dimmedColor1: Int,
@@ -24,6 +23,8 @@ open class ColorTheme(
     private var dimmedColor4: Int,
     private var color5: Int,
     private var dimmedColor5: Int,
+    private var color6: Int,
+    private var dimmedColor6: Int,
 ) {
     enum class LightMode {
         DAY, NIGHT
@@ -43,10 +44,6 @@ open class ColorTheme(
 
     fun getDimmedBackgroundColor(): Int {
         return dimmedBackgroundColor
-    }
-
-    fun getButtonColor(): Int {
-        return buttonColor
     }
 
     fun getFontColor(): Int {
@@ -93,6 +90,14 @@ open class ColorTheme(
         return dimmedColor5
     }
 
+    fun getColor6(): Int {
+        return color6
+    }
+
+    fun getDimmedColor6(): Int {
+        return dimmedColor6
+    }
+
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(
             "space cadet" to Color.parseColor("#283044"),
@@ -107,6 +112,8 @@ open class ColorTheme(
             "khaki" to Color.parseColor("#BFA89E"),
             "dimmed khaki" to Color.parseColor("#B19589"),
             "dark khaki" to Color.parseColor("#846557"),
+            "light timberwolf" to Color.parseColor("#F2F1EE"),
+            "dimmed light timberwolf" to Color.parseColor("#EAE7E2"),
             "timberwolf" to Color.parseColor("#D5CFC6"),
             "dimmed timberwolf" to Color.parseColor("#C4BBAE"),
             "azure" to Color.parseColor("#CFE0E2"),
@@ -115,7 +122,37 @@ open class ColorTheme(
             "dimmed columbia blue" to Color.parseColor("#99BAC7"),
             "powder blue" to Color.parseColor("#95B6C8"),
             "dimmed powder blue" to Color.parseColor("#7EA6BC"),
+            "air superiority blue" to Color.parseColor("#6493B1"),
+            "dimmed air superiority blue" to Color.parseColor("#294252"),
+            "dark air superiority blue" to Color.parseColor("#7693AE"),
+            "dimmed dark air superiority blue" to Color.parseColor("#577693"),
+            "silver" to Color.parseColor("#CEBEBE"),
+            "dimmed silver" to Color.parseColor("#AC9191"),
+            "champagne pink" to Color.parseColor("#E1CEC1"),
+            "dimmed champagne pink" to Color.parseColor("#C6A189"),
+            "pale dogwood" to Color.parseColor("#D5B9B2"),
+            "dimmed pale dogwood" to Color.parseColor("#B98B7F"),
+            "rosy brown" to Color.parseColor("#D5B9B2"),
+            "dimmed rosy brown" to Color.parseColor("#B98B7F"),
+            "rosy brown dark" to Color.parseColor("#BC908E"),
+            "dimmed rosy brown dark" to Color.parseColor("#A36765"),
+            "rosy taupe" to Color.parseColor("#884B58"),
+            "dimmed rosy taupe" to Color.parseColor("#5F343D"),
             "black" to Color.parseColor("#000000"),
+            "light lavender" to Color.parseColor("#EBEFF8"),
+            "dimmed light lavender" to Color.parseColor("#D6DFF1"),
+            "wine" to Color.parseColor("#6D2E46"),
+            "dark green" to Color.parseColor("#1F2F16"),
+            "dark powder blue" to Color.parseColor("#92AFD7"),
+            "dimmed dark powder blue" to Color.parseColor("#5D88C4"),
+            "vista blue" to Color.parseColor("#84A1C3"),
+            "dimmed vista blue" to Color.parseColor("#587FAE"),
+            "payne's grey" to Color.parseColor("#5A7684"),
+            "dimmed payne's grey" to Color.parseColor("#485E6A"),
+            "feldgrau" to Color.parseColor("#4A696A"),
+            "dimmed feldgrau" to Color.parseColor("#3B5455"),
+            "brunswick green" to Color.parseColor("#5A8E69"),
+            "dimmed brunswick green" to Color.parseColor("#233729"),
         )
 
         fun getColorByName(name: String): Int? {
@@ -131,7 +168,6 @@ open class ColorTheme(
                 5 -> colors["green"]!!
                 else -> ThemesService.getColor3()
             }
-
         }
     }
 }

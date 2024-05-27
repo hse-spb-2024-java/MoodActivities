@@ -3,15 +3,20 @@ package org.hse.moodactivities.services
 import org.hse.moodactivities.color_themes.CalmnessColorTheme
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
+import org.hse.moodactivities.color_themes.ForestColorTheme
+import org.hse.moodactivities.color_themes.TwilightColorTheme
 
 class ThemesService {
     companion object {
         private var colorThemes: HashMap<ColorThemeType, ColorTheme> =
-            hashMapOf(ColorThemeType.CALMNESS_THEME to CalmnessColorTheme())
+            hashMapOf(ColorThemeType.CALMNESS to CalmnessColorTheme(),
+                ColorThemeType.TWILIGHT to TwilightColorTheme(),
+                ColorThemeType.FOREST to ForestColorTheme(),
+                )
 
         private var lightMode = ColorTheme.LightMode.DAY
-        private var colorThemeType = ColorThemeType.CALMNESS_THEME
-        private var colorTheme: ColorTheme = colorThemes[ColorThemeType.CALMNESS_THEME]!!
+        private var colorThemeType = ColorThemeType.FOREST
+        private var colorTheme: ColorTheme = colorThemes[ColorThemeType.FOREST]!!
 
         fun changeColorTheme(newColorThemeType: ColorThemeType) {
             colorThemeType = newColorThemeType
@@ -32,10 +37,6 @@ class ThemesService {
 
         fun getDimmedBackgroundColor(): Int {
             return colorTheme.getDimmedBackgroundColor()
-        }
-
-        fun getButtonColor(): Int {
-            return colorTheme.getButtonColor()
         }
 
         fun getFontColor() : Int {
@@ -80,6 +81,14 @@ class ThemesService {
 
         fun getDimmedColor5(): Int {
             return colorTheme.getDimmedColor5()
+        }
+
+        fun getColor6(): Int {
+            return colorTheme.getColor6()
+        }
+
+        fun getDimmedColor6(): Int {
+            return colorTheme.getDimmedColor6()
         }
     }
 }

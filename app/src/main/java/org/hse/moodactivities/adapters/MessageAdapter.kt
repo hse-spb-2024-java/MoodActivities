@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.models.Message
+import org.hse.moodactivities.services.ThemesService
 
 class MessageAdapter(private val context: Context, private val messages: MutableList<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -73,8 +75,10 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
 
     internal class UserMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
+        private val messageTextBackground: CardView = itemView.findViewById(R.id.message_background)
 
         fun bind(message: Message) {
+            messageTextBackground.setCardBackgroundColor(ThemesService.getColor2())
             messageText.text = message.text
             itemView.foregroundGravity = Gravity.END
         }
@@ -82,8 +86,10 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
 
     internal class SystemMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
+        private val messageTextBackground: CardView = itemView.findViewById(R.id.message_background)
 
         fun bind(message: Message) {
+            messageTextBackground.setCardBackgroundColor(ThemesService.getColor1())
             messageText.text = message.text
             itemView.foregroundGravity = Gravity.START
         }
