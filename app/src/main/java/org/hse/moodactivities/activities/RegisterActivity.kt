@@ -2,6 +2,7 @@ package org.hse.moodactivities.activities
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -131,6 +132,9 @@ class RegisterActivity : AppCompatActivity() {
         // set background color
         binding.registerScreenBackground.setBackgroundColor(ThemesService.getBackgroundColor())
 
+        // set tittle color
+        binding.signupHeader.setTextColor(ThemesService.getFontColor())
+
         // set input fields colors
         binding.usernameInputBackground.setCardBackgroundColor(ThemesService.getColor3())
         binding.emailInputBackground.setCardBackgroundColor(ThemesService.getColor3())
@@ -142,5 +146,8 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.loginRedirectText.setTextColor(ThemesService.getColor4())
         binding.registerText.setTextColor(ThemesService.getDimmedBackgroundColor())
+
+        // set check box color
+        binding.termsCheckbox.buttonTintList = ColorStateList.valueOf(ThemesService.getColor4())
     }
 }
