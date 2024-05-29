@@ -32,9 +32,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +77,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return today.toEpochDay() - possibleDate.toEpochDay() < diff;
     }
 
-    private static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+    static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
         if (metas == null) {
             return new ArrayList<>();
         }
