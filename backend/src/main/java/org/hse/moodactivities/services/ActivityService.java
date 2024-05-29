@@ -40,7 +40,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         return (users != null && !users.isEmpty()) ? Optional.of(users.get(0)) : Optional.empty();
     }
 
-    private List<String> unwrapRecords(List<MoodFlowRecord> records) {
+    public static List<String> unwrapRecords(List<MoodFlowRecord> records) {
         ArrayList<String> emotionsAndActivities = new ArrayList<>();
         StringBuilder activities = new StringBuilder();
         StringBuilder emotions = new StringBuilder();
@@ -57,7 +57,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         return emotionsAndActivities;
     }
 
-    private Optional<String> activityPromptCreator(List<UserDayMeta> metas, LocalDate date) {
+    private Optional<String> activityPromptCreator(List<UserDayMeta> metas, LocalDate date, String gptMeta) {
         StringBuilder requestString = new StringBuilder(PromptsStorage.getString("dailyActivity.defaultRequest"));
         List<UserDayMeta> weeklySublist = StatsService.getCorrectDaysSublist(metas, PeriodType.WEEK);
         if (!weeklySublist.isEmpty()) {
@@ -98,6 +98,10 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
                 requestString.append(formattedActivities);
             }
         }
+        if (gptMeta != null) {
+            String formattedMeta = String.format(PromptsStorage.getString("metaCreator.promptForMeta"), gptMeta);
+            requestString.append(formattedMeta);
+        }
         GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString.toString()));
         if (response.statusCode() < HTTP_BAD_REQUEST) {
             return Optional.of(response.message().getContent());
@@ -114,7 +118,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
             user.setMetas(new ArrayList<>());
         }
         LocalDate date = LocalDate.parse(request.getDate());
-        Optional<String> activityString = activityPromptCreator(user.getMetas(), date);
+        Optional<String> activityString = activityPromptCreator(user.getMetas(), date, SurveyService.getMeta(user).orElse(null));
         if (activityString.isEmpty()) {
             responseObserver.onError(new RuntimeException("GPT unavailable"));
         }
@@ -144,7 +148,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
     public void recordActivity(RecordActivityRequest request, StreamObserver<RecordActivityResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         Optional<User> userOptional = getUser(userId);
-        User user = userOptional.isEmpty() ? new User() : userOptional.get();
+        User user = userOptional.orElseGet(User::new);
 
         DailyActivity record = user.getMetas().getLast().getActivity();
         record.setTime(LocalTime.now());
