@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.launch
+import org.hse.moodactivities.app.MoodActivitiesApp
 import org.hse.moodactivities.common.proto.requests.auth.LoginRequest
 import org.hse.moodactivities.common.proto.requests.auth.RegistrationRequest
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
 import org.hse.moodactivities.common.proto.responses.auth.RegistrationResponse
 import org.hse.moodactivities.common.proto.services.AuthServiceGrpc
+import org.hse.moodactivities.utils.PreferenceManager
 
 class AuthViewModel : ViewModel() {
     private val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345)
@@ -68,6 +70,7 @@ class AuthViewModel : ViewModel() {
     fun saveToken(sharedPreferences: SharedPreferences, token: String) {
         val editor = sharedPreferences.edit()
         editor.putString("jwtToken", token)
+        PreferenceManager.saveData(MoodActivitiesApp.applicationContext(), "jwtToken", token)
         editor.apply()
     }
 
