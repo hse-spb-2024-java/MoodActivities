@@ -121,9 +121,7 @@ class RegisterActivity : AppCompatActivity() {
                     registrationResponse.token
                 )
 
-                userViewModel.user.observe(this) { user ->
-                    Log.d("RegistrationResponse", user.id.toString())
-                }
+                Log.d("RegistrationResponse", userViewModel.getUser(applicationContext)!!.id.toString())
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
                 this.finish()

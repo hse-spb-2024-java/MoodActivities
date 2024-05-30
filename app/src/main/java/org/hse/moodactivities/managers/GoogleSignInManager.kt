@@ -1,5 +1,6 @@
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -13,6 +14,8 @@ object GoogleSignInManager {
 
     private lateinit var CLIENT_ID: String
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    var RETURN_CODE_SIGN_IN = 9001;
 
     fun init(context: Context) {
         CLIENT_ID = context.resources.getString(R.string.app_id)
@@ -33,9 +36,13 @@ object GoogleSignInManager {
         return task.getResult(ApiException::class.java)
     }
 
-    fun signOut(context: Context) {
-        googleSignInClient.signOut().addOnCompleteListener {
-            // Handle sign out
+    fun signOut(context: Context, onSignOutComplete: () -> Unit) {
+        googleSignInClient.signOut().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                onSignOutComplete()
+            } else {
+                Toast.makeText(context, "Sign Out failed", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

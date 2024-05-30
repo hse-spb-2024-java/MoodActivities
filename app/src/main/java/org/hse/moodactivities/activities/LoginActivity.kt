@@ -86,10 +86,7 @@ class LoginActivity : AppCompatActivity() {
                     getSharedPreferences("userPreferences", Context.MODE_PRIVATE),
                     loginResponse.token
                 )
-
-                userViewModel.user.observe(this) { user ->
-                    Log.d("LoginResponse", user.id.toString())
-                }
+                Log.d("LoginResponse", userViewModel.getUser(applicationContext)!!.id.toString())
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
             }

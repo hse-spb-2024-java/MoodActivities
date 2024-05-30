@@ -63,9 +63,7 @@ class WelcomeActivity : AppCompatActivity() {
                     loginResponse.token
                 )
 
-                userViewModel.user.observe(this) { user ->
-                    Log.i("oauth", user.id.toString())
-                }
+                Log.i("oauth", userViewModel.getUser(applicationContext)!!.id.toString())
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
             }
@@ -100,7 +98,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     private fun performGoogleSignIn() {
         val signInIntent = GoogleSignInManager.getSignInIntent()
-        startActivityForResult(signInIntent, RETURN_CODE_SIGN_IN)
+        startActivityForResult(signInIntent, GoogleSignInManager.RETURN_CODE_SIGN_IN)
     }
 
     private fun setColorTheme() {

@@ -91,6 +91,10 @@ public class UserProfile {
         this.hashedPassword = hashedPassword;
     }
 
+    public AuthProvider getAuthProvider() {
+        return this.authProvider;
+    }
+
     public boolean validatePassword(String password) {
         BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword);
         return result.verified;

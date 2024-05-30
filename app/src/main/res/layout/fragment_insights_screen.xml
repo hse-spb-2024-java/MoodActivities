@@ -732,6 +732,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:backgroundTint="@color/background_blue"
+                    android:id="@+id/steps_widget"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="0dp">
 
