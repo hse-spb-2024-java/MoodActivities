@@ -12,6 +12,7 @@ import org.hse.moodactivities.common.proto.requests.stats.MoodForTheMonthRequest
 import org.hse.moodactivities.common.proto.requests.stats.ReportType;
 import org.hse.moodactivities.common.proto.requests.stats.TopListRequest;
 import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
+import org.hse.moodactivities.common.proto.requests.stats.WeatherStatsRequest;
 import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
 import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
 import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
@@ -21,6 +22,8 @@ import org.hse.moodactivities.common.proto.responses.stats.TopItem;
 import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
 import org.hse.moodactivities.common.proto.responses.stats.UsersMood;
 import org.hse.moodactivities.common.proto.responses.stats.UsersMoodResponse;
+import org.hse.moodactivities.common.proto.responses.stats.WeatherStats;
+import org.hse.moodactivities.common.proto.responses.stats.WeatherStatsResponse;
 import org.hse.moodactivities.common.proto.responses.stats.WeeklyReportResponse;
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc;
 import org.hse.moodactivities.data.entities.mongodb.User;
@@ -320,6 +323,24 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         MoodForTheMonthResponse response = MoodForTheMonthResponse.newBuilder()
                 .addAllRecordedDays(responses)
                 .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getWeatherStats(WeatherStatsRequest request, StreamObserver<WeatherStatsResponse> responseObserver) {
+        int period = periodToInt(request.getPeriod());
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        List<WeatherStats> result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
+                .map((item) -> WeatherStats.newBuilder()
+                        .setDate(item.getDate().toString())
+                        .setScore(((Double) item.getDailyScore()).intValue())
+                        .setWeather(item.getWeather())
+                        .build())
+                .limit(period)
+                .sorted((lhs, rhs) -> LocalDate.parse(lhs.getDate()).compareTo(LocalDate.parse(rhs.getDate()))).toList();
+        WeatherStatsResponse response = WeatherStatsResponse.newBuilder().addAllWeatherStats(result).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

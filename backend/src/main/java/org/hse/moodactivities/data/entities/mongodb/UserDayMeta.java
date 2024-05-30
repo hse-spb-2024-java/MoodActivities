@@ -26,6 +26,8 @@ public class UserDayMeta implements Serializable {
     private DailyActivity activity;
     private String dailyConclusion;
 
+    private String weather;
+
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -55,6 +57,14 @@ public class UserDayMeta implements Serializable {
         calculateDailyScore();
     }
 
+    public String getWeather() {
+        return weather == null ? "no data" : weather;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
+    }
+
     public UserDayMeta(LocalDate date, List<MoodFlowRecord> records, double dailyScore, String dailyConclusion) {
         this.date = date;
         this.records = records;
@@ -72,9 +82,7 @@ public class UserDayMeta implements Serializable {
         for (var emotion : longSurveyRequest.getEmotionsList()) {
             moodList.add(new Mood(emotion, time, 0.5, ""));
         }
-        if (this.records == null) {
-            this.records = new ArrayList<>();
-        }
+        this.records = new ArrayList<>();
         RecordQuestion question = new RecordQuestion(longSurveyRequest.getQuestion(), longSurveyRequest.getAnswer());
         MoodFlowRecord newRecord = new MoodFlowRecord();
         newRecord.setActivities(activityList);
@@ -94,6 +102,7 @@ public class UserDayMeta implements Serializable {
     }
 
     public UserDayMeta() {
+        this.date = LocalDate.now();
     }
 
     public LocalDate getDate() {
