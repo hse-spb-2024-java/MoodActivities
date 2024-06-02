@@ -3,12 +3,14 @@ package org.hse.moodactivities.services
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.content.res.Resources.Theme
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -95,8 +97,6 @@ class ChartsService(activity: AppCompatActivity) {
     }
 
     private object DaysInRowSettings {
-        const val RECORDED_COLOR = "#98FB98"
-        const val NOT_RECORDED_COLOR = "#FF6347"
         const val CARD_INDEX = 0
         const val TEXT_INDEX = 2
         const val TEXT_SIZE = 12f
@@ -110,10 +110,8 @@ class ChartsService(activity: AppCompatActivity) {
         const val X_AXIS_MIN = -0.5f
         const val GRID_LINE_WIDTH = 1f
         const val GRANULARITY = 1f
-        const val CHARTS_COLOR = "#55878D"
         const val CHARTS_LINE_WIDTH = 2.5f
         const val TEXT_SIZE = 12f
-        const val TEXT_COLOR = Color.LTGRAY
         const val GRID_LINE_LENGTH = 30f
         const val GRID_LINE_SPACE_LENGTH = 40f
         const val GRID_LINE_PHASE = 0f
@@ -121,7 +119,7 @@ class ChartsService(activity: AppCompatActivity) {
 
     private object DistributionChartSettings {
         const val HOLE_RADIUS = 58f
-        const val TEXT_SIZE = 14f
+        const val TEXT_SIZE = 12f
     }
 
     private fun getStartDate(timePeriod: TimePeriod.Value, minDate: LocalDate?) {
@@ -141,6 +139,25 @@ class ChartsService(activity: AppCompatActivity) {
             else -> {
                 minDate ?: LocalDate.now()
             }
+        }
+    }
+
+    // get index from 0 to 11 and return color
+    private fun getColorByIndex(colorIndex: Int): Int {
+        return when (colorIndex) {
+            0 -> ThemesService.getColor1()
+            1 -> ThemesService.getDimmedColor1()
+            2 -> ThemesService.getColor2()
+            3 -> ThemesService.getDimmedColor2()
+            4 -> ThemesService.getColor3()
+            5 -> ThemesService.getDimmedColor3()
+            6 -> ThemesService.getColor4()
+            7 -> ThemesService.getDimmedColor4()
+            8 -> ThemesService.getColor5()
+            9 -> ThemesService.getDimmedColor5()
+            10 -> ThemesService.getColor6()
+            11 -> ThemesService.getDimmedColor6()
+            else -> -1 // unreachable
         }
     }
 
@@ -181,9 +198,9 @@ class ChartsService(activity: AppCompatActivity) {
 
             // set color for the day
             val color: Int = if (days[dayIndex].isRecorded) {
-                Color.parseColor(DaysInRowSettings.RECORDED_COLOR)
+                ThemesService.getRecordedDayColor()
             } else {
-                Color.parseColor(DaysInRowSettings.NOT_RECORDED_COLOR)
+                ThemesService.getNotRecordedDayColor()
             }
             val card = layout.getChildAt(DaysInRowSettings.CARD_INDEX) as CardView
             card.setCardBackgroundColor(color)
@@ -223,7 +240,7 @@ class ChartsService(activity: AppCompatActivity) {
 
         // set x-axis settings
         val xAxis: XAxis = lineChart.xAxis
-        xAxis.textColor = MoodChartSettings.TEXT_COLOR
+        xAxis.textColor = ThemesService.getColor4()
         xAxis.setTextSize(MoodChartSettings.TEXT_SIZE)
         xAxis.setAxisMinimum(MoodChartSettings.X_AXIS_MIN)
         if (timePeriod == TimePeriod.Value.WEEK) {
@@ -243,13 +260,13 @@ class ChartsService(activity: AppCompatActivity) {
 
         // create dataset
         val dataSet = LineDataSet(data, "week mood")
-        dataSet.setColor(Color.parseColor(MoodChartSettings.CHARTS_COLOR))
+        dataSet.setColor(ThemesService.getColor2())
         dataSet.setLineWidth(MoodChartSettings.CHARTS_LINE_WIDTH)
 
         // set legend description
         val legend: Legend = lineChart.legend
         legend.form = Legend.LegendForm.NONE
-        legend.textColor = Color.WHITE
+        legend.textColor = ThemesService.getColor2()
 
         // set description enabled
         val description = Description()
@@ -274,6 +291,7 @@ class ChartsService(activity: AppCompatActivity) {
         pieChart.holeRadius = DistributionChartSettings.HOLE_RADIUS
         pieChart.isRotationEnabled = true
         pieChart.isHighlightPerTapEnabled = true
+        pieChart.setHoleColor(ThemesService.getBackgroundColor())
 
         // create entries for data set
         val entries = ArrayList<PieEntry>()
@@ -281,16 +299,30 @@ class ChartsService(activity: AppCompatActivity) {
             entries.add(PieEntry(entry.getCounter().toFloat()))
         }
 
+        // set center text
+        pieChart.setCenterTextSize(16f)
+        pieChart.setCenterTextColor(ThemesService.getFontColor())
+        if (entries.isEmpty()) {
+            pieChart.setCenterText("No data")
+        } else {
+            pieChart.setCenterText("")
+        }
+
         // create dataset fot pie chart
         val dataSet = PieDataSet(entries, "statistic")
         dataSet.setDrawIcons(false)
 
         // create colors for pie chart
-        // todo: add colors in themes
         val colors = ArrayList<Int>()
         val rnd = Random.Default
+        var previousColor = -1
         for (color in 0..statistic.size) {
-            colors.add(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)))
+            var colorIndex = rnd.nextInt(12)
+            while (colorIndex == previousColor) {
+                colorIndex = rnd.nextInt(12)
+            }
+            previousColor = colorIndex
+            colors.add(getColorByIndex(colorIndex))
         }
         dataSet.colors = colors
 
@@ -299,7 +331,7 @@ class ChartsService(activity: AppCompatActivity) {
         data.setValueFormatter(PercentFormatter())
         data.setValueTextSize(DistributionChartSettings.TEXT_SIZE)
         data.setValueTypeface(Typeface.DEFAULT_BOLD)
-        data.setValueTextColor(Color.WHITE)
+        data.setValueTextColor(ThemesService.getDimmedBackgroundColor())
         pieChart.data = data
 
         // create legend

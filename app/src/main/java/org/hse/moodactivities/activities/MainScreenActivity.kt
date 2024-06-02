@@ -56,10 +56,15 @@ class MainScreenActivity : AppCompatActivity() {
         // set color to status bar
         window.statusBarColor = ThemesService.getBackgroundColor()
 
+        // set color to background
+        binding.mainScreenLayout.setBackgroundColor(ThemesService.getBackgroundColor())
+
         // set color to
         window.navigationBarColor = ThemesService.getDimmedColor6()
         binding.bottomNavigationView.setBackgroundColor(ThemesService.getDimmedColor6())
-        binding.bottomNavigationView.itemTextColor = ColorStateList.valueOf(ThemesService.getColor6())
-        binding.bottomNavigationView.itemIconTintList = ColorStateList.valueOf(ThemesService.getColor6())
+        binding.bottomNavigationView.itemTextColor =
+            ColorStateList.valueOf(ThemesService.getColor6())
+        binding.bottomNavigationView.itemIconTintList =
+            ColorStateList.valueOf(ThemesService.getColor6())
     }
 }

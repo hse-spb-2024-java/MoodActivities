@@ -22,7 +22,6 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 class DailyActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityDailyActivityBinding
     private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {

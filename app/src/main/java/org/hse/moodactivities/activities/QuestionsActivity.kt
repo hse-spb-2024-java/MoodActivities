@@ -11,6 +11,7 @@ import org.hse.moodactivities.fragments.EndOfDailyQuestionFragment
 import org.hse.moodactivities.fragments.QuestionOfTheDayFragment
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.interfaces.Data
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.QuestionViewModel
 
 class QuestionsActivity : AppCompatActivity(), Communicator {
@@ -21,11 +22,13 @@ class QuestionsActivity : AppCompatActivity(), Communicator {
         questionViewModel = QuestionViewModel()
         questionViewModel.onCreateView(this)
         setContentView(R.layout.activity_mood_flow)
-        if (questionViewModel.check(CheckAnswerRequest.getDefaultInstance()) == false) {
+        if (!questionViewModel.check(CheckAnswerRequest.getDefaultInstance())) {
             replaceFragment(QuestionOfTheDayFragment())
         } else {
             replaceFragment(EndOfDailyQuestionFragment())
         }
+
+        setColorTheme()
     }
 
     override fun replaceFragment(fragment: Fragment) {
@@ -36,5 +39,16 @@ class QuestionsActivity : AppCompatActivity(), Communicator {
     }
 
     override fun passData(data: Data) {
+    }
+
+    private fun setColorTheme() {
+        // set color to status bar
+        window.statusBarColor = ThemesService.getBackgroundColor()
+
+//        // set background color
+//        binding.dailyActivityLayout.setBackgroundColor(ThemesService.getBackgroundColor())
+//
+//        // set tittle color
+//        binding.screenTittle.setTextColor(ThemesService.getFontColor())
     }
 }

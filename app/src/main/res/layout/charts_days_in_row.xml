@@ -13,9 +13,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/days_in_row_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/background_blue"
             app:cardCornerRadius="15dp"
             app:cardElevation="1dp">
 

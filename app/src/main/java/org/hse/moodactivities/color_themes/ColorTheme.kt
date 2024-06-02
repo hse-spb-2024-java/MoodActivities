@@ -7,7 +7,7 @@ enum class ColorThemeType {
     CALMNESS, TWILIGHT, FOREST, ENERGY_THEME, CHEERFULNESS_THEME, INSPIRATION_THEME, PRODUCTIVITY_THEME, ROMANTIC_THEME, CONFIDENCE_THEME
 }
 
-open class ColorTheme(
+abstract class ColorTheme(
     private var colorThemeType: ColorThemeType,
     private var lightMode: LightMode,
     private var backgroundColor: Int,
@@ -97,6 +97,9 @@ open class ColorTheme(
     fun getDimmedColor6(): Int {
         return dimmedColor6
     }
+
+    // color of charts lines
+    abstract fun getChartsColor(): Int
 
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(

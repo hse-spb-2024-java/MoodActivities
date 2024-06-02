@@ -1,6 +1,5 @@
 package org.hse.moodactivities.adapters
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +55,9 @@ internal class CalendarAdapter(
             moodIndicatorBackground.setColor(backgroundColor)
         }
         if (currentMonth == LocalDate.now().month && holder.getDayOfMonth().text == LocalDate.now().dayOfMonth.toString()) {
-            holder.getDayOfMonth().setTextColor(Color.RED)
+            holder.getDayOfMonth().setTextColor(ThemesService.getColor1())
+        } else {
+            holder.getDayOfMonth().setTextColor(ThemesService.getFontColor())
         }
     }
 

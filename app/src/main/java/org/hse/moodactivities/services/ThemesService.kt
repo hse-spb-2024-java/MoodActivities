@@ -1,5 +1,6 @@
 package org.hse.moodactivities.services
 
+import android.graphics.Color
 import org.hse.moodactivities.color_themes.CalmnessColorTheme
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
@@ -89,6 +90,18 @@ class ThemesService {
 
         fun getDimmedColor6(): Int {
             return colorTheme.getDimmedColor6()
+        }
+
+        fun getRecordedDayColor(): Int {
+            return Color.parseColor("#32CD32")
+        }
+
+        fun getNotRecordedDayColor(): Int {
+            return Color.parseColor("#D53032")
+        }
+
+        fun getChartsColor(): Int {
+            return colorTheme.getChartsColor()
         }
     }
 }

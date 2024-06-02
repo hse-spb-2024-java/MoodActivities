@@ -18,4 +18,8 @@ class ForestColorTheme : ColorTheme(
     getColorByName("dimmed feldgrau")!!,
     getColorByName("brunswick green")!!,
     getColorByName("dimmed brunswick green")!!,
-)
+) {
+    override fun getChartsColor(): Int {
+        return getColor4()
+    }
+}

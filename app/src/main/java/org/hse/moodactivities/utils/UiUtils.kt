@@ -45,10 +45,12 @@ class UiUtils {
                 else -> -1 // unreachable
             }
         }
+
         fun getStatisticTitle(): String {
+            var type = ChartsService.getStatisticMode().toString()
+            type = type[0].uppercase() + type.subSequence(1, type.length - 1)
             return buildString {
-                append(ChartsService.getStatisticMode().toString())
-                    .append(" statistic")
+                append(type).append(" statistic")
             }
         }
 

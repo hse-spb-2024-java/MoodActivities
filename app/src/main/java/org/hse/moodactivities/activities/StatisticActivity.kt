@@ -6,13 +6,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.adapters.StatisticItemAdapter
 import org.hse.moodactivities.services.ChartsService
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.services.TimePeriod
 import org.hse.moodactivities.utils.UiUtils
 
@@ -34,6 +35,7 @@ class StatisticActivity : AppCompatActivity() {
             append(UiUtils.Companion.Strings.RETURN_TO_INSIGHTS)
         }
         findViewById<TextView>(R.id.title).text = UiUtils.getStatisticTitle()
+        findViewById<TextView>(R.id.title).setTextColor(ThemesService.getFontColor())
 
         // button to return to insights
         findViewById<Button>(R.id.return_button).setOnClickListener {
@@ -64,6 +66,8 @@ class StatisticActivity : AppCompatActivity() {
 
         // init data
         setData(TimePeriod.Value.WEEK, R.id.week_background, R.id.week_text)
+
+        setColorTheme()
     }
 
     private fun activateTimePeriodBarButton(
@@ -71,26 +75,18 @@ class StatisticActivity : AppCompatActivity() {
     ) {
         currentTimePeriod = timePeriod
         findViewById<TextView>(currentActiveTextId).setTextColor(
-            ContextCompat.getColor(
-                applicationContext, R.color.light_slate_gray
-            )
+            ThemesService.getDimmedBackgroundColor()
         )
         findViewById<CardView>(currentActiveCardId).setCardBackgroundColor(
-            ContextCompat.getColor(
-                applicationContext, R.color.light_gray
-            )
+            ThemesService.getColor5()
         )
         currentActiveCardId = newActiveCard
         currentActiveTextId = newActiveTittle
         findViewById<TextView>(currentActiveTextId).setTextColor(
-            ContextCompat.getColor(
-                applicationContext, R.color.dark_slate_gray
-            )
+            ThemesService.getBackgroundColor()
         )
         findViewById<CardView>(currentActiveCardId).setCardBackgroundColor(
-            ContextCompat.getColor(
-                applicationContext, R.color.dark_gray
-            )
+            ThemesService.getDimmedColor5()
         )
     }
 
@@ -106,5 +102,28 @@ class StatisticActivity : AppCompatActivity() {
             StatisticItemAdapter(it, items)
         }
         recyclerView.adapter = itemsAdapters
+    }
+
+    private fun setColorTheme() {
+        // set color to status bar
+        window.statusBarColor = ThemesService.getBackgroundColor()
+
+        // set color to background
+        findViewById<ConstraintLayout>(R.id.activity_statistic).setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set color to bar background
+        findViewById<CardView>(R.id.bar_background).setCardBackgroundColor(ThemesService.getColor5())
+
+        // set color to bars buttons
+        findViewById<CardView>(R.id.week_background).setCardBackgroundColor(ThemesService.getDimmedColor5())
+        findViewById<CardView>(R.id.month_background).setCardBackgroundColor(ThemesService.getColor5())
+        findViewById<CardView>(R.id.year_background).setCardBackgroundColor(ThemesService.getColor5())
+        findViewById<CardView>(R.id.all_time_background).setCardBackgroundColor(ThemesService.getColor5())
+
+        // set color to bars buttons texts
+        findViewById<TextView>(R.id.week_text).setTextColor(ThemesService.getBackgroundColor())
+        findViewById<TextView>(R.id.month_text).setTextColor(ThemesService.getDimmedBackgroundColor())
+        findViewById<TextView>(R.id.year_text).setTextColor(ThemesService.getDimmedBackgroundColor())
+        findViewById<TextView>(R.id.all_time_text).setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }

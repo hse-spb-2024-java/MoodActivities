@@ -18,4 +18,8 @@ class TwilightColorTheme : ColorTheme(
     getColorByName("dimmed rosy brown dark")!!,
     getColorByName("rosy taupe")!!,
     getColorByName("dimmed rosy taupe")!!,
-)
+) {
+    override fun getChartsColor(): Int {
+        return getColor4()
+    }
+}

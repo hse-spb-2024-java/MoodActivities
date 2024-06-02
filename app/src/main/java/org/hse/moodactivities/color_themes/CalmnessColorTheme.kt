@@ -18,4 +18,8 @@ class CalmnessColorTheme : ColorTheme(
     getColorByName("dimmed powder blue")!!,
     getColorByName("air superiority blue")!!,
     getColorByName("dimmed air superiority blue")!!,
-)
+) {
+    override fun getChartsColor(): Int {
+        return getColor4()
+    }
+}

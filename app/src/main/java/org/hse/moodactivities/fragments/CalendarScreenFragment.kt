@@ -189,22 +189,38 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
 
         // set color to calendar widget background
         view?.findViewById<CardView>(R.id.calendar_card)
-            ?.setCardBackgroundColor(ThemesService.getColor3())
+            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
 
         // set color to calendar widget left arrow
         view?.findViewById<CardView>(R.id.left_arrow)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
+            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
 
         // set color to calendar widget right arrow
         view?.findViewById<CardView>(R.id.right_arrow)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
+            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
 
         // set color to month statistic widget
         view?.findViewById<CardView>(R.id.month_statistic_card)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
+            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
 
         // set font color to tittle
         view?.findViewById<TextView>(R.id.history_screen_tittle)
             ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to texts in calendar
+        view?.findViewById<TextView>(R.id.monday)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view?.findViewById<TextView>(R.id.tuesday)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view?.findViewById<TextView>(R.id.wednesday)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view?.findViewById<TextView>(R.id.thursday)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view?.findViewById<TextView>(R.id.friday)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view?.findViewById<TextView>(R.id.saturday)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view?.findViewById<TextView>(R.id.sunday)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }
