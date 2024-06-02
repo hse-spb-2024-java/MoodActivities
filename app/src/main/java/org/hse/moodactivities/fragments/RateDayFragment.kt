@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 import org.hse.moodactivities.utils.UiUtils
@@ -67,6 +70,8 @@ class RateDayFragment : Fragment() {
                 clickOnButton(index)
             }
         }
+
+        setColorTheme()
     }
 
     private fun clickOnButton(index: Int) {
@@ -95,5 +100,25 @@ class RateDayFragment : Fragment() {
                 this.activeMoodIndex = moodEvent.getMoodRate()!!
             }
         }
+    }
+
+    private fun setColorTheme() {
+        // set color to background
+        view?.findViewById<ConstraintLayout>(R.id.fragment_rate_day_layout)
+            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set color to tittle
+        view?.findViewById<TextView>(R.id.tittle)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to question
+        view?.findViewById<TextView>(R.id.question)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to next button
+        view?.findViewById<CardView>(R.id.next_button_background)
+            ?.setCardBackgroundColor(ThemesService.getColor4())
+        view?.findViewById<TextView>(R.id.button_text)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }

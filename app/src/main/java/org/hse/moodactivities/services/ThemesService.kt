@@ -92,6 +92,14 @@ class ThemesService {
             return colorTheme.getDimmedColor6()
         }
 
+        fun getButtonColor(): Int {
+            return colorTheme.getButtonColor()
+        }
+
+        fun getButtonTextColor(): Int {
+            return colorTheme.getButtonTextColor()
+        }
+
         fun getRecordedDayColor(): Int {
             return Color.parseColor("#32CD32")
         }

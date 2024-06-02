@@ -101,6 +101,9 @@ class LoginActivity : AppCompatActivity() {
         // set tittle color
         binding.signupHeader.setTextColor(ThemesService.getFontColor())
 
+        // set color to app name
+        binding.appName.setTextColor(ThemesService.getFontColor())
+
         // set input fields colors
         binding.usernameInputBackground.setCardBackgroundColor(ThemesService.getColor3())
         binding.passwordInputBackground.setCardBackgroundColor(ThemesService.getColor3())

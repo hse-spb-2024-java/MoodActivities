@@ -98,6 +98,10 @@ abstract class ColorTheme(
         return dimmedColor6
     }
 
+    abstract fun getButtonColor(): Int
+
+    abstract fun getButtonTextColor(): Int
+
     // color of charts lines
     abstract fun getChartsColor(): Int
 

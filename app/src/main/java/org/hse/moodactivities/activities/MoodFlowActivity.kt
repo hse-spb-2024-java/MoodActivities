@@ -12,15 +12,17 @@ import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.interfaces.Data
 import org.hse.moodactivities.models.MoodEvent
 import org.hse.moodactivities.services.MoodService
+import org.hse.moodactivities.services.ThemesService
 
 class MoodFlowActivity : AppCompatActivity(), Communicator {
     private var moodEvent: MoodEvent = MoodEvent()
-    private var dayRate: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mood_flow)
         replaceFragment(RateDayFragment())
+
+        setColorTheme()
     }
 
     override fun replaceFragment(fragment: Fragment) {
@@ -52,7 +54,12 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
         }
     }
 
-    fun getMoodEvent() : MoodEvent {
+    fun getMoodEvent(): MoodEvent {
         return moodEvent
+    }
+
+    private fun setColorTheme() {
+        // set color to status bar
+        window.statusBarColor = ThemesService.getBackgroundColor()
     }
 }

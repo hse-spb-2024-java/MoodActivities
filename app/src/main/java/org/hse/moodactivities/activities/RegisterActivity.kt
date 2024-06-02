@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
@@ -125,6 +126,13 @@ class RegisterActivity : AppCompatActivity() {
         setColorTheme()
     }
 
+    fun openTermsAndConditions(view: View) {
+        // todo: open t & c
+        Log.i("clicked", "t a c")
+        val intent = Intent(this, TermsAndConditionsActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun setColorTheme() {
         // set color to status bar
         window.statusBarColor = ThemesService.getBackgroundColor()
@@ -134,6 +142,12 @@ class RegisterActivity : AppCompatActivity() {
 
         // set tittle color
         binding.signupHeader.setTextColor(ThemesService.getFontColor())
+
+        // set color to app name
+        binding.appName.setTextColor(ThemesService.getFontColor())
+
+        // set color to text and conditions
+        binding.termsAndConditions.setTextColor(ThemesService.getColor4())
 
         // set input fields colors
         binding.usernameInputBackground.setCardBackgroundColor(ThemesService.getColor3())

@@ -108,10 +108,15 @@ class WelcomeScreenActivity : AppCompatActivity() {
         // set background color
         binding.welcomeScreenBackground.setBackgroundColor(ThemesService.getBackgroundColor())
 
+        // set color to app name
+        binding.appName.setTextColor(ThemesService.getDimmedColor4())
+
         // set buttons colors
-        binding.registerButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
-        binding.registerButtonText.setTextColor(ThemesService.getDimmedBackgroundColor())
-        binding.loginButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
-        binding.loginButtonText.setTextColor(ThemesService.getDimmedBackgroundColor())
+        binding.registerButtonBackground.setCardBackgroundColor(ThemesService.getButtonColor())
+        binding.registerButtonText.setTextColor(ThemesService.getButtonTextColor())
+        binding.loginButtonBackground.setCardBackgroundColor(ThemesService.getButtonColor())
+        binding.loginButtonText.setTextColor(ThemesService.getButtonTextColor())
+        binding.googleButtonBackground.setCardBackgroundColor(ThemesService.getButtonColor())
+        binding.googleButtonText.setTextColor(ThemesService.getButtonTextColor())
     }
 }

@@ -5,7 +5,6 @@
     android:id="@+id/fragment_rate_day_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".fragments.RateDayFragment">
@@ -21,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="@string/return_home"
             android:textColor="@color/gray"
@@ -37,40 +36,40 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/roboto"
         android:text="Mood flow "
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold|italic"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="40dp"
         android:fontFamily="@font/roboto"
         android:text="@string/rate_day_title"
-        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/moods"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:id="@+id/moods"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- mood 1 start -->
         <RelativeLayout
@@ -232,19 +231,18 @@
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/moods">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/next_button_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.5"
-            android:backgroundTint="@color/black"
-            app:cardCornerRadius="@dimen/widget_corner_radius">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -253,15 +251,12 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/next_title"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/next_title" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.cardview.widget.CardView>
 
@@ -269,11 +264,7 @@
             android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:alpha="0" />
 
     </RelativeLayout>
     <!-- next end -->

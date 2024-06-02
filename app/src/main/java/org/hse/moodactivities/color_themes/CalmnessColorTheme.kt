@@ -19,6 +19,14 @@ class CalmnessColorTheme : ColorTheme(
     getColorByName("air superiority blue")!!,
     getColorByName("dimmed air superiority blue")!!,
 ) {
+    override fun getButtonColor(): Int {
+        return getColor4()
+    }
+
+    override fun getButtonTextColor(): Int {
+        return getDimmedBackgroundColor()
+    }
+
     override fun getChartsColor(): Int {
         return getColor4()
     }
