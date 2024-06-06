@@ -30,7 +30,11 @@ public class WeatherService extends WeatherServiceGrpc.WeatherServiceImplBase {
         } else {
             user = new User(id, new ArrayList<>());
         }
-        Optional<String> weather = WeatherApp.getWeather(request.getLat(), request.getLon());
+        handler(user, request.getLat(), request.getLon());
+    }
+
+    public static void handler(User user, double lat, double lon) {
+        Optional<UserDayMeta.Weather> weather = WeatherApp.getWeather(lat, lon);
         if (weather.isPresent()) {
             if (user.getMetas() != null && user.getMetas().size() > 0 && user.getMetas().getLast().getDate().equals(LocalDate.now())) {
                 user.getMetas().getLast().setWeather(weather.get());

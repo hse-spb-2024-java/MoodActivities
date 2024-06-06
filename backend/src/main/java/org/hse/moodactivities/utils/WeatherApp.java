@@ -2,6 +2,7 @@ package org.hse.moodactivities.utils;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
+import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
 import org.hse.moodactivities.data.promts.PromptsStorage;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -32,21 +33,24 @@ public class WeatherApp {
         return Optional.empty();
     }
 
-    public static Optional<String> getWeather(double latitude, double longitude) {
+    public static Optional<UserDayMeta.Weather> getWeather(double latitude, double longitude) {
         String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric", BASE_URL, latitude, longitude, API_KEY);
-
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .build();
-
-        try {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 JSONObject jsonResponse = new JSONObject(response.body());
                 System.out.println(jsonResponse);
                 String weatherDescription = jsonResponse.getJSONArray("weather").getJSONObject(0).getString("description");
-                return retranslateWeather(weatherDescription);
+                double temperature = jsonResponse.getJSONObject("main").getDouble("temp");
+                double humidity = jsonResponse.getJSONObject("main").getDouble("humidity");
+                Optional<String> newDescription = retranslateWeather(weatherDescription);
+                if (newDescription.isPresent()) {
+                    return Optional.of(new UserDayMeta.Weather(false, newDescription.get(), temperature, humidity));
+                }
+                return Optional.empty();
             } else {
                 LOGGER.error("Error: " + response.statusCode());
             }

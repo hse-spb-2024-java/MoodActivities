@@ -25,6 +25,7 @@ import org.hse.moodactivities.common.proto.responses.stats.TopItem;
 import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
 import org.hse.moodactivities.common.proto.responses.stats.UsersMood;
 import org.hse.moodactivities.common.proto.responses.stats.UsersMoodResponse;
+import org.hse.moodactivities.common.proto.responses.stats.Weather;
 import org.hse.moodactivities.common.proto.responses.stats.WeatherGptResponse;
 import org.hse.moodactivities.common.proto.responses.stats.WeatherStats;
 import org.hse.moodactivities.common.proto.responses.stats.WeatherStatsResponse;
@@ -164,7 +165,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         StringBuilder statsToString = new StringBuilder();
         for (var item : stats) {
             statsToString.append("with weather: ");
-            statsToString.append(item.getWeather());
+            statsToString.append(item.getWeather().getDescription());
             statsToString.append(String.format(", man has %s mood score out of 5;", item.getScore()));
         }
         String prompt = String.format(PromptsStorage.getString("weatherApp.analyticsPrompt"), statsToString.toString());
@@ -361,10 +362,15 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
         List<WeatherStats> result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
+                .filter((item) -> !item.getWeather().isEmpty())
                 .map((item) -> WeatherStats.newBuilder()
                         .setDate(item.getDate().toString())
                         .setScore(((Double) item.getDailyScore()).intValue())
-                        .setWeather(item.getWeather())
+                        .setWeather(Weather.newBuilder()
+                                .setHumidity(item.getWeather().humidity())
+                                .setTemperature(item.getWeather().temperature())
+                                .setDescription(item.getWeather().description())
+                                .build())
                         .build())
                 .limit(period)
                 .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();
@@ -381,7 +387,9 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         List<WeatherStats> correctSublist = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
                 .map((item) -> WeatherStats.newBuilder()
                         .setScore(((Double) item.getDailyScore()).intValue())
-                        .setWeather(item.getWeather())
+                        .setWeather(Weather.newBuilder()
+                                .setDescription(item.getWeather().description())
+                                .build())
                         .build())
                 .limit(period)
                 .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();

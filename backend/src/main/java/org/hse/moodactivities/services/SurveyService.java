@@ -68,15 +68,19 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 Map<String, Object> queryMap = new HashMap<>();
                 queryMap.put("_id", id);
                 var existingEntities = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
+                User user = null;
                 if (existingEntities != null && !existingEntities.isEmpty()) {
-                    User existingEntity = existingEntities.get(0);
-                    existingEntity.updateMeta(newMeta);
-                    existingEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
-                    MongoDBSingleton.getInstance().getConnection().updateEntity(existingEntity);
+                    user = existingEntities.get(0);
+                    user.updateMeta(newMeta);
+                    user.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
+                    MongoDBSingleton.getInstance().getConnection().updateEntity(user);
                 } else {
-                    User newEntity = new User(id, List.of(newMeta));
-                    newEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
-                    MongoDBSingleton.getInstance().getConnection().saveEntity(newEntity);
+                    user = new User(id, List.of(newMeta));
+                    user.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
+                    MongoDBSingleton.getInstance().getConnection().saveEntity(user);
+                }
+                if (request.getLon() != 404) {
+                    WeatherService.handler(user, request.getLat(), request.getLon());
                 }
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
             } else {

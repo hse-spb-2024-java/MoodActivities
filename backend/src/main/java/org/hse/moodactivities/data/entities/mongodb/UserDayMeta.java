@@ -26,7 +26,7 @@ public class UserDayMeta implements Serializable {
     private DailyActivity activity;
     private String dailyConclusion;
 
-    private String weather;
+    private Weather weather;
 
     public void setDate(LocalDate date) {
         this.date = date;
@@ -57,11 +57,11 @@ public class UserDayMeta implements Serializable {
         calculateDailyScore();
     }
 
-    public String getWeather() {
-        return weather == null ? "no data" : weather;
+    public Weather getWeather() {
+        return weather == null ? new Weather(true) : weather;
     }
 
-    public void setWeather(String weather) {
+    public void setWeather(Weather weather) {
         this.weather = weather;
     }
 
@@ -176,5 +176,14 @@ public class UserDayMeta implements Serializable {
                 "records=" + records + ", " +
                 "daiScore=" + dailyScore + ", " +
                 "dailyConclusion=" + dailyConclusion + ']';
+    }
+
+    public static record Weather(boolean isEmpty,
+                                 String description,
+                                 double temperature,
+                                 double humidity) implements Serializable {
+        public Weather(boolean isEmpty) {
+            this(isEmpty, null, 0, 0);
+        }
     }
 }

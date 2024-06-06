@@ -1,12 +1,17 @@
 package org.hse.moodactivities.services
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.location.Location
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest
+import org.hse.moodactivities.common.proto.responses.survey.LongSurveyResponse
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc
 import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
@@ -25,6 +30,7 @@ class MoodService {
         }
 
         // GPT describes user's day
+        @SuppressLint("MissingPermission", "Range")
         fun getGptResponse(activity: AppCompatActivity): GptMoodResponse {
             val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345)
                 .usePlaintext()
@@ -40,16 +46,43 @@ class MoodService {
                         )!!
                     })
 
-            val request = LongSurveyRequest.newBuilder()
-                .setDate(LocalDate.now().toString())
-                .setMoodRating(moodEvent?.getMoodRate()!! + 1)
-                .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
-                .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
-                .setQuestion(moodEvent?.getQuestion() ?: "")
-                .setAnswer(moodEvent?.getUserAnswer() ?: "")
-                .build()
+            val fusedLocationClient: FusedLocationProviderClient =
+                LocationServices.getFusedLocationProviderClient(activity)
 
-            val response = stub.longSurvey(request)
+            var lat = 404.0
+            var lon = 404.0
+            val locationTask = fusedLocationClient.lastLocation
+            var response = LongSurveyResponse.newBuilder().build()
+            locationTask.addOnSuccessListener { location: Location? ->
+                location?.let {
+                    lat = location.latitude
+                    lon = location.longitude
+                }
+                val request = LongSurveyRequest.newBuilder()
+                    .setDate(LocalDate.now().toString())
+                    .setMoodRating(moodEvent?.getMoodRate()!! + 1)
+                    .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
+                    .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
+                    .setQuestion(moodEvent?.getQuestion() ?: "")
+                    .setAnswer(moodEvent?.getUserAnswer() ?: "")
+                    .setLat(lat)
+                    .setLon(lon)
+                    .build()
+
+                response = stub.longSurvey(request)
+            }.addOnFailureListener {
+                Log.e("MoodService", "Failed to get location")
+                val request = LongSurveyRequest.newBuilder()
+                    .setDate(LocalDate.now().toString())
+                    .setMoodRating(moodEvent?.getMoodRate()!! + 1)
+                    .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
+                    .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
+                    .setQuestion(moodEvent?.getQuestion() ?: "")
+                    .setAnswer(moodEvent?.getUserAnswer() ?: "")
+                    .build()
+
+                response = stub.longSurvey(request)
+            }
             return GptMoodResponse(response.shortSummary, response.fullSummary)
         }
 
