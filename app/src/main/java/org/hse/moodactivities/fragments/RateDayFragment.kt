@@ -1,8 +1,6 @@
 package org.hse.moodactivities.fragments
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,6 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
-import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.models.MoodEvent
@@ -39,7 +36,7 @@ class RateDayFragment : Fragment() {
 
         // button to home screen
         view.findViewById<Button>(R.id.return_home_button).setOnClickListener {
-            startActivity(Intent(this.activity, MainScreenActivity::class.java))
+            this.activity?.finish()
         }
 
         // button to the next fragment
@@ -66,7 +63,6 @@ class RateDayFragment : Fragment() {
             moodButtons[index] = view.findViewById(UiUtils.getMoodButtonIdByIndex(index))
             moodImages[index] = view.findViewById(UiUtils.getMoodImageIdByIndex(index))
             moodButtons[index]?.setOnClickListener {
-                Log.d("mood " + (index + 1) + " button", "clicked!")
                 clickOnButton(index)
             }
         }
@@ -107,17 +103,25 @@ class RateDayFragment : Fragment() {
         view?.findViewById<ConstraintLayout>(R.id.fragment_rate_day_layout)
             ?.setBackgroundColor(ThemesService.getBackgroundColor())
 
-        // set color to tittle
-        view?.findViewById<TextView>(R.id.tittle)
+        // set color to return button
+        view?.findViewById<ImageView>(R.id.return_image)
+            ?.setColorFilter(ThemesService.getFontColor())
+
+        // set color to title
+        view?.findViewById<TextView>(R.id.title)
             ?.setTextColor(ThemesService.getFontColor())
 
         // set color to question
         view?.findViewById<TextView>(R.id.question)
             ?.setTextColor(ThemesService.getFontColor())
 
+        // set color to card
+        view?.findViewById<CardView>(R.id.card)
+            ?.setCardBackgroundColor(ThemesService.getMoodFlowWidgetColor())
+
         // set color to next button
         view?.findViewById<CardView>(R.id.next_button_background)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
+            ?.setCardBackgroundColor(ThemesService.getButtonColor())
         view?.findViewById<TextView>(R.id.button_text)
             ?.setTextColor(ThemesService.getDimmedBackgroundColor())
     }

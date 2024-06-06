@@ -8,23 +8,25 @@
     tools:context=".activities.TermsAndConditionsActivity">
 
     <ImageView
+        android:id="@+id/return_button"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tittle"
-        app:layout_constraintBottom_toBottomOf="@+id/tittle"
+        app:layout_constraintTop_toTopOf="@+id/title"
+        android:onClick="returnToPreviousActivity"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
         android:src="@drawable/arrow_left"/>
 
     <TextView
-        android:id="@+id/tittle"
+        android:id="@+id/title"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/app_font"
         android:text="Terms &amp; conditions"
-        android:textSize="20sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,14 +37,14 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tittle">
+        app:layout_constraintTop_toBottomOf="@+id/title">
 
         <TextView
             android:id="@+id/terms_and_conditions"
             android:layout_width="match_parent"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/app_font"
             android:layout_height="match_parent"
-            android:text="qokjf[oqwjfuqhewgf;hfqwufnqwd"
+            android:text="1. Being a good user ^^"
             android:textSize="16sp" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

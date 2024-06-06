@@ -105,6 +105,10 @@ abstract class ColorTheme(
     // color of charts lines
     abstract fun getChartsColor(): Int
 
+    open fun getMoodFlowWidgetColor(): Int {
+        return getColor4()
+    }
+
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(
             "space cadet" to Color.parseColor("#283044"),

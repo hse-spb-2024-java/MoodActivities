@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="20dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/app_font"
             android:text="Mood Activities"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -73,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:background="@null"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/app_font"
                 android:hint="Username"
                 android:inputType="textNoSuggestions"
                 android:paddingStart="15dp"
@@ -112,7 +112,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:background="@null"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/app_font"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:paddingStart="15dp"
@@ -177,7 +177,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/app_font"
             android:text="Don't have an account? "
             android:textColor="@color/gray"
             android:textSize="14sp" />
@@ -190,7 +190,7 @@
                 android:id="@+id/register_redirect_text"
                 android:layout_width="55dp"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/roboto_bold"
+                android:fontFamily="@font/app_font"
                 android:text="Sign up"
                 android:textColor="@color/black"
                 android:textSize="14sp" />

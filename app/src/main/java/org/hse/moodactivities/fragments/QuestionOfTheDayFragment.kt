@@ -61,7 +61,7 @@ class QuestionOfTheDayFragment : Fragment() {
                     )!!
                 })
 
-        val questionTitleTextView: TextView = view.findViewById(R.id.questionTitleTextView)
+        val questionTitleTextView: TextView = view.findViewById(R.id.question_title)
         val questionTitle = gptServiceStub.getDailyQuestion(QuestionRequest.getDefaultInstance())
         questionTitleTextView.text = questionTitle.question
         userAnswer = view.findViewById(R.id.edit_text)
@@ -102,6 +102,12 @@ class QuestionOfTheDayFragment : Fragment() {
             startActivity(mainActivityIntent)
         }
 
+        setColorTheme(view)
+
         return view
+    }
+
+    private fun setColorTheme(view: View) {
+
     }
 }

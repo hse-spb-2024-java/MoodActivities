@@ -1,6 +1,5 @@
 package org.hse.moodactivities.activities
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +16,6 @@ import org.hse.moodactivities.services.ThemesService
 
 
 class MainScreenActivity : AppCompatActivity() {
-
     private lateinit var binding: MainScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +32,6 @@ class MainScreenActivity : AppCompatActivity() {
                 R.id.bottom_menu_history -> replaceFragment(CalendarScreenFragment())
                 R.id.bottom_menu_insights -> replaceFragment(InsightsScreenFragment())
                 R.id.bottom_menu_profile -> replaceFragment(ProfileScreenFragment())
-                R.id.bottom_menu_chat -> {
-                    val chatActivity = Intent(this, ChatActivity::class.java)
-                    startActivity(chatActivity)
-                }
             }
             true
         }

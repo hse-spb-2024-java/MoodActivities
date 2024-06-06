@@ -141,12 +141,16 @@ class DailyActivity : AppCompatActivity() {
         dialog.findViewById<CardView>(R.id.dialog_background)
             .setCardBackgroundColor(ThemesService.getColor4())
 
-        // set dialog text color
+        // set dialog question text color
         dialog.findViewById<TextView>(R.id.dialog_tittle)
+            .setTextColor(ThemesService.getBackgroundColor())
+
+        // set dialog text color
+        dialog.findViewById<TextView>(R.id.users_impressions)
             .setTextColor(ThemesService.getDimmedBackgroundColor())
 
         // set dialog button color
-        dialog.findViewById<CardView>(R.id.button_background)
+        dialog.findViewById<CardView>(R.id.next_button_background)
             .setCardBackgroundColor(ThemesService.getColor5())
 
         // set dialog button text color

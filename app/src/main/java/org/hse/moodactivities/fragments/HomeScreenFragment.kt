@@ -2,7 +2,6 @@ package org.hse.moodactivities.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.ChatActivity
 import org.hse.moodactivities.activities.DailyActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.activities.QuestionsActivity
@@ -67,19 +67,18 @@ class HomeScreenFragment : Fragment() {
         moodWidgetButton.setOnClickListener {
             val moodFlowActivityIntent = Intent(this.activity, MoodFlowActivity::class.java)
             startActivity(moodFlowActivityIntent)
-            this.activity?.finish()
         }
 
         val questionWidgetButton: Button = view.rootView.findViewById(R.id.question_widget_button)
         questionWidgetButton.setOnClickListener {
             val questionsActivity = Intent(this.activity, QuestionsActivity::class.java)
             startActivity(questionsActivity)
-            this.activity?.finish()
         }
 
         val askWidgetButton: Button = view.rootView.findViewById(R.id.ask_widget_button)
         askWidgetButton.setOnClickListener {
-            Log.d("ask button", "clicked!")
+            val chatActivity = Intent(this.activity, ChatActivity::class.java)
+            startActivity(chatActivity)
         }
 
         setColorTheme()

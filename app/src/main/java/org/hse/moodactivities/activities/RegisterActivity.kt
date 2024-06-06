@@ -127,8 +127,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun openTermsAndConditions(view: View) {
-        // todo: open t & c
-        Log.i("clicked", "t a c")
         val intent = Intent(this, TermsAndConditionsActivity::class.java)
         startActivity(intent)
     }

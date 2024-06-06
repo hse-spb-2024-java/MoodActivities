@@ -9,11 +9,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.QuestionViewModel
 
 const val MAXIMAL_SIZE_OF_USER_ANSWER = 100
@@ -36,7 +38,7 @@ class AnswerDailyQuestionFragment : Fragment() {
 
         nextButtonBackground = view.findViewById(R.id.next_button_background)
 
-        userAnswer = view.findViewById(R.id.edit_text)
+        userAnswer = view.findViewById(R.id.card_text)
         val filters = arrayOf<InputFilter>(InputFilter.LengthFilter(MAXIMAL_SIZE_OF_USER_ANSWER))
         userAnswer.filters = filters
         userAnswer.maxLines = MAXIMAL_LINES_AMOUNT_IN_USER_ANSWER
@@ -74,10 +76,46 @@ class AnswerDailyQuestionFragment : Fragment() {
             this.question.text = questionViewModel.getRandomQuestion()
         }
 
+        setColorTheme(view)
+
         return view
     }
 
     private fun restoreFragmentData(activity: MoodFlowActivity) {
-        // TODO: add custom questions from server
+    }
+
+    private fun setColorTheme(view: View) {
+        // set color to background
+        view.findViewById<ConstraintLayout>(R.id.fragment_answer_question_layout)
+            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set color to tittle
+        view.findViewById<TextView>(R.id.title)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to card
+        view.findViewById<CardView>(R.id.card)?.setCardBackgroundColor(ThemesService.getColor3())
+
+        // set color to card text
+        view.findViewById<TextView>(R.id.card_text)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+
+        // set color to back button
+        view.findViewById<CardView>(R.id.back_button_background)
+            ?.setCardBackgroundColor(ThemesService.getButtonColor())
+        view.findViewById<TextView>(R.id.back_button_text)
+            ?.setTextColor(ThemesService.getButtonTextColor())
+
+        // set color to regenerate button
+        view.findViewById<CardView>(R.id.next_button_background)
+            ?.setCardBackgroundColor(ThemesService.getButtonColor())
+        view.findViewById<TextView>(R.id.next_button_text)
+            ?.setTextColor(ThemesService.getButtonTextColor())
+
+        // set color to next button
+        view.findViewById<CardView>(R.id.regenerate_button_background)
+            ?.setCardBackgroundColor(ThemesService.getButtonColor())
+        view.findViewById<TextView>(R.id.regenerate_button_text)
+            ?.setTextColor(ThemesService.getButtonTextColor())
     }
 }

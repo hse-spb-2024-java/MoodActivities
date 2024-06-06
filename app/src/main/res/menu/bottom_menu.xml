@@ -13,11 +13,6 @@
         android:title="@string/history_tittle" />
 
     <item
-        android:id="@+id/bottom_menu_chat"
-        android:icon="@drawable/bottom_menu_chat_icon"
-        android:title="Chat" />
-
-    <item
         android:id="@+id/bottom_menu_insights"
         android:icon="@drawable/bottom_menu_insights_icon"
         android:title="@string/insights_tittle" />

@@ -111,5 +111,9 @@ class ThemesService {
         fun getChartsColor(): Int {
             return colorTheme.getChartsColor()
         }
+
+        fun getMoodFlowWidgetColor(): Int {
+            return colorTheme.getMoodFlowWidgetColor()
+        }
     }
 }

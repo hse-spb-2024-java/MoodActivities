@@ -1,12 +1,14 @@
 package org.hse.moodactivities.activities
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import org.hse.moodactivities.databinding.ActivityTermsAndConditionsBinding
 import org.hse.moodactivities.services.ThemesService
 
+
 class TermsAndConditionsActivity : AppCompatActivity() {
-    lateinit var binding: ActivityTermsAndConditionsBinding
+    private lateinit var binding: ActivityTermsAndConditionsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,6 +17,12 @@ class TermsAndConditionsActivity : AppCompatActivity() {
 
         // todo: set terms and conditions
         // setting text to terms and conditions
+
+        setColorTheme()
+    }
+
+    override fun finish() {
+        super.finish()
     }
 
     private fun setColorTheme() {
@@ -28,6 +36,12 @@ class TermsAndConditionsActivity : AppCompatActivity() {
         binding.tittle.setTextColor(ThemesService.getFontColor())
 
         // set color to terms and conditions
-        binding.tittle.setTextColor(ThemesService.getColor6())
+//        binding.termsAndConditions.setTextColor(ThemesService.getColor5())
+
+        binding.returnButton.setColorFilter(ThemesService.getFontColor())
+    }
+
+    fun returnToPreviousActivity(view: View) {
+        this.finish()
     }
 }

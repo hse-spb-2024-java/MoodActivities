@@ -34,8 +34,8 @@ class StatisticActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.return_tittle).text = buildString {
             append(UiUtils.Companion.Strings.RETURN_TO_INSIGHTS)
         }
-        findViewById<TextView>(R.id.tittle).text = UiUtils.getStatisticTitle()
-        findViewById<TextView>(R.id.tittle).setTextColor(ThemesService.getFontColor())
+        findViewById<TextView>(R.id.title).text = UiUtils.getStatisticTitle()
+        findViewById<TextView>(R.id.title).setTextColor(ThemesService.getFontColor())
 
         // button to return to insights
         findViewById<Button>(R.id.return_button).setOnClickListener {

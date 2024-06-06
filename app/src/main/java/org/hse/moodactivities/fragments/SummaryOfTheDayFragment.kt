@@ -9,11 +9,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.services.MoodService
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.utils.UiUtils
 
 class SummaryOfTheDayFragment : Fragment() {
@@ -29,8 +32,12 @@ class SummaryOfTheDayFragment : Fragment() {
         view.findViewById<Button>(R.id.finish_button).setOnClickListener {
             startActivity(Intent(this.activity, MainScreenActivity::class.java))
         }
+
+        setColorTheme(view)
+
         return view
     }
+
 
     private fun restoreFragmentData(activity: MoodFlowActivity, view: View) {
         val moodEvent = activity.getMoodEvent()
@@ -43,5 +50,32 @@ class SummaryOfTheDayFragment : Fragment() {
         view.findViewById<TextView>(R.id.summary_title)?.text =
             gptResponse.shortSummary
         view.findViewById<TextView>(R.id.summary_description)?.text = gptResponse.fullSummary
+    }
+
+    private fun setColorTheme(view: View) {
+        // set color to background
+        view.findViewById<ConstraintLayout>(R.id.layout)
+            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set color to tittle
+        view.findViewById<TextView>(R.id.title)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to summary tittle
+        view.findViewById<TextView>(R.id.summary_title)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to summary description
+        view.findViewById<TextView>(R.id.summary_description)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to card
+        view.findViewById<CardView>(R.id.card)?.setCardBackgroundColor(ThemesService.getColor3())
+
+        // set color to finish button
+        view.findViewById<CardView>(R.id.button_background)
+            ?.setCardBackgroundColor(ThemesService.getButtonColor())
+        view.findViewById<TextView>(R.id.button_text)
+            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
     }
 }

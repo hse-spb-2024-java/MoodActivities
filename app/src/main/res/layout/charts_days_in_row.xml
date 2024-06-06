@@ -29,7 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
                     android:text="@string/days_in_row"
                     android:textColor="@color/black"

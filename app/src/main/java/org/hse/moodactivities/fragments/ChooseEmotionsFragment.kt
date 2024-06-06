@@ -1,18 +1,19 @@
 package org.hse.moodactivities.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
-import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.adapters.ItemAdapter
 import org.hse.moodactivities.interfaces.Communicator
@@ -21,6 +22,7 @@ import org.hse.moodactivities.models.ActivatedItem
 import org.hse.moodactivities.models.EMOTIONS
 import org.hse.moodactivities.models.Item
 import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
@@ -45,8 +47,7 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
 
         // button to home screen
         view.findViewById<Button>(R.id.return_home_button).setOnClickListener {
-            val mainActivityIntent = Intent(this.activity, MainScreenActivity::class.java)
-            startActivity(mainActivityIntent)
+            this.activity?.finish()
         }
 
         // button to previous fragment
@@ -88,6 +89,13 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
         return view
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setColorTheme()
+    }
+
     private fun restoreFragmentData(activity: MoodFlowActivity) {
         val moodEvent = activity.getMoodEvent()
         if (moodEvent.getChosenEmotions() != null) {
@@ -123,7 +131,33 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
         }
     }
 
-    fun setEmotions(chosenEmotionsTexts: HashSet<String>) {
-        this.chosenEmotions = chosenEmotionsTexts
+    private fun setColorTheme() {
+        // set color to background
+        view?.findViewById<ConstraintLayout>(R.id.fragment_choose_emotions_layout)
+            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+
+        // set color to return button
+        view?.findViewById<ImageView>(R.id.return_image)
+            ?.setColorFilter(ThemesService.getFontColor())
+
+        // set color to tittle
+        view?.findViewById<TextView>(R.id.title)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to question
+        view?.findViewById<TextView>(R.id.question)
+            ?.setTextColor(ThemesService.getFontColor())
+
+        // set color to back button
+        view?.findViewById<CardView>(R.id.back_button_background)
+            ?.setCardBackgroundColor(ThemesService.getButtonColor())
+        view?.findViewById<TextView>(R.id.back_button_text)
+            ?.setTextColor(ThemesService.getButtonTextColor())
+
+        // set color to next button
+        view?.findViewById<CardView>(R.id.next_button_background)
+            ?.setCardBackgroundColor(ThemesService.getButtonColor())
+        view?.findViewById<TextView>(R.id.next_button_text)
+            ?.setTextColor(ThemesService.getButtonTextColor())
     }
 }
