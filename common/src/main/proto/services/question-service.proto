@@ -15,5 +15,6 @@ import "responses/question-service/check-answer-response.proto";
 service QuestionService {
   rpc GetDailyQuestion(requests.QuestionRequest) returns (responses.QuestionResponse) {}
   rpc CheckDailyQuestion(requests.CheckAnswerRequest) returns (responses.CheckAnswerResponse) {}
+  rpc GetRandomQuestion(requests.QuestionRequest) returns (responses.QuestionResponse) {}
   rpc SendDailyQuestionAnswer(requests.AnswerRequest) returns (responses.AnswerResponse) {}
 }

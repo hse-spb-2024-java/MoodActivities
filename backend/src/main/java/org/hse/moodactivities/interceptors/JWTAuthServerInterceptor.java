@@ -1,10 +1,17 @@
 package org.hse.moodactivities.interceptors;
 
-import io.grpc.*;
+import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
+
+import io.grpc.Context;
+import io.grpc.Contexts;
+import io.grpc.Metadata;
+import io.grpc.ServerCall;
+import io.grpc.ServerCallHandler;
+import io.grpc.ServerInterceptor;
+import io.grpc.Status;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
-import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 
 public class JWTAuthServerInterceptor implements ServerInterceptor {
     @Override
@@ -12,7 +19,8 @@ public class JWTAuthServerInterceptor implements ServerInterceptor {
         String methodName = serverCall.getMethodDescriptor().getFullMethodName();
 
         if ("services.AuthService/Login".equals(methodName) ||
-            "services.AuthService/Registration".equals(methodName)) {
+                "services.AuthService/Registration".equals(methodName) ||
+                "services.AuthService/OAuthLogin".equals(methodName)) {
             // This is auth, no JWT authorization required here
             return serverCallHandler.startCall(serverCall, metadata);
         }

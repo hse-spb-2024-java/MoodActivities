@@ -1,9 +1,11 @@
 package org.hse.moodactivities.server;
 
 import org.hse.moodactivities.interceptors.JWTAuthServerInterceptor;
+import org.hse.moodactivities.services.ActivityService;
 import org.hse.moodactivities.services.AuthService;
 import org.hse.moodactivities.services.GptService;
 import org.hse.moodactivities.services.QuestionService;
+import org.hse.moodactivities.services.StatsService;
 import org.hse.moodactivities.services.SurveyService;
 import org.hse.moodactivities.utils.StringGenerationService;
 import org.hse.moodactivities.utils.UserProfileRepository;
@@ -25,14 +27,16 @@ public class AppServer {
         ExecutorService executor = Executors.newFixedThreadPool(10);
         StringGenerationService.startScheduledGeneration();
 
-        UserProfileRepository.createUserProfile("admin",  "12345678");
+        UserProfileRepository.createPlainUserProfile("admin", "", "12345678");
 
         Server server = ServerBuilder.forPort(12345)
                 .executor(executor)
+                .addService(new ActivityService())
                 .addService(new AuthService())
-                .addService(new SurveyService())
-                .addService(new QuestionService())
                 .addService(new GptService())
+                .addService(new QuestionService())
+                .addService(new StatsService())
+                .addService(new SurveyService())
                 .intercept(new JWTAuthServerInterceptor())
                 .build();
 

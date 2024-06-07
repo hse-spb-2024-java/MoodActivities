@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.services";
+option java_multiple_files = true;
+
+package services;
+
+import "requests/activity-service/get-activity-request.proto";
+import "requests/activity-service/check-activity-request.proto";
+import "requests/activity-service/record-activity-request.proto";
+import "responses/activity-service/get-activity-response.proto";
+import "responses/activity-service/check-activity-response.proto";
+import "responses/activity-service/record-activity-response.proto";
+
+service ActivityService {
+  rpc GetActivity(requests.GetActivityRequest) returns (responses.GetActivityResponse) {}
+  rpc CheckActivity(requests.CheckActivityRequest) returns (responses.CheckActivityResponse) {}
+  rpc RecordActivity(requests.RecordActivityRequest) returns (responses.RecordActivityResponse) {}
+}

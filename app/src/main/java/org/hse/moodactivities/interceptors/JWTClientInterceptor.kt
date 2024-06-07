@@ -5,8 +5,8 @@ import io.grpc.Channel
 import io.grpc.ClientCall
 import io.grpc.ClientInterceptor
 import io.grpc.ForwardingClientCall
-import io.grpc.MethodDescriptor
 import io.grpc.Metadata
+import io.grpc.MethodDescriptor
 
 class JwtClientInterceptor(private val getToken: () -> String) : ClientInterceptor {
     override fun <ReqT, RespT> interceptCall(

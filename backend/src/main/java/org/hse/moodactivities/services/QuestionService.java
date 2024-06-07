@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,14 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
     }
 
     @Override
+    public void getRandomQuestion(QuestionRequest request, StreamObserver<QuestionResponse> responseObserver) {
+        String question = StringGenerationService.getRandomQuestion();
+        QuestionResponse serviceResponse = QuestionResponse.newBuilder().setQuestion(question).setStatusCode(HTTP_OK).build();
+        responseObserver.onNext(serviceResponse);
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void checkDailyQuestion(CheckAnswerRequest request, StreamObserver<CheckAnswerResponse> responseObserver) {
         Map<String, Object> queryMap = new HashMap<>();
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
@@ -50,8 +59,8 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
             user = users.get(0);
             if (user.getMetas() != null && !user.getMetas().isEmpty()) {
                 UserDayMeta lastMeta = user.getMetas().getLast();
-                if (Objects.equals(lastMeta.getDate(), LocalDate.now()) && lastMeta.getAnswerToQuestion() != null) {
-                    response = CheckAnswerResponse.newBuilder().setHasAnswer(1).setAnswer(lastMeta.getAnswerToQuestion()).build();
+                if (Objects.equals(lastMeta.getDate(), LocalDate.now()) && lastMeta.getQuestion().getAnswer() != null) {
+                    response = CheckAnswerResponse.newBuilder().setHasAnswer(1).setAnswer(lastMeta.getQuestion().getAnswer()).build();
                 }
             }
         }
@@ -75,16 +84,20 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
             user = new User(userId, new ArrayList<>());
             MongoDBSingleton.getInstance().getConnection().saveEntity(user);
         }
-        if (user.getMetas() == null || user.getMetas().isEmpty() || user.getMetas().getLast().getDate() != LocalDate.now()) {
+        if (user.getMetas() == null || user.getMetas().isEmpty() || !user.getMetas().getLast().getDate().equals(LocalDate.now())) {
             UserDayMeta newMeta = new UserDayMeta(LocalDate.now());
-            newMeta.setAnswerToQuestion(request.getAnswer());
+            newMeta.getQuestion().setQuestion(request.getQuestion());
+            newMeta.getQuestion().setAnswer(request.getAnswer());
+            newMeta.getQuestion().setTime(LocalTime.now());
             user.updateMeta(newMeta);
             LOGGER.info("New record for:" + userId);
             MongoDBSingleton.getInstance().getConnection().updateEntity(user);
         } else {
             UserDayMeta oldMeta = user.getMetas().getLast();
-            if (oldMeta.getAnswerToQuestion() == null) {
-                oldMeta.setAnswerToQuestion(request.getAnswer());
+            if (oldMeta.getQuestion().getAnswer() == null) {
+                oldMeta.getQuestion().setQuestion(request.getQuestion());
+                oldMeta.getQuestion().setAnswer(request.getAnswer());
+                oldMeta.getQuestion().setTime(LocalTime.now());
                 user.updateMeta(oldMeta);
                 LOGGER.info("Update record for:" + userId);
                 MongoDBSingleton.getInstance().getConnection().updateEntity(user);

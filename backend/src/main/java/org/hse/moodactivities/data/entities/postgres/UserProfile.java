@@ -3,16 +3,18 @@ package org.hse.moodactivities.data.entities.postgres;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity(name="UserProfile")
-@Table(name="user_profile_data")
+@Entity(name = "UserProfile")
+@Table(name = "user_profile_data")
 public class UserProfile {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -21,9 +23,14 @@ public class UserProfile {
     @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+
     private String hashedPassword;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AuthProvider authProvider = AuthProvider.PLAIN;
+
+    private String oauthId;
     @Column(nullable = true)
     private String lastSurveyDate;
 
@@ -36,10 +43,31 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(String login, String unhashedPassword) {
+    private void initPlain(String login,
+                           String email,
+                           String unhashedPassword) {
         this.login = login;
+        this.email = email;
         this.hashedPassword = BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
         this.timeDiff = 0;
+    }
+
+    private void initGoogle(String email,
+                            String id) {
+        this.login = email;
+        this.email = email;
+        this.oauthId = id;
+    }
+
+    public UserProfile(AuthProvider provider,
+                       String login,
+                       String email,
+                       String unhashedPassword,
+                       String id) {
+        switch (provider) {
+            case PLAIN -> initPlain(login, email, unhashedPassword);
+            case GOOGLE -> initGoogle(email, id);
+        }
     }
 
     // Getters and setters

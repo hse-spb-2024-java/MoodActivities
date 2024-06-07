@@ -10,17 +10,24 @@ version = "0.1-DEV"
 dependencies {
     implementation(project(":common"))
 
+    // grpc
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("io.grpc:grpc-netty:1.61.1")
     implementation("io.grpc:grpc-protobuf:1.61.1")
     implementation("io.grpc:grpc-stub:1.61.1")
     implementation("com.google.protobuf:protobuf-java:3.25.1")
 
+    // annotations
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.jetbrains:annotations:16.0.2")
 
+    // messaging
     implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
 
+    // charts library
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // android dependencies
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -28,14 +35,17 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
+    // jwt
     api("io.jsonwebtoken:jjwt-api:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-orgjson:0.12.5") {
-        exclude(group="org.json", module="json")
+        exclude(group = "org.json", module = "json")
     }
 
-    testImplementation("junit:junit:4.13.2")
+    implementation("com.google.android.gms:play-services-auth:20.0.0")
 
+    // tests
+    testImplementation("junit:junit:4.13.2")
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -60,8 +70,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }

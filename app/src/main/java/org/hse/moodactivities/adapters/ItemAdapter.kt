@@ -1,7 +1,6 @@
 package org.hse.moodactivities.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,17 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.ItemHolderFragment
-import org.hse.moodactivities.models.Item
+import org.hse.moodactivities.models.ActivatedItem
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
 class ItemAdapter(
     var context: Context,
-    private var arrayList: ArrayList<Item>
+    private var arrayList: ArrayList<ActivatedItem>
 ) :
     RecyclerView.Adapter<ItemAdapter.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val viewHolder = LayoutInflater.from(parent.context)
-            .inflate(R.layout.grid_view_layout_items, parent, false)
+            .inflate(R.layout.item_mood_flow, parent, false)
         return ItemHolder(viewHolder, parent)
     }
 
@@ -33,10 +32,10 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        val item: Item = arrayList[position]
+        val item: ActivatedItem = arrayList[position]
 
         holder.icon.setImageResource(item.getIconIndex())
-        holder.title.text = item.getText()
+        holder.title.text = item.getName()
         holder.cardView.setCardBackgroundColor(
             ContextCompat.getColor(
                 context,
@@ -44,7 +43,6 @@ class ItemAdapter(
             )
         )
         if (item.getIsActive()) {
-            Log.d("change", "set background")
             holder.cardView.alpha = BUTTON_ENABLED_ALPHA
         }
 

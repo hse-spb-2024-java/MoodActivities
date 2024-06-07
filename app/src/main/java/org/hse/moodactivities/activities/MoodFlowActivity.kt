@@ -30,7 +30,6 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
         fragmentTransaction.commit()
         if (fragment is SummaryOfTheDayFragment) {
             MoodService.setMoodEvent(moodEvent)
-            dayRate = MoodService.getDayRate(moodEvent)
         }
     }
 
@@ -47,6 +46,9 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
         }
         if (receivedMoodEvent.getUserAnswer() != null) {
             moodEvent.setUserAnswer(receivedMoodEvent.getUserAnswer()!!)
+        }
+        if (receivedMoodEvent.getQuestion() != null) {
+            moodEvent.setQuestion(receivedMoodEvent.getQuestion()!!)
         }
     }
 

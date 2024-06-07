@@ -5,6 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SummaryOfTheDayFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/roboto"
+        android:text="Mood flow "
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="-20dp"
-            android:layout_marginBottom="30dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -42,14 +54,22 @@
 
         </LinearLayout>
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
         <TextView
             android:id="@+id/summary_description"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_gravity="center"
             android:fontFamily="@font/roboto"
             android:textColor="@color/black"
             android:textSize="18sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
         <RelativeLayout
             android:layout_width="100dp"
