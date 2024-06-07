@@ -4,6 +4,7 @@ import org.hse.moodactivities.interceptors.JWTAuthServerInterceptor;
 import org.hse.moodactivities.services.ActivityService;
 import org.hse.moodactivities.services.AuthService;
 import org.hse.moodactivities.services.GptService;
+import org.hse.moodactivities.services.PushService;
 import org.hse.moodactivities.services.QuestionService;
 import org.hse.moodactivities.services.StatsService;
 import org.hse.moodactivities.services.SurveyService;
@@ -35,6 +36,7 @@ public class AppServer {
                 .addService(new AuthService())
                 .addService(new GptService())
                 .addService(new QuestionService())
+                .addService(new PushService())
                 .addService(new StatsService())
                 .addService(new SurveyService())
                 .intercept(new JWTAuthServerInterceptor())
