@@ -264,5 +264,30 @@ class InsightsScreenFragment : Fragment() {
         // next statistic button
         view?.findViewById<TextView>(R.id.more_activities)
             ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+
+        // set color to dialog background
+        dialog.findViewById<CardView>(R.id.dialog_background)
+            .setCardBackgroundColor(ThemesService.getColor1())
+
+        // set colors to dialog buttons
+        dialog.findViewById<CardView>(R.id.week_background)
+            .setCardBackgroundColor(ThemesService.getButtonColor())
+        dialog.findViewById<TextView>(R.id.week_text)
+            .setTextColor(ThemesService.getButtonColor())
+
+        dialog.findViewById<CardView>(R.id.month_background)
+            .setCardBackgroundColor(ThemesService.getButtonColor())
+        dialog.findViewById<TextView>(R.id.month_text)
+            .setTextColor(ThemesService.getButtonColor())
+
+        dialog.findViewById<CardView>(R.id.year_background)
+            .setCardBackgroundColor(ThemesService.getButtonColor())
+        dialog.findViewById<TextView>(R.id.year_text)
+            .setTextColor(ThemesService.getButtonColor())
+
+        dialog.findViewById<CardView>(R.id.all_time_background)
+            .setCardBackgroundColor(ThemesService.getButtonColor())
+        dialog.findViewById<TextView>(R.id.all_time_text)
+            .setTextColor(ThemesService.getButtonColor())
     }
 }

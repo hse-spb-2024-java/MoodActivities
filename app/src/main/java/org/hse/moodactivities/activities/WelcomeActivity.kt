@@ -16,14 +16,16 @@ import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
 
-class WelcomeScreenActivity : AppCompatActivity() {
+class WelcomeActivity : AppCompatActivity() {
+    companion object {
+        private const val RETURN_CODE_SIGN_IN = 9001
+    }
+
     private lateinit var binding: ActivityWelcomeBinding
     private lateinit var userViewModel: UserViewModel
     private lateinit var authViewModel: AuthViewModel
 
-
-    private var RETURN_CODE_SIGN_IN = 9001;
-
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -95,28 +97,30 @@ class WelcomeScreenActivity : AppCompatActivity() {
 
         binding.googleLoginButton.setOnClickListener {
             val oauthIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(oauthIntent, RETURN_CODE_SIGN_IN);
+            startActivityForResult(oauthIntent, Companion.RETURN_CODE_SIGN_IN);
         }
 
         setColorTheme()
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
+        window.statusBarColor = colorTheme.getBackgroundColor()
 
         // set background color
-        binding.welcomeScreenBackground.setBackgroundColor(ThemesService.getBackgroundColor())
+        binding.layout.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to app name
-        binding.appName.setTextColor(ThemesService.getDimmedColor4())
+        binding.appName.setTextColor(colorTheme.getFontColor())
 
         // set buttons colors
-        binding.registerButtonBackground.setCardBackgroundColor(ThemesService.getButtonColor())
-        binding.registerButtonText.setTextColor(ThemesService.getButtonTextColor())
-        binding.loginButtonBackground.setCardBackgroundColor(ThemesService.getButtonColor())
-        binding.loginButtonText.setTextColor(ThemesService.getButtonTextColor())
-        binding.googleButtonBackground.setCardBackgroundColor(ThemesService.getButtonColor())
-        binding.googleButtonText.setTextColor(ThemesService.getButtonTextColor())
+        binding.registerButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.registerButtonText.setTextColor(colorTheme.getButtonTextColor())
+        binding.loginButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.loginButtonText.setTextColor(colorTheme.getButtonTextColor())
+        binding.googleButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.googleButtonText.setTextColor(colorTheme.getButtonTextColor())
     }
 }

@@ -1,17 +1,19 @@
 package org.hse.moodactivities.color_themes
 
 class CalmnessColorTheme : ColorTheme(
-    ColorThemeType.CALMNESS,
-    LightMode.DAY,
-    getColorByName("mint cream")!!, // all colors exist
-    getColorByName("dimmed mint cream")!!,
-    getColorByName("space cadet")!!,
-    getColorByName("khaki")!!,
-    getColorByName("dimmed khaki")!!,
+    /* colorThemeType */ ColorThemeType.CALMNESS,
+    /* lightMode */ LightMode.DAY,
+    /* backgroundColor */ getColorByName("mint cream")!!,
+    /* dimmedBackgroundColor */ getColorByName("dimmed mint cream")!!,
+    /* fontColor */ getColorByName("space cadet")!!,
+    /* color1 */ getColorByName("khaki")!!,
+    /* dimmedColor1 */ getColorByName("dimmed khaki")!!,
     getColorByName("timberwolf")!!,
     getColorByName("dimmed timberwolf")!!,
+
     getColorByName("azure")!!,
     getColorByName("dimmed azure")!!,
+
     getColorByName("columbia blue")!!,
     getColorByName("dimmed columbia blue")!!,
     getColorByName("powder blue")!!,

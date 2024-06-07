@@ -98,11 +98,26 @@ abstract class ColorTheme(
         return dimmedColor6
     }
 
+    open fun getHighlightedFontColor(): Int {
+        return getColor4()
+    }
+
+    open fun getInputBackgroundColor(): Int {
+        return getColor3()
+    }
+
+    open fun getInputHintTextColor(): Int {
+        return getDimmedColor3()
+    }
+
+    open fun getInputTextColor(): Int {
+        return getFontColor()
+    }
+
     abstract fun getButtonColor(): Int
 
     abstract fun getButtonTextColor(): Int
 
-    // color of charts lines
     abstract fun getChartsColor(): Int
 
     open fun getMoodFlowWidgetColor(): Int {
@@ -111,6 +126,7 @@ abstract class ColorTheme(
 
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(
+            "forest font color" to Color.parseColor("#2B3B49"),
             "space cadet" to Color.parseColor("#283044"),
             "pastel red" to Color.parseColor("#E66360"),
             "pastel orange" to Color.parseColor("#F0B365"),
@@ -128,15 +144,15 @@ abstract class ColorTheme(
             "timberwolf" to Color.parseColor("#D5CFC6"),
             "dimmed timberwolf" to Color.parseColor("#C4BBAE"),
             "azure" to Color.parseColor("#CFE0E2"),
-            "dimmed azure" to Color.parseColor("#B4CFD2"),
+            "dimmed azure" to Color.parseColor("#8CB4B9"),
             "columbia blue" to Color.parseColor("#B2CBD5"),
-            "dimmed columbia blue" to Color.parseColor("#99BAC7"),
+            "dimmed columbia blue" to Color.parseColor("#73A0B2"),
             "powder blue" to Color.parseColor("#95B6C8"),
             "dimmed powder blue" to Color.parseColor("#7EA6BC"),
             "air superiority blue" to Color.parseColor("#6493B1"),
             "dimmed air superiority blue" to Color.parseColor("#294252"),
             "dark air superiority blue" to Color.parseColor("#7693AE"),
-            "dimmed dark air superiority blue" to Color.parseColor("#577693"),
+            "dimmed dark air superiority blue" to Color.parseColor("#41586E"),
             "silver" to Color.parseColor("#CEBEBE"),
             "dimmed silver" to Color.parseColor("#AC9191"),
             "champagne pink" to Color.parseColor("#E1CEC1"),
@@ -157,7 +173,7 @@ abstract class ColorTheme(
             "dark powder blue" to Color.parseColor("#92AFD7"),
             "dimmed dark powder blue" to Color.parseColor("#5D88C4"),
             "vista blue" to Color.parseColor("#84A1C3"),
-            "dimmed vista blue" to Color.parseColor("#587FAE"),
+            "dimmed vista blue" to Color.parseColor("#364F6E"),
             "payne's grey" to Color.parseColor("#5A7684"),
             "dimmed payne's grey" to Color.parseColor("#485E6A"),
             "feldgrau" to Color.parseColor("#4A696A"),

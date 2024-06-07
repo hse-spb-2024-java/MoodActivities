@@ -48,7 +48,7 @@ class HomeScreenFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_screen, container, false)
         view.rootView.findViewById<ImageView>(R.id.mood_widget_icon).setImageResource(
-            UiUtils.getMoodImageResourcesIdByIndex(MoodService.getUserDailyMood(this.activity as AppCompatActivity)!!)
+            UiUtils.getMoodImageResourcesIdByIndex(MoodService.getUserDailyMood(this.activity as AppCompatActivity))
         )
         setCurrentDate(view)
         return view

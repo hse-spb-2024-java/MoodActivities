@@ -187,7 +187,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/roboto"
-                            android:text="@string/mood_widget_tittle"
+                            android:text="Today's\nmood"
                             android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold" />

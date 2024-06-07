@@ -42,7 +42,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity android:name=".activities.MainScreenActivity" />
         <activity
-            android:name=".activities.WelcomeScreenActivity"
+            android:name=".activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

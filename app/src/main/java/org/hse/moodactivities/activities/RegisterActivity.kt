@@ -26,6 +26,11 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // return to welcome activity button
+        binding.returnButton.setOnClickListener {
+            this.finish()
+        }
+
         binding.loginRedirectButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -132,34 +137,58 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
+        window.statusBarColor = colorTheme.getBackgroundColor()
 
         // set background color
-        binding.registerScreenBackground.setBackgroundColor(ThemesService.getBackgroundColor())
+        binding.layout.setBackgroundColor(colorTheme.getBackgroundColor())
 
-        // set tittle color
-        binding.signupHeader.setTextColor(ThemesService.getFontColor())
+        // set color to return button
+        binding.returnImage.setColorFilter(ThemesService.getFontColor())
+
+        // set title color
+        binding.signupHeader.setTextColor(colorTheme.getFontColor())
 
         // set color to app name
-        binding.appName.setTextColor(ThemesService.getFontColor())
+        binding.appName.setTextColor(colorTheme.getFontColor())
 
         // set color to text and conditions
-        binding.termsAndConditions.setTextColor(ThemesService.getColor4())
-
-        // set input fields colors
-        binding.usernameInputBackground.setCardBackgroundColor(ThemesService.getColor3())
-        binding.emailInputBackground.setCardBackgroundColor(ThemesService.getColor3())
-        binding.passwordInputBackground.setCardBackgroundColor(ThemesService.getColor3())
-        binding.passwordConfirmInputBackground.setCardBackgroundColor(ThemesService.getColor3())
-
-        // set register button color
-        binding.registerButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
-
-        binding.loginRedirectText.setTextColor(ThemesService.getColor4())
-        binding.registerText.setTextColor(ThemesService.getDimmedBackgroundColor())
+        binding.agree.setTextColor(colorTheme.getFontColor())
+        binding.termsAndConditions.setTextColor(colorTheme.getButtonColor())
 
         // set check box color
-        binding.termsCheckbox.buttonTintList = ColorStateList.valueOf(ThemesService.getColor4())
+        binding.termsCheckbox.buttonTintList = ColorStateList.valueOf(colorTheme.getButtonColor())
+
+        // set colors to inputs
+        binding.usernameInputBackground.setCardBackgroundColor(colorTheme.getInputBackgroundColor())
+        binding.usernameInput.setTextColor(colorTheme.getInputTextColor())
+        binding.usernameInput.setHintTextColor(colorTheme.getInputHintTextColor())
+        binding.usernameImage.setColorFilter(colorTheme.getInputHintTextColor())
+
+        binding.emailInputBackground.setCardBackgroundColor(colorTheme.getInputBackgroundColor())
+        binding.emailInput.setTextColor(colorTheme.getInputTextColor())
+        binding.emailInput.setHintTextColor(colorTheme.getInputHintTextColor())
+        binding.emailImage.setColorFilter(colorTheme.getInputHintTextColor())
+
+        binding.passwordInputBackground.setCardBackgroundColor(colorTheme.getInputBackgroundColor())
+        binding.passwordInput.setTextColor(colorTheme.getInputTextColor())
+        binding.passwordInput.setHintTextColor(colorTheme.getInputHintTextColor())
+        binding.passwordImage.setColorFilter(colorTheme.getInputHintTextColor())
+
+        binding.passwordConfirmInputBackground.setCardBackgroundColor(colorTheme.getInputBackgroundColor())
+        binding.passwordConfirmInput.setTextColor(colorTheme.getInputTextColor())
+        binding.passwordConfirmInput.setHintTextColor(colorTheme.getInputHintTextColor())
+        binding.passwordConfirmImage.setColorFilter(colorTheme.getInputHintTextColor())
+        // todo: set colors to cursors
+
+        // set register button color
+        binding.registerButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.registerText.setTextColor(colorTheme.getDimmedBackgroundColor())
+
+        // set color to redirect text
+        binding.haveAnAccount.setTextColor(colorTheme.getFontColor())
+        binding.loginRedirectText.setTextColor(colorTheme.getButtonColor())
     }
 }

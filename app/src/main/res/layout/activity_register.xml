@@ -1,7 +1,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/register_screen_background"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -31,6 +31,26 @@
             android:textSize="25sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/signup_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signup_header">
+
+        <ImageView
+            android:id="@+id/return_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow_left" />
+
+        <Button
+            android:id="@+id/return_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/signup_header"
@@ -62,6 +82,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/username_image"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -78,7 +99,6 @@
                 android:hint="Username"
                 android:inputType="textNoSuggestions"
                 android:paddingStart="15dp"
-                android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -102,6 +122,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/email_image"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -141,7 +162,7 @@
             android:orientation="horizontal">
 
             <ImageView
-
+                android:id="@+id/password_image"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -182,6 +203,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/password_confirm_image"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
@@ -220,12 +242,12 @@
             android:layout_marginTop="1dp" />
 
         <TextView
+            android:id="@+id/agree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="-8dp"
             android:fontFamily="@font/app_font"
-            android:text="I agree to "
-            android:textColor="@color/black" />
+            android:text="I agree to " />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -235,11 +257,10 @@
                 android:id="@+id/terms_and_conditions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/app_font"
-                android:text="terms &amp; conditions"
-                android:onClick="openTermsAndConditions"
                 android:clickable="true"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/app_font"
+                android:onClick="openTermsAndConditions"
+                android:text="terms &amp; conditions" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -298,11 +319,11 @@
         app:layout_constraintTop_toBottomOf="@id/register_button_layout">
 
         <TextView
+            android:id="@+id/have_an_account"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/app_font"
             android:text="Already have an account? "
-            android:textColor="@color/gray"
             android:textSize="14sp" />
 
         <RelativeLayout

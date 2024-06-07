@@ -33,10 +33,10 @@ class TermsAndConditionsActivity : AppCompatActivity() {
         binding.layout.setBackgroundColor(ThemesService.getBackgroundColor())
 
         // set color to tittle
-        binding.tittle.setTextColor(ThemesService.getFontColor())
+        binding.title.setTextColor(ThemesService.getFontColor())
 
         // set color to terms and conditions
-//        binding.termsAndConditions.setTextColor(ThemesService.getColor5())
+        binding.termsAndConditions.setTextColor(ThemesService.getColor5())
 
         binding.returnButton.setColorFilter(ThemesService.getFontColor())
     }

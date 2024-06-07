@@ -10,14 +10,18 @@ import org.hse.moodactivities.color_themes.TwilightColorTheme
 class ThemesService {
     companion object {
         private var colorThemes: HashMap<ColorThemeType, ColorTheme> =
-            hashMapOf(ColorThemeType.CALMNESS to CalmnessColorTheme(),
+            hashMapOf(
+                ColorThemeType.CALMNESS to CalmnessColorTheme(),
                 ColorThemeType.TWILIGHT to TwilightColorTheme(),
                 ColorThemeType.FOREST to ForestColorTheme(),
-                )
+            )
+
+        private val baseColorThemeType = ColorThemeType.FOREST
+        private val baseColorTheme = colorThemes[ColorThemeType.FOREST]!!
 
         private var lightMode = ColorTheme.LightMode.DAY
-        private var colorThemeType = ColorThemeType.FOREST
-        private var colorTheme: ColorTheme = colorThemes[ColorThemeType.FOREST]!!
+        private var colorThemeType = baseColorThemeType
+        private var colorTheme: ColorTheme = baseColorTheme
 
         fun changeColorTheme(newColorThemeType: ColorThemeType) {
             colorThemeType = newColorThemeType
@@ -26,6 +30,10 @@ class ThemesService {
 
         fun changeLightMode(newLightMode: ColorTheme.LightMode) {
             lightMode = newLightMode
+        }
+
+        fun getColorTheme(): ColorTheme {
+            return colorTheme
         }
 
         fun getMoodIndicatorColorByScore(score: Int): Int {
@@ -40,7 +48,7 @@ class ThemesService {
             return colorTheme.getDimmedBackgroundColor()
         }
 
-        fun getFontColor() : Int {
+        fun getFontColor(): Int {
             return colorTheme.getFontColor()
         }
 
@@ -90,6 +98,22 @@ class ThemesService {
 
         fun getDimmedColor6(): Int {
             return colorTheme.getDimmedColor6()
+        }
+
+        fun getHighlightedFontColor(): Int {
+            return colorTheme.getHighlightedFontColor()
+        }
+
+        fun getInputBackgroundColor(): Int {
+            return colorTheme.getInputBackgroundColor()
+        }
+
+        fun getInputHintTextColor(): Int {
+            return colorTheme.getInputHintTextColor()
+        }
+
+        fun getInputTextColor(): Int {
+            return colorTheme.getInputTextColor()
         }
 
         fun getButtonColor(): Int {
