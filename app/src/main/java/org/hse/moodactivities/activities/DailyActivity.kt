@@ -116,45 +116,47 @@ class DailyActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
+        window.statusBarColor = colorTheme.getBackgroundColor()
 
         // set background color
-        binding.dailyActivityLayout.setBackgroundColor(ThemesService.getBackgroundColor())
+        binding.dailyActivityLayout.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set tittle color
-        binding.screenTittle.setTextColor(ThemesService.getFontColor())
+        binding.screenTittle.setTextColor(colorTheme.getFontColor())
 
         // set activity widget color
-        binding.activityTextBackground.setCardBackgroundColor(ThemesService.getColor4())
+        binding.activityTextBackground.setCardBackgroundColor(colorTheme.getColor4())
 
         // set activity text color
-        binding.activityText.setTextColor(ThemesService.getDimmedBackgroundColor())
+        binding.activityText.setTextColor(colorTheme.getDimmedBackgroundColor())
+        binding.activityTittle.setTextColor(colorTheme.getFontColor())
 
         // set complete button background color
-        binding.completedButtonBackground.setCardBackgroundColor(ThemesService.getColor5())
+        binding.completedButtonBackground.setCardBackgroundColor(colorTheme.getColor5())
 
         // set complete button text color
-        binding.completedButtonText.setTextColor(ThemesService.getDimmedBackgroundColor())
+        binding.completedButtonText.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set dialog background color
         dialog.findViewById<CardView>(R.id.dialog_background)
-            .setCardBackgroundColor(ThemesService.getColor4())
+            .setCardBackgroundColor(colorTheme.getColor4())
 
         // set dialog question text color
         dialog.findViewById<TextView>(R.id.dialog_tittle)
-            .setTextColor(ThemesService.getBackgroundColor())
+            .setTextColor(colorTheme.getBackgroundColor())
 
         // set dialog text color
         dialog.findViewById<TextView>(R.id.users_impressions)
-            .setTextColor(ThemesService.getDimmedBackgroundColor())
+            .setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set dialog button color
         dialog.findViewById<CardView>(R.id.next_button_background)
-            .setCardBackgroundColor(ThemesService.getColor5())
+            .setCardBackgroundColor(colorTheme.getColor5())
 
         // set dialog button text color
         dialog.findViewById<TextView>(R.id.button_text)
-            .setTextColor(ThemesService.getDimmedBackgroundColor())
+            .setTextColor(colorTheme.getDimmedBackgroundColor())
     }
 }

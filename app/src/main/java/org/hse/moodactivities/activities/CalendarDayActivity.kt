@@ -41,12 +41,12 @@ class CalendarDayActivity : AppCompatActivity() {
         // set chosen date
         val date = CalendarService.getDate()
         val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
-        binding.dayInfoTittle.text = date.format(formatter)
+        binding.title.text = date.format(formatter)
 
         // create widgets
         setWidgets()
 
-        Log.i(LOG_TAG, "Show user's information for the date " + binding.dayInfoTittle.text)
+        Log.i(LOG_TAG, "Show user's information for the date " + binding.title.text)
 
         setColorTheme()
     }
@@ -75,7 +75,7 @@ class CalendarDayActivity : AppCompatActivity() {
             widgets.add(dailyActivityItemModel)
         } else {
             Log.d(
-                LOG_TAG, "User hasn't completed the activity for " + binding.dayInfoTittle.text
+                LOG_TAG, "User hasn't completed the activity for " + binding.title.text
             )
         }
         // setup daily question
@@ -89,7 +89,7 @@ class CalendarDayActivity : AppCompatActivity() {
             widgets.add(dailyQuestionModel)
         } else {
             Log.d(
-                LOG_TAG, "User hasn't answered the question for " + binding.dayInfoTittle.text
+                LOG_TAG, "User hasn't answered the question for " + binding.title.text
             )
         }
         // setup mood records
@@ -128,11 +128,13 @@ class CalendarDayActivity : AppCompatActivity() {
                 )
             )
         }
+
         // add empty widget to show that there is no data for that day
         if (widgets.isEmpty()) {
             widgets.add(DailyEmptyItemModel(DEFAULT_TIME))
-            Log.d(LOG_TAG, "There is no information for the date " + binding.dayInfoTittle.text)
+            Log.d(LOG_TAG, "There is no information for the date " + binding.title.text)
         }
+
         // sort by time
         widgets.sortWith { widget1, widget2 ->
             widget2.getTime().compareTo(widget1.getTime())
@@ -141,12 +143,17 @@ class CalendarDayActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set color to status bar
+        window.statusBarColor = colorTheme.getBackgroundColor()
+
         // set background color
         findViewById<ConstraintLayout>(R.id.calendar_day_activity_layout)
-            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
 
-        // set font color to tittle
-        findViewById<TextView>(R.id.day_info_tittle)
-            ?.setTextColor(ThemesService.getFontColor())
+        // set font color to title
+        findViewById<TextView>(R.id.title)
+            ?.setTextColor(colorTheme.getFontColor())
     }
 }

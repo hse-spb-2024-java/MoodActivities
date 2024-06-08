@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import org.hse.moodactivities.R
 import org.hse.moodactivities.databinding.MainScreenBinding
-import org.hse.moodactivities.fragments.CalendarScreenFragment
+import org.hse.moodactivities.fragments.CalendarFragment
 import org.hse.moodactivities.fragments.HomeFragment
 import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.fragments.ProfileScreenFragment
@@ -29,7 +29,7 @@ class MainScreenActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bottom_menu_home -> replaceFragment(HomeFragment())
-                R.id.bottom_menu_history -> replaceFragment(CalendarScreenFragment())
+                R.id.bottom_menu_history -> replaceFragment(CalendarFragment())
                 R.id.bottom_menu_insights -> replaceFragment(InsightsScreenFragment())
                 R.id.bottom_menu_profile -> replaceFragment(ProfileScreenFragment())
             }

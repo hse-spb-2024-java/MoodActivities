@@ -37,7 +37,6 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/widget_mood_icon"
                     tools:ignore="ContentDescription" />
 
             </RelativeLayout>
@@ -49,10 +48,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/app_font"
-                android:text="@string/mood_widget_tittle"
                 android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/widget_font_size" />
+                android:textSize="14sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

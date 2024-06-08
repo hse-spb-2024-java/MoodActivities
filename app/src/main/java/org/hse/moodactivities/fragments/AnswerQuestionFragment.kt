@@ -85,6 +85,8 @@ class AnswerDailyQuestionFragment : Fragment() {
     }
 
     private fun setColorTheme(view: View) {
+        val colorTheme =
+
         // set color to background
         view.findViewById<ConstraintLayout>(R.id.fragment_answer_question_layout)
             ?.setBackgroundColor(ThemesService.getBackgroundColor())

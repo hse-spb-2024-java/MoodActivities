@@ -26,7 +26,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
+class CalendarFragment : Fragment(), CalendarAdapter.OnItemListener {
     companion object {
         private const val LOG_TAG = "calendar"
         private const val PERCENT_SIGN = "%"
@@ -60,23 +60,7 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
             initMonthData()
         }
 
-        // set colors to month statistic images
-        // todo in themes: move to ui service
-        val moodBackground1: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_1_image).background as GradientDrawable
-        moodBackground1.setColor(ThemesService.getMoodIndicatorColorByScore(1))
-        val moodBackground2: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_2_image).background as GradientDrawable
-        moodBackground2.setColor(ThemesService.getMoodIndicatorColorByScore(2))
-        val moodBackground3: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_3_image).background as GradientDrawable
-        moodBackground3.setColor(ThemesService.getMoodIndicatorColorByScore(3))
-        val moodBackground4: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_4_image).background as GradientDrawable
-        moodBackground4.setColor(ThemesService.getMoodIndicatorColorByScore(4))
-        val moodBackground5: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_5_image).background as GradientDrawable
-        moodBackground5.setColor(ThemesService.getMoodIndicatorColorByScore(5))
+        setColorTheme(view)
 
         return view
     }
@@ -84,7 +68,6 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMonthData()
-        setColorTheme()
     }
 
     private fun initMonthData() {
@@ -182,45 +165,78 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
         }
     }
 
-    private fun setColorTheme() {
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set background color
-        view?.findViewById<ConstraintLayout>(R.id.calendar_screen_fragment_layout)
-            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+        view.findViewById<ConstraintLayout>(R.id.layout)
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set color to tittle
+        view.findViewById<TextView>(R.id.title)?.setTextColor(colorTheme.getFontColor())
 
         // set color to calendar widget background
-        view?.findViewById<CardView>(R.id.calendar_card)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
+        view.findViewById<CardView>(R.id.calendar_card)
+            ?.setCardBackgroundColor(colorTheme.getCalendarWidgetColor())
+
+        view.findViewById<TextView>(R.id.month_year_text_view)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+
+        view.findViewById<TextView>(R.id.monday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.tuesday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.wednesday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.thursday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.friday)
+            .setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.saturday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.sunday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
 
         // set color to calendar widget left arrow
-        view?.findViewById<CardView>(R.id.left_arrow)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
+        view.findViewById<ImageView>(R.id.left_arrow)
+            ?.setColorFilter(colorTheme.getCalendarWidgetTextColor())
 
         // set color to calendar widget right arrow
-        view?.findViewById<CardView>(R.id.right_arrow)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
+        view.findViewById<ImageView>(R.id.right_arrow)
+            ?.setColorFilter(colorTheme.getCalendarWidgetTextColor())
 
-        // set color to month statistic widget
-        view?.findViewById<CardView>(R.id.month_statistic_card)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
+        // set color to statistic widget
+        view.findViewById<CardView>(R.id.month_statistic_card)
+            ?.setCardBackgroundColor(colorTheme.getCalendarMonthStatisticDayWidgetColor())
 
-        // set font color to tittle
-        view?.findViewById<TextView>(R.id.history_screen_tittle)
-            ?.setTextColor(ThemesService.getFontColor())
+        view.findViewById<TextView>(R.id.month_statistic_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
 
-        // set color to texts in calendar
-        view?.findViewById<TextView>(R.id.monday)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
-        view?.findViewById<TextView>(R.id.tuesday)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
-        view?.findViewById<TextView>(R.id.wednesday)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
-        view?.findViewById<TextView>(R.id.thursday)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
-        view?.findViewById<TextView>(R.id.friday)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
-        view?.findViewById<TextView>(R.id.saturday)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
-        view?.findViewById<TextView>(R.id.sunday)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<TextView>(R.id.day_1_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_2_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_3_text)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_4_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_5_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+
+        val moodBackground1: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_1_image).background as GradientDrawable
+        moodBackground1.setColor(colorTheme.getMoodIndicatorColorByScore(1))
+        val moodBackground2: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_2_image).background as GradientDrawable
+        moodBackground2.setColor(colorTheme.getMoodIndicatorColorByScore(2))
+        val moodBackground3: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_3_image).background as GradientDrawable
+        moodBackground3.setColor(colorTheme.getMoodIndicatorColorByScore(3))
+        val moodBackground4: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_4_image).background as GradientDrawable
+        moodBackground4.setColor(colorTheme.getMoodIndicatorColorByScore(4))
+        val moodBackground5: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_5_image).background as GradientDrawable
+        moodBackground5.setColor(colorTheme.getMoodIndicatorColorByScore(5))
     }
 }

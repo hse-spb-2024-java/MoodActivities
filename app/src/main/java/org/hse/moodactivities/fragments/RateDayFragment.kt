@@ -25,9 +25,7 @@ class RateDayFragment : Fragment() {
     private lateinit var moodButtons: Array<Button?>
     private lateinit var moodImages: Array<ImageView?>
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_rate_day, container, false)
 
@@ -48,6 +46,9 @@ class RateDayFragment : Fragment() {
                 communicator.replaceFragment(ChooseActivitiesFragment())
             }
         }
+
+        setColorTheme(view)
+
         return view
     }
 
@@ -66,8 +67,6 @@ class RateDayFragment : Fragment() {
                 clickOnButton(index)
             }
         }
-
-        setColorTheme()
     }
 
     private fun clickOnButton(index: Int) {
@@ -98,31 +97,30 @@ class RateDayFragment : Fragment() {
         }
     }
 
-    private fun setColorTheme() {
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to background
-        view?.findViewById<ConstraintLayout>(R.id.fragment_rate_day_layout)
-            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+        view.findViewById<ConstraintLayout>(R.id.fragment_rate_day_layout)
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to return button
-        view?.findViewById<ImageView>(R.id.return_image)
-            ?.setColorFilter(ThemesService.getFontColor())
+        view.findViewById<ImageView>(R.id.return_image)?.setColorFilter(colorTheme.getFontColor())
 
         // set color to title
-        view?.findViewById<TextView>(R.id.title)
-            ?.setTextColor(ThemesService.getFontColor())
+        view.findViewById<TextView>(R.id.title)?.setTextColor(colorTheme.getFontColor())
 
         // set color to question
-        view?.findViewById<TextView>(R.id.question)
-            ?.setTextColor(ThemesService.getFontColor())
+        view.findViewById<TextView>(R.id.question)?.setTextColor(colorTheme.getFontColor())
 
         // set color to card
-        view?.findViewById<CardView>(R.id.card)
-            ?.setCardBackgroundColor(ThemesService.getMoodFlowWidgetColor())
+        view.findViewById<CardView>(R.id.card)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetColor())
 
         // set color to next button
-        view?.findViewById<CardView>(R.id.next_button_background)
-            ?.setCardBackgroundColor(ThemesService.getButtonColor())
-        view?.findViewById<TextView>(R.id.button_text)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.next_button_background)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
+        view.findViewById<TextView>(R.id.button_text)
+            ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())
     }
 }

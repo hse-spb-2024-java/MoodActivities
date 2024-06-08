@@ -40,24 +40,26 @@ internal class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+        val colorTheme = ThemesService.getColorTheme()
+
         holder.getDayOfMonth().text = daysOfMonth[position]
         if (holder.getDayOfMonth().text.isEmpty()) {
             val backgroundColor: GradientDrawable =
                 holder.getDayOfMonthIndicator().background as GradientDrawable
-            backgroundColor.setColor(ThemesService.getColor3())
+            backgroundColor.setColor(colorTheme.getCalendarWidgetColor())
         } else {
             val moodIndicatorBackground: GradientDrawable =
                 holder.getDayOfMonthIndicator().background as GradientDrawable
 
             val day = daysOfMonth[position].toInt()
             val moodRate: Int = if (moodRates.containsKey(day)) moodRates[day]!! else -1
-            val backgroundColor = ThemesService.getMoodIndicatorColorByScore(moodRate)
+            val backgroundColor = colorTheme.getMoodIndicatorColorByScore(moodRate)
             moodIndicatorBackground.setColor(backgroundColor)
         }
         if (currentMonth == LocalDate.now().month && holder.getDayOfMonth().text == LocalDate.now().dayOfMonth.toString()) {
-            holder.getDayOfMonth().setTextColor(ThemesService.getColor1())
+            holder.getDayOfMonth().setTextColor(colorTheme.getCalendarWidgetCurrentDayTextColor())
         } else {
-            holder.getDayOfMonth().setTextColor(ThemesService.getFontColor())
+            holder.getDayOfMonth().setTextColor(colorTheme.getCalendarWidgetTextColor())
         }
     }
 

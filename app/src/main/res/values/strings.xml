@@ -1,19 +1,7 @@
 <resources>
     <string name="app_name">Mood Activities</string>
 
-    <!-- tittles -->
-    <string name="home_screen_tittle">Home</string>
-    <string name="history_tittle">History</string>
-    <string name="insights_tittle">Insights</string>
-    <string name="profile_tittle">Profile</string>
-
     <!-- widgets tittles and descriptions -->
-    <string name="activity_widget_tittle">Activity for today</string>
-    <string name="activity_widget_description">Go for a walk</string>
-    <string name="questions_widget_tittle">Daily\nquestion</string>
-    <string name="mood_widget_tittle">Your today\'s\nmood</string>
-    <string name="calendar_widget_tittle">Week statistic</string>
-    <string name="ask_tittle">Ask AI for advice…</string>
     <string name="return_home"><![CDATA[< Home]]></string>
     <string name="choose_activities_title">What did you do today?</string>
     <string name="next_title">Next</string>

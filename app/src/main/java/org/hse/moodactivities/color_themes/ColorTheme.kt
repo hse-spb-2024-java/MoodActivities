@@ -1,10 +1,9 @@
 package org.hse.moodactivities.color_themes
 
 import android.graphics.Color
-import org.hse.moodactivities.services.ThemesService
 
 enum class ColorThemeType {
-    CALMNESS, TWILIGHT, FOREST, ENERGY_THEME, CHEERFULNESS_THEME, INSPIRATION_THEME, PRODUCTIVITY_THEME, ROMANTIC_THEME, CONFIDENCE_THEME
+    CALMNESS, TWILIGHT, FOREST,
 }
 
 abstract class ColorTheme(
@@ -25,6 +24,8 @@ abstract class ColorTheme(
     private var dimmedColor5: Int,
     private var color6: Int,
     private var dimmedColor6: Int,
+    private var recordedColor: Int,
+    private var notRecordedColor: Int,
 ) {
     enum class LightMode {
         DAY, NIGHT
@@ -138,9 +139,17 @@ abstract class ColorTheme(
         return fontColor
     }
 
+    open fun getDailyActivityWidgetTextIconColor(): Int {
+        return dimmedBackgroundColor
+    }
+
     // colors for mood flow widget
     open fun getMoodFlowWidgetColor(): Int {
         return color2
+    }
+
+    open fun getMoodFlowWidgetButtonTextColor(): Int {
+        return dimmedBackgroundColor
     }
 
     open fun getMoodFlowWidgetIconColor(): Int {
@@ -149,6 +158,10 @@ abstract class ColorTheme(
 
     open fun getMoodFlowWidgetTextColor(): Int {
         return fontColor
+    }
+
+    open fun getMoodFlowWidgetIconTextColor(): Int {
+        return dimmedBackgroundColor
     }
 
     // color for daily question widget
@@ -162,6 +175,10 @@ abstract class ColorTheme(
 
     open fun getDailyQuestionWidgetTextColor(): Int {
         return fontColor
+    }
+
+    open fun getDailyQuestionWidgetTextIconColor(): Int {
+        return dimmedBackgroundColor
     }
 
     // color for week statistic day widget
@@ -182,8 +199,96 @@ abstract class ColorTheme(
         return dimmedBackgroundColor
     }
 
+    // colors for calendar fragment
+    open fun getCalendarWidgetColor(): Int {
+        return dimmedColor3
+    }
+
+    open fun getCalendarWidgetTextColor(): Int {
+        return backgroundColor
+    }
+
+    open fun getCalendarDayOfWeekWidgetTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getCalendarWidgetCurrentDayTextColor(): Int {
+        return dimmedColor4
+    }
+
+    // color for week statistic day widget
+    open fun getCalendarMonthStatisticDayWidgetColor(): Int {
+        return dimmedColor4
+    }
+
+    open fun getCalendarMonthStatisticDayWidgetTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getMoodIndicatorColorByScore(score: Int): Int {
+        return when (score) {
+            1 -> colors["pastel red"]!!
+            2 -> colors["pastel orange"]!!
+            3 -> colors["pastel yellow"]!!
+            4 -> colors["bright green"]!!
+            5 -> colors["green"]!!
+            else -> getCalendarWidgetColor()
+        }
+    }
+
+    // colors for insights fragment
+    // colors for days in rows
+    open fun getDaysInRowColor(): Int {
+        return color1
+    }
+
+    open fun getDaysInRowTextColor(): Int {
+        return fontColor
+    }
+
+    // colors for mood flow chart
+    open fun getMoodFlowChartColor(): Int {
+        return color2
+    }
+
+    open fun getMoodFlowChartTextColor(): Int {
+        return fontColor
+    }
+
+    open fun getMoodFlowChartLabelColor(): Int {
+        return dimmedColor2
+    }
+
+    open fun getMoodFlowChartLabelTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getRecordedDayColor(): Int {
+        return recordedColor
+    }
+
+    open fun getNotRecordedDayColor(): Int {
+        return notRecordedColor
+    }
+
+    // colors for chat fragment
+    open fun getMessageInputColor(): Int {
+        return color3
+    }
+
+    open fun getMessageInputTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getMessageInputHintTextColor(): Int {
+        return dimmedColor3
+    }
+
+
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(
+            "cornell red" to Color.parseColor("#c90016"),
+            "napier green" to Color.parseColor("#0bda51"),
             "forest font color" to Color.parseColor("#2B3B49"),
             "space cadet" to Color.parseColor("#283044"),
             "pastel red" to Color.parseColor("#E66360"),
@@ -242,17 +347,6 @@ abstract class ColorTheme(
 
         fun getColorByName(name: String): Int? {
             return colors[name]
-        }
-
-        fun getMoodIndicatorColorByScore(score: Int): Int {
-            return when (score) {
-                1 -> colors["pastel red"]!!
-                2 -> colors["pastel orange"]!!
-                3 -> colors["pastel yellow"]!!
-                4 -> colors["bright green"]!!
-                5 -> colors["green"]!!
-                else -> ThemesService.getColor3()
-            }
         }
     }
 }

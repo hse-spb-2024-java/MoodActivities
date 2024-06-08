@@ -3,14 +3,12 @@ package org.hse.moodactivities.services
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
-import android.content.res.Resources.Theme
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -197,10 +195,12 @@ class ChartsService(activity: AppCompatActivity) {
             }
 
             // set color for the day
+            val colorTheme = ThemesService.getColorTheme()
+
             val color: Int = if (days[dayIndex].isRecorded) {
-                ThemesService.getRecordedDayColor()
+                colorTheme.getRecordedDayColor()
             } else {
-                ThemesService.getNotRecordedDayColor()
+                colorTheme.getNotRecordedDayColor()
             }
             val card = layout.getChildAt(DaysInRowSettings.CARD_INDEX) as CardView
             card.setCardBackgroundColor(color)

@@ -18,6 +18,8 @@ class TwilightColorTheme : ColorTheme(
     getColorByName("dimmed rosy brown dark")!!,
     getColorByName("rosy taupe")!!,
     getColorByName("dimmed rosy taupe")!!,
+    getColorByName("cornell red")!!,
+    getColorByName("napier green")!!,
 ) {
 
     override fun getButtonColor(): Int {

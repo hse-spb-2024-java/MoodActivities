@@ -91,13 +91,9 @@ class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
         }
         recyclerView?.adapter = itemsAdapters
 
+        setColorTheme(view)
+
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setColorTheme()
     }
 
     private fun restoreFragmentData(activity: MoodFlowActivity) {
@@ -135,33 +131,35 @@ class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
         }
     }
 
-    private fun setColorTheme() {
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to background
-        view?.findViewById<ConstraintLayout>(R.id.fragment_choose_activities_layout)
-            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+        view.findViewById<ConstraintLayout>(R.id.layout)
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to return button
-        view?.findViewById<ImageView>(R.id.return_image)
-            ?.setColorFilter(ThemesService.getFontColor())
+        view.findViewById<ImageView>(R.id.return_image)
+            ?.setColorFilter(colorTheme.getFontColor())
 
         // set color to tittle
-        view?.findViewById<TextView>(R.id.title)
-            ?.setTextColor(ThemesService.getFontColor())
+        view.findViewById<TextView>(R.id.title)
+            ?.setTextColor(colorTheme.getFontColor())
 
         // set color to question
-        view?.findViewById<TextView>(R.id.question)
-            ?.setTextColor(ThemesService.getFontColor())
+        view.findViewById<TextView>(R.id.question)
+            ?.setTextColor(colorTheme.getFontColor())
 
         // set color to back button
-        view?.findViewById<CardView>(R.id.back_button_background)
-            ?.setCardBackgroundColor(ThemesService.getButtonColor())
-        view?.findViewById<TextView>(R.id.back_button_text)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.back_button_background)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
+        view.findViewById<TextView>(R.id.back_button_text)
+            ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())
 
         // set color to next button
-        view?.findViewById<CardView>(R.id.next_button_background)
-            ?.setCardBackgroundColor(ThemesService.getButtonColor())
-        view?.findViewById<TextView>(R.id.next_button_text)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.next_button_background)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
+        view.findViewById<TextView>(R.id.next_button_text)
+            ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())
     }
 }

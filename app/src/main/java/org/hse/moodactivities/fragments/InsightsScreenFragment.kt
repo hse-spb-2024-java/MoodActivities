@@ -156,134 +156,128 @@ class InsightsScreenFragment : Fragment() {
         dialog.dismiss()
     }
 
-    private fun setColorTheme(view: View?) {
-        // set color to background
-        view?.findViewById<ConstraintLayout>(R.id.calendar_screen_fragment_layout)
-            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
 
-        // set color to tittle
-        view?.findViewById<TextView>(R.id.insights_screen_tittle)
-            ?.setTextColor(ThemesService.getFontColor())
+        // set color to background
+        view.findViewById<ConstraintLayout>(R.id.layout)
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set color to title
+        view.findViewById<TextView>(R.id.title)?.setTextColor(colorTheme.getFontColor())
 
         // set color to days in rows
-        view?.findViewById<CardView>(R.id.days_in_row_background)
-            ?.setCardBackgroundColor(ThemesService.getColor1())
+        view.findViewById<CardView>(R.id.days_in_row_background)
+            ?.setCardBackgroundColor(colorTheme.getDaysInRowColor())
+        view.findViewById<TextView>(R.id.days_in_row_text)
+            ?.setTextColor(colorTheme.getDaysInRowTextColor())
 
         // set color to mood flow
-        view?.findViewById<CardView>(R.id.mood_flow_background)
-            ?.setCardBackgroundColor(ThemesService.getColor2())
-
-        // set mood flow time label colors
-        view?.findViewById<CardView>(R.id.mood_flow_time_label_background)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
-        view?.findViewById<TextView>(R.id.mood_flow_time_label)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.mood_flow_background)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowChartColor())
+        view.findViewById<TextView>(R.id.mood_flow_text)
+            ?.setTextColor(colorTheme.getMoodFlowChartTextColor())
+        view.findViewById<CardView>(R.id.mood_flow_time_label_background)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowChartLabelColor())
+        view.findViewById<TextView>(R.id.mood_flow_time_label)
+            ?.setTextColor(colorTheme.getMoodFlowChartLabelTextColor())
 
         // set colors to frequently used emotions
         // set background
-        view?.findViewById<CardView>(R.id.frequently_used_emotions)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
+        view.findViewById<CardView>(R.id.frequently_used_emotions)
+            ?.setCardBackgroundColor(colorTheme.getDimmedColor4())
 
-        // set tittle
-        view?.findViewById<TextView>(R.id.frequently_used_emotions_text)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        // set title
+        view.findViewById<TextView>(R.id.frequently_used_emotions_text)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set time label colors
-        view?.findViewById<CardView>(R.id.emotions_time_label_card)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor6())
-        view?.findViewById<TextView>(R.id.emotions_time_label)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.emotions_time_label_card)
+            ?.setCardBackgroundColor(colorTheme.getDimmedColor6())
+        view.findViewById<TextView>(R.id.emotions_time_label)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set emotion card 1 colors
-        view?.findViewById<CardView>(R.id.emotion_icon_1_card)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<TextView>(R.id.emotion_1)
-            ?.setTextColor(ThemesService.getBackgroundColor())
-        view?.findViewById<TextView>(R.id.emotion_counter_1)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.emotion_icon_1_card)
+            ?.setCardBackgroundColor(colorTheme.getColor4())
+        view.findViewById<TextView>(R.id.emotion_1)?.setTextColor(colorTheme.getBackgroundColor())
+        view.findViewById<TextView>(R.id.emotion_counter_1)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set emotion card 2 colors
-        view?.findViewById<CardView>(R.id.emotion_icon_2_card)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<TextView>(R.id.emotion_2)
-            ?.setTextColor(ThemesService.getBackgroundColor())
-        view?.findViewById<TextView>(R.id.emotion_counter_2)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.emotion_icon_2_card)
+            ?.setCardBackgroundColor(colorTheme.getColor4())
+        view.findViewById<TextView>(R.id.emotion_2)?.setTextColor(colorTheme.getBackgroundColor())
+        view.findViewById<TextView>(R.id.emotion_counter_2)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set emotion card 3 colors
-        view?.findViewById<CardView>(R.id.emotion_icon_3_card)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<TextView>(R.id.emotion_3)
-            ?.setTextColor(ThemesService.getBackgroundColor())
-        view?.findViewById<TextView>(R.id.emotion_counter_3)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.emotion_icon_3_card)
+            ?.setCardBackgroundColor(colorTheme.getColor4())
+        view.findViewById<TextView>(R.id.emotion_3)?.setTextColor(colorTheme.getBackgroundColor())
+        view.findViewById<TextView>(R.id.emotion_counter_3)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // next statistic button
-        view?.findViewById<TextView>(R.id.more_emotions)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<TextView>(R.id.more_emotions)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set colors to frequently used activities
         // set background
-        view?.findViewById<CardView>(R.id.frequently_used_activities)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor4())
+        view.findViewById<CardView>(R.id.frequently_used_activities)
+            ?.setCardBackgroundColor(colorTheme.getDimmedColor4())
 
-        // set tittle
-        view?.findViewById<TextView>(R.id.frequently_used_activities_text)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        // set title
+        view.findViewById<TextView>(R.id.frequently_used_activities_text)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set time label colors
-        view?.findViewById<CardView>(R.id.activities_time_label_card)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor6())
-        view?.findViewById<TextView>(R.id.activities_time_label)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.activities_time_label_card)
+            ?.setCardBackgroundColor(colorTheme.getDimmedColor6())
+        view.findViewById<TextView>(R.id.activities_time_label)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set activity icon 1 colors
-        view?.findViewById<CardView>(R.id.activity_icon_1_card)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<TextView>(R.id.activity_1)
-            ?.setTextColor(ThemesService.getBackgroundColor())
-        view?.findViewById<TextView>(R.id.activity_counter_1)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.activity_icon_1_card)
+            ?.setCardBackgroundColor(colorTheme.getColor4())
+        view.findViewById<TextView>(R.id.activity_1)?.setTextColor(colorTheme.getBackgroundColor())
+        view.findViewById<TextView>(R.id.activity_counter_1)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set activity icon 2 colors
-        view?.findViewById<CardView>(R.id.activity_icon_2_card)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<TextView>(R.id.activity_2)
-            ?.setTextColor(ThemesService.getBackgroundColor())
-        view?.findViewById<TextView>(R.id.activity_counter_2)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.activity_icon_2_card)
+            ?.setCardBackgroundColor(colorTheme.getColor4())
+        view.findViewById<TextView>(R.id.activity_2)?.setTextColor(colorTheme.getBackgroundColor())
+        view.findViewById<TextView>(R.id.activity_counter_2)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set activity icon 1 colors
-        view?.findViewById<CardView>(R.id.activity_icon_3_card)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<TextView>(R.id.activity_3)
-            ?.setTextColor(ThemesService.getBackgroundColor())
-        view?.findViewById<TextView>(R.id.activity_counter_3)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.activity_icon_3_card)
+            ?.setCardBackgroundColor(colorTheme.getColor4())
+        view.findViewById<TextView>(R.id.activity_3)?.setTextColor(colorTheme.getBackgroundColor())
+        view.findViewById<TextView>(R.id.activity_counter_3)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // next statistic button
-        view?.findViewById<TextView>(R.id.more_activities)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<TextView>(R.id.more_activities)
+            ?.setTextColor(colorTheme.getDimmedBackgroundColor())
 
         // set color to dialog background
         dialog.findViewById<CardView>(R.id.dialog_background)
-            .setCardBackgroundColor(ThemesService.getColor1())
+            .setCardBackgroundColor(colorTheme.getColor1())
 
         // set colors to dialog buttons
         dialog.findViewById<CardView>(R.id.week_background)
-            .setCardBackgroundColor(ThemesService.getButtonColor())
-        dialog.findViewById<TextView>(R.id.week_text)
-            .setTextColor(ThemesService.getButtonColor())
+            .setCardBackgroundColor(colorTheme.getButtonColor())
+        dialog.findViewById<TextView>(R.id.week_text).setTextColor(colorTheme.getButtonColor())
 
         dialog.findViewById<CardView>(R.id.month_background)
             .setCardBackgroundColor(ThemesService.getButtonColor())
-        dialog.findViewById<TextView>(R.id.month_text)
-            .setTextColor(ThemesService.getButtonColor())
+        dialog.findViewById<TextView>(R.id.month_text).setTextColor(ThemesService.getButtonColor())
 
         dialog.findViewById<CardView>(R.id.year_background)
             .setCardBackgroundColor(ThemesService.getButtonColor())
-        dialog.findViewById<TextView>(R.id.year_text)
-            .setTextColor(ThemesService.getButtonColor())
+        dialog.findViewById<TextView>(R.id.year_text).setTextColor(ThemesService.getButtonColor())
 
         dialog.findViewById<CardView>(R.id.all_time_background)
             .setCardBackgroundColor(ThemesService.getButtonColor())

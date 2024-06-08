@@ -70,7 +70,7 @@ class ChatActivity : AppCompatActivity() {
             }
         })
 
-        // Listen for send button click
+        // listen for send button click
         sendButton.setOnClickListener {
             val userMessage = messageInput.text.toString()
             messageInput.isEnabled = false
@@ -84,7 +84,7 @@ class ChatActivity : AppCompatActivity() {
             messageInput.setText("")
 
             runBlocking {
-                val job = launch {
+                launch {
                     gptService.sendRequest(userMessage)
                     gptService.waitForResponse()
                     val response = gptService.getResponse()
@@ -114,25 +114,30 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
-
-        // set color to background
-        findViewById<ConstraintLayout>(R.id.activity_chat).setBackgroundColor(ThemesService.getBackgroundColor())
-
-        // set screen name
-        findViewById<TextView>(R.id.app_name).setTextColor(ThemesService.getFontColor())
-
-        // set message input color
-        findViewById<CardView>(R.id.message_input_background).setCardBackgroundColor(ThemesService.getColor3())
-
-        // set message input hint text color
-        findViewById<EditText>(R.id.message_input).setHintTextColor(ThemesService.getDimmedBackgroundColor())
-
-        // set send button color
-        sendButtonBackground.setCardBackgroundColor(ThemesService.getColor4())
+        window.statusBarColor = colorTheme.getBackgroundColor()
 
         // set bar color
-        findViewById<LinearLayout>(R.id.input_bar).setBackgroundColor(ThemesService.getDimmedBackgroundColor())
+        findViewById<LinearLayout>(R.id.input_bar).setBackgroundColor(colorTheme.getDimmedBackgroundColor())
+
+        // set color to background
+        findViewById<ConstraintLayout>(R.id.activity_chat).setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set screen name
+        findViewById<TextView>(R.id.app_name).setTextColor(colorTheme.getFontColor())
+
+        // set message input color
+        findViewById<CardView>(R.id.message_input_background).setCardBackgroundColor(colorTheme.getMessageInputColor())
+
+        // set message input text color
+        findViewById<EditText>(R.id.message_input).setTextColor(colorTheme.getMessageInputTextColor())
+
+        // set message input hint text color
+        findViewById<EditText>(R.id.message_input).setHintTextColor(colorTheme.getMessageInputHintTextColor())
+
+        // set send button color
+        sendButtonBackground.setCardBackgroundColor(colorTheme.getColor4())
     }
 }

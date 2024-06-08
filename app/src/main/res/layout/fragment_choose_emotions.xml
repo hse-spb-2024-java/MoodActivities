@@ -35,7 +35,8 @@
             android:id="@+id/return_image"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/arrow_left" />
+            android:src="@drawable/arrow_left"
+            tools:ignore="ContentDescription" />
 
         <Button
             android:id="@+id/return_home_button"
@@ -69,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- next start -->
+    <!-- next -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
@@ -100,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/app_font"
-                    android:text="@string/next_title"
+                    android:text="Next"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -117,11 +118,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </RelativeLayout>
-    <!-- next end -->
 
-    <!-- back start -->
+    <!-- back -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="40dp"
@@ -151,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/app_font"
-                    android:text="@string/back_title"
+                    android:text="Back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +167,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </RelativeLayout>
-    <!-- back end -->
 </androidx.constraintlayout.widget.ConstraintLayout>

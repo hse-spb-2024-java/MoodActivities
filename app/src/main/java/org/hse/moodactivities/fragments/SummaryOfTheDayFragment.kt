@@ -47,35 +47,35 @@ class SummaryOfTheDayFragment : Fragment() {
         )
 
         val gptResponse = MoodService.getGptResponse(this.activity as AppCompatActivity)
-        view.findViewById<TextView>(R.id.summary_title)?.text =
-            gptResponse.shortSummary
+        view.findViewById<TextView>(R.id.summary_title)?.text = gptResponse.shortSummary
         view.findViewById<TextView>(R.id.summary_description)?.text = gptResponse.fullSummary
     }
 
     private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to background
         view.findViewById<ConstraintLayout>(R.id.layout)
-            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to tittle
-        view.findViewById<TextView>(R.id.title)
-            ?.setTextColor(ThemesService.getFontColor())
+        view.findViewById<TextView>(R.id.title)?.setTextColor(colorTheme.getFontColor())
 
         // set color to summary tittle
-        view.findViewById<TextView>(R.id.summary_title)
-            ?.setTextColor(ThemesService.getFontColor())
+        view.findViewById<TextView>(R.id.summary_title)?.setTextColor(colorTheme.getFontColor())
 
         // set color to summary description
         view.findViewById<TextView>(R.id.summary_description)
-            ?.setTextColor(ThemesService.getFontColor())
+            ?.setTextColor(colorTheme.getFontColor())
 
         // set color to card
-        view.findViewById<CardView>(R.id.card)?.setCardBackgroundColor(ThemesService.getColor3())
+        view.findViewById<CardView>(R.id.card)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetColor())
 
         // set color to finish button
         view.findViewById<CardView>(R.id.button_background)
-            ?.setCardBackgroundColor(ThemesService.getButtonColor())
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
         view.findViewById<TextView>(R.id.button_text)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+            ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())
     }
 }

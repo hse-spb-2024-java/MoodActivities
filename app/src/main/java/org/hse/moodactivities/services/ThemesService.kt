@@ -1,6 +1,5 @@
 package org.hse.moodactivities.services
 
-import android.graphics.Color
 import org.hse.moodactivities.color_themes.CalmnessColorTheme
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
@@ -34,10 +33,6 @@ class ThemesService {
 
         fun getColorTheme(): ColorTheme {
             return colorTheme
-        }
-
-        fun getMoodIndicatorColorByScore(score: Int): Int {
-            return ColorTheme.getMoodIndicatorColorByScore(score)
         }
 
         fun getBackgroundColor(): Int {
@@ -100,44 +95,12 @@ class ThemesService {
             return colorTheme.getDimmedColor6()
         }
 
-        fun getHighlightedFontColor(): Int {
-            return colorTheme.getHighlightedFontColor()
-        }
-
-        fun getInputBackgroundColor(): Int {
-            return colorTheme.getInputBackgroundColor()
-        }
-
-        fun getInputHintTextColor(): Int {
-            return colorTheme.getInputHintTextColor()
-        }
-
-        fun getInputTextColor(): Int {
-            return colorTheme.getInputTextColor()
-        }
-
         fun getButtonColor(): Int {
             return colorTheme.getButtonColor()
         }
 
         fun getButtonTextColor(): Int {
             return colorTheme.getButtonTextColor()
-        }
-
-        fun getRecordedDayColor(): Int {
-            return Color.parseColor("#32CD32")
-        }
-
-        fun getNotRecordedDayColor(): Int {
-            return Color.parseColor("#D53032")
-        }
-
-        fun getChartsColor(): Int {
-            return colorTheme.getChartsColor()
-        }
-
-        fun getMoodFlowWidgetColor(): Int {
-            return colorTheme.getMoodFlowCardColor()
         }
     }
 }

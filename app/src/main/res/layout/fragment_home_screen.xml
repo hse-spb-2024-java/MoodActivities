@@ -18,11 +18,11 @@
 
         <TextView
             android:id="@+id/home_screen_tittle"
-            android:layout_marginStart="45dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
             android:fontFamily="@font/app_font"
-            android:text="@string/home_screen_tittle"
+            android:text="Home"
             android:textSize="@dimen/screen_tittle_font_size"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,7 @@
                             android:id="@+id/activity_widget_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto"
+                            android:fontFamily="@font/app_font"
                             android:text="Look at the activity we have\nprepared for you today!"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -184,7 +184,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/roboto"
+                            android:fontFamily="@font/app_font"
                             android:text="Today's\nmood"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -264,7 +264,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/roboto"
+                            android:fontFamily="@font/app_font"
                             android:text="Daily\nquestion"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -297,8 +297,8 @@
             android:layout_width="@dimen/home_screen_tittle_width"
             android:layout_height="wrap_content"
             android:fontFamily="@font/app_font"
-            android:text="@string/calendar_widget_tittle"
-            android:textSize="@dimen/home_screen_tittle_font_size"
+            android:text="Week statistic"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -331,8 +331,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
+                    android:fontFamily="@font/app_font"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -340,9 +339,8 @@
                     android:id="@+id/week_widget_day_of_month_1"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
                     android:textSize="@dimen/widget_font_size" />
 
                 <ImageView
@@ -380,8 +378,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
+                    android:fontFamily="@font/app_font"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -389,9 +386,8 @@
                     android:id="@+id/week_widget_day_of_month_2"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
                     android:textSize="@dimen/widget_font_size" />
 
                 <ImageView
@@ -430,8 +426,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
+                    android:fontFamily="@font/app_font"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -439,9 +434,8 @@
                     android:id="@+id/week_widget_day_of_month_3"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
                     android:textSize="@dimen/widget_font_size" />
 
                 <ImageView
@@ -479,8 +473,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
+                    android:fontFamily="@font/app_font"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -488,9 +481,8 @@
                     android:id="@+id/week_widget_day_of_month_4"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
                     android:textSize="@dimen/widget_font_size" />
 
                 <ImageView
@@ -530,8 +522,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
+                    android:fontFamily="@font/app_font"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -539,9 +530,8 @@
                     android:id="@+id/week_widget_day_of_month_5"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
                     android:textSize="@dimen/widget_font_size" />
 
                 <ImageView
@@ -605,7 +595,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/app_font"
-                        android:text="@string/ask_tittle"
+                        android:text="Ask AI for advice…"
                         android:textSize="@dimen/widget_font_size" />
                 </LinearLayout>
 

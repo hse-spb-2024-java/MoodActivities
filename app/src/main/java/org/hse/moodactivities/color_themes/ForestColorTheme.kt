@@ -18,6 +18,8 @@ class ForestColorTheme : ColorTheme(
     /* dimmedColor5 */getColorByName("dimmed feldgrau")!!,
     /* color6 */getColorByName("brunswick green")!!,
     /* dimmedColor6 */getColorByName("dimmed brunswick green")!!,
+    /* recordedColor */ getColorByName("cornell red")!!,
+    /* notRecordedColor */ getColorByName("napier green")!!,
 ) {
     override fun getButtonColor(): Int {
         return getColor4()
