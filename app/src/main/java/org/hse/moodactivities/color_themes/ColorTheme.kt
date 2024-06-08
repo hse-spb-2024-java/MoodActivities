@@ -120,8 +120,66 @@ abstract class ColorTheme(
 
     abstract fun getChartsColor(): Int
 
+    open fun getMoodFlowCardColor(): Int {
+        return color4
+    }
+
+    // colors for home fragment
+    // color for daily activity widget
+    open fun getDailyActivityWidgetColor(): Int {
+        return color1
+    }
+
+    open fun getDailyActivityWidgetIconColor(): Int {
+        return dimmedColor1
+    }
+
+    open fun getDailyActivityWidgetTextColor(): Int {
+        return fontColor
+    }
+
+    // colors for mood flow widget
     open fun getMoodFlowWidgetColor(): Int {
-        return getColor4()
+        return color2
+    }
+
+    open fun getMoodFlowWidgetIconColor(): Int {
+        return dimmedColor2
+    }
+
+    open fun getMoodFlowWidgetTextColor(): Int {
+        return fontColor
+    }
+
+    // color for daily question widget
+    open fun getDailyQuestionWidgetColor(): Int {
+        return color3
+    }
+
+    open fun getDailyQuestionWidgetIconColor(): Int {
+        return dimmedColor3
+    }
+
+    open fun getDailyQuestionWidgetTextColor(): Int {
+        return fontColor
+    }
+
+    // color for week statistic day widget
+    open fun getWeekStatisticDayWidgetColor(): Int {
+        return color4
+    }
+
+    open fun getWeekStatisticDayWidgetTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    // color for chat widget
+    open fun getChatWidgetColor(): Int {
+        return color5
+    }
+
+    open fun getChatWidgetColorTextColor(): Int {
+        return dimmedBackgroundColor
     }
 
     companion object {

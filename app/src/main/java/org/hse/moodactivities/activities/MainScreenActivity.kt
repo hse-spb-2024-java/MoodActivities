@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction
 import org.hse.moodactivities.R
 import org.hse.moodactivities.databinding.MainScreenBinding
 import org.hse.moodactivities.fragments.CalendarScreenFragment
-import org.hse.moodactivities.fragments.HomeScreenFragment
+import org.hse.moodactivities.fragments.HomeFragment
 import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.fragments.ProfileScreenFragment
 import org.hse.moodactivities.services.ThemesService
@@ -23,12 +23,12 @@ class MainScreenActivity : AppCompatActivity() {
         binding = MainScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        replaceFragment(HomeScreenFragment())
+        replaceFragment(HomeFragment())
         binding.bottomNavigationView.background = null
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.bottom_menu_home -> replaceFragment(HomeScreenFragment())
+                R.id.bottom_menu_home -> replaceFragment(HomeFragment())
                 R.id.bottom_menu_history -> replaceFragment(CalendarScreenFragment())
                 R.id.bottom_menu_insights -> replaceFragment(InsightsScreenFragment())
                 R.id.bottom_menu_profile -> replaceFragment(ProfileScreenFragment())

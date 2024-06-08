@@ -25,21 +25,37 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 
 
-class HomeScreenFragment : Fragment() {
+class HomeFragment : Fragment() {
     companion object {
+        const val AMOUNT_OF_DAYS = 5
+
+        private val dayOfWeekCardId: Array<Int> = arrayOf(
+            R.id.day_5,
+            R.id.day_4,
+            R.id.day_3,
+            R.id.day_2,
+            R.id.day_1,
+        )
         private val dayOfWeekTextId: Array<Int> = arrayOf(
             R.id.week_widget_day_of_week_5,
             R.id.week_widget_day_of_week_4,
             R.id.week_widget_day_of_week_3,
             R.id.week_widget_day_of_week_2,
-            R.id.week_widget_day_of_week_1
+            R.id.week_widget_day_of_week_1,
         )
         private val dayOfMonthTextId: Array<Int> = arrayOf(
             R.id.week_widget_day_of_month_5,
             R.id.week_widget_day_of_month_4,
             R.id.week_widget_day_of_month_3,
             R.id.week_widget_day_of_month_2,
-            R.id.week_widget_day_of_month_1
+            R.id.week_widget_day_of_month_1,
+        )
+        private val dayOfWeekImageId: Array<Int> = arrayOf(
+            R.id.week_widget_image_5,
+            R.id.week_widget_image_4,
+            R.id.week_widget_image_3,
+            R.id.week_widget_image_2,
+            R.id.week_widget_image_1,
         )
     }
 
@@ -51,6 +67,9 @@ class HomeScreenFragment : Fragment() {
             UiUtils.getMoodImageResourcesIdByIndex(MoodService.getUserDailyMood(this.activity as AppCompatActivity))
         )
         setCurrentDate(view)
+
+        setColorTheme(view)
+
         return view
     }
 
@@ -80,14 +99,12 @@ class HomeScreenFragment : Fragment() {
             val chatActivity = Intent(this.activity, ChatActivity::class.java)
             startActivity(chatActivity)
         }
-
-        setColorTheme()
     }
 
     private fun setCurrentDate(view: View) {
         val localDate = LocalDate.now()
 
-        for (daysBefore in 0L..4L) {
+        for (daysBefore in 0L..<AMOUNT_OF_DAYS) {
             val localDateBefore = localDate.minusDays(daysBefore)
             setDateToWeekWidget(
                 localDateBefore.dayOfWeek,
@@ -95,6 +112,14 @@ class HomeScreenFragment : Fragment() {
                 view.rootView.findViewById(dayOfWeekTextId[daysBefore.toInt()]),
                 view.rootView.findViewById(dayOfMonthTextId[daysBefore.toInt()])
             )
+            view.rootView.findViewById<ImageView>(dayOfWeekImageId[daysBefore.toInt()])
+                .setImageResource(
+                    UiUtils.getMoodImageResourcesIdByIndex(
+                        MoodService.getUserDailyMood(
+                            this.activity as AppCompatActivity, localDateBefore
+                        )
+                    )
+                )
         }
     }
 
@@ -105,51 +130,60 @@ class HomeScreenFragment : Fragment() {
         dayTextView.text = day.toString()
     }
 
-    private fun setColorTheme() {
-        // set background color
-        view?.findViewById<LinearLayout>(R.id.home_screen_fragment_layout)
-            ?.setBackgroundColor(ThemesService.getBackgroundColor())
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
 
-        // set colors to activity widget
-        view?.findViewById<CardView>(R.id.activity_card)
-            ?.setCardBackgroundColor(ThemesService.getColor1())
-        view?.findViewById<CardView>(R.id.activity_circle)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor1())
+        // set background color
+        view.findViewById<LinearLayout>(R.id.layout)
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set font color to titles
+        view.findViewById<TextView>(R.id.home_screen_tittle)
+            ?.setTextColor(colorTheme.getFontColor())
+
+        // set colors to daily activity widget
+        view.findViewById<CardView>(R.id.activity_card)
+            ?.setCardBackgroundColor(colorTheme.getDailyActivityWidgetColor())
+        view.findViewById<CardView>(R.id.activity_circle)
+            ?.setCardBackgroundColor(colorTheme.getDailyActivityWidgetIconColor())
+        view.findViewById<TextView>(R.id.activity_widget_title)
+            ?.setTextColor(colorTheme.getDailyActivityWidgetTextColor())
 
         // set colors to mood flow widget
-        view?.findViewById<CardView>(R.id.mood_flow_card)
-            ?.setCardBackgroundColor(ThemesService.getColor2())
-        view?.findViewById<CardView>(R.id.mood_flow_circle)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor2())
+        view.findViewById<CardView>(R.id.mood_flow_card)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetColor())
+        view.findViewById<CardView>(R.id.mood_flow_circle)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
+        view.findViewById<TextView>(R.id.mood_widget_title)
+            ?.setTextColor(colorTheme.getMoodFlowWidgetTextColor())
 
         // set colors to daily question widget
-        view?.findViewById<CardView>(R.id.question_card)
-            ?.setCardBackgroundColor(ThemesService.getColor3())
-        view?.findViewById<CardView>(R.id.question_circle)
-            ?.setCardBackgroundColor(ThemesService.getDimmedColor3())
+        view.findViewById<CardView>(R.id.question_card)
+            ?.setCardBackgroundColor(colorTheme.getDailyQuestionWidgetColor())
+        view.findViewById<CardView>(R.id.question_circle)
+            ?.setCardBackgroundColor(colorTheme.getDailyQuestionWidgetIconColor())
+        view.findViewById<TextView>(R.id.question_widget_tittle)
+            ?.setTextColor(colorTheme.getDailyQuestionWidgetTextColor())
 
-        // set color to days of week widgets
-        view?.findViewById<CardView>(R.id.day_1)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<CardView>(R.id.day_2)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<CardView>(R.id.day_3)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<CardView>(R.id.day_4)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
-        view?.findViewById<CardView>(R.id.day_5)
-            ?.setCardBackgroundColor(ThemesService.getColor4())
+        // set color to week statistic widgets
+        view.findViewById<TextView>(R.id.week_widget_tittle)
+            ?.setTextColor(colorTheme.getFontColor())
+
+        for (day in 0..<AMOUNT_OF_DAYS) {
+            view.findViewById<TextView>(R.id.week_widget_tittle)
+                ?.setTextColor(colorTheme.getFontColor())
+            view.findViewById<CardView>(dayOfWeekCardId[day])
+                ?.setCardBackgroundColor(colorTheme.getWeekStatisticDayWidgetColor())
+            view.findViewById<TextView>(dayOfWeekTextId[day])
+                ?.setTextColor(colorTheme.getWeekStatisticDayWidgetTextColor())
+            view.findViewById<TextView>(dayOfMonthTextId[day])
+                ?.setTextColor(colorTheme.getWeekStatisticDayWidgetTextColor())
+        }
 
         // set color to chat widget
-        view?.findViewById<CardView>(R.id.chat_widget)
-            ?.setCardBackgroundColor(ThemesService.getColor5())
-
-        // set font color to tittles
-        view?.findViewById<TextView>(R.id.home_screen_tittle)
-            ?.setTextColor(ThemesService.getFontColor())
-        view?.findViewById<TextView>(R.id.week_widget_tittle)
-            ?.setTextColor(ThemesService.getFontColor())
-        view?.findViewById<TextView>(R.id.ask_widget_text)
-            ?.setTextColor(ThemesService.getDimmedBackgroundColor())
+        view.findViewById<CardView>(R.id.chat_widget)
+            ?.setCardBackgroundColor(colorTheme.getChatWidgetColor())
+        view.findViewById<TextView>(R.id.ask_widget_text)
+            ?.setTextColor(colorTheme.getChatWidgetColorTextColor())
     }
 }

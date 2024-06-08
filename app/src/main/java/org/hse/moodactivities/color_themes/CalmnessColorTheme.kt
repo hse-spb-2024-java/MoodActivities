@@ -33,7 +33,7 @@ class CalmnessColorTheme : ColorTheme(
         return getColor4()
     }
 
-    override fun getMoodFlowWidgetColor(): Int {
+    override fun getMoodFlowCardColor(): Int {
         return getColor3()
     }
 }

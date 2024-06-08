@@ -137,7 +137,7 @@ class ThemesService {
         }
 
         fun getMoodFlowWidgetColor(): Int {
-            return colorTheme.getMoodFlowWidgetColor()
+            return colorTheme.getMoodFlowCardColor()
         }
     }
 }
