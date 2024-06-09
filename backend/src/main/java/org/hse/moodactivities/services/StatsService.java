@@ -1,5 +1,8 @@
 package org.hse.moodactivities.services;
 
+import org.hse.moodactivities.common.proto.defaults.Empty;
+import org.hse.moodactivities.common.proto.requests.defaults.*;
+import org.hse.moodactivities.common.proto.requests.stats.*;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 import org.hse.moodactivities.common.proto.requests.defaults.ActivityRecord;
@@ -31,6 +34,7 @@ import org.hse.moodactivities.common.proto.responses.stats.WeatherStats;
 import org.hse.moodactivities.common.proto.responses.stats.WeatherStatsResponse;
 import org.hse.moodactivities.common.proto.responses.stats.WeeklyReportResponse;
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc;
+import org.hse.moodactivities.data.entities.mongodb.FitnessData;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
 import org.hse.moodactivities.data.promts.PromptsStorage;
@@ -47,18 +51,15 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.grpc.stub.StreamObserver;
 
 public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
 
     private static User getUser(String userId) {
         Map<String, Object> queryMap = new HashMap<>();
@@ -211,6 +212,12 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                 activity = ActivityRecord.newBuilder()
                         .setActivity(meta.getActivity().getActivity())
                         .setReport(meta.getActivity().getReport())
+                        .build();
+            }
+            FitnessRecord fitness = null;
+            if (meta.getFitnessData() != null) {
+                fitness = FitnessRecord.newBuilder()
+                        .setSteps(meta.getFitnessData().getSteps())
                         .build();
             }
 
@@ -402,6 +409,30 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
             LOGGER.info("gpt fault on user: " + userId);
         }
         responseObserver.onNext(WeatherGptResponse.newBuilder().setConclusion(conclusion).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void uploadFitnessData(UploadFitnessDataRequest request, StreamObserver<Empty> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        List<UserDayMeta> metas = user.getMetas();
+        UserDayMeta lastMeta = null;
+        if (metas == null || metas.isEmpty() || !metas.getLast().getDate().equals(LocalDate.now())) {
+            lastMeta = new UserDayMeta(LocalDate.now());
+        } else {
+            lastMeta = metas.getLast();
+        }
+        FitnessData fitnessData = lastMeta.getFitnessData();
+        if (fitnessData == null) {
+            fitnessData = new FitnessData();
+        }
+        fitnessData.setSteps(request.getStepsForLastDay());
+        lastMeta.setFitnessData(fitnessData);
+        user.updateMeta(lastMeta);
+        MongoDBSingleton.getInstance().getConnection().saveEntity(user);
+        Empty response = Empty.newBuilder().build();
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }

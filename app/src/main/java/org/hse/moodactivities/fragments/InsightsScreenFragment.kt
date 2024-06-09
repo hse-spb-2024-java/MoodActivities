@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.StatisticActivity
 import org.hse.moodactivities.managers.FitnessDataManager
@@ -175,7 +175,7 @@ class InsightsScreenFragment : Fragment() {
             }
         } else {
             stepsWidget.setOnClickListener(null)
-            fitnessViewModel.loadFitnessData()
+            fitnessViewModel.loadAndSendFitnessData()
             fitnessViewModel.fitnessData.observe(viewLifecycleOwner) { data ->
                 stepsCounterTextView.text = data.steps.toString()
             }
@@ -183,6 +183,16 @@ class InsightsScreenFragment : Fragment() {
 
         setColorTheme(view)
 
+        fitnessViewModel.errorMessage.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Snackbar.make(
+                    view.findViewById(android.R.id.content),
+                    it,
+                    Snackbar.LENGTH_LONG
+                ).show()
+                fitnessViewModel.clearErrorMessage()
+            }
+        }
         return view
     }
 
