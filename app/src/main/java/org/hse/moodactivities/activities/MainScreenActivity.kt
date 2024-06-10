@@ -47,18 +47,20 @@ class MainScreenActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
+        window.statusBarColor = colorTheme.getBackgroundColor()
 
         // set color to background
-        binding.mainScreenLayout.setBackgroundColor(ThemesService.getBackgroundColor())
+        binding.mainScreenLayout.setBackgroundColor(colorTheme.getBackgroundColor())
 
-        // set color to
-        window.navigationBarColor = ThemesService.getDimmedColor6()
-        binding.bottomNavigationView.setBackgroundColor(ThemesService.getDimmedColor6())
+        // set color to bottom menu
+        window.navigationBarColor = colorTheme.getBottomMenuColor()
+        binding.bottomNavigationView.setBackgroundColor(colorTheme.getBottomMenuColor())
         binding.bottomNavigationView.itemTextColor =
-            ColorStateList.valueOf(ThemesService.getColor6())
+            ColorStateList.valueOf(colorTheme.getBottomMenuTextColor())
         binding.bottomNavigationView.itemIconTintList =
-            ColorStateList.valueOf(ThemesService.getColor6())
+            ColorStateList.valueOf(colorTheme.getBottomMenuTextColor())
     }
 }

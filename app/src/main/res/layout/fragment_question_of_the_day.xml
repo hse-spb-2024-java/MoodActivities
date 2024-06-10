@@ -5,7 +5,6 @@
     android:id="@+id/fragment_answer_question_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".fragments.QuestionOfTheDayFragment">
@@ -37,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/app_font"
-        android:text="Mood flow"
+        android:text="Daily question"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +44,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/question_card"
         android:layout_width="320dp"
         android:layout_height="150dp"
         app:cardCornerRadius="20dp"
@@ -62,6 +62,7 @@
             <EditText
                 android:id="@+id/edit_text"
                 android:layout_width="match_parent"
+                android:textCursorDrawable="@null"
                 android:layout_height="wrap_content"
                 android:autoSizeMaxTextSize="10dp"
                 android:autofillHints="name"
@@ -96,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.5"
-            app:cardCornerRadius="@dimen/widget_corner_radius">
+            app:cardCornerRadius="20dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -105,10 +106,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/send_title"
+                    android:text="Send"
                     android:fontFamily="@font/app_font"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -128,5 +130,4 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
-    <!-- send end -->
 </androidx.constraintlayout.widget.ConstraintLayout>

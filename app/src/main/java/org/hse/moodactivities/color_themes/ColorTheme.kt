@@ -51,78 +51,53 @@ abstract class ColorTheme(
         return fontColor
     }
 
-    fun getColor1(): Int {
-        return color1
-    }
-
-    fun getDimmedColor1(): Int {
-        return dimmedColor1
-    }
-
-    fun getColor2(): Int {
-        return color2
-    }
-
-    fun getDimmedColor2(): Int {
-        return dimmedColor2
-    }
-
-    fun getColor3(): Int {
-        return color3
-    }
-
-    fun getDimmedColor3(): Int {
-        return dimmedColor3
-    }
-
-    fun getColor4(): Int {
-        return color4
-    }
-
-    fun getDimmedColor4(): Int {
-        return dimmedColor4
-    }
-
-    fun getColor5(): Int {
-        return color5
-    }
-
-    fun getDimmedColor5(): Int {
-        return dimmedColor5
-    }
-
-    fun getColor6(): Int {
-        return color6
-    }
-
-    fun getDimmedColor6(): Int {
-        return dimmedColor6
-    }
-
-    open fun getHighlightedFontColor(): Int {
-        return getColor4()
+    /* return color for index from 0 to 11
+    * else return color1 as fallback */
+    fun getColorByIndex(colorIndex: Int): Int {
+        return when (colorIndex) {
+            0 -> color1
+            1 -> dimmedColor1
+            2 -> color2
+            3 -> dimmedColor2
+            4 -> color3
+            5 -> dimmedColor3
+            6 -> color4
+            7 -> dimmedColor4
+            8 -> color5
+            9 -> dimmedColor5
+            10 -> color6
+            11 -> dimmedColor6
+            else -> color1 // fallback
+        }
     }
 
     open fun getInputBackgroundColor(): Int {
-        return getColor3()
+        return color3
     }
 
     open fun getInputHintTextColor(): Int {
-        return getDimmedColor3()
+        return dimmedColor3
     }
 
     open fun getInputTextColor(): Int {
         return getFontColor()
     }
 
-    abstract fun getButtonColor(): Int
-
-    abstract fun getButtonTextColor(): Int
-
-    abstract fun getChartsColor(): Int
-
-    open fun getMoodFlowCardColor(): Int {
+    open fun getButtonColor(): Int {
         return color4
+    }
+
+    open fun getButtonTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    // colors for main screen
+    open fun getBottomMenuColor(): Int {
+        return dimmedColor6
+    }
+
+    open fun getBottomMenuTextColor(): Int {
+        return color6
     }
 
     // colors for home fragment
@@ -139,7 +114,7 @@ abstract class ColorTheme(
         return fontColor
     }
 
-    open fun getDailyActivityWidgetTextIconColor(): Int {
+    open fun getDailyActivityWidgetIconTextColor(): Int {
         return dimmedBackgroundColor
     }
 
@@ -177,7 +152,7 @@ abstract class ColorTheme(
         return fontColor
     }
 
-    open fun getDailyQuestionWidgetTextIconColor(): Int {
+    open fun getDailyQuestionWidgetIconTextColor(): Int {
         return dimmedBackgroundColor
     }
 
@@ -213,7 +188,7 @@ abstract class ColorTheme(
     }
 
     open fun getCalendarWidgetCurrentDayTextColor(): Int {
-        return dimmedColor4
+        return Color.parseColor("#138808")
     }
 
     // color for week statistic day widget
@@ -247,8 +222,12 @@ abstract class ColorTheme(
     }
 
     // colors for mood flow chart
-    open fun getMoodFlowChartColor(): Int {
+    open fun getMoodFlowChartBackgroundColor(): Int {
         return color2
+    }
+
+    open fun getMoodFlowChartColor(): Int {
+        return dimmedColor2
     }
 
     open fun getMoodFlowChartTextColor(): Int {
@@ -284,6 +263,78 @@ abstract class ColorTheme(
         return dimmedColor3
     }
 
+    open fun getUserMessageColor(): Int {
+        return color2
+    }
+
+    open fun getUserMessageTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getChatMessageColor(): Int {
+        return color1
+    }
+
+    open fun getChatMessageTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getSendButtonImageColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getTimePeriodBarColor(): Int {
+        return color5
+    }
+
+    open fun getTimePeriodBarButtonColor(): Int {
+        return dimmedColor5
+    }
+
+    open fun getTermsAndConditionsFontColor(): Int {
+        return color5
+    }
+
+    open fun getStatisticItemColor(): Int {
+        return color6
+    }
+
+    open fun getStatisticItemTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    // color for choose * chart
+    open fun getFrequentlyUsedColor(): Int {
+        return dimmedColor4
+    }
+
+    open fun getFrequentlyUsedItemColor(): Int {
+        return color4
+    }
+
+    open fun getFrequentlyUsedItemNameColor(): Int {
+        return backgroundColor
+    }
+
+    open fun getFrequentlyUsedItemCounterColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getFrequentlyUsedTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getFrequentlyUsedLabelColor(): Int {
+        return dimmedColor6
+    }
+
+    open fun getFrequentlyUsedLabelTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getTimePeriodDialogCardColor(): Int {
+        return color1
+    }
 
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(

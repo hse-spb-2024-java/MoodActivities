@@ -20,16 +20,4 @@ class TwilightColorTheme : ColorTheme(
     getColorByName("dimmed rosy taupe")!!,
     getColorByName("cornell red")!!,
     getColorByName("napier green")!!,
-) {
-
-    override fun getButtonColor(): Int {
-        return getColor4()
-    }
-
-    override fun getButtonTextColor(): Int {
-        return getDimmedBackgroundColor()
-    }
-    override fun getChartsColor(): Int {
-        return getColor4()
-    }
-}
+)

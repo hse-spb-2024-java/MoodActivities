@@ -144,7 +144,7 @@ class CalendarDayAdapter(
             view.findViewById<TextView>(R.id.daily_question)
                 .setTextColor(colorTheme.getDailyQuestionWidgetTextColor())
             view.findViewById<TextView>(R.id.answer_to_daily_question)
-                .setTextColor(colorTheme.getDailyQuestionWidgetTextIconColor())
+                .setTextColor(colorTheme.getDailyQuestionWidgetIconTextColor())
             view.findViewById<TextView>(R.id.time)
                 .setTextColor(colorTheme.getDailyQuestionWidgetTextColor())
         }
@@ -169,7 +169,7 @@ class CalendarDayAdapter(
             view.findViewById<TextView>(R.id.daily_activity)
                 .setTextColor(colorTheme.getDailyActivityWidgetTextColor())
             view.findViewById<TextView>(R.id.user_impressions)
-                .setTextColor(colorTheme.getDailyActivityWidgetTextIconColor())
+                .setTextColor(colorTheme.getDailyActivityWidgetIconTextColor())
             view.findViewById<TextView>(R.id.time)
                 .setTextColor(colorTheme.getDailyActivityWidgetTextColor())
         }

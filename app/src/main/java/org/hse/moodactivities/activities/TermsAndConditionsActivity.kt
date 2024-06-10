@@ -26,19 +26,21 @@ class TermsAndConditionsActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
+        window.statusBarColor = colorTheme.getBackgroundColor()
 
         // set color to background
-        binding.layout.setBackgroundColor(ThemesService.getBackgroundColor())
+        binding.layout.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to tittle
-        binding.title.setTextColor(ThemesService.getFontColor())
+        binding.title.setTextColor(colorTheme.getFontColor())
 
         // set color to terms and conditions
-        binding.termsAndConditions.setTextColor(ThemesService.getColor5())
+        binding.termsAndConditions.setTextColor(colorTheme.getTermsAndConditionsFontColor())
 
-        binding.returnButton.setColorFilter(ThemesService.getFontColor())
+        binding.returnButton.setColorFilter(colorTheme.getFontColor())
     }
 
     fun returnToPreviousActivity(view: View) {

@@ -67,9 +67,7 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
         val layout =
             if (getItemViewType(position) == USER_MESSAGE) R.layout.item_user_message else R.layout.item_system_message
         return LayoutInflater.from(context).inflate(
-            layout,
-            null,
-            false
+            layout, null, false
         )
     }
 
@@ -78,9 +76,15 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
         private val messageTextBackground: CardView = itemView.findViewById(R.id.message_background)
 
         fun bind(message: Message) {
-            messageTextBackground.setCardBackgroundColor(ThemesService.getColor2())
             messageText.text = message.text
             itemView.foregroundGravity = Gravity.END
+
+            val colorTheme = ThemesService.getColorTheme()
+
+            messageTextBackground.setCardBackgroundColor(
+                colorTheme.getUserMessageColor()
+            )
+            messageText.setTextColor(colorTheme.getUserMessageTextColor())
         }
     }
 
@@ -89,9 +93,15 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
         private val messageTextBackground: CardView = itemView.findViewById(R.id.message_background)
 
         fun bind(message: Message) {
-            messageTextBackground.setCardBackgroundColor(ThemesService.getColor1())
             messageText.text = message.text
             itemView.foregroundGravity = Gravity.START
+
+            val colorTheme = ThemesService.getColorTheme()
+
+            messageTextBackground.setCardBackgroundColor(
+                ThemesService.getColorTheme().getChatMessageColor()
+            )
+            messageText.setTextColor(colorTheme.getChatMessageTextColor())
         }
     }
 }

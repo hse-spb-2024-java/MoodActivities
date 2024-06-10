@@ -48,13 +48,13 @@
         android:id="@+id/card"
         android:layout_width="320dp"
         android:layout_height="150dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="10dp"
         android:fitsSystemWindows="false"
-        app:cardCornerRadius="@dimen/widget_corner_small_radius"
+        app:cardCornerRadius="20dp"
         app:cardElevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/question">
 
         <ScrollView
             android:layout_width="300dp"
@@ -98,7 +98,7 @@
         <!-- back start -->
         <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:fitsSystemWindows="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +117,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/app_font"
-                    android:text="@string/back_title"
+                    android:text="Back"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +142,7 @@
 
         <RelativeLayout
             android:layout_width="110dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:fitsSystemWindows="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -160,7 +161,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/app_font"
-                    android:text="@string/regenerate_tittle"
+                    android:text="Regenerate"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -184,16 +186,17 @@
         <!-- next start -->
         <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:fitsSystemWindows="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/next_button_background"
+                android:id="@+id/button_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:alpha="0.5"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="1dp">
 
@@ -204,6 +207,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/app_font"
                     android:text="Next"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

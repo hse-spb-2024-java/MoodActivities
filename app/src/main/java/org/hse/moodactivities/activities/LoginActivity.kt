@@ -127,11 +127,11 @@ class LoginActivity : AppCompatActivity() {
         // todo: set colors to cursors
 
         // set login button color
-        binding.loginButtonBackground.setCardBackgroundColor(colorTheme.getColor4())
-        binding.loginText.setTextColor(colorTheme.getDimmedBackgroundColor())
+        binding.loginButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.loginText.setTextColor(colorTheme.getButtonTextColor())
 
         // set redirect text color
         binding.account.setTextColor(colorTheme.getFontColor())
-        binding.registerRedirectText.setTextColor(colorTheme.getColor4())
+        binding.registerRedirectText.setTextColor(colorTheme.getButtonColor())
     }
 }

@@ -123,40 +123,44 @@ class DailyActivity : AppCompatActivity() {
         // set background color
         binding.dailyActivityLayout.setBackgroundColor(colorTheme.getBackgroundColor())
 
-        // set tittle color
+        // set title color
         binding.screenTittle.setTextColor(colorTheme.getFontColor())
 
+        // set date color
+        binding.date.setTextColor(colorTheme.getFontColor())
+
         // set activity widget color
-        binding.activityTextBackground.setCardBackgroundColor(colorTheme.getColor4())
+        binding.activityTextBackground.setCardBackgroundColor(colorTheme.getDailyActivityWidgetColor())
 
         // set activity text color
-        binding.activityText.setTextColor(colorTheme.getDimmedBackgroundColor())
+        binding.activityText.setTextColor(colorTheme.getDailyActivityWidgetTextColor())
         binding.activityTittle.setTextColor(colorTheme.getFontColor())
 
-        // set complete button background color
-        binding.completedButtonBackground.setCardBackgroundColor(colorTheme.getColor5())
+        // set complete button color
+        binding.completedButtonBackground.setCardBackgroundColor(colorTheme.getDailyActivityWidgetIconColor())
+        binding.completedButtonText.setTextColor(colorTheme.getDailyActivityWidgetIconTextColor())
 
-        // set complete button text color
-        binding.completedButtonText.setTextColor(colorTheme.getDimmedBackgroundColor())
+        // set timer color
+        binding.timer.setTextColor(colorTheme.getFontColor())
 
         // set dialog background color
         dialog.findViewById<CardView>(R.id.dialog_background)
-            .setCardBackgroundColor(colorTheme.getColor4())
+            .setCardBackgroundColor(colorTheme.getDailyActivityWidgetColor())
 
         // set dialog question text color
         dialog.findViewById<TextView>(R.id.dialog_tittle)
-            .setTextColor(colorTheme.getBackgroundColor())
+            .setTextColor(colorTheme.getDailyActivityWidgetTextColor())
 
         // set dialog text color
         dialog.findViewById<TextView>(R.id.users_impressions)
-            .setTextColor(colorTheme.getDimmedBackgroundColor())
+            .setTextColor(colorTheme.getDailyActivityWidgetTextColor())
 
         // set dialog button color
-        dialog.findViewById<CardView>(R.id.next_button_background)
-            .setCardBackgroundColor(colorTheme.getColor5())
+        dialog.findViewById<CardView>(R.id.button_background)
+            .setCardBackgroundColor(colorTheme.getDailyActivityWidgetIconColor())
 
         // set dialog button text color
         dialog.findViewById<TextView>(R.id.button_text)
-            .setTextColor(colorTheme.getDimmedBackgroundColor())
+            .setTextColor(colorTheme.getDailyActivityWidgetIconTextColor())
     }
 }

@@ -68,7 +68,7 @@ class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
             }
         }
 
-        nextButtonBackground = view.findViewById(R.id.next_button_background)
+        nextButtonBackground = view.findViewById(R.id.button_background)
         if (chosenActivities.isNotEmpty()) {
             nextButtonBackground.alpha = BUTTON_ENABLED_ALPHA
         }
@@ -157,7 +157,7 @@ class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
             ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())
 
         // set color to next button
-        view.findViewById<CardView>(R.id.next_button_background)
+        view.findViewById<CardView>(R.id.button_background)
             ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
         view.findViewById<TextView>(R.id.next_button_text)
             ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())

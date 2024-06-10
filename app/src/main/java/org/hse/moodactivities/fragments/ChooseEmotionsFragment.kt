@@ -68,7 +68,7 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
             }
         }
 
-        nextButtonBackground = view.findViewById(R.id.next_button_background)
+        nextButtonBackground = view.findViewById(R.id.button_background)
         if (chosenEmotions.isNotEmpty()) {
             nextButtonBackground.alpha = 1.0f
         }
@@ -146,10 +146,10 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
         view.findViewById<CardView>(R.id.back_button_background)
             ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
         view.findViewById<TextView>(R.id.back_button_text)
-            ?.setTextColor(colorTheme.getMoodFlowWidgetIconColor())
+            ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())
 
         // set color to next button
-        view.findViewById<CardView>(R.id.next_button_background)
+        view.findViewById<CardView>(R.id.button_background)
             ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
         view.findViewById<TextView>(R.id.next_button_text)
             ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())

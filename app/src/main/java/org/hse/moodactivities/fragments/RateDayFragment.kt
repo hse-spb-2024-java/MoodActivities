@@ -73,14 +73,14 @@ class RateDayFragment : Fragment() {
         if (index == activeMoodIndex) {
             moodImages[index]?.alpha = BUTTON_DISABLED_ALPHA
             activeMoodIndex = -1
-            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = BUTTON_DISABLED_ALPHA
+            view?.findViewById<CardView>(R.id.button_background)?.alpha = BUTTON_DISABLED_ALPHA
         } else {
             if (activeMoodIndex != -1) {
                 moodImages[activeMoodIndex]?.alpha = BUTTON_DISABLED_ALPHA
             }
             moodImages[index]?.alpha = BUTTON_ENABLED_ALPHA
             activeMoodIndex = index
-            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = BUTTON_ENABLED_ALPHA
+            view?.findViewById<CardView>(R.id.button_background)?.alpha = BUTTON_ENABLED_ALPHA
         }
     }
 
@@ -90,7 +90,7 @@ class RateDayFragment : Fragment() {
             val moodImageId = UiUtils.getMoodImageIdByIndex(moodEvent.getMoodRate()!!)
             if (moodImageId != -1) {
                 view.findViewById<ImageView>(moodImageId)?.alpha = BUTTON_ENABLED_ALPHA
-                view.findViewById<CardView>(R.id.next_button_background)?.alpha =
+                view.findViewById<CardView>(R.id.button_background)?.alpha =
                     BUTTON_ENABLED_ALPHA
                 this.activeMoodIndex = moodEvent.getMoodRate()!!
             }
@@ -118,7 +118,7 @@ class RateDayFragment : Fragment() {
             ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetColor())
 
         // set color to next button
-        view.findViewById<CardView>(R.id.next_button_background)
+        view.findViewById<CardView>(R.id.button_background)
             ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
         view.findViewById<TextView>(R.id.button_text)
             ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())

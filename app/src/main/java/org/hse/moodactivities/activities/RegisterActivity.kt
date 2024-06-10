@@ -146,7 +146,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.layout.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to return button
-        binding.returnImage.setColorFilter(ThemesService.getFontColor())
+        binding.returnImage.setColorFilter(colorTheme.getFontColor())
 
         // set title color
         binding.signupHeader.setTextColor(colorTheme.getFontColor())

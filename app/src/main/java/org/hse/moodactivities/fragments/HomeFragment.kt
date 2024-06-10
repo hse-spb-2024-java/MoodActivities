@@ -126,7 +126,7 @@ class HomeFragment : Fragment() {
     private fun setDateToWeekWidget(
         dayOfWeek: DayOfWeek, day: Int, dayOfWeekTextView: TextView, dayTextView: TextView
     ) {
-        dayOfWeekTextView.text = getString(Utils.getStringByDayOfWeek(dayOfWeek))
+        dayOfWeekTextView.text = Utils.getStringByDayOfWeek(dayOfWeek)
         dayTextView.text = day.toString()
     }
 
@@ -138,7 +138,7 @@ class HomeFragment : Fragment() {
             ?.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set font color to titles
-        view.findViewById<TextView>(R.id.home_screen_tittle)
+        view.findViewById<TextView>(R.id.home_screen_title)
             ?.setTextColor(colorTheme.getFontColor())
 
         // set colors to daily activity widget

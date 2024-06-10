@@ -20,20 +20,4 @@ class CalmnessColorTheme : ColorTheme(
     /* dimmedColor6 */ getColorByName("dimmed air superiority blue")!!,
     /* recordedColor */ getColorByName("cornell red")!!,
     /* notRecordedColor */ getColorByName("napier green")!!,
-) {
-    override fun getButtonColor(): Int {
-        return getColor4()
-    }
-
-    override fun getButtonTextColor(): Int {
-        return getDimmedBackgroundColor()
-    }
-
-    override fun getChartsColor(): Int {
-        return getColor4()
-    }
-
-    override fun getMoodFlowCardColor(): Int {
-        return getColor3()
-    }
-}
+)

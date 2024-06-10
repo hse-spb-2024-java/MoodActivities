@@ -11,22 +11,18 @@
 
     <!-- button to return to insights -->
     <RelativeLayout
-        android:layout_width="90dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/title">
 
-        <TextView
-            android:id="@+id/return_tittle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/app_font"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/return_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow_left" />
 
         <Button
             android:id="@+id/return_button"
@@ -40,7 +36,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/app_font"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -55,7 +51,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

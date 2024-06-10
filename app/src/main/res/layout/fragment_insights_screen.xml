@@ -102,7 +102,7 @@
                                         android:id="@+id/mood_flow_time_label_background"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        app:cardCornerRadius="@dimen/widget_corner_radius">
+                                        app:cardCornerRadius="25dp">
 
                                         <androidx.appcompat.widget.LinearLayoutCompat
                                             android:layout_width="match_parent"
@@ -198,7 +198,7 @@
                                     android:id="@+id/emotions_time_label_card"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    app:cardCornerRadius="@dimen/widget_corner_radius"
+                                    app:cardCornerRadius="25dp"
                                     app:cardElevation="1dp">
 
                                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -484,7 +484,7 @@
                                     android:id="@+id/activities_time_label_card"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    app:cardCornerRadius="@dimen/widget_corner_radius"
+                                    app:cardCornerRadius="25dp"
                                     app:cardElevation="1dp">
 
                                     <androidx.appcompat.widget.LinearLayoutCompat

@@ -43,12 +43,6 @@ class QuestionsActivity : AppCompatActivity(), Communicator {
 
     private fun setColorTheme() {
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
-
-//        // set background color
-//        binding.dailyActivityLayout.setBackgroundColor(ThemesService.getBackgroundColor())
-//
-//        // set tittle color
-//        binding.screenTittle.setTextColor(ThemesService.getFontColor())
+        window.statusBarColor = ThemesService.getColorTheme().getBackgroundColor()
     }
 }

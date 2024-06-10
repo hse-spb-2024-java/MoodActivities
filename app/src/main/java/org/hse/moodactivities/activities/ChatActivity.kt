@@ -6,6 +6,7 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -89,18 +90,18 @@ class ChatActivity : AppCompatActivity() {
                     gptService.waitForResponse()
                     val response = gptService.getResponse()
                     if (response.first < HTTP_BAD_REQUEST) {
-                        val message = Message(response.second, false)
-                        messageAdapter.addMessage(message)
-                        messages.add(message)
+                        val receivedMessage = Message(response.second, false)
+                        messageAdapter.addMessage(receivedMessage)
+                        messages.add(receivedMessage)
                         messagesView.smoothScrollToPosition(messages.size - 1)
                         messageInput.isEnabled = true
                         sendButtonBackground.alpha = BUTTON_ENABLED_ALPHA
                         sendButton.isEnabled = true
                     } else {
                         // TODO: Handle errors
-                        val message = Message(response.second, false)
-                        messageAdapter.addMessage(message)
-                        messages.add(message)
+                        val receivedMessage = Message(response.second, false)
+                        messageAdapter.addMessage(receivedMessage)
+                        messages.add(receivedMessage)
                         messagesView.smoothScrollToPosition(messages.size - 1)
                         messageInput.isEnabled = true
                         sendButtonBackground.alpha = BUTTON_ENABLED_ALPHA
@@ -138,6 +139,7 @@ class ChatActivity : AppCompatActivity() {
         findViewById<EditText>(R.id.message_input).setHintTextColor(colorTheme.getMessageInputHintTextColor())
 
         // set send button color
-        sendButtonBackground.setCardBackgroundColor(colorTheme.getColor4())
+        sendButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        findViewById<ImageView>(R.id.send_button_image)?.setColorFilter(colorTheme.getSendButtonImageColor())
     }
 }

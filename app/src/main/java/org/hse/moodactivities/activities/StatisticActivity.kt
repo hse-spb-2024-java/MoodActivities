@@ -3,6 +3,7 @@ package org.hse.moodactivities.activities
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -31,11 +32,10 @@ class StatisticActivity : AppCompatActivity() {
         chartsService = ChartsService(this)
 
         // set screen tittles
-        findViewById<TextView>(R.id.return_tittle).text = buildString {
-            append(UiUtils.Companion.Strings.RETURN_TO_INSIGHTS)
-        }
         findViewById<TextView>(R.id.title).text = UiUtils.getStatisticTitle()
-        findViewById<TextView>(R.id.title).setTextColor(ThemesService.getFontColor())
+        findViewById<TextView>(R.id.title).setTextColor(
+            ThemesService.getColorTheme().getFontColor()
+        )
 
         // button to return to insights
         findViewById<Button>(R.id.return_button).setOnClickListener {
@@ -73,20 +73,22 @@ class StatisticActivity : AppCompatActivity() {
     private fun activateTimePeriodBarButton(
         timePeriod: TimePeriod.Value, newActiveCard: Int, newActiveTittle: Int
     ) {
+        val colorTheme = ThemesService.getColorTheme()
+
         currentTimePeriod = timePeriod
         findViewById<TextView>(currentActiveTextId).setTextColor(
-            ThemesService.getDimmedBackgroundColor()
+            colorTheme.getDimmedBackgroundColor()
         )
         findViewById<CardView>(currentActiveCardId).setCardBackgroundColor(
-            ThemesService.getColor5()
+            colorTheme.getTimePeriodBarColor()
         )
         currentActiveCardId = newActiveCard
         currentActiveTextId = newActiveTittle
         findViewById<TextView>(currentActiveTextId).setTextColor(
-            ThemesService.getBackgroundColor()
+            colorTheme.getBackgroundColor()
         )
         findViewById<CardView>(currentActiveCardId).setCardBackgroundColor(
-            ThemesService.getDimmedColor5()
+            colorTheme.getTimePeriodBarButtonColor()
         )
     }
 
@@ -105,25 +107,30 @@ class StatisticActivity : AppCompatActivity() {
     }
 
     private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
+        window.statusBarColor = colorTheme.getBackgroundColor()
 
         // set color to background
-        findViewById<ConstraintLayout>(R.id.activity_statistic).setBackgroundColor(ThemesService.getBackgroundColor())
+        findViewById<ConstraintLayout>(R.id.activity_statistic).setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set color to return button
+        findViewById<ImageView>(R.id.return_image)?.setColorFilter(colorTheme.getFontColor())
 
         // set color to bar background
-        findViewById<CardView>(R.id.bar_background).setCardBackgroundColor(ThemesService.getColor5())
+        findViewById<CardView>(R.id.bar_background).setCardBackgroundColor(colorTheme.getTimePeriodBarColor())
 
         // set color to bars buttons
-        findViewById<CardView>(R.id.week_background).setCardBackgroundColor(ThemesService.getDimmedColor5())
-        findViewById<CardView>(R.id.month_background).setCardBackgroundColor(ThemesService.getColor5())
-        findViewById<CardView>(R.id.year_background).setCardBackgroundColor(ThemesService.getColor5())
-        findViewById<CardView>(R.id.all_time_background).setCardBackgroundColor(ThemesService.getColor5())
+        findViewById<CardView>(R.id.week_background).setCardBackgroundColor(colorTheme.getTimePeriodBarButtonColor())
+        findViewById<CardView>(R.id.month_background).setCardBackgroundColor(colorTheme.getTimePeriodBarColor())
+        findViewById<CardView>(R.id.year_background).setCardBackgroundColor(colorTheme.getTimePeriodBarColor())
+        findViewById<CardView>(R.id.all_time_background).setCardBackgroundColor(colorTheme.getTimePeriodBarColor())
 
         // set color to bars buttons texts
-        findViewById<TextView>(R.id.week_text).setTextColor(ThemesService.getBackgroundColor())
-        findViewById<TextView>(R.id.month_text).setTextColor(ThemesService.getDimmedBackgroundColor())
-        findViewById<TextView>(R.id.year_text).setTextColor(ThemesService.getDimmedBackgroundColor())
-        findViewById<TextView>(R.id.all_time_text).setTextColor(ThemesService.getDimmedBackgroundColor())
+        findViewById<TextView>(R.id.week_text).setTextColor(colorTheme.getBackgroundColor())
+        findViewById<TextView>(R.id.month_text).setTextColor(colorTheme.getDimmedBackgroundColor())
+        findViewById<TextView>(R.id.year_text).setTextColor(colorTheme.getDimmedBackgroundColor())
+        findViewById<TextView>(R.id.all_time_text).setTextColor(colorTheme.getDimmedBackgroundColor())
     }
 }

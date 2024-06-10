@@ -24,15 +24,16 @@ class StatisticItemAdapter(
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         val item: StatisticItem = arrayList[position]
+        val colorTheme = ThemesService.getColorTheme()
 
         holder.position.text = createPositionTittle(position + 1)
-        holder.position.setTextColor(ThemesService.getDimmedBackgroundColor())
+        holder.position.setTextColor(colorTheme.getStatisticItemTextColor())
         holder.name.text = item.getName()
-        holder.name.setTextColor(ThemesService.getDimmedBackgroundColor())
+        holder.name.setTextColor(colorTheme.getStatisticItemTextColor())
         holder.icon.setImageResource(item.getIconId())
         holder.counter.text = ChartsService.createCounterText(item.getCounter())
-        holder.counter.setTextColor(ThemesService.getDimmedBackgroundColor())
-        holder.background.setCardBackgroundColor(ThemesService.getColor6())
+        holder.counter.setTextColor(colorTheme.getStatisticItemTextColor())
+        holder.background.setCardBackgroundColor(colorTheme.getStatisticItemColor())
     }
 
     override fun getItemCount(): Int {

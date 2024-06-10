@@ -60,6 +60,6 @@ class MoodFlowActivity : AppCompatActivity(), Communicator {
 
     private fun setColorTheme() {
         // set color to status bar
-        window.statusBarColor = ThemesService.getBackgroundColor()
+        window.statusBarColor = ThemesService.getColorTheme().getBackgroundColor()
     }
 }
