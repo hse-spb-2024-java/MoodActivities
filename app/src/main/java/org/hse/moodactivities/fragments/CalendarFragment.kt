@@ -1,7 +1,6 @@
 package org.hse.moodactivities.fragments
 
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +11,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,12 +21,12 @@ import org.hse.moodactivities.activities.CalendarDayActivity
 import org.hse.moodactivities.adapters.CalendarAdapter
 import org.hse.moodactivities.responses.MonthStatisticResponse
 import org.hse.moodactivities.services.CalendarService
+import org.hse.moodactivities.services.ThemesService
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import kotlin.random.Random
 
-class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
+class CalendarFragment : Fragment(), CalendarAdapter.OnItemListener {
     companion object {
         private const val LOG_TAG = "calendar"
         private const val PERCENT_SIGN = "%"
@@ -59,23 +60,7 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
             initMonthData()
         }
 
-        // set colors to month statistic images
-        // todo in themes: move to ui service
-        val moodBackground1: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_1_image).background as GradientDrawable
-        moodBackground1.setColor(Color.parseColor("#483D8B"))
-        val moodBackground2: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_2_image).background as GradientDrawable
-        moodBackground2.setColor(Color.parseColor("#6495ED"))
-        val moodBackground3: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_3_image).background as GradientDrawable
-        moodBackground3.setColor(Color.parseColor("#FFFACD"))
-        val moodBackground4: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_4_image).background as GradientDrawable
-        moodBackground4.setColor(Color.parseColor("#FFB6C1"))
-        val moodBackground5: GradientDrawable =
-            view.findViewById<ImageView>(R.id.day_5_image).background as GradientDrawable
-        moodBackground5.setColor(Color.parseColor("#90EE90"))
+        setColorTheme(view)
 
         return view
     }
@@ -178,5 +163,80 @@ class CalendarScreenFragment : Fragment(), CalendarAdapter.OnItemListener {
             val dayInfoActivityIntent = Intent(this.activity, CalendarDayActivity::class.java)
             startActivity(dayInfoActivityIntent)
         }
+    }
+
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set background color
+        view.findViewById<ConstraintLayout>(R.id.layout)
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set color to tittle
+        view.findViewById<TextView>(R.id.title)?.setTextColor(colorTheme.getFontColor())
+
+        // set color to calendar widget background
+        view.findViewById<CardView>(R.id.calendar_card)
+            ?.setCardBackgroundColor(colorTheme.getCalendarWidgetColor())
+
+        view.findViewById<TextView>(R.id.month_year_text_view)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+
+        view.findViewById<TextView>(R.id.monday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.tuesday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.wednesday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.thursday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.friday)
+            .setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.saturday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.sunday)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+
+        // set color to calendar widget left arrow
+        view.findViewById<ImageView>(R.id.left_arrow)
+            ?.setColorFilter(colorTheme.getCalendarWidgetTextColor())
+
+        // set color to calendar widget right arrow
+        view.findViewById<ImageView>(R.id.right_arrow)
+            ?.setColorFilter(colorTheme.getCalendarWidgetTextColor())
+
+        // set color to statistic widget
+        view.findViewById<CardView>(R.id.month_statistic_card)
+            ?.setCardBackgroundColor(colorTheme.getCalendarMonthStatisticDayWidgetColor())
+
+        view.findViewById<TextView>(R.id.month_statistic_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+
+        view.findViewById<TextView>(R.id.day_1_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_2_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_3_text)
+            ?.setTextColor(colorTheme.getCalendarDayOfWeekWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_4_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+        view.findViewById<TextView>(R.id.day_5_text)
+            ?.setTextColor(colorTheme.getCalendarMonthStatisticDayWidgetTextColor())
+
+        val moodBackground1: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_1_image).background as GradientDrawable
+        moodBackground1.setColor(colorTheme.getMoodIndicatorColorByScore(1))
+        val moodBackground2: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_2_image).background as GradientDrawable
+        moodBackground2.setColor(colorTheme.getMoodIndicatorColorByScore(2))
+        val moodBackground3: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_3_image).background as GradientDrawable
+        moodBackground3.setColor(colorTheme.getMoodIndicatorColorByScore(3))
+        val moodBackground4: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_4_image).background as GradientDrawable
+        moodBackground4.setColor(colorTheme.getMoodIndicatorColorByScore(4))
+        val moodBackground5: GradientDrawable =
+            view.findViewById<ImageView>(R.id.day_5_image).background as GradientDrawable
+        moodBackground5.setColor(colorTheme.getMoodIndicatorColorByScore(5))
     }
 }

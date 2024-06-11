@@ -10,56 +10,51 @@
     android:orientation="vertical"
     tools:context=".fragments.RateDayFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/roboto"
-        android:text="Mood flow "
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <RelativeLayout
-        android:layout_width="70dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        android:keyboardNavigationCluster="false"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/title">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:text="@string/return_home"
-            android:textColor="@color/gray"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/return_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow_left" />
 
         <Button
             android:id="@+id/return_home_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0" />
-
     </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="260dp"
-        android:fitsSystemWindows="false"
-        app:cardBackgroundColor="@color/gray_orange"
-        app:cardCornerRadius="@dimen/widget_corner_small_radius"
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/app_font"
+        android:text="Mood flow"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:fitsSystemWindows="false"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question">
 
         <ScrollView
             android:layout_width="300dp"
@@ -67,11 +62,12 @@
             android:layout_gravity="center_horizontal">
 
             <EditText
-                android:id="@+id/edit_text"
+                android:id="@+id/card_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoSizeMaxTextSize="10dp"
                 android:autofillHints="name"
+                android:fontFamily="@font/app_font"
                 android:scrollbars="vertical" />
 
         </ScrollView>
@@ -82,8 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/black"
+        android:fontFamily="@font/app_font"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,24 +98,27 @@
         <!-- back start -->
         <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:fitsSystemWindows="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/back_button_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/black"
-                app:cardCornerRadius="@dimen/widget_corner_radius">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
 
                 <TextView
+                    android:id="@+id/back_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/back_title"
-                    android:textColor="@color/white"
+                    android:fontFamily="@font/app_font"
+                    android:text="Back"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +134,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </RelativeLayout>
         <!-- back end -->
         <Space
@@ -145,24 +142,27 @@
 
         <RelativeLayout
             android:layout_width="110dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:fitsSystemWindows="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/regenerate_button_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/black"
-                app:cardCornerRadius="@dimen/widget_corner_radius">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
 
                 <TextView
+                    android:id="@+id/regenerate_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/regenerate_tittle"
-                    android:textColor="@color/white"
+                    android:fontFamily="@font/app_font"
+                    android:text="Regenerate"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +178,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </RelativeLayout>
 
         <Space
@@ -187,25 +186,28 @@
         <!-- next start -->
         <RelativeLayout
             android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:fitsSystemWindows="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/next_button_background"
+                android:id="@+id/button_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/black"
-                app:cardCornerRadius="@dimen/widget_corner_radius">
+                android:alpha="0.5"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
 
                 <TextView
+                    android:id="@+id/next_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/next_title"
-                    android:textColor="@color/white"
+                    android:fontFamily="@font/app_font"
+                    android:text="Next"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -221,10 +223,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </RelativeLayout>
         <!-- next end -->
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
