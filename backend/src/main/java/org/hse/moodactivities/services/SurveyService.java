@@ -78,7 +78,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 }
             }
             if (recordedDays > 0) {
-                String formattedMoodSum = String.format(PromptsStorage.getString("dailyActivity.addMoodToRequest"), moodSum / recordedDays);
+                String formattedMoodSum = String.format(PromptsStorage.getString("dailyActivity.addMoodToRequest"), (double) moodSum / recordedDays);
                 requestString.append(formattedMoodSum);
             }
             if (emotions != null) {
@@ -94,7 +94,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     }
 
     private static void updateMeta(User user) {
-        if (user.getPromptMetaUpdateDate() != null
+        if (user.getPromptMetaUpdateDate() == null
                 || ChronoUnit.DAYS.between(LocalDate.parse(user.getPromptMetaUpdateDate()), LocalDate.now()) >= 7) {
             Optional<String> updatedMeta = metaPromptCreator(user.getMetas(), LocalDate.now());
             if (updatedMeta.isPresent()) {
