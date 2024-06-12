@@ -15,7 +15,7 @@ public class GptMessages {
 
         public GptMessage(final Role role, final String content) {
             this.role = role;
-            this.content = content;
+            this.content = validateMessage(content);
         }
 
         public Role getRole() {
@@ -37,6 +37,14 @@ public class GptMessages {
             return "{" +
                     "\"role\": \"" + role +
                     "\", \"content\": \"" + content + "\"}";
+        }
+
+        private String validateMessage(String message) {
+            String newMessage = message.trim();
+            if (newMessage.isEmpty()) {
+                newMessage = "Tell me that someone asked you a meaningless question and an error occurred.";
+            }
+            return newMessage;
         }
     }
 
