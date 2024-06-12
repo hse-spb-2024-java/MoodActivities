@@ -336,6 +336,18 @@ abstract class ColorTheme(
         return color1
     }
 
+    open fun getSettingsWidgetTitleColor(): Int {
+        return getColorByName("dimmed dark air superiority blue")
+    }
+
+    open fun getSettingsWidgetColor(): Int {
+        return getColorByName("dark air superiority blue")
+    }
+
+    open fun getSettingsWidgetFieldColor(): Int {
+        return getColorByName("vista blue")
+    }
+
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(
             "cornell red" to Color.parseColor("#c90016"),
@@ -396,8 +408,10 @@ abstract class ColorTheme(
             "dimmed brunswick green" to Color.parseColor("#233729"),
         )
 
-        fun getColorByName(name: String): Int? {
-            return colors[name]
+        private const val DEFAULT_COLOR = Color.WHITE
+
+        fun getColorByName(name: String): Int {
+            return colors.getOrDefault(name, DEFAULT_COLOR)
         }
     }
 }
