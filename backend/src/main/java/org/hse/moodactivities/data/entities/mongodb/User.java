@@ -58,7 +58,7 @@ public class User {
                     }
                 }
                 if (!contains) {
-                    lastMeta.addRecords(incomingRecord);
+                    lastMeta.addRecord(incomingRecord);
                 }
             }
         } else {

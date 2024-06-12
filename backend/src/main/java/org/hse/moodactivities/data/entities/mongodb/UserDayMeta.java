@@ -50,7 +50,10 @@ public class UserDayMeta implements Serializable {
         calculateDailyScore();
     }
 
-    public void addRecords(MoodFlowRecord record) {
+    public void addRecord(MoodFlowRecord record) {
+        if (this.records == null) {
+            this.records = new ArrayList<>();
+        }
         this.records.add(record);
         calculateDailyScore();
     }
