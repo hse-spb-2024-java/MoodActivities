@@ -1,12 +1,16 @@
 package org.hse.moodactivities.services
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Tasks
 import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest
+import org.hse.moodactivities.common.proto.responses.survey.LongSurveyResponse
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc
 import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
@@ -25,6 +29,7 @@ class MoodService {
         }
 
         // GPT describes user's day
+        @SuppressLint("MissingPermission", "Range")
         fun getGptResponse(activity: AppCompatActivity): GptMoodResponse {
             val channel = ManagedChannelBuilder.forAddress("10.0.2.2", 12345)
                 .usePlaintext()
@@ -40,16 +45,48 @@ class MoodService {
                         )!!
                     })
 
-            val request = LongSurveyRequest.newBuilder()
-                .setDate(LocalDate.now().toString())
-                .setMoodRating(moodEvent?.getMoodRate()!! + 1)
-                .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
-                .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
-                .setQuestion(moodEvent?.getQuestion() ?: "")
-                .setAnswer(moodEvent?.getUserAnswer() ?: "")
-                .build()
+            var lat = 404.0
+            var lon = 404.0
+            var response = LongSurveyResponse.newBuilder().build()
+            try {
+                val fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(activity)
+                val locationTask = fusedLocationClient.getLastLocation()
+                val location =
+                    Tasks.await(locationTask) // Ожидаем результат задачи с таймаутом или выбрасываем исключение при ошибке
+                if (location != null) {
+                    val lat = location.latitude
+                    val lon = location.longitude
+                    val request = LongSurveyRequest.newBuilder()
+                        .setDate(LocalDate.now().toString())
+                        .setMoodRating(moodEvent?.getMoodRate()!! + 1)
+                        .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
+                        .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
+                        .setQuestion(moodEvent?.getQuestion() ?: "")
+                        .setAnswer(moodEvent?.getUserAnswer() ?: "")
+                        .setLat(lat)
+                        .setLon(lon)
+                        .build()
 
-            val response = stub.longSurvey(request)
+                    response = stub.longSurvey(request)
+                } else {
+                    throw RuntimeException();
+                }
+            } catch (e: Exception) {
+                Log.e("MoodService", "Failed to get location")
+                val request = LongSurveyRequest.newBuilder()
+                    .setDate(LocalDate.now().toString())
+                    .setMoodRating(moodEvent?.getMoodRate()!! + 1)
+                    .addAllActivities(moodEvent?.getChosenActivities() as MutableIterable<String>)
+                    .addAllEmotions(moodEvent?.getChosenEmotions() as MutableIterable<String>)
+                    .setQuestion(moodEvent?.getQuestion() ?: "")
+                    .setAnswer(moodEvent?.getUserAnswer() ?: "")
+                    .setLat(59.980418)
+                    .setLon(30.323990)
+                    .build()
+
+                response = stub.longSurvey(request)
+            }
             return GptMoodResponse(response.shortSummary, response.fullSummary)
         }
 

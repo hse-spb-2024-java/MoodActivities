@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.stats";
+option java_multiple_files = true;
+
+import "responses/stats-service/weather.proto";
+
+package responses;
+
+message WeatherStats {
+  string date = 1;
+  int32 score = 2;
+  Weather weather = 3;
+}

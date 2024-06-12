@@ -134,7 +134,8 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
             ?.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to return button
-        view.findViewById<ImageView>(R.id.return_image)?.setColorFilter(colorTheme.getMoodFlowWidgetIconColor())
+        view.findViewById<ImageView>(R.id.return_image)
+            ?.setColorFilter(colorTheme.getMoodFlowWidgetIconColor())
 
         // set color to tittle
         view.findViewById<TextView>(R.id.title)?.setTextColor(colorTheme.getFontColor())

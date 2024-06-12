@@ -15,4 +15,6 @@ message LongSurveyRequest {
   int64 timeModuloDayInSeconds = 7;
   string Date = 8;
   string surveySummary = 9;
+  double lat = 10;
+  double lon = 11;
 }

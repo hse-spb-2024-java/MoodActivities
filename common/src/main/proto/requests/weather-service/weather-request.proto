@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.requests.weather";
+option java_multiple_files = true;
+
+package requests;
+
+message GeoForWeatherRequest {
+  double lat = 1;
+  double lon = 2;
+}
