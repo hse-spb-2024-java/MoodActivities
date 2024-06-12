@@ -1,6 +1,7 @@
 package org.hse.moodactivities.utils;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+import static java.net.HttpURLConnection.HTTP_OK;
 
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
 import org.hse.moodactivities.data.promts.PromptsStorage;
@@ -40,7 +41,7 @@ public class WeatherApp {
                     .uri(URI.create(url))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
+            if (response.statusCode() == HTTP_OK) {
                 JSONObject jsonResponse = new JSONObject(response.body());
                 System.out.println(jsonResponse);
                 String weatherDescription = jsonResponse.getJSONArray("weather").getJSONObject(0).getString("description");
