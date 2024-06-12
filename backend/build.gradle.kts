@@ -16,6 +16,7 @@ dependencies {
 
     // JSON
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
+    implementation("org.json:json:20240303")
 
     // Annotations
     implementation("org.jetbrains:annotations:16.0.2")

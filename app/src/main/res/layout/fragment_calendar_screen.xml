@@ -2,23 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/history_frame_layout"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="50dp"
-    android:background="@color/white"
-    tools:context=".fragments.CalendarScreenFragment">
+    android:layout_marginBottom="20dp"
+    tools:context=".fragments.CalendarFragment">
 
     <TextView
-        android:id="@+id/history_screen_tittle"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="45dp"
-        android:fontFamily="@font/roboto_bold"
+        android:fontFamily="@font/app_font"
         android:gravity="center"
-        android:text="@string/history_tittle"
-        android:textColor="@color/black"
+        android:text="History"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="25dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,11 +40,11 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/calendar_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/white_smoke"
                 app:cardCornerRadius="30dp"
-                app:cardElevation="0dp">
+                app:cardElevation="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -64,24 +62,13 @@
                             android:layout_width="40dp"
                             android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                            <ImageView
+                                android:id="@+id/left_arrow"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerInParent="true"
                                 android:layout_margin="5dp"
-                                app:cardBackgroundColor="@color/white_smoke"
-                                app:cardCornerRadius="15dp"
-                                app:cardElevation="0dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:text="&lt;"
-                                    android:textColor="@color/black"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold" />
-                            </androidx.cardview.widget.CardView>
-
+                                android:src="@drawable/arrow_left" />
 
                             <Button
                                 android:id="@+id/previous_button"
@@ -90,39 +77,28 @@
                                 android:alpha="0" />
                         </RelativeLayout>
 
-
                         <TextView
                             android:id="@+id/month_year_text_view"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="2"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/app_font"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <RelativeLayout
                             android:layout_width="40dp"
                             android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                            <ImageView
+                                android:id="@+id/right_arrow"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerInParent="true"
                                 android:layout_margin="5dp"
-                                app:cardBackgroundColor="@color/white_smoke"
-                                app:cardCornerRadius="15dp"
-                                app:cardElevation="0dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:text="&gt;"
-                                    android:textColor="@color/black"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold" />
-                            </androidx.cardview.widget.CardView>
+                                android:src="@drawable/arrow_right" />
 
                             <Button
                                 android:id="@+id/next_button"
@@ -139,74 +115,74 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/monday"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/monday"
+                            android:fontFamily="@font/app_font"
+                            android:text="Mon"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/tuesday"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/tuesday"
+                            android:fontFamily="@font/app_font"
+                            android:text="Tue"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/wednesday"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/wednesday"
+                            android:fontFamily="@font/app_font"
+                            android:text="Wed"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/thursday"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/thursday"
+                            android:fontFamily="@font/app_font"
+                            android:text="Thu"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/friday"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/friday"
+                            android:fontFamily="@font/app_font"
+                            android:text="Fri"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/saturday"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/saturday"
+                            android:fontFamily="@font/app_font"
+                            android:text="Sat"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/sunday"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/sunday"
+                            android:fontFamily="@font/app_font"
+                            android:text="Sun"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -218,12 +194,12 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/month_statistic_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
-                app:cardBackgroundColor="@color/white_smoke"
                 app:cardCornerRadius="30dp"
-                app:cardElevation="0dp">
+                app:cardElevation="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -231,15 +207,16 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/month_statistic_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/app_font"
                         android:gravity="center"
                         android:text="Month statistic"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -264,10 +241,8 @@
                                 android:id="@+id/day_1_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/app_font"
                                 android:gravity="center"
-                                android:text="90%"
-                                android:textColor="@color/black"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -287,10 +262,8 @@
                                 android:id="@+id/day_2_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/app_font"
                                 android:gravity="center"
-                                android:text="90%"
-                                android:textColor="@color/black"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -310,10 +283,8 @@
                                 android:id="@+id/day_3_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/app_font"
                                 android:gravity="center"
-                                android:text="90%"
-                                android:textColor="@color/black"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -333,10 +304,8 @@
                                 android:id="@+id/day_4_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/app_font"
                                 android:gravity="center"
-                                android:text="90%"
-                                android:textColor="@color/black"
                                 android:textSize="16sp" />
                         </LinearLayout>
 
@@ -356,10 +325,8 @@
                                 android:id="@+id/day_5_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:fontFamily="@font/roboto_bold"
+                                android:fontFamily="@font/app_font"
                                 android:gravity="center"
-                                android:text="90%"
-                                android:textColor="@color/black"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>

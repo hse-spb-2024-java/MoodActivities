@@ -1,37 +1,7 @@
 <resources>
     <string name="app_name">Mood Activities</string>
 
-    <!-- tittles -->
-    <string name="home_screen_tittle">Home</string>
-    <string name="history_tittle">History</string>
-    <string name="insights_tittle">Insights</string>
-    <string name="profile_tittle">Profile</string>
-
-    <!-- widgets tittles and descriptions -->
-    <string name="activity_widget_tittle">Activity for today</string>
-    <string name="activity_widget_description">Go for a walk</string>
-    <string name="questions_widget_tittle">Daily\n question</string>
-    <string name="mood_widget_tittle">Your today\'s\nmood</string>
-    <string name="calendar_widget_tittle">Week statistic</string>
-    <string name="ask_tittle">Ask AI for advice…</string>
-    <string name="return_home"><![CDATA[< Home]]></string>
-    <string name="choose_activities_title">What did you do today?</string>
-    <string name="next_title">Next</string>
-    <string name="back_title">Back</string>
-    <string name="answer_question_title">What else can you say about your day?</string>
-    <string name="choose_emotions_title">What emotions did you feel today?</string>
-    <string name="rate_day_title">How was your day?</string>
-    <string name="finish_title">Finish</string>
-    <string name="days_in_row">Days in row</string>
-    <string name="type_message_hint">Type your message here</string>
-    <string name="send_button_description">Send Message</string>
-    <string name="chat_name">Mood chat</string>
-    <string name="regenerate_title">Regenerate</string>
-    <string name="send_title">Send</string>
-    <string name="recorded_title">Your answer successfully recorded</string>
-
     <string name="app_id">594617404686-5l5qtt3iqtq23vahbsmih0mciqnbaccn.apps.googleusercontent.com</string>
     <!-- jwt public key -->
     <string name="public_key">MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA22FxyH/ZyLmUm2ddQnv3PK0cuQY0StqEvFzSYfkuPJKgOc8LXua8U9FqTzjFkcaV6T2s/2q6ogtn6InZb9PTd7yBvT3mkrZqZnkx+uTzQ6EDT1ULWAiKHGmpGrV+5QFKGfFrjlFHhBKaQo1SgWN4hXl07CP5whjXTyliNgSnVSIpHjrG32y/GsxTTC70ZfiO/pDy3q7YES/fiPIPfhz/Q3PZWufR5TlTZrNHTcWxbAh+Hc55ysIY/VEVZPbzWxWMkZrtWPRLZc3dIm3lNqJqTlsfe3GUeo6obtV66JFkojZFzTNDTAx4eTaz0fejgdHscoYua66SZR2IY6ruJ15Iarrb5pAxgYFTsj3B/3ed8LfkT/hN/flOND8sCm7Ti29I6D9OwvhnNvDnFOOBLeIsXhyFtn9B9Lan/WKWX39pGCrMY0qLM7wHrzKYKzRYP2ZXYLMU1mUBjacggr8QiCUc4HmzCTZNxauFqLr4KyylB/sf+FuywDWQ3fIoJ6/YLdFPTUL+1nhkzgVlBtu01MBlny3iQQKEZrgrqX5NYPaomf6k0rh7Vihygn2Y02/FzahmAukcG1gUsnNgRI36Yhd+P5rGYDShukjMMLqkHNhVgvY/f5njAqQUJ3FVQgcr3pmeICYIcYxzNuG7cOL/ViyyrKlcyIdApLdXEaA9X9PDsKkCAwEAAQ==</string>
-    <string name="regenerate_tittle">Regenerate</string>
 </resources>

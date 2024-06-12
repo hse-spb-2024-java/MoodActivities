@@ -13,11 +13,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/days_in_row_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/background_blue"
             app:cardCornerRadius="15dp"
-            app:cardElevation="0dp">
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,14 +26,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/days_in_row_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/roboto_bold"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/days_in_row"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:text="Days in row"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,7 +63,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/app_font" />
                     </LinearLayout>
 
                     <Space
@@ -89,7 +89,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/app_font" />
                     </LinearLayout>
 
                     <Space
@@ -115,7 +115,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/app_font" />
                     </LinearLayout>
 
                     <Space
@@ -141,7 +141,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/app_font" />
                     </LinearLayout>
 
                     <Space
@@ -167,7 +167,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/app_font" />
                     </LinearLayout>
 
                     <Space
@@ -192,7 +192,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/app_font" />
                     </LinearLayout>
 
                     <Space
@@ -219,7 +219,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:fontFamily="@font/roboto" />
+                            android:fontFamily="@font/app_font" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -1,5 +1,7 @@
 package org.hse.moodactivities.services;
 
+import static java.net.HttpURLConnection.HTTP_OK;
+
 import org.hse.moodactivities.common.proto.requests.defaults.ActivityRecord;
 import org.hse.moodactivities.common.proto.requests.defaults.DayOfWeek;
 import org.hse.moodactivities.common.proto.requests.defaults.MoodRecord;
@@ -12,6 +14,8 @@ import org.hse.moodactivities.common.proto.requests.stats.MoodForTheMonthRequest
 import org.hse.moodactivities.common.proto.requests.stats.ReportType;
 import org.hse.moodactivities.common.proto.requests.stats.TopListRequest;
 import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
+import org.hse.moodactivities.common.proto.requests.stats.WeatherGptRequest;
+import org.hse.moodactivities.common.proto.requests.stats.WeatherStatsRequest;
 import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
 import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
 import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
@@ -21,27 +25,40 @@ import org.hse.moodactivities.common.proto.responses.stats.TopItem;
 import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
 import org.hse.moodactivities.common.proto.responses.stats.UsersMood;
 import org.hse.moodactivities.common.proto.responses.stats.UsersMoodResponse;
+import org.hse.moodactivities.common.proto.responses.stats.Weather;
+import org.hse.moodactivities.common.proto.responses.stats.WeatherGptResponse;
+import org.hse.moodactivities.common.proto.responses.stats.WeatherStats;
+import org.hse.moodactivities.common.proto.responses.stats.WeatherStatsResponse;
 import org.hse.moodactivities.common.proto.responses.stats.WeeklyReportResponse;
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
+import org.hse.moodactivities.data.promts.PromptsStorage;
+import org.hse.moodactivities.utils.GptClientRequest;
+import org.hse.moodactivities.utils.GptMessages;
+import org.hse.moodactivities.utils.GptResponse;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.grpc.stub.StreamObserver;
 
 public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
 
     private static User getUser(String userId) {
         Map<String, Object> queryMap = new HashMap<>();
@@ -142,6 +159,21 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         } else {
             throw new RuntimeException("bad time format in db");
         }
+    }
+
+    private static Optional<String> weatherAnalytics(List<WeatherStats> stats) {
+        StringBuilder statsToString = new StringBuilder();
+        for (var item : stats) {
+            statsToString.append("with weather: ");
+            statsToString.append(item.getWeather().getDescription());
+            statsToString.append(String.format(", man has %s mood score out of 5;", item.getScore()));
+        }
+        String prompt = String.format(PromptsStorage.getString("weatherApp.analyticsPrompt"), statsToString.toString());
+        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, prompt));
+        if (response.statusCode() == HTTP_OK) {
+            return Optional.of(response.message().getContent());
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -287,7 +319,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         .setDate(item.getDate().toString())
                         .setScore(((Double) item.getDailyScore()).intValue()).build())
                 .limit(period)
-                .sorted((lhs, rhs) -> LocalDate.parse(lhs.getDate()).compareTo(LocalDate.parse(rhs.getDate()))).toList();
+                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();
         UsersMoodResponse response = UsersMoodResponse.newBuilder().addAllUsersMoods(result).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -321,6 +353,55 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                 .addAllRecordedDays(responses)
                 .build();
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getWeatherStats(WeatherStatsRequest request, StreamObserver<WeatherStatsResponse> responseObserver) {
+        int period = periodToInt(request.getPeriod());
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        List<WeatherStats> result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
+                .filter((item) -> !item.getWeather().isEmpty())
+                .map((item) -> WeatherStats.newBuilder()
+                        .setDate(item.getDate().toString())
+                        .setScore(((Double) item.getDailyScore()).intValue())
+                        .setWeather(Weather.newBuilder()
+                                .setHumidity(item.getWeather().humidity())
+                                .setTemperature(item.getWeather().temperature())
+                                .setDescription(item.getWeather().description())
+                                .build())
+                        .build())
+                .limit(period)
+                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();
+        WeatherStatsResponse response = WeatherStatsResponse.newBuilder().addAllWeatherStats(result).build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getWeatherGTP(WeatherGptRequest request, StreamObserver<WeatherGptResponse> responseObserver) {
+        int period = periodToInt(request.getPeriod());
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        List<WeatherStats> correctSublist = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
+                .map((item) -> WeatherStats.newBuilder()
+                        .setScore(((Double) item.getDailyScore()).intValue())
+                        .setWeather(Weather.newBuilder()
+                                .setDescription(item.getWeather().description())
+                                .build())
+                        .build())
+                .limit(period)
+                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();
+        Optional<String> possibleConclusion = weatherAnalytics(correctSublist);
+        String conclusion = null;
+        if (possibleConclusion.isPresent()) {
+            conclusion = possibleConclusion.get();
+        } else {
+            conclusion = "server-side issues, sorry";
+            LOGGER.info("gpt fault on user: " + userId);
+        }
+        responseObserver.onNext(WeatherGptResponse.newBuilder().setConclusion(conclusion).build());
         responseObserver.onCompleted();
     }
 }

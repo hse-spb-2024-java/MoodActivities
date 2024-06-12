@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/daily_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -9,14 +10,14 @@
     tools:context=".activities.DailyActivity">
 
     <TextView
+        android:id="@+id/screen_tittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/app_font"
         android:text="Daily activity "
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold|italic"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,31 +27,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/black"
-        android:textSize="18sp"
+        android:fontFamily="@font/app_font"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:layout_width="70dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        android:keyboardNavigationCluster="false"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/screen_tittle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/screen_tittle">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:text="@string/return_home"
-            android:textColor="@color/gray"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/return_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow_left" />
 
         <Button
             android:id="@+id/return_home_button"
@@ -66,9 +61,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="10dp"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/app_font"
         android:textAlignment="center"
-        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/activity_text_background"
@@ -78,27 +72,24 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/activity_text_background"
         android:layout_width="320dp"
-        android:elevation="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:cardBackgroundColor="@color/gray_orange"
-        app:cardCornerRadius="@dimen/widget_corner_small_radius"
-
+        android:elevation="1dp"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_margin="10dp"
             android:id="@+id/activity_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textStyle="bold"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/black"
-            android:textSize="18dp" />
+            android:layout_margin="20dp"
+            android:fontFamily="@font/app_font"
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -106,17 +97,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="@font/app_font"
         android:textAlignment="center"
-        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/activity_text_background" />
 
     <RelativeLayout
-        android:layout_width="110dp"
-        android:layout_height="40dp"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="100dp"
         android:fitsSystemWindows="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -127,15 +117,17 @@
             android:id="@+id/completed_button_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/black"
-            app:cardCornerRadius="@dimen/widget_corner_radius">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
             <TextView
+                android:id="@+id/completed_button_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/app_font"
                 android:text="Complete"
-                android:textColor="@color/white"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

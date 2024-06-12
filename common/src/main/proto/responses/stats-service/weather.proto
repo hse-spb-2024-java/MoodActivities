@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.stats";
+option java_multiple_files = true;
+
+package responses;
+
+message Weather {
+  string description = 1;
+  double temperature = 2;
+  double humidity = 3;
+}

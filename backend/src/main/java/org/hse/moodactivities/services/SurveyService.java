@@ -148,6 +148,9 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                     user.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
                     MongoDBSingleton.getInstance().getConnection().saveEntity(user);
                 }
+                if (request.getLon() != 404) {
+                    WeatherService.handler(user, request.getLat(), request.getLon());
+                }
                 updateMeta(user);
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
             } else {

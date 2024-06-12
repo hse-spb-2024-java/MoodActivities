@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.models.Message
+import org.hse.moodactivities.services.ThemesService
 
 class MessageAdapter(private val context: Context, private val messages: MutableList<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -65,27 +67,41 @@ class MessageAdapter(private val context: Context, private val messages: Mutable
         val layout =
             if (getItemViewType(position) == USER_MESSAGE) R.layout.item_user_message else R.layout.item_system_message
         return LayoutInflater.from(context).inflate(
-            layout,
-            null,
-            false
+            layout, null, false
         )
     }
 
     internal class UserMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
+        private val messageTextBackground: CardView = itemView.findViewById(R.id.message_background)
 
         fun bind(message: Message) {
             messageText.text = message.text
             itemView.foregroundGravity = Gravity.END
+
+            val colorTheme = ThemesService.getColorTheme()
+
+            messageTextBackground.setCardBackgroundColor(
+                colorTheme.getUserMessageColor()
+            )
+            messageText.setTextColor(colorTheme.getUserMessageTextColor())
         }
     }
 
     internal class SystemMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageText: TextView = itemView.findViewById(R.id.text_message_body)
+        private val messageTextBackground: CardView = itemView.findViewById(R.id.message_background)
 
         fun bind(message: Message) {
             messageText.text = message.text
             itemView.foregroundGravity = Gravity.START
+
+            val colorTheme = ThemesService.getColorTheme()
+
+            messageTextBackground.setCardBackgroundColor(
+                ThemesService.getColorTheme().getChatMessageColor()
+            )
+            messageText.setTextColor(colorTheme.getChatMessageTextColor())
         }
     }
 }

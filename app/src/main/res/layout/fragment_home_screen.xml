@@ -2,29 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_frame_layout"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".fragments.HomeScreenFragment">
+    tools:context=".fragments.HomeFragment">
 
     <LinearLayout
-        android:layout_width="@dimen/home_screen_tittle_width"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/screen_tittle_margin_top">
+        android:layout_marginTop="45dp">
 
         <TextView
-            android:id="@+id/home_screen_tittle"
-            android:layout_width="@dimen/home_screen_tittle_width"
+            android:id="@+id/home_screen_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/home_screen_tittle"
-            android:textColor="@color/black"
-            android:textSize="@dimen/screen_tittle_font_size"
+            android:layout_marginStart="45dp"
+            android:fontFamily="@font/app_font"
+            android:text="Home"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,10 +32,10 @@
 
     <!-- activity widget begin -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/large_widget_width"
-        android:layout_height="@dimen/large_widget_height"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginBottom="@dimen/small_margin">
+        android:layout_width="350dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,11 +46,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/activity_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/steel_blue"
-                app:cardCornerRadius="@dimen/widget_corner_radius">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,20 +66,24 @@
                         android:layout_marginStart="25dp"
                         android:layout_marginEnd="25dp">
 
-                        <View
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/activity_circle"
                             android:layout_width="45dp"
                             android:layout_height="45dp"
                             android:layout_centerVertical="true"
-                            android:background="@drawable/circle"
-                            android:backgroundTint="@color/steel_blue_dimmed" />
+                            app:cardCornerRadius="25dp"
+                            app:cardElevation="0dp">
 
-                        <ImageView
-                            android:id="@+id/activity_widget"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/widget_advice_icon"
-                            tools:ignore="ContentDescription" />
+                            <ImageView
+                                android:id="@+id/activity_widget"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/widget_advice_icon"
+                                tools:ignore="ContentDescription" />
+
+                        </androidx.cardview.widget.CardView>
+
 
                     </RelativeLayout>
 
@@ -90,15 +94,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/activity_widget_tittle"
+                            android:id="@+id/activity_widget_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/roboto"
+                            android:fontFamily="@font/app_font"
                             android:text="Look at the activity we have\nprepared for you today!"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/widget_font_size"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -120,15 +121,15 @@
     <!-- activity widget end -->
 
     <LinearLayout
-        android:layout_width="@dimen/large_widget_width"
-        android:layout_height="@dimen/medium_widget_height"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_width="350dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <!-- mood widget begin -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="@dimen/medium_widget_width"
+            android:layout_width="165dp"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -140,10 +141,11 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/mood_flow_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/rosy_brown"
-                    app:cardCornerRadius="@dimen/widget_corner_radius">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -155,35 +157,36 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="20dp"
-                            android:layout_marginEnd="15dp">
+                            android:layout_marginEnd="10dp">
 
-                            <View
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/circle"
-                                android:backgroundTint="@color/rosy_brown_dimmed" />
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/mood_flow_circle"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_centerVertical="true"
+                                app:cardCornerRadius="25dp"
+                                app:cardElevation="0dp">
 
-                            <ImageView
-                                android:id="@+id/mood_widget_icon"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/widget_mood_icon"
-                                tools:ignore="ContentDescription" />
+                                <ImageView
+                                    android:id="@+id/mood_widget_icon"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/widget_mood_icon"
+                                    tools:ignore="ContentDescription" />
+
+                            </androidx.cardview.widget.CardView>
 
                         </RelativeLayout>
 
                         <TextView
-                            android:id="@+id/mood_widget_tittle"
+                            android:id="@+id/mood_widget_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/roboto"
-                            android:text="@string/mood_widget_tittle"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/widget_font_size"
+                            android:fontFamily="@font/app_font"
+                            android:text="Today's\nmood"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -200,17 +203,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- mood widget end -->
 
-        <!-- space between widgets begin -->
         <Space
             android:layout_width="20dp"
             android:layout_height="wrap_content" />
-        <!-- space between widgets end -->
 
-        <!-- question widget begin -->
+        <!-- question widget -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="@dimen/medium_widget_width"
+            android:layout_width="165dp"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -222,10 +222,11 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/question_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/peach"
-                    app:cardCornerRadius="@dimen/widget_corner_radius">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -239,20 +240,22 @@
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="15dp">
 
-                            <View
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/circle"
-                                android:backgroundTint="@color/peach_dimmed" />
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/question_circle"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
+                                android:layout_centerVertical="true"
+                                app:cardCornerRadius="25dp"
+                                app:cardElevation="0dp">
 
-                            <ImageView
-                                android:id="@+id/question_widget_icon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/widget_question_icon"
-                                tools:ignore="ContentDescription" />
+                                <ImageView
+                                    android:id="@+id/question_widget_icon"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/widget_question_icon"
+                                    tools:ignore="ContentDescription" />
+                            </androidx.cardview.widget.CardView>
 
                         </RelativeLayout>
 
@@ -261,11 +264,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/roboto"
+                            android:fontFamily="@font/app_font"
                             android:text="Daily\nquestion"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/widget_font_size"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -280,14 +281,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- question widget end -->
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/home_screen_tittle_width"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
@@ -295,12 +294,11 @@
 
         <TextView
             android:id="@+id/week_widget_tittle"
-            android:layout_width="@dimen/home_screen_tittle_width"
+            android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/calendar_widget_tittle"
-            android:textColor="@color/black"
-            android:textSize="@dimen/home_screen_tittle_font_size"
+            android:fontFamily="@font/app_font"
+            android:text="Week statistic"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -308,18 +306,19 @@
 
     <!-- week widget begin -->
     <LinearLayout
-        android:layout_width="@dimen/large_widget_width"
-        android:layout_height="@dimen/small_widget_height"
+        android:layout_width="350dp"
+        android:layout_height="95dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <!-- week widget day 1 begin -->
         <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/small_widget_width"
+            android:id="@+id/day_1"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
-            app:cardCornerRadius="@dimen/widget_corner_small_radius">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -332,21 +331,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size"
+                    android:fontFamily="@font/app_font"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/week_widget_day_of_month_1"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/week_widget_image_1"
@@ -360,16 +355,17 @@
         <!-- week widget day 1 end -->
 
         <Space
-            android:layout_width="@dimen/large_margin"
+            android:layout_width="24dp"
             android:layout_height="match_parent" />
 
         <!-- week widget day 2 begin -->
         <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/small_widget_width"
+            android:id="@+id/day_2"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
-            app:cardCornerRadius="@dimen/widget_corner_small_radius">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -382,21 +378,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size"
+                    android:fontFamily="@font/app_font"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/week_widget_day_of_month_2"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/week_widget_image_2"
@@ -411,16 +403,17 @@
         <!-- week widget day 2 end -->
 
         <Space
-            android:layout_width="@dimen/large_margin"
+            android:layout_width="24dp"
             android:layout_height="match_parent" />
 
         <!-- week widget day 3 begin -->
         <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/small_widget_width"
+            android:id="@+id/day_3"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
-            app:cardCornerRadius="@dimen/widget_corner_small_radius">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -433,21 +426,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size"
+                    android:fontFamily="@font/app_font"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/week_widget_day_of_month_3"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/week_widget_image_3"
@@ -461,16 +450,17 @@
         <!-- week widget day 3 end -->
 
         <Space
-            android:layout_width="@dimen/large_margin"
+            android:layout_width="24dp"
             android:layout_height="match_parent" />
 
         <!-- week widget day 4 begin -->
         <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/small_widget_width"
+            android:id="@+id/day_4"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
-            app:cardCornerRadius="@dimen/widget_corner_small_radius">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -483,21 +473,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size"
+                    android:fontFamily="@font/app_font"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/week_widget_day_of_month_4"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/week_widget_image_4"
@@ -512,21 +498,23 @@
         <!-- week widget day 4 end -->
 
         <Space
-            android:layout_width="@dimen/large_margin"
+            android:layout_width="24dp"
             android:layout_height="match_parent" />
 
         <!-- week widget day 5 begin -->
         <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/small_widget_width"
+            android:id="@+id/day_5"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:backgroundTint="@color/light_blue"
-            app:cardCornerRadius="@dimen/widget_corner_small_radius">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+
                 android:orientation="vertical">
 
                 <TextView
@@ -534,21 +522,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/day_of_week"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size"
+                    android:fontFamily="@font/app_font"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/week_widget_day_of_month_5"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/app_font"
                     android:gravity="center"
-                    android:text="@string/day_of_month"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/widget_font_size" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/week_widget_image_5"
@@ -566,10 +550,10 @@
 
     <!-- ask widget begin -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/large_widget_width"
-        android:layout_height="@dimen/long_widget_height"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:layout_marginBottom="@dimen/medium_margin"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center">
 
         <LinearLayout
@@ -581,11 +565,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/chat_widget"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/long_widget_height"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/pink"
-                app:cardCornerRadius="@dimen/widget_corner_radius">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -609,10 +594,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:fontFamily="@font/roboto"
-                        android:text="@string/ask_tittle"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/widget_font_size" />
+                        android:fontFamily="@font/app_font"
+                        android:text="Ask AI for advice…"
+                        android:textSize="15sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -632,7 +616,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/large_widget_width"
+        android:layout_width="350dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="horizontal">

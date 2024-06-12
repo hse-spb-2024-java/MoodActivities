@@ -46,10 +46,10 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         StringBuilder emotions = new StringBuilder();
         for (var record : records) {
             for (var activity : record.getActivities()) {
-                activities.append(activity.getType() + ", ");
+                activities.append(activity.getType()).append(", ");
             }
             for (var emotion : record.getMoods()) {
-                emotions.append(emotion.getType() + ", ");
+                emotions.append(emotion.getType()).append(", ");
             }
         }
         emotionsAndActivities.add(emotions.toString());
@@ -70,12 +70,12 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
             for (var day : weeklySublist) {
                 if (day.getDailyScore() != 0) {
                     recordedDays += 1;
-                    moodSum += day.getDailyScore();
+                    moodSum += (int) day.getDailyScore();
                 }
             }
             for (int metaIndex = weeklySublist.size() - 1; metaIndex >= 0; metaIndex--) {
                 UserDayMeta meta = weeklySublist.get(metaIndex);
-                if (meta.getRecords().size() > 0 && emotions == null) {
+                if (!meta.getRecords().isEmpty() && emotions == null) {
                     List<String> unwrappedRecords = unwrapRecords(meta.getRecords());
                     emotions = unwrappedRecords.get(0);
                     activities = unwrappedRecords.get(1);
@@ -86,7 +86,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
                 }
             }
             if (recordedDays > 0) {
-                String formattedMoodSum = String.format(PromptsStorage.getString("dailyActivity.addMoodToRequest"), moodSum / recordedDays);
+                String formattedMoodSum = String.format(PromptsStorage.getString("dailyActivity.addMoodToRequest"), (double) moodSum / recordedDays);
                 requestString.append(formattedMoodSum);
             }
             if (emotions != null) {
@@ -113,7 +113,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
     public void getActivity(GetActivityRequest request, StreamObserver<GetActivityResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         Optional<User> userOptional = getUser(userId);
-        User user = userOptional.isEmpty() ? new User() : userOptional.get();
+        User user = userOptional.orElseGet(User::new);
         if (user.getMetas() == null) {
             user.setMetas(new ArrayList<>());
         }
@@ -166,7 +166,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         Optional<User> userOptional = getUser(userId);
         CheckActivityResponse.Builder responseBuilder = CheckActivityResponse.newBuilder();
-        if (!userOptional.isEmpty()) {
+        if (userOptional.isPresent()) {
             List<UserDayMeta> metas = userOptional.get().getMetas();
             if (metas != null && !metas.isEmpty()) {
                 UserDayMeta meta = metas.getLast();

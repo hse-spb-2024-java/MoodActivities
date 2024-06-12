@@ -5,10 +5,11 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/dialog_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/light_steel_blue"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="1dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -20,13 +21,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <!-- tittle -->
+            <!-- title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:fontFamily="@font/app_font"
                 android:text="Choose time period"
-                android:textColor="@color/black"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -41,23 +42,25 @@
             <!-- week button -->
             <RelativeLayout
                 android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/week_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/black"
-                    app:cardCornerRadius="@dimen/widget_corner_radius">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <TextView
+                        android:id="@+id/week_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:fontFamily="@font/app_font"
                         android:text="Week"
-                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -88,17 +91,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/month_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/black"
-                    app:cardCornerRadius="@dimen/widget_corner_radius">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <TextView
+                        android:id="@+id/month_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:fontFamily="@font/app_font"
                         android:text="Month"
-                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -129,17 +134,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/year_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/black"
-                    app:cardCornerRadius="@dimen/widget_corner_radius">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <TextView
+                        android:id="@+id/year_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:fontFamily="@font/app_font"
                         android:text="Year"
-                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -170,17 +177,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/all_time_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/black"
-                    app:cardCornerRadius="@dimen/widget_corner_radius">
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <TextView
+                        android:id="@+id/all_time_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:fontFamily="@font/app_font"
                         android:text="All time"
-                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

@@ -12,17 +12,20 @@ import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.R
 import org.hse.moodactivities.common.proto.responses.auth.OauthLoginResponse
 import org.hse.moodactivities.databinding.ActivityWelcomeBinding
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
 
-class WelcomeScreenActivity : AppCompatActivity() {
+class WelcomeActivity : AppCompatActivity() {
+    companion object {
+        private const val RETURN_CODE_SIGN_IN = 9001
+    }
+
     private lateinit var binding: ActivityWelcomeBinding
     private lateinit var userViewModel: UserViewModel
     private lateinit var authViewModel: AuthViewModel
 
-
-    private var RETURN_CODE_SIGN_IN = 9001;
-
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -35,9 +38,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
                     Snackbar.make(
-                        findViewById(android.R.id.content),
-                        it,
-                        Snackbar.LENGTH_LONG
+                        findViewById(android.R.id.content), it, Snackbar.LENGTH_LONG
                     ).show()
                     authViewModel.clearErrorMessage()
                 }
@@ -54,8 +55,7 @@ class WelcomeScreenActivity : AppCompatActivity() {
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(
-                    applicationContext,
-                    loginResponse.token
+                    applicationContext, loginResponse.token
                 )
 
                 authViewModel.saveToken(
@@ -90,15 +90,37 @@ class WelcomeScreenActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestIdToken(applicationContext.resources.getString(R.string.app_id))
-            .build()
+        val signInOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                .requestIdToken(applicationContext.resources.getString(R.string.app_id)).build()
         val mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
 
         binding.googleLoginButton.setOnClickListener {
             val oauthIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(oauthIntent, RETURN_CODE_SIGN_IN);
+            startActivityForResult(oauthIntent, Companion.RETURN_CODE_SIGN_IN);
         }
+
+        setColorTheme()
+    }
+
+    private fun setColorTheme() {
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set color to status bar
+        window.statusBarColor = colorTheme.getBackgroundColor()
+
+        // set background color
+        binding.layout.setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set color to app name
+        binding.appName.setTextColor(colorTheme.getFontColor())
+
+        // set buttons colors
+        binding.registerButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.registerButtonText.setTextColor(colorTheme.getButtonTextColor())
+        binding.loginButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.loginButtonText.setTextColor(colorTheme.getButtonTextColor())
+        binding.googleButtonBackground.setCardBackgroundColor(colorTheme.getButtonColor())
+        binding.googleButtonText.setTextColor(colorTheme.getButtonTextColor())
     }
 }

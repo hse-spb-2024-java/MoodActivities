@@ -1,20 +1,20 @@
 package org.hse.moodactivities.fragments
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
-import org.hse.moodactivities.activities.MainScreenActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.models.MoodEvent
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 import org.hse.moodactivities.utils.UiUtils
@@ -25,9 +25,7 @@ class RateDayFragment : Fragment() {
     private lateinit var moodButtons: Array<Button?>
     private lateinit var moodImages: Array<ImageView?>
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_rate_day, container, false)
 
@@ -36,7 +34,7 @@ class RateDayFragment : Fragment() {
 
         // button to home screen
         view.findViewById<Button>(R.id.return_home_button).setOnClickListener {
-            startActivity(Intent(this.activity, MainScreenActivity::class.java))
+            this.activity?.finish()
         }
 
         // button to the next fragment
@@ -48,6 +46,9 @@ class RateDayFragment : Fragment() {
                 communicator.replaceFragment(ChooseActivitiesFragment())
             }
         }
+
+        setColorTheme(view)
+
         return view
     }
 
@@ -63,7 +64,6 @@ class RateDayFragment : Fragment() {
             moodButtons[index] = view.findViewById(UiUtils.getMoodButtonIdByIndex(index))
             moodImages[index] = view.findViewById(UiUtils.getMoodImageIdByIndex(index))
             moodButtons[index]?.setOnClickListener {
-                Log.d("mood " + (index + 1) + " button", "clicked!")
                 clickOnButton(index)
             }
         }
@@ -73,14 +73,14 @@ class RateDayFragment : Fragment() {
         if (index == activeMoodIndex) {
             moodImages[index]?.alpha = BUTTON_DISABLED_ALPHA
             activeMoodIndex = -1
-            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = BUTTON_DISABLED_ALPHA
+            view?.findViewById<CardView>(R.id.button_background)?.alpha = BUTTON_DISABLED_ALPHA
         } else {
             if (activeMoodIndex != -1) {
                 moodImages[activeMoodIndex]?.alpha = BUTTON_DISABLED_ALPHA
             }
             moodImages[index]?.alpha = BUTTON_ENABLED_ALPHA
             activeMoodIndex = index
-            view?.findViewById<CardView>(R.id.next_button_background)?.alpha = BUTTON_ENABLED_ALPHA
+            view?.findViewById<CardView>(R.id.button_background)?.alpha = BUTTON_ENABLED_ALPHA
         }
     }
 
@@ -90,10 +90,37 @@ class RateDayFragment : Fragment() {
             val moodImageId = UiUtils.getMoodImageIdByIndex(moodEvent.getMoodRate()!!)
             if (moodImageId != -1) {
                 view.findViewById<ImageView>(moodImageId)?.alpha = BUTTON_ENABLED_ALPHA
-                view.findViewById<CardView>(R.id.next_button_background)?.alpha =
+                view.findViewById<CardView>(R.id.button_background)?.alpha =
                     BUTTON_ENABLED_ALPHA
                 this.activeMoodIndex = moodEvent.getMoodRate()!!
             }
         }
+    }
+
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set color to background
+        view.findViewById<ConstraintLayout>(R.id.fragment_rate_day_layout)
+            ?.setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set color to return button
+        view.findViewById<ImageView>(R.id.return_image)?.setColorFilter(colorTheme.getFontColor())
+
+        // set color to title
+        view.findViewById<TextView>(R.id.title)?.setTextColor(colorTheme.getFontColor())
+
+        // set color to question
+        view.findViewById<TextView>(R.id.question)?.setTextColor(colorTheme.getFontColor())
+
+        // set color to card
+        view.findViewById<CardView>(R.id.card)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetColor())
+
+        // set color to next button
+        view.findViewById<CardView>(R.id.button_background)
+            ?.setCardBackgroundColor(colorTheme.getMoodFlowWidgetIconColor())
+        view.findViewById<TextView>(R.id.button_text)
+            ?.setTextColor(colorTheme.getMoodFlowWidgetIconTextColor())
     }
 }
