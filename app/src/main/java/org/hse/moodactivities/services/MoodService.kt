@@ -87,6 +87,10 @@ class MoodService {
         }
 
         fun getUserDailyMood(activity: AppCompatActivity): Int {
+            return getUserDailyMood(activity, LocalDate.now())
+        }
+
+        fun getUserDailyMood(activity: AppCompatActivity, date: LocalDate): Int {
             val channel =
                 ManagedChannelBuilder.forAddress(UserService.ADDRESS, UserService.PORT)
                     .usePlaintext().build()
@@ -101,26 +105,24 @@ class MoodService {
                         )!!
                     })
 
-            val date = getDate()
+            val formattedDate = getFormattedDate(date)
 
             val daysMood = statsServiceBlockingStub.getDaysMood(
-                DaysMoodRequest.newBuilder().setDate(date).build()
+                DaysMoodRequest.newBuilder().setDate(formattedDate).build()
             ).score.toInt()
             channel.shutdown()
-            Log.i("mood", daysMood.toString())
+            Log.i("getUserDailyMood response", daysMood.toString())
             return daysMood - 1
         }
 
-        private fun getDate(): String {
-            val localDate = LocalDate.now()
-            val date = StringBuilder()
-            date.append(localDate.year.toString() + "-")
+        private fun getFormattedDate(localDate: LocalDate): String {
+            val formattedDate = StringBuilder()
+            formattedDate.append(localDate.year.toString() + "-")
             val month = localDate.month.value.toString()
-            date.append((if (month.length == 2) month else "0$month") + "-")
+            formattedDate.append((if (month.length == 2) month else "0$month") + "-")
             val day = localDate.dayOfMonth.toString()
-            date.append(if (day.length == 2) day else "0$day")
-            return date.toString()
+            formattedDate.append(if (day.length == 2) day else "0$day")
+            return formattedDate.toString()
         }
-
     }
 }

@@ -4,25 +4,20 @@
     <item
         android:id="@+id/bottom_menu_home"
         android:icon="@drawable/bottom_menu_home_icon"
-        android:title="@string/home_screen_tittle" />
+        android:title="Home" />
 
     <item
         android:id="@+id/bottom_menu_history"
         android:icon="@drawable/bottom_menu_history_icon"
-        android:title="@string/history_tittle" />
-
-    <item
-        android:id="@+id/bottom_menu_chat"
-        android:icon="@drawable/bottom_menu_chat_icon"
-        android:title="" />
+        android:title="History" />
 
     <item
         android:id="@+id/bottom_menu_insights"
         android:icon="@drawable/bottom_menu_insights_icon"
-        android:title="@string/insights_tittle" />
+        android:title="Insights" />
 
     <item
         android:id="@+id/bottom_menu_profile"
         android:icon="@drawable/bottom_menu_profile_icon"
-        android:title="@string/profile_tittle" />
+        android:title="Profile" />
 </menu>

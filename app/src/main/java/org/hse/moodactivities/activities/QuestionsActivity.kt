@@ -2,7 +2,6 @@ package org.hse.moodactivities.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -12,6 +11,7 @@ import org.hse.moodactivities.fragments.EndOfDailyQuestionFragment
 import org.hse.moodactivities.fragments.QuestionOfTheDayFragment
 import org.hse.moodactivities.interfaces.Communicator
 import org.hse.moodactivities.interfaces.Data
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.QuestionViewModel
 
 class QuestionsActivity : AppCompatActivity(), Communicator {
@@ -22,19 +22,13 @@ class QuestionsActivity : AppCompatActivity(), Communicator {
         questionViewModel = QuestionViewModel()
         questionViewModel.onCreateView(this)
         setContentView(R.layout.activity_mood_flow)
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ),
-            1000
-        )
-        if (questionViewModel.check(CheckAnswerRequest.getDefaultInstance()) == false) {
+        if (!questionViewModel.check(CheckAnswerRequest.getDefaultInstance())) {
             replaceFragment(QuestionOfTheDayFragment())
         } else {
             replaceFragment(EndOfDailyQuestionFragment())
         }
+
+        setColorTheme()
     }
 
     override fun replaceFragment(fragment: Fragment) {
@@ -45,5 +39,10 @@ class QuestionsActivity : AppCompatActivity(), Communicator {
     }
 
     override fun passData(data: Data) {
+    }
+
+    private fun setColorTheme() {
+        // set color to status bar
+        window.statusBarColor = ThemesService.getColorTheme().getBackgroundColor()
     }
 }

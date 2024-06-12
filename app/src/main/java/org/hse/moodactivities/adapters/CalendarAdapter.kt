@@ -1,6 +1,5 @@
 package org.hse.moodactivities.adapters
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.hse.moodactivities.R
 import org.hse.moodactivities.responses.MonthStatisticResponse
-import org.hse.moodactivities.utils.UiUtils
+import org.hse.moodactivities.services.ThemesService
 import java.time.LocalDate
 import java.time.Month
-import kotlin.random.Random
 
 
 internal class CalendarAdapter(
@@ -42,22 +40,26 @@ internal class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+        val colorTheme = ThemesService.getColorTheme()
+
         holder.getDayOfMonth().text = daysOfMonth[position]
         if (holder.getDayOfMonth().text.isEmpty()) {
             val backgroundColor: GradientDrawable =
                 holder.getDayOfMonthIndicator().background as GradientDrawable
-            backgroundColor.setColor(Color.WHITE)
+            backgroundColor.setColor(colorTheme.getCalendarWidgetColor())
         } else {
             val moodIndicatorBackground: GradientDrawable =
                 holder.getDayOfMonthIndicator().background as GradientDrawable
 
             val day = daysOfMonth[position].toInt()
             val moodRate: Int = if (moodRates.containsKey(day)) moodRates[day]!! else -1
-            val backgroundColor = UiUtils.getColorForMoodStatistic(moodRate - 1)
+            val backgroundColor = colorTheme.getMoodIndicatorColorByScore(moodRate)
             moodIndicatorBackground.setColor(backgroundColor)
         }
         if (currentMonth == LocalDate.now().month && holder.getDayOfMonth().text == LocalDate.now().dayOfMonth.toString()) {
-            holder.getDayOfMonth().setTextColor(Color.RED)
+            holder.getDayOfMonth().setTextColor(colorTheme.getCalendarWidgetCurrentDayTextColor())
+        } else {
+            holder.getDayOfMonth().setTextColor(colorTheme.getCalendarWidgetTextColor())
         }
     }
 

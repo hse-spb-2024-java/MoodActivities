@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannel
@@ -24,6 +25,7 @@ import org.hse.moodactivities.common.proto.requests.dailyQuestion.QuestionReques
 import org.hse.moodactivities.common.proto.services.QuestionServiceGrpc
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.interfaces.Communicator
+import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.services.UserService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
@@ -48,20 +50,20 @@ class QuestionOfTheDayFragment : Fragment() {
         communicator = activity as Communicator
 
         channel =
-            ManagedChannelBuilder.forAddress(UserService.ADDRESS, UserService.PORT).usePlaintext().build()
+            ManagedChannelBuilder.forAddress(UserService.ADDRESS, UserService.PORT).usePlaintext()
+                .build()
 
         authViewModel = ViewModelProvider(this.requireActivity())[AuthViewModel::class.java]
 
-        gptServiceStub = QuestionServiceGrpc.newBlockingStub(channel)
-            .withInterceptors(
-                JwtClientInterceptor {
-                    authViewModel.getToken(
-                        this.requireActivity()
-                            .getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
-                    )!!
-                })
+        gptServiceStub =
+            QuestionServiceGrpc.newBlockingStub(channel).withInterceptors(JwtClientInterceptor {
+                authViewModel.getToken(
+                    this.requireActivity()
+                        .getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                )!!
+            })
 
-        val questionTitleTextView: TextView = view.findViewById(R.id.questionTitleTextView)
+        val questionTitleTextView: TextView = view.findViewById(R.id.question_title)
         val questionTitle = gptServiceStub.getDailyQuestion(QuestionRequest.getDefaultInstance())
         questionTitleTextView.text = questionTitle.question
         userAnswer = view.findViewById(R.id.edit_text)
@@ -102,6 +104,34 @@ class QuestionOfTheDayFragment : Fragment() {
             startActivity(mainActivityIntent)
         }
 
+        setColorTheme(view)
+
         return view
+    }
+
+    private fun setColorTheme(view: View) {
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set color to background
+        view.findViewById<ConstraintLayout>(R.id.fragment_answer_question_layout)
+            .setBackgroundColor(colorTheme.getBackgroundColor())
+
+        // set color title
+        view.findViewById<TextView>(R.id.title).setTextColor(colorTheme.getFontColor())
+
+        // set color question
+        view.findViewById<TextView>(R.id.question_title).setTextColor(colorTheme.getFontColor())
+
+        // set color answer
+        view.findViewById<CardView>(R.id.question_card)
+            .setCardBackgroundColor(colorTheme.getDailyQuestionWidgetColor())
+        view.findViewById<EditText>(R.id.edit_text)
+            .setTextColor(colorTheme.getDailyQuestionWidgetTextColor())
+
+        // set color to button
+        view.findViewById<CardView>(R.id.send_button_background)
+            .setCardBackgroundColor(colorTheme.getDailyActivityWidgetIconColor())
+        view.findViewById<TextView>(R.id.button_text)
+            .setTextColor(colorTheme.getDailyActivityWidgetIconTextColor())
     }
 }

@@ -1,19 +1,18 @@
 package org.hse.moodactivities.utils
 
-import org.hse.moodactivities.R
 import java.time.DayOfWeek
 
 class Utils {
     companion object {
-        fun getStringByDayOfWeek(dayOfWeek: DayOfWeek): Int {
+        fun getStringByDayOfWeek(dayOfWeek: DayOfWeek): String {
             return when (dayOfWeek) {
-                DayOfWeek.MONDAY -> R.string.monday
-                DayOfWeek.TUESDAY -> R.string.tuesday
-                DayOfWeek.WEDNESDAY -> R.string.wednesday
-                DayOfWeek.THURSDAY -> R.string.thursday
-                DayOfWeek.FRIDAY -> R.string.friday
-                DayOfWeek.SATURDAY -> R.string.saturday
-                DayOfWeek.SUNDAY -> R.string.sunday
+                DayOfWeek.MONDAY -> "Mon"
+                DayOfWeek.TUESDAY -> "Tue"
+                DayOfWeek.WEDNESDAY -> "Wed"
+                DayOfWeek.THURSDAY -> "Thu"
+                DayOfWeek.FRIDAY -> "Fri"
+                DayOfWeek.SATURDAY -> "Sat"
+                DayOfWeek.SUNDAY -> "Sun"
             }
         }
     }
