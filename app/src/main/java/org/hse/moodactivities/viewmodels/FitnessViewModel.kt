@@ -9,6 +9,7 @@ import org.hse.moodactivities.managers.FitnessDataManager
 import org.hse.moodactivities.models.FitnessData
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc
 import org.hse.moodactivities.common.proto.defaults.Empty
+import org.hse.moodactivities.common.proto.services.HealthServiceGrpc
 import org.hse.moodactivities.fragments.InsightsScreenFragment
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.services.UserService
@@ -23,7 +24,7 @@ class FitnessViewModel(
 
     private lateinit var authViewModel: AuthViewModel
     private lateinit var channel: ManagedChannel
-    private lateinit var stub: StatsServiceGrpc.StatsServiceBlockingStub
+    private lateinit var stub: HealthServiceGrpc.HealthServiceBlockingStub
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?>
@@ -38,7 +39,7 @@ class FitnessViewModel(
 
         authViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]
 
-        stub = StatsServiceGrpc.newBlockingStub(channel)
+        stub = HealthServiceGrpc.newBlockingStub(channel)
             .withInterceptors(
                 JwtClientInterceptor {
                     authViewModel.getToken(
