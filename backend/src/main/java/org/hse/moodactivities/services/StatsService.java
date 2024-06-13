@@ -94,7 +94,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return today.toEpochDay() - possibleDate.toEpochDay() < diff;
     }
 
-    static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+    public static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
         if (metas == null) {
             return new ArrayList<>();
         }
