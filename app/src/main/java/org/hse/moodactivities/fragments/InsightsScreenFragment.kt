@@ -1,6 +1,5 @@
 package org.hse.moodactivities.fragments
 
-import FitnessViewModel
 import GoogleSignInManager
 import android.app.Dialog
 import android.content.Intent
@@ -25,11 +24,7 @@ import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.StatisticActivity
 import org.hse.moodactivities.managers.FitnessDataManager
 import org.hse.moodactivities.models.GoogleFitRepositoryImpl
-import org.hse.moodactivities.services.ChartsService
-import org.hse.moodactivities.services.StatisticMode
-import org.hse.moodactivities.services.ThemesService
-import org.hse.moodactivities.services.TimePeriod
-import org.hse.moodactivities.viewmodels.FitnessViewModelFactory
+import org.hse.moodactivities.services.*
 import org.hse.moodactivities.viewmodels.UserViewModel
 
 
@@ -56,7 +51,7 @@ class InsightsScreenFragment : Fragment() {
     private lateinit var activitiesChartLabel: TextView
 
     private lateinit var userViewModel: UserViewModel
-    private lateinit var fitnessViewModel: FitnessViewModel
+    private lateinit var healthService: HealthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,11 +157,11 @@ class InsightsScreenFragment : Fragment() {
 
         val googleFitRepository = GoogleFitRepositoryImpl(requireContext())
         val fitnessDataManager = FitnessDataManager(googleFitRepository)
-        fitnessViewModel =
-            ViewModelProvider(this, FitnessViewModelFactory(fitnessDataManager)).get(FitnessViewModel::class.java)
+        healthService = HealthService(activity as AppCompatActivity, fitnessDataManager)
+        healthService.onCreate()
 
         val stepsCounterTextView = view.findViewById<TextView>(R.id.steps_counter)
-        val stepsWidget = view.findViewById<androidx.cardview.widget.CardView>(R.id.steps_widget)
+        val stepsWidget = view.findViewById<CardView>(R.id.steps_widget)
         if (GoogleSignIn.getLastSignedInAccount(requireContext()) == null) {
             // No synchronization, sorry :(
             stepsCounterTextView.text = FITNESS_ENABLE_SYNCHRONIZATION
@@ -175,22 +170,22 @@ class InsightsScreenFragment : Fragment() {
             }
         } else {
             stepsWidget.setOnClickListener(null)
-            fitnessViewModel.loadAndSendFitnessData()
-            fitnessViewModel.fitnessData.observe(viewLifecycleOwner) { data ->
+            healthService.loadAndSendFitnessData()
+            healthService.fitnessData.observe(viewLifecycleOwner) { data ->
                 stepsCounterTextView.text = data.steps.toString()
             }
         }
 
         setColorTheme(view)
 
-        fitnessViewModel.errorMessage.observe(viewLifecycleOwner) {
+        healthService.errorMessage.observe(viewLifecycleOwner) {
             if (it != null) {
                 Snackbar.make(
-                    view.findViewById(android.R.id.content),
+                    view,
                     it,
                     Snackbar.LENGTH_LONG
                 ).show()
-                fitnessViewModel.clearErrorMessage()
+                healthService.clearErrorMessage()
             }
         }
         return view

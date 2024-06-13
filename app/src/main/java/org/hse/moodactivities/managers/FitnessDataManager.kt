@@ -1,5 +1,6 @@
 package org.hse.moodactivities.managers
 
+import android.util.Log
 import org.hse.moodactivities.interfaces.GoogleFitRepository
 import org.hse.moodactivities.models.FitnessData
 
