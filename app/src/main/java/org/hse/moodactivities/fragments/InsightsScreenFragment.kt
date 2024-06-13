@@ -210,8 +210,8 @@ class InsightsScreenFragment : Fragment() {
 
         if (requestCode == GoogleSignInManager.RETURN_CODE_SIGN_IN) {
             // Reload current fragment
-            val ft = requireFragmentManager().beginTransaction()
-            ft.detach(this).attach(this).commit()
+            val fragmentTransaction = requireFragmentManager().beginTransaction()
+            fragmentTransaction.detach(this).attach(this).commit()
         }
     }
 

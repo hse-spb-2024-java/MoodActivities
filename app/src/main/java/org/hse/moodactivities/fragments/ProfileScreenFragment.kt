@@ -5,19 +5,15 @@ import GoogleSignInManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
-import org.hse.moodactivities.managers.FitnessDataManager
 import org.hse.moodactivities.models.AuthType
-import org.hse.moodactivities.models.GoogleFitRepositoryImpl
-import org.hse.moodactivities.viewmodels.FitnessViewModelFactory
 import org.hse.moodactivities.viewmodels.UserViewModel
 import org.hse.moodactivities.services.ThemesService
 
@@ -26,7 +22,7 @@ class ProfileScreenFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
 
     companion object {
-        const val NO_CONNECTION = "Not connected."
+        const val NOT_CONNECTED = "Not connected."
         const val CONNECTED = "Connected."
     }
 
@@ -49,7 +45,7 @@ class ProfileScreenFragment : Fragment() {
             googleConnectionWidget.setOnClickListener {
                 performGoogleSignIn()
             }
-            googleConnectionTextView.text = NO_CONNECTION
+            googleConnectionTextView.text = NOT_CONNECTED
         } else {
             // Only allow Google logout on PLAIN accounts!
             if (userViewModel.getUser(requireContext())!!.authType == AuthType.PLAIN) {
