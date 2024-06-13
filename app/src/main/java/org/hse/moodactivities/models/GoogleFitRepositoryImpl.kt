@@ -11,6 +11,10 @@ import kotlinx.coroutines.tasks.await
 import org.hse.moodactivities.interfaces.GoogleFitRepository
 
 class GoogleFitRepositoryImpl(private val context: Context) : GoogleFitRepository {
+    companion object {
+        const val DEFAULT_STEPS = 0
+    }
+
     override suspend fun getFitnessData(): FitnessData {
         val account = GoogleSignIn.getLastSignedInAccount(context) ?: throw Exception("Not signed in")
         val dailyTotalResult: DataSet = Fitness.getHistoryClient(context, account)
@@ -20,7 +24,7 @@ class GoogleFitRepositoryImpl(private val context: Context) : GoogleFitRepositor
         val totalSteps = if (!dailyTotalResult.isEmpty) {
             dailyTotalResult.dataPoints.firstOrNull()?.getValue(Field.FIELD_STEPS)?.asInt() ?: 0
         } else {
-            0
+            DEFAULT_STEPS
         }
 
         return FitnessData(steps = totalSteps)
