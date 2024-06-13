@@ -5,5 +5,9 @@ option java_multiple_files = true;
 
 package responses;
 
-message DeleteMetaResponse {
+message ChangeInfoResponse {
+  bool completed = 1;
+  string name = 2;
+  string dateOfBirth = 3;
+  string password = 4;
 }
