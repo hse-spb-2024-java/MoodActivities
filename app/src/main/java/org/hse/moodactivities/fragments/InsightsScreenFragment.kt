@@ -29,7 +29,7 @@ class InsightsScreenFragment : Fragment() {
     }
 
     enum class ChartsType {
-        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART
+        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART, WEATHER_BY_TEMPERATURE_CHART
     }
 
     private lateinit var dialog: Dialog
@@ -38,10 +38,12 @@ class InsightsScreenFragment : Fragment() {
     // charts settings
     private lateinit var chartsService: ChartsService
     private lateinit var moodChart: LineChart
+    private lateinit var weatherByTemperatureChart: LineChart
     private var changingTimePeriodChartType: ChartsType = ChartsType.MOOD_CHART
     private lateinit var moodChartLabel: TextView
     private lateinit var emotionsChartLabel: TextView
     private lateinit var activitiesChartLabel: TextView
+    private lateinit var weatherByTemperatureChartLabel: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +66,11 @@ class InsightsScreenFragment : Fragment() {
                 chartsService.createFrequentlyUsedActivities(resources, requireView(), timePeriod)
                 changeTimeLabel(activitiesChartLabel, timePeriod)
             }
+
+            ChartsType.WEATHER_BY_TEMPERATURE_CHART -> {
+                chartsService.createWeatherCharts(weatherByTemperatureChart, timePeriod)
+                changeTimeLabel(weatherByTemperatureChartLabel, timePeriod)
+            }
         }
     }
 
@@ -75,10 +82,18 @@ class InsightsScreenFragment : Fragment() {
         chartsService = ChartsService(this.requireActivity() as AppCompatActivity)
 
         // create mood chart
-        moodChart = view.findViewById<LineChart>(R.id.week_mood_chart)
+        moodChart = view.findViewById(R.id.week_mood_chart)
         moodChartLabel = view.findViewById(R.id.mood_flow_time_label)
         changeTimeLabel(moodChartLabel, DEFAULT_TIME_PERIOD)
         chartsService.createMoodCharts(resources, moodChart, DEFAULT_TIME_PERIOD)
+
+        // create weather chart
+        weatherByTemperatureChart = view.findViewById(R.id.weather_chart)
+        weatherByTemperatureChartLabel = view.findViewById(R.id.weather_time_label)
+        changeTimeLabel(weatherByTemperatureChartLabel, DEFAULT_TIME_PERIOD)
+        chartsService.createWeatherCharts(
+            weatherByTemperatureChart, DEFAULT_TIME_PERIOD
+        )
 
         // create emotions chart
         emotionsChartLabel = view.findViewById(R.id.emotions_time_label)
@@ -289,5 +304,15 @@ class InsightsScreenFragment : Fragment() {
             .setCardBackgroundColor(colorTheme.getButtonColor())
         dialog.findViewById<TextView>(R.id.all_time_text)
             .setTextColor(colorTheme.getButtonTextColor())
+
+        // set color to weather chart
+        view.findViewById<CardView>(R.id.weather_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())
+        view.findViewById<TextView>(R.id.weather_text)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<CardView>(R.id.weather_time_label_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartLabelColor())
+        view.findViewById<TextView>(R.id.weather_time_label)
+            ?.setTextColor(colorTheme.getWeatherChartLabelTextColor())
     }
 }

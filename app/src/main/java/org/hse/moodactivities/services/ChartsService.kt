@@ -42,6 +42,7 @@ import org.hse.moodactivities.common.proto.services.StatsServiceGrpc
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
 import org.hse.moodactivities.models.Item
 import org.hse.moodactivities.models.StatisticItem
+import org.hse.moodactivities.models.WeatherStats
 import org.hse.moodactivities.utils.UiUtils
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import java.time.DayOfWeek
@@ -85,6 +86,7 @@ class ChartsService(activity: AppCompatActivity) {
     private lateinit var startDate: LocalDate
     private var moodChartPeriod = TimePeriod.Value.WEEK
     private var maxValue: Long = 0
+    private var maxDoubleValue: Double = 0.0
 
     private inner class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
         override fun getFormattedValue(value: Float): String {
@@ -241,14 +243,14 @@ class ChartsService(activity: AppCompatActivity) {
         xAxis.granularity = 20.toFloat() / maxValue
 
         // create dataset
-        val dataSet = LineDataSet(data, "week mood")
-        dataSet.setColor(colorTheme.getMoodFlowChartColor())
+        val dataSet = LineDataSet(data, "")
+        dataSet.setColor(colorTheme.getWeatherChartColor())
         dataSet.setLineWidth(MoodChartSettings.CHARTS_LINE_WIDTH)
 
         // set legend description
         val legend: Legend = lineChart.legend
         legend.form = Legend.LegendForm.NONE
-        legend.textColor = colorTheme.getMoodFlowChartBackgroundColor()
+        legend.textColor = colorTheme.getWeatherChartBackgroundColor()
 
         // set description enabled
         val description = Description()
@@ -323,6 +325,70 @@ class ChartsService(activity: AppCompatActivity) {
         pieChart.invalidate()
     }
 
+    fun createWeatherCharts(
+        lineChart: LineChart,
+        timePeriod: TimePeriod.Value
+    ) {
+        maxDoubleValue = -100.0
+        val weatherData = getWeatherData(timePeriod)
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set axis settings
+        lineChart.axisRight.isEnabled = false
+
+        // set y-axis settings
+        val yAxis: YAxis = lineChart.axisLeft
+        yAxis.textColor = colorTheme.getWeatherChartTextColor()
+        yAxis.setDrawAxisLine(true)
+        yAxis.setDrawGridLines(true)
+        yAxis.setDrawGridLinesBehindData(true)
+        yAxis.setAxisMinimum(MoodChartSettings.Y_AXIS_MIN)
+        yAxis.setAxisMaximum(MoodChartSettings.Y_AXIS_MAX)
+        yAxis.granularity = MoodChartSettings.GRANULARITY
+        yAxis.gridLineWidth = MoodChartSettings.GRID_LINE_WIDTH
+        yAxis.gridColor = Color.LTGRAY
+        yAxis.enableGridDashedLine(
+            MoodChartSettings.GRID_LINE_LENGTH,
+            MoodChartSettings.GRID_LINE_SPACE_LENGTH,
+            MoodChartSettings.GRID_LINE_PHASE
+        )
+
+        // set x-axis settings
+        val xAxis: XAxis = lineChart.xAxis
+        xAxis.textColor = colorTheme.getWeatherChartTextColor()
+        xAxis.setTextSize(MoodChartSettings.TEXT_SIZE)
+        xAxis.setAxisMinimum(MoodChartSettings.X_AXIS_MIN)
+        xAxis.setAxisMaximum(0.5f + maxValue)
+        xAxis.setDrawAxisLine(true)
+        xAxis.valueFormatter = LineChartXAxisValueFormatter()
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawLabels(true)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.granularity = 20.toFloat() / maxValue
+
+        // create dataset
+        val dataSet = LineDataSet(weatherData, "week mood")
+        dataSet.setColor(colorTheme.getWeatherChartColor())
+        dataSet.setLineWidth(0.0f)
+
+        // set legend description
+        val legend: Legend = lineChart.legend
+        legend.form = Legend.LegendForm.NONE
+        legend.textColor = colorTheme.getWeatherChartBackgroundColor()
+
+        // set description enabled
+        val description = Description()
+        description.isEnabled = false
+        lineChart.description = description
+
+        // set data
+        val lineData = LineData(dataSet)
+        lineData.setDrawValues(false)
+        lineChart.setData(lineData)
+
+        lineChart.invalidate()
+    }
+
     @SuppressLint("SimpleDateFormat")
     private fun getMoodData(
         resources: Resources, timePeriod: TimePeriod.Value
@@ -352,6 +418,30 @@ class ChartsService(activity: AppCompatActivity) {
                 }
             entries.add(entry)
         }
+        return entries
+    }
+
+    private fun getWeatherData(
+        timePeriod: TimePeriod.Value
+    ): MutableList<Entry> {
+        moodChartPeriod = timePeriod
+        val entries: MutableList<Entry> = ArrayList()
+        val weatherStats = WeatherService.getWeatherStats(stub, timePeriod).getWeatherStats()
+
+        if (weatherStats.isEmpty()) {
+            return entries
+        }
+
+        val minTemperature = weatherStats.stream().mapToDouble(WeatherStats::getTemperature).min()
+            .orElse(Double.MAX_VALUE)
+
+        for (stats in weatherStats) {
+            val score = stats.getScore()
+            val temperature = stats.getTemperature()
+            maxDoubleValue = max(maxDoubleValue, temperature - minTemperature)
+            entries.add(Entry((temperature - minTemperature).toFloat(), score + 1f))
+        }
+
         return entries
     }
 
