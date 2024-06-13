@@ -1,6 +1,5 @@
 package org.hse.moodactivities.services;
 
-import org.hse.moodactivities.common.proto.defaults.Empty;
 import org.hse.moodactivities.common.proto.requests.defaults.*;
 import org.hse.moodactivities.common.proto.requests.stats.*;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -34,7 +33,6 @@ import org.hse.moodactivities.common.proto.responses.stats.WeatherStats;
 import org.hse.moodactivities.common.proto.responses.stats.WeatherStatsResponse;
 import org.hse.moodactivities.common.proto.responses.stats.WeeklyReportResponse;
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc;
-import org.hse.moodactivities.data.entities.mongodb.FitnessData;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
 import org.hse.moodactivities.data.promts.PromptsStorage;
@@ -95,7 +93,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return today.toEpochDay() - possibleDate.toEpochDay() < diff;
     }
 
-    static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+    private static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
         if (metas == null) {
             return new ArrayList<>();
         }
@@ -227,6 +225,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                     .setScore(meta.getDailyScore())
                     .setQuestion(question == null ? QuestionRecord.getDefaultInstance() : question)
                     .setActivity(activity == null ? ActivityRecord.getDefaultInstance() : activity)
+                    .setFitness(fitness == null ? FitnessRecord.getDefaultInstance() : fitness)
                     .build();
         }
         responseObserver.onNext(response);
@@ -409,30 +408,6 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
             LOGGER.info("gpt fault on user: " + userId);
         }
         responseObserver.onNext(WeatherGptResponse.newBuilder().setConclusion(conclusion).build());
-        responseObserver.onCompleted();
-    }
-
-    @Override
-    public void uploadFitnessData(UploadFitnessDataRequest request, StreamObserver<Empty> responseObserver) {
-        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
-        User user = getUser(userId);
-        List<UserDayMeta> metas = user.getMetas();
-        UserDayMeta lastMeta = null;
-        if (metas == null || metas.isEmpty() || !metas.getLast().getDate().equals(LocalDate.now())) {
-            lastMeta = new UserDayMeta(LocalDate.now());
-        } else {
-            lastMeta = metas.getLast();
-        }
-        FitnessData fitnessData = lastMeta.getFitnessData();
-        if (fitnessData == null) {
-            fitnessData = new FitnessData();
-        }
-        fitnessData.setSteps(request.getStepsForLastDay());
-        lastMeta.setFitnessData(fitnessData);
-        user.updateMeta(lastMeta);
-        MongoDBSingleton.getInstance().getConnection().saveEntity(user);
-        Empty response = Empty.newBuilder().build();
-        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }
