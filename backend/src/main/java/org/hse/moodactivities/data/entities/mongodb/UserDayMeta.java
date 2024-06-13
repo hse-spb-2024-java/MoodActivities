@@ -110,6 +110,7 @@ public class UserDayMeta implements Serializable {
     }
 
     public UserDayMeta() {
+        this.date = LocalDate.now();
     }
 
     public LocalDate getDate() {

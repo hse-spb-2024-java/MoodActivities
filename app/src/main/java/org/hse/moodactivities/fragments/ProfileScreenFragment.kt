@@ -5,6 +5,7 @@ import GoogleSignInManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,6 @@ import org.hse.moodactivities.viewmodels.UserViewModel
 import org.hse.moodactivities.services.ThemesService
 
 class ProfileScreenFragment : Fragment() {
-    private lateinit var fitnessViewModel: FitnessViewModel
     private lateinit var userViewModel: UserViewModel
 
     companion object {
@@ -33,10 +33,6 @@ class ProfileScreenFragment : Fragment() {
 
         setColorTheme(view)
 
-        val googleFitRepository = GoogleFitRepositoryImpl(requireContext())
-        val fitnessDataManager = FitnessDataManager(googleFitRepository)
-
-        fitnessViewModel = ViewModelProvider(this, FitnessViewModelFactory(fitnessDataManager)).get(FitnessViewModel::class.java)
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         val googleConnectionTextView = view.findViewById<TextView>(R.id.google_device_connection_status)

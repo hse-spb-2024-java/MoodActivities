@@ -1,37 +1,9 @@
 package org.hse.moodactivities.services;
 
+import io.grpc.stub.StreamObserver;
 import org.hse.moodactivities.common.proto.requests.defaults.*;
 import org.hse.moodactivities.common.proto.requests.stats.*;
-import static java.net.HttpURLConnection.HTTP_OK;
-
-import org.hse.moodactivities.common.proto.requests.defaults.ActivityRecord;
-import org.hse.moodactivities.common.proto.requests.defaults.DayOfWeek;
-import org.hse.moodactivities.common.proto.requests.defaults.MoodRecord;
-import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
-import org.hse.moodactivities.common.proto.requests.defaults.QuestionRecord;
-import org.hse.moodactivities.common.proto.requests.stats.AllDayRequest;
-import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest;
-import org.hse.moodactivities.common.proto.requests.stats.FullReportRequest;
-import org.hse.moodactivities.common.proto.requests.stats.MoodForTheMonthRequest;
-import org.hse.moodactivities.common.proto.requests.stats.ReportType;
-import org.hse.moodactivities.common.proto.requests.stats.TopListRequest;
-import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
-import org.hse.moodactivities.common.proto.requests.stats.WeatherGptRequest;
-import org.hse.moodactivities.common.proto.requests.stats.WeatherStatsRequest;
-import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
-import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
-import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
-import org.hse.moodactivities.common.proto.responses.stats.FullReportResponse;
-import org.hse.moodactivities.common.proto.responses.stats.MoodForTheMonthResponse;
-import org.hse.moodactivities.common.proto.responses.stats.TopItem;
-import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
-import org.hse.moodactivities.common.proto.responses.stats.UsersMood;
-import org.hse.moodactivities.common.proto.responses.stats.UsersMoodResponse;
-import org.hse.moodactivities.common.proto.responses.stats.Weather;
-import org.hse.moodactivities.common.proto.responses.stats.WeatherGptResponse;
-import org.hse.moodactivities.common.proto.responses.stats.WeatherStats;
-import org.hse.moodactivities.common.proto.responses.stats.WeatherStatsResponse;
-import org.hse.moodactivities.common.proto.responses.stats.WeeklyReportResponse;
+import org.hse.moodactivities.common.proto.responses.stats.*;
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
@@ -48,16 +20,14 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import io.grpc.stub.StreamObserver;
+import static java.net.HttpURLConnection.HTTP_OK;
 
 public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
 
     private static User getUser(String userId) {
         Map<String, Object> queryMap = new HashMap<>();
@@ -93,7 +63,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return today.toEpochDay() - possibleDate.toEpochDay() < diff;
     }
 
-    private static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+    static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
         if (metas == null) {
             return new ArrayList<>();
         }
