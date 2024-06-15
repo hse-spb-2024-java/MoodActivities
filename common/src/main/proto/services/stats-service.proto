@@ -14,6 +14,7 @@ import "requests/stats-service/weekly-report-request.proto";
 import "requests/stats-service/mood-for–the-month-request.proto";
 import "requests/stats-service/weather-stats-request.proto";
 import "requests/stats-service/weather-gpt-request.proto";
+import "requests/stats-service/ai-request.proto";
 
 import "responses/stats-service/all-day-response.proto";
 import "responses/stats-service/top-list-response.proto";
@@ -24,6 +25,7 @@ import "responses/stats-service/weekly-report-response.proto";
 import "responses/stats-service/mood-for–the-month-response.proto";
 import "responses/stats-service/weather-stats-response.proto";
 import "responses/stats-service/weather-gpt-response.proto";
+import "responses/stats-service/ai-response.proto";
 
 service StatsService {
   rpc AllDayReport(requests.AllDayRequest) returns (responses.AllDayResponse) {}
@@ -35,4 +37,5 @@ service StatsService {
   rpc GetMoodForTheMonth(requests.MoodForTheMonthRequest) returns (responses.MoodForTheMonthResponse) {}
   rpc GetWeatherStats(requests.WeatherStatsRequest) returns (responses.WeatherStatsResponse) {}
   rpc GetWeatherGTP(requests.WeatherGptRequest) returns (responses.WeatherGptResponse) {}
+  rpc GetAiAnalytics(requests.AiRequest) returns (responses.AiResponse) {}
 }
