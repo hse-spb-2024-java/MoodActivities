@@ -1,5 +1,6 @@
 package org.hse.moodactivities.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.SettingsActivity
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.services.ThemesService
+import org.hse.moodactivities.services.UserService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
@@ -50,7 +53,9 @@ class ProfileScreenFragment : Fragment() {
 
     private fun setPersonalInfoWidgetListeners(view: View) {
         view.findViewById<Button>(R.id.name_button).setOnClickListener {
-            // todo: open fragment to change name
+            UserService.setSettingsType(UserService.Companion.SettingsType.NAME)
+            val intent = Intent(this.activity, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         view.findViewById<Button>(R.id.birth_date_button).setOnClickListener {

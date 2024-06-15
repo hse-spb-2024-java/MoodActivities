@@ -7,6 +7,11 @@ import com.birjuvachhani.locus.Locus
 
 class UserService {
     companion object {
+        enum class SettingsType {
+            NAME, BIRTH_DAY
+        }
+
+        private var settingsType = SettingsType.NAME
         const val ADDRESS = "10.0.2.2"
         const val PORT = 12345
 
@@ -21,5 +26,12 @@ class UserService {
             return location
         }
 
+        fun setSettingsType(newSettingsType: SettingsType) {
+            settingsType = newSettingsType
+        }
+
+        fun getSettingsType(): SettingsType {
+            return settingsType
+        }
     }
 }

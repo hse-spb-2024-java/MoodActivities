@@ -149,7 +149,7 @@
 
                     <Space
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
 
                     <!-- birth date -->
                     <LinearLayout
@@ -225,7 +225,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -305,8 +305,8 @@
                                 android:id="@+id/color_theme_3"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                app:cardCornerRadius="20dp"
                                 android:alpha="0.5"
+                                app:cardCornerRadius="20dp"
                                 app:cardElevation="1dp" />
 
                             <Button
@@ -327,8 +327,8 @@
                                 android:id="@+id/color_theme_4"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                app:cardCornerRadius="20dp"
                                 android:alpha="0.5"
+                                app:cardCornerRadius="20dp"
                                 app:cardElevation="1dp" />
 
                             <Button
@@ -341,7 +341,7 @@
 
                     <Space
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
 
                     <!-- light mode -->
                     <TextView
@@ -440,7 +440,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -501,8 +501,8 @@
                                 android:id="@+id/off_background"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
-                                app:cardCornerRadius="20dp"
                                 android:alpha="0.5"
+                                app:cardCornerRadius="20dp"
                                 app:cardElevation="1dp">
 
                                 <TextView
@@ -541,7 +541,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -593,7 +593,7 @@
 
                     <Space
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
 
                     <!-- email -->
                     <LinearLayout
@@ -654,7 +654,7 @@
 
                     <Space
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
 
                     <!-- password -->
                     <LinearLayout
@@ -715,7 +715,7 @@
 
                     <Space
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"/>
+                        android:layout_height="10dp" />
 
                     <!-- google authentication -->
                     <LinearLayout
