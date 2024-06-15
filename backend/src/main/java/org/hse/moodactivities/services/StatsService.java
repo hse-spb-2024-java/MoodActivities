@@ -7,6 +7,7 @@ import org.hse.moodactivities.common.proto.requests.defaults.DayOfWeek;
 import org.hse.moodactivities.common.proto.requests.defaults.MoodRecord;
 import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
 import org.hse.moodactivities.common.proto.requests.defaults.QuestionRecord;
+import org.hse.moodactivities.common.proto.requests.stats.AiRequest;
 import org.hse.moodactivities.common.proto.requests.stats.AllDayRequest;
 import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.FullReportRequest;
@@ -17,6 +18,7 @@ import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
 import org.hse.moodactivities.common.proto.requests.stats.WeatherGptRequest;
 import org.hse.moodactivities.common.proto.requests.stats.WeatherStatsRequest;
 import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
+import org.hse.moodactivities.common.proto.responses.stats.AiResponse;
 import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
 import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
 import org.hse.moodactivities.common.proto.responses.stats.FullReportResponse;
@@ -39,6 +41,7 @@ import org.hse.moodactivities.utils.GptMessages;
 import org.hse.moodactivities.utils.GptResponse;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
+import org.hse.moodactivities.utils.PromptGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -402,6 +405,31 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
             LOGGER.info("gpt fault on user: " + userId);
         }
         responseObserver.onNext(WeatherGptResponse.newBuilder().setConclusion(conclusion).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getAiAnalitics(AiRequest request, StreamObserver<AiResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        AiResponse response;
+        String text;
+        if (user.getMetas() != null) {
+            String prompt = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.aiThinker, null, request.getPeriod());
+            GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, prompt));
+            if (gptResponse.statusCode() == HTTP_OK) {
+                text = gptResponse.response();
+            } else {
+                text = "The analytics service is currently unavailable, please wait.";
+            }
+        } else {
+            text = "We have not yet gathered enough data about you to conduct an analysis.";
+        }
+        response = AiResponse
+                .newBuilder()
+                .setText(text)
+                .build();
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }

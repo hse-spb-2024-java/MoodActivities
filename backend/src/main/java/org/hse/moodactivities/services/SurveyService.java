@@ -2,6 +2,7 @@ package org.hse.moodactivities.services;
 
 import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
 
+import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest;
 import org.hse.moodactivities.common.proto.responses.survey.LongSurveyResponse;
 import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc;
@@ -49,7 +50,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     }
 
     private static Optional<String> metaPromptSender(List<UserDayMeta> metas) {
-        String requestString = PromptGenerator.metaPromptCreator(metas);
+        String requestString = PromptGenerator.generatePrompt(metas, PromptGenerator.Service.metaCreator, null, PeriodType.WEEK);
         GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString));
         if (response.statusCode() < HTTP_BAD_REQUEST) {
             return Optional.of(response.message().getContent());
