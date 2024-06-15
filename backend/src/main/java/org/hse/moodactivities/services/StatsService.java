@@ -409,13 +409,14 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     }
 
     @Override
-    public void getAiAnalitics(AiRequest request, StreamObserver<AiResponse> responseObserver) {
+    public void getAiAnalytics(AiRequest request, StreamObserver<AiResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
         AiResponse response;
         String text;
         if (user.getMetas() != null) {
             String prompt = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.aiThinker, null, request.getPeriod());
+            prompt = PromptGenerator.addFeedBack(prompt, user);
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, prompt));
             if (gptResponse.statusCode() == HTTP_OK) {
                 text = gptResponse.response();

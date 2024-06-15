@@ -49,8 +49,9 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
         }
     }
 
-    private static Optional<String> metaPromptSender(List<UserDayMeta> metas) {
-        String requestString = PromptGenerator.generatePrompt(metas, PromptGenerator.Service.metaCreator, null, PeriodType.WEEK);
+    private static Optional<String> metaPromptSender(User user) {
+        String requestString = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.metaCreator, null, PeriodType.WEEK);
+        requestString = PromptGenerator.addFeedBack(requestString, user);
         GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString));
         if (response.statusCode() < HTTP_BAD_REQUEST) {
             return Optional.of(response.message().getContent());
@@ -61,7 +62,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     private static void updateMeta(User user) {
         if (user.getPromptMetaUpdateDate() == null
                 || ChronoUnit.DAYS.between(LocalDate.parse(user.getPromptMetaUpdateDate()), LocalDate.now()) >= 7) {
-            Optional<String> updatedMeta = metaPromptSender(user.getMetas());
+            Optional<String> updatedMeta = metaPromptSender(user);
             if (updatedMeta.isPresent()) {
                 user.setPromptMetaUpdateDate(LocalDate.now().toString());
                 user.setPromptMeta(updatedMeta.get());
