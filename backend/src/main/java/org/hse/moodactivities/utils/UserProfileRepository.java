@@ -69,6 +69,32 @@ public class UserProfileRepository {
         }
     }
 
+    public static Optional<UserProfile> findById(String id) {
+        try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<UserProfile> criteriaQuery = criteriaBuilder.createQuery(UserProfile.class);
+            Root<UserProfile> userProfile = criteriaQuery.from(UserProfile.class);
+
+            criteriaQuery.select(userProfile).where(criteriaBuilder.and(
+                    criteriaBuilder.equal(userProfile.get("id"), Long.valueOf(id))
+            ));
+
+            UserProfile result = entityManager.createQuery(criteriaQuery).getSingleResult();
+            return Optional.ofNullable(result);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public static boolean saveEntity(UserProfile userProfile) {
+        try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
+            entityManager.persist(userProfile);
+            return true;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
     public static UserProfile createPlainUserProfile(String login,
                                                      String email,
                                                      String unhashedPassword) {

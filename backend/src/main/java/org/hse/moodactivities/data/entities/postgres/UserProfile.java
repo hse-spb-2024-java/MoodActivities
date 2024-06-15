@@ -23,6 +23,12 @@ public class UserProfile {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String name;
+
+    @Column(unique = false)
+    private String dayOfBirth;
+
 
     private String hashedPassword;
 
@@ -88,6 +94,26 @@ public class UserProfile {
 
     public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
+    }
+
+    public String getDayOfBirth() {
+        return dayOfBirth;
+    }
+
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean hasGoogle() {
+        return this.oauthId != null;
     }
 
     public boolean validatePassword(String password) {
