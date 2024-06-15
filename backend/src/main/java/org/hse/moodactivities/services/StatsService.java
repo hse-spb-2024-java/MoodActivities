@@ -60,7 +60,7 @@ import io.grpc.stub.StreamObserver;
 public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
 
-    private static User getUser(String userId) {
+    static User getUser(String userId) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("_id", userId);
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);

@@ -1,10 +1,13 @@
 package org.hse.moodactivities.services;
 
 import org.hse.moodactivities.common.proto.requests.profile.ChangeInfoRequest;
+import org.hse.moodactivities.common.proto.requests.profile.FeedbackRequest;
 import org.hse.moodactivities.common.proto.requests.profile.GetInfoRequest;
 import org.hse.moodactivities.common.proto.responses.profile.ChangeInfoResponse;
+import org.hse.moodactivities.common.proto.responses.profile.FeedbackResponse;
 import org.hse.moodactivities.common.proto.responses.profile.GetInfoResponse;
 import org.hse.moodactivities.common.proto.services.ProfileServiceGrpc;
+import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.postgres.UserProfile;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.UserProfileRepository;
@@ -77,6 +80,20 @@ public class ProfileService extends ProfileServiceGrpc.ProfileServiceImplBase {
                     .build();
         }
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void giveFeedback(FeedbackRequest request, StreamObserver<FeedbackResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = StatsService.getUser(userId);
+        if (request.getNegative() != null) {
+            user.setNegativeFeedback(request.getNegative());
+        }
+        if (request.getPositive() != null) {
+            user.setPositiveFeedback(request.getPositive());
+        }
+        responseObserver.onNext(FeedbackResponse.getDefaultInstance());
         responseObserver.onCompleted();
     }
 
