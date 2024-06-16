@@ -80,7 +80,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -97,6 +97,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -115,7 +116,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/name_background"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginEnd="20dp"
                             app:cardCornerRadius="20dp"
                             app:cardElevation="0dp">
@@ -125,9 +126,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
                                 android:fontFamily="@font/app_font"
-                                android:text="No data provided"
+                                android:text="No data"
                                 android:textSize="14sp"
                                 tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
@@ -191,7 +193,7 @@
                                 android:layout_gravity="right"
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
-                                android:text="No data provided"
+                                android:text="No data"
                                 android:textSize="14sp"
                                 tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
@@ -234,7 +236,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -252,6 +254,7 @@
                         android:id="@+id/color_theme_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/app_font"
                         android:text="Color theme"
                         android:textSize="14sp"
@@ -260,6 +263,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
                         android:baselineAligned="false"
                         android:weightSum="4">
 
@@ -375,6 +379,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:gravity="center">
 
@@ -456,7 +461,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -473,6 +478,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
                         android:baselineAligned="false"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -562,7 +568,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -579,6 +585,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -718,7 +725,7 @@
                                 android:layout_gravity="right"
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
-                                android:text="No data provided"
+                                android:text="Hidden"
                                 android:textSize="14sp"
                                 tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
@@ -810,16 +817,13 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
             <!-- feed button -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/feedback_button_background"
                 android:layout_width="200dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
+                android:layout_margin="20dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="1dp">
 

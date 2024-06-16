@@ -61,7 +61,9 @@ class ProfileScreenFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.birth_date_button).setOnClickListener {
-            // todo: open fragment to change birth date
+            UserService.setSettingsType(UserService.Companion.SettingsType.BIRTH_DAY)
+            val intent = Intent(this.activity, SettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 

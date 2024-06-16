@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import org.hse.moodactivities.R
+import org.hse.moodactivities.fragments.ChangeBirthDateFragment
 import org.hse.moodactivities.fragments.ChangeNameFragment
 import org.hse.moodactivities.services.UserService
 
@@ -17,8 +18,7 @@ class SettingsActivity : AppCompatActivity() {
         val settingsType = UserService.getSettingsType()
         when (settingsType) {
             UserService.Companion.SettingsType.NAME -> setFragment(ChangeNameFragment())
-            UserService.Companion.SettingsType.BIRTH_DAY -> {
-            }
+            UserService.Companion.SettingsType.BIRTH_DAY -> setFragment(ChangeBirthDateFragment())
         }
     }
 
