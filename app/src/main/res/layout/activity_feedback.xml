@@ -2,12 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_answer_question_layout"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".fragments.QuestionOfTheDayFragment">
+    tools:context=".activities.FeedbackActivity">
 
     <RelativeLayout
         android:layout_width="20dp"
@@ -21,10 +19,11 @@
             android:id="@+id/return_image"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/arrow_left" />
+            android:src="@drawable/arrow_left"
+            tools:ignore="ContentDescription" />
 
         <Button
-            android:id="@+id/return_home_button"
+            android:id="@+id/return_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0" />
@@ -36,23 +35,38 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/app_font"
-        android:text="Daily question"
+        android:text="Feedback"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/positive_feedback_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:fontFamily="@font/app_font"
+        android:text="What do you like about the chat GPT answers?"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:ignore="HardcodedText" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/question_card"
+        android:id="@+id/positive_feedback_background"
         android:layout_width="320dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:layout_marginTop="20dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question_title">
+        app:layout_constraintTop_toBottomOf="@+id/positive_feedback_question">
 
         <ScrollView
             android:layout_width="300dp"
@@ -60,37 +74,70 @@
             android:layout_gravity="center_horizontal">
 
             <EditText
-                android:id="@+id/edit_text"
+                android:id="@+id/positive_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoSizeMaxTextSize="10dp"
                 android:autofillHints="name"
+                android:inputType="textAutoComplete"
                 android:scrollbars="vertical"
-                android:textCursorDrawable="@null" />
+                android:textCursorDrawable="@null"
+                tools:ignore="LabelFor" />
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/question_title"
+        android:id="@+id/negative_feedback_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_margin="30dp"
         android:fontFamily="@font/app_font"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="What could be improved?"
+        android:textAlignment="center"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/positive_feedback_background"
+        tools:ignore="HardcodedText" />
 
-    <!-- send -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/negative_feedback_background"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/negative_feedback_question">
+
+        <ScrollView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:id="@+id/negative_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeMaxTextSize="10dp"
+                android:autofillHints="name"
+                android:inputType="text"
+                android:scrollbars="vertical"
+                android:textCursorDrawable="@null"
+                tools:ignore="LabelFor" />
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
     <RelativeLayout
+        android:id="@+id/button_layout"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="270dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/negative_feedback_background">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/send_button_background"
@@ -109,7 +156,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
         </androidx.cardview.widget.CardView>
 
         <Button
@@ -122,4 +170,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/intro"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/app_font"
+        android:text="Our app uses GPT chat to analyze your responses, make recommendations based on the information collected, and generate activities and questions of the day. Here you can leave comments on the AI's work to help us improve its answers."
+        android:textAlignment="center"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_layout"
+        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

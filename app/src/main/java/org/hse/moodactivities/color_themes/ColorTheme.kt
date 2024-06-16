@@ -337,15 +337,15 @@ abstract class ColorTheme(
     }
 
     open fun getSettingsWidgetTitleColor(): Int {
-        return getColorByName("dimmed dark air superiority blue")
+        return dimmedBackgroundColor
     }
 
     open fun getSettingsWidgetColor(): Int {
-        return getColorByName("dark air superiority blue")
+        return dimmedColor4
     }
 
     open fun getSettingsWidgetFieldColor(): Int {
-        return getColorByName("vista blue")
+        return color4
     }
 
     companion object {

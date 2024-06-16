@@ -5,7 +5,6 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".fragments.ProfileScreenFragment">
 
     <TextView
@@ -20,7 +19,8 @@
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -54,7 +54,8 @@
                     android:gravity="center"
                     android:text="Hello, "
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
 
                 <TextView
                     android:id="@+id/username"
@@ -64,7 +65,8 @@
                     android:gravity="center"
                     android:text="user!"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
 
             <!-- personal info -->
@@ -87,8 +89,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/app_font"
                         android:text="Personal info"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <!-- name -->
                     <LinearLayout
@@ -102,7 +105,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/app_font"
                             android:text="Name"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="20dp"
@@ -124,7 +128,8 @@
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
                                 android:text="No data provided"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout
@@ -137,7 +142,8 @@
                                 android:id="@+id/name_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/arrow_right" />
+                                android:src="@drawable/arrow_right"
+                                tools:ignore="ContentDescription" />
 
                             <Button
                                 android:id="@+id/name_button"
@@ -163,7 +169,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/app_font"
                             android:text="Birth date"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="20dp"
@@ -185,7 +192,8 @@
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
                                 android:text="No data provided"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout
@@ -198,7 +206,8 @@
                                 android:id="@+id/birth_date_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/arrow_right" />
+                                android:src="@drawable/arrow_right"
+                                tools:ignore="ContentDescription" />
 
                             <Button
                                 android:id="@+id/birth_date_button"
@@ -234,8 +243,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/app_font"
                         android:text="App theme"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <!-- color theme -->
                     <TextView
@@ -244,11 +254,13 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/app_font"
                         android:text="Color theme"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:ignore="HardcodedText" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:baselineAligned="false"
                         android:weightSum="4">
 
                         <RelativeLayout
@@ -350,11 +362,13 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/app_font"
                         android:text="Light mode"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:ignore="HardcodedText" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:baselineAligned="false"
                         android:weightSum="2">
 
                         <RelativeLayout
@@ -379,7 +393,8 @@
                                     android:fontFamily="@font/app_font"
                                     android:text="Light"
                                     android:textSize="14sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
                             </androidx.cardview.widget.CardView>
 
                             <Button
@@ -412,7 +427,8 @@
                                     android:fontFamily="@font/app_font"
                                     android:text="Dark"
                                     android:textSize="14sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
                             </androidx.cardview.widget.CardView>
 
                             <Button
@@ -449,13 +465,16 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/app_font"
                         android:text="Reminders"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <!-- on / of -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal"
                         android:weightSum="2">
 
                         <RelativeLayout
@@ -480,7 +499,8 @@
                                     android:fontFamily="@font/app_font"
                                     android:text="On"
                                     android:textSize="14sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
                             </androidx.cardview.widget.CardView>
 
                             <Button
@@ -513,7 +533,8 @@
                                     android:fontFamily="@font/app_font"
                                     android:text="Off"
                                     android:textSize="14sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:ignore="HardcodedText" />
                             </androidx.cardview.widget.CardView>
 
                             <Button
@@ -550,8 +571,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/app_font"
                         android:text="Account info"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
 
                     <!-- login -->
                     <LinearLayout
@@ -565,7 +587,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/app_font"
                             android:text="Login"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="20dp"
@@ -587,7 +610,8 @@
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
                                 android:text="No data provided"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
@@ -599,7 +623,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        tools:ignore="TooManyViews">
 
                         <TextView
                             android:id="@+id/email_title"
@@ -607,7 +632,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/app_font"
                             android:text="Email"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="20dp"
@@ -629,7 +655,8 @@
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
                                 android:text="No data provided"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout
@@ -642,7 +669,8 @@
                                 android:id="@+id/email_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/arrow_right" />
+                                android:src="@drawable/arrow_right"
+                                tools:ignore="ContentDescription" />
 
                             <Button
                                 android:id="@+id/email_button"
@@ -668,7 +696,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/app_font"
                             android:text="Password"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="20dp"
@@ -690,7 +719,8 @@
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
                                 android:text="No data provided"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout
@@ -703,7 +733,8 @@
                                 android:id="@+id/password_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/arrow_right" />
+                                android:src="@drawable/arrow_right"
+                                tools:ignore="ContentDescription" />
 
                             <Button
                                 android:id="@+id/password_button"
@@ -729,7 +760,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/app_font"
                             android:text="Google"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:ignore="HardcodedText" />
 
                         <Space
                             android:layout_width="20dp"
@@ -751,7 +783,8 @@
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
                                 android:text="Enable"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText,RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout
@@ -764,7 +797,8 @@
                                 android:id="@+id/google_image"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
-                                android:src="@drawable/google_logo" />
+                                android:src="@drawable/google_logo"
+                                tools:ignore="ContentDescription" />
 
                             <Button
                                 android:id="@+id/google_button"
@@ -774,6 +808,30 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <!-- feed button -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/feedback_button_background"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="1dp">
+
+                <TextView
+                    android:id="@+id/feedback_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/app_font"
+                    android:text="Feedback about chat GPT"
+                    android:textSize="12sp"
+                    tools:ignore="HardcodedText" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>

@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.FeedbackActivity
 import org.hse.moodactivities.activities.SettingsActivity
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.services.ThemesService
@@ -30,6 +31,7 @@ class ProfileScreenFragment : Fragment() {
         setAppThemeWidgetListeners(view)
         setRemindersWidgetListeners(view)
         setAccountInfoWidgetListeners(view)
+        setFeedbackWidgetListener(view)
 
         setUserData(view)
         setColorTheme(view)
@@ -60,6 +62,13 @@ class ProfileScreenFragment : Fragment() {
 
         view.findViewById<Button>(R.id.birth_date_button).setOnClickListener {
             // todo: open fragment to change birth date
+        }
+    }
+
+    private fun setFeedbackWidgetListener(view: View) {
+        view.findViewById<CardView>(R.id.feedback_button_background).setOnClickListener {
+            val intent = Intent(this.activity, FeedbackActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -233,5 +242,10 @@ class ProfileScreenFragment : Fragment() {
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
         view.findViewById<CardView>(R.id.google_background)
             .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<CardView>(R.id.feedback_button_background)
+            .setCardBackgroundColor(colorTheme.getButtonColor())
+        view.findViewById<TextView>(R.id.feedback_title)
+            .setTextColor(colorTheme.getButtonTextColor())
     }
 }

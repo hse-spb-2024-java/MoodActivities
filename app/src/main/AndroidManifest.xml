@@ -60,5 +60,7 @@
             android:exported="true" />
         <activity
             android:name=".activities.SettingsActivity"/>
+        <activity
+            android:name=".activities.FeedbackActivity"/>
     </application>
 </manifest>
