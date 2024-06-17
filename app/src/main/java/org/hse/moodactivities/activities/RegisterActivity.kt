@@ -6,12 +6,13 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.common.proto.responses.auth.RegistrationResponse
 import org.hse.moodactivities.databinding.ActivityRegisterBinding
 import org.hse.moodactivities.services.ThemesService
+import org.hse.moodactivities.utils.showCustomToast
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
 import org.hse.moodactivities.models.AuthType
@@ -51,41 +52,33 @@ class RegisterActivity : AppCompatActivity() {
 
             if (!agreedTerms) {
                 Log.i("RegistrationResponse", "Did not agreed on terms")
-                Snackbar.make(
-                    findViewById(android.R.id.content),
-                    "Please agree with the ToS if you want to register",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                Toast(this).showCustomToast(
+                    "Please agree with the ToS if you want to register", this
+                )
                 return@setOnClickListener
             }
 
             if (password != confirmation) {
                 Log.d("RegistrationResponse", "Passwords do not match")
-                Snackbar.make(
-                    findViewById(android.R.id.content),
-                    "Passwords do not match",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                Toast(this).showCustomToast(
+                    "Passwords don't match", this
+                )
                 return@setOnClickListener
             }
 
             if (password.isEmpty()) {
                 Log.d("RegistrationResponse", "Password cannot be empty");
-                Snackbar.make(
-                    findViewById(android.R.id.content),
-                    "Password cannot be empty",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                Toast(this).showCustomToast(
+                    "Password cannot be empty", this
+                )
                 return@setOnClickListener
             }
 
             if (email.isEmpty()) {
                 Log.d("RegistrationResponse", "Email cannot be empty");
-                Snackbar.make(
-                    findViewById(android.R.id.content),
-                    "Email cannot be empty",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                Toast(this).showCustomToast(
+                    "Email cannot be empty", this
+                )
                 return@setOnClickListener
             }
 
@@ -95,9 +88,9 @@ class RegisterActivity : AppCompatActivity() {
 
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
-                    Snackbar.make(
-                        findViewById(android.R.id.content), it, Snackbar.LENGTH_LONG
-                    ).show()
+                    Toast(this).showCustomToast(
+                        it, this
+                    )
                     authViewModel.clearErrorMessage()
                 }
             }
@@ -105,11 +98,9 @@ class RegisterActivity : AppCompatActivity() {
             registrationResponseLiveData.observe(this) { registrationResponse ->
                 if (registrationResponse.responseType == RegistrationResponse.ResponseType.ERROR) {
                     Log.d("RegistrationResponse", registrationResponse.message)
-                    Snackbar.make(
-                        findViewById(android.R.id.content),
-                        registrationResponse.message,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Toast(this).showCustomToast(
+                        registrationResponse.message, this
+                    )
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(

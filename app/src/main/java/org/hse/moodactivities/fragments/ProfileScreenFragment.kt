@@ -8,50 +8,201 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import org.hse.moodactivities.R
+import org.hse.moodactivities.activities.FeedbackActivity
+import org.hse.moodactivities.activities.SettingsActivity
+import org.hse.moodactivities.color_themes.ColorTheme
+import org.hse.moodactivities.color_themes.ColorThemeType
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import org.hse.moodactivities.R
 import org.hse.moodactivities.models.AuthType
 import org.hse.moodactivities.viewmodels.UserViewModel
 import org.hse.moodactivities.services.ThemesService
+import org.hse.moodactivities.services.UserService
+import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
+import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
 class ProfileScreenFragment : Fragment() {
-    private lateinit var userViewModel: UserViewModel
-
     companion object {
         const val NOT_CONNECTED = "Not connected."
         const val CONNECTED = "Connected."
+        const val NO_DATA = "No data"
     }
+
+    private var colorThemeCardId = R.id.color_theme_forest
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile_screen, container, false)
 
-        setColorTheme(view)
-
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        val googleConnectionTextView = view.findViewById<TextView>(R.id.google_device_connection_status)
-        val googleConnectionWidget = view.findViewById<androidx.cardview.widget.CardView>(R.id.google_connection_widget)
-        if (GoogleSignIn.getLastSignedInAccount(requireContext()) == null) {
-            googleConnectionWidget.setOnClickListener {
-                performGoogleSignIn()
-            }
-            googleConnectionTextView.text = NOT_CONNECTED
+        // set on click listeners
+        setPersonalInfoWidgetListeners(view)
+        setAppThemeWidgetListeners(view)
+        setRemindersWidgetListeners(view)
+        setAccountInfoWidgetListeners(view)
+        setFeedbackWidgetListener(view)
+
+        val colorThemeType = ThemesService.getColorTheme().getColorThemeType()
+        pressColorThemeButton(view, getColorThemeCardIdByType(colorThemeType))
+
+        // set light mode
+        val lightMode = ThemesService.getLightMode()
+        if (lightMode == ColorTheme.LightMode.DAY) {
+            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_DISABLED_ALPHA
         } else {
-            // Only allow Google logout on PLAIN accounts!
-            if (userViewModel.getUser(requireContext())!!.authType == AuthType.PLAIN) {
-                googleConnectionWidget.setOnClickListener {
-                    performGoogleLogOut()
-                }
-            }
-            googleConnectionTextView.text = CONNECTED
+            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_DISABLED_ALPHA
+            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
         }
+
+        UserService.uploadUserInfoFromServer()
+
+        setUserData(view)
+        setColorTheme(view)
+
         return view
     }
 
+    private fun getColorThemeCardIdByType(colorThemeType: ColorThemeType): Int {
+        return when (colorThemeType) {
+            ColorThemeType.CALMNESS -> R.id.color_theme_calmness
+            ColorThemeType.TWILIGHT -> R.id.color_theme_twilight
+            ColorThemeType.FOREST -> R.id.color_theme_forest
+            ColorThemeType.TROPICAL -> R.id.color_theme_tropicana
+        }
+    }
+
+    private fun setUserData(view: View) {
+        var username = UserService.getUsername()
+        if (username == null) {
+            username = NO_DATA
+        }
+        view.findViewById<TextView>(R.id.name).text = username
+
+        var birthDate = UserService.getBirthDate()
+        if (birthDate == null) {
+            birthDate = NO_DATA
+        }
+        view.findViewById<TextView>(R.id.birth_date).text = birthDate
+
+        var login = UserService.getLogin()
+        if (login == null) {
+            login = NO_DATA
+        }
+        view.findViewById<TextView>(R.id.login).text = login
+
+        var email = UserService.getEmail()
+        if (email == null) {
+            email = NO_DATA
+        }
+        view.findViewById<TextView>(R.id.email).text = login
+    }
+
+    private fun setPersonalInfoWidgetListeners(view: View) {
+        view.findViewById<Button>(R.id.name_button).setOnClickListener {
+            UserService.setSettingsType(UserService.Companion.SettingsType.NAME)
+            val intent = Intent(this.activity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        view.findViewById<Button>(R.id.birth_date_button).setOnClickListener {
+            UserService.setSettingsType(UserService.Companion.SettingsType.BIRTH_DAY)
+            val intent = Intent(this.activity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun setFeedbackWidgetListener(view: View) {
+        view.findViewById<CardView>(R.id.feedback_button_background).setOnClickListener {
+            val intent = Intent(this.activity, FeedbackActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun pressColorThemeButton(view: View, newColorThemeCardId: Int) {
+        view.findViewById<CardView>(colorThemeCardId).alpha = BUTTON_DISABLED_ALPHA
+        colorThemeCardId = newColorThemeCardId
+        view.findViewById<CardView>(newColorThemeCardId).alpha = BUTTON_ENABLED_ALPHA
+    }
+
+    private fun setAppThemeWidgetListeners(view: View) {
+        view.findViewById<Button>(R.id.color_theme_button_forest).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_forest)
+            // todo: set color theme 1
+        }
+
+        view.findViewById<Button>(R.id.color_theme_button_calmness).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_calmness)
+            // todo: set color theme 2
+        }
+
+        view.findViewById<Button>(R.id.color_theme_button_tropicana).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_tropicana)
+            // todo: set color theme 3
+        }
+
+        view.findViewById<Button>(R.id.color_theme_button_twilight).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_twilight)
+            // todo: set color theme 4
+        }
+
+        view.findViewById<Button>(R.id.light_mode_button).setOnClickListener {
+            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_DISABLED_ALPHA
+            ThemesService.changeLightMode(ColorTheme.LightMode.DAY)
+        }
+
+        view.findViewById<Button>(R.id.dark_mode_button).setOnClickListener {
+            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_DISABLED_ALPHA
+            ThemesService.changeLightMode(ColorTheme.LightMode.NIGHT)
+        }
+    }
+
+    private fun setRemindersWidgetListeners(view: View) {
+        view.findViewById<Button>(R.id.on_button).setOnClickListener {
+            // todo: do something
+            view.findViewById<CardView>(R.id.on_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.off_background).alpha = BUTTON_DISABLED_ALPHA
+        }
+
+        view.findViewById<Button>(R.id.off_button).setOnClickListener {
+            // todo: do something
+            view.findViewById<CardView>(R.id.off_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.on_background).alpha = BUTTON_DISABLED_ALPHA
+        }
+    }
+
+    private fun setAccountInfoWidgetListeners(view: View) {
+        view.findViewById<Button>(R.id.password_button).setOnClickListener {
+            UserService.setSettingsType(UserService.Companion.SettingsType.PASSWORD)
+            val intent = Intent(this.activity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
+        if (GoogleSignIn.getLastSignedInAccount(requireContext()) == null) {
+            view.findViewById<Button>(R.id.google_button).setOnClickListener {
+                performGoogleSignIn()
+            }
+            view.findViewById<TextView>(R.id.google_text).text = NOT_CONNECTED
+        } else {
+            // Only allow Google logout on PLAIN accounts!
+            if (userViewModel.getUser(requireContext())!!.authType == AuthType.PLAIN) {
+                view.findViewById<Button>(R.id.google_button).setOnClickListener {
+                    performGoogleLogOut()
+                }
+            }
+            view.findViewById<TextView>(R.id.google_text).text = CONNECTED
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -77,9 +228,134 @@ class ProfileScreenFragment : Fragment() {
     private fun setColorTheme(view: View) {
         val colorTheme = ThemesService.getColorTheme()
 
+        // set color to background
         view.findViewById<ConstraintLayout>(R.id.layout)
             .setBackgroundColor(colorTheme.getBackgroundColor())
 
+        // set color to title
         view.findViewById<TextView>(R.id.title).setTextColor(colorTheme.getFontColor())
+
+        // set color to user greeting
+        view.findViewById<TextView>(R.id.hello).setTextColor(colorTheme.getFontColor())
+        view.findViewById<TextView>(R.id.username).setTextColor(
+            colorTheme.getFontColor()
+        )
+
+        // set color to personal info widget
+        view.findViewById<TextView>(R.id.personal_info_title)
+            .setTextColor(colorTheme.getFontColor())
+        view.findViewById<CardView>(R.id.personal_info_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetColor())
+
+        view.findViewById<TextView>(R.id.name_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<TextView>(R.id.name)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.name_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+        view.findViewById<ImageView>(R.id.name_image)
+            .setColorFilter(colorTheme.getSettingsWidgetTitleColor())
+
+        view.findViewById<TextView>(R.id.birth_date_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<TextView>(R.id.birth_date)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.birth_date_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+        view.findViewById<ImageView>(R.id.birth_date_image)
+            .setColorFilter(colorTheme.getSettingsWidgetTitleColor())
+
+        // set colors to app theme widget
+        view.findViewById<TextView>(R.id.app_theme_title).setTextColor(colorTheme.getFontColor())
+        view.findViewById<CardView>(R.id.app_theme_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetColor())
+
+        view.findViewById<TextView>(R.id.color_theme_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+
+        view.findViewById<TextView>(R.id.mode_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+
+        view.findViewById<TextView>(R.id.light_mode_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.light_mode_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<TextView>(R.id.dark_mode_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.dark_mode_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<TextView>(R.id.forest)
+            .setTextColor(colorTheme.getColorThemeColor())
+        view.findViewById<CardView>(R.id.color_theme_forest)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetTitleColor())
+
+        view.findViewById<TextView>(R.id.calmness)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        // todo: set color to button
+
+        view.findViewById<TextView>(R.id.tropicana)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        // todo: set color to button
+
+        view.findViewById<TextView>(R.id.twilight)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        // todo: set color to button
+
+        // set colors to reminders widget
+        view.findViewById<TextView>(R.id.reminders_title).setTextColor(colorTheme.getFontColor())
+        view.findViewById<CardView>(R.id.reminders_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetColor())
+
+        view.findViewById<TextView>(R.id.on_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.on_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<TextView>(R.id.off_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.off_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        // set colors to account info widget
+        view.findViewById<TextView>(R.id.account_info_title).setTextColor(colorTheme.getFontColor())
+        view.findViewById<CardView>(R.id.account_info_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetColor())
+
+        view.findViewById<TextView>(R.id.login_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<TextView>(R.id.login)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.login_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<TextView>(R.id.email_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<TextView>(R.id.email)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.email_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<TextView>(R.id.password_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<TextView>(R.id.password)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.password_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+        view.findViewById<ImageView>(R.id.password_image)
+            .setColorFilter(colorTheme.getSettingsWidgetTitleColor())
+
+        view.findViewById<TextView>(R.id.google_title)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<TextView>(R.id.google_text)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        view.findViewById<CardView>(R.id.google_background)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<CardView>(R.id.feedback_button_background)
+            .setCardBackgroundColor(colorTheme.getButtonColor())
+        view.findViewById<TextView>(R.id.feedback_title)
+            .setTextColor(colorTheme.getButtonTextColor())
     }
 }

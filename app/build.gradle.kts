@@ -35,6 +35,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("io.github.ShawnLin013:number-picker:2.4.13")
 
     // jwt
     api("io.jsonwebtoken:jjwt-api:0.12.5")
