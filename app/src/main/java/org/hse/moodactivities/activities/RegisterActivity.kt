@@ -15,6 +15,8 @@ import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.utils.showCustomToast
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
+import org.hse.moodactivities.models.AuthType
+
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -102,7 +104,7 @@ class RegisterActivity : AppCompatActivity() {
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(
-                    applicationContext, registrationResponse.token
+                    applicationContext, registrationResponse.token, AuthType.PLAIN
                 )
 
                 authViewModel.saveToken(
@@ -110,9 +112,7 @@ class RegisterActivity : AppCompatActivity() {
                     registrationResponse.token
                 )
 
-                userViewModel.user.observe(this) { user ->
-                    Log.d("RegistrationResponse", user.id.toString())
-                }
+                Log.d("RegistrationResponse", userViewModel.getUser(applicationContext)!!.id.toString())
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
                 this.finish()

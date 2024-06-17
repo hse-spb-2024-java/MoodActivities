@@ -90,7 +90,6 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
             newMeta.getQuestion().setAnswer(request.getAnswer());
             newMeta.getQuestion().setTime(LocalTime.now());
             user.updateMeta(newMeta);
-            LOGGER.info("New record for:" + userId);
             MongoDBSingleton.getInstance().getConnection().updateEntity(user);
         } else {
             UserDayMeta oldMeta = user.getMetas().getLast();
@@ -99,7 +98,6 @@ public class QuestionService extends QuestionServiceGrpc.QuestionServiceImplBase
                 oldMeta.getQuestion().setAnswer(request.getAnswer());
                 oldMeta.getQuestion().setTime(LocalTime.now());
                 user.updateMeta(oldMeta);
-                LOGGER.info("Update record for:" + userId);
                 MongoDBSingleton.getInstance().getConnection().updateEntity(user);
             }
         }

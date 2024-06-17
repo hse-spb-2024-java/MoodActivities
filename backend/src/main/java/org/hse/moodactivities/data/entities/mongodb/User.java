@@ -19,6 +19,9 @@ public class User {
 
     private List<UserDayMeta> metas;
 
+    private String promptMetaUpdateDate;
+    private String promptMeta;
+
     public User(final String id, List<UserDayMeta> metas) {
         this.id = id;
         this.metas = metas;
@@ -38,6 +41,22 @@ public class User {
 
     public void setMetas(final List<UserDayMeta> metas) {
         this.metas = metas;
+    }
+
+    public String getPromptMetaUpdateDate() {
+        return promptMetaUpdateDate;
+    }
+
+    public void setPromptMetaUpdateDate(String promptMetaUpdateDate) {
+        this.promptMetaUpdateDate = promptMetaUpdateDate;
+    }
+
+    public String getPromptMeta() {
+        return promptMeta;
+    }
+
+    public void setPromptMeta(String promptMeta) {
+        this.promptMeta = promptMeta;
     }
 
     public void updateMeta(final UserDayMeta meta) {

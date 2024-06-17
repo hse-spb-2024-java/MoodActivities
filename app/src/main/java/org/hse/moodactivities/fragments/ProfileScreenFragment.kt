@@ -1,7 +1,10 @@
 package org.hse.moodactivities.fragments
 
+import GoogleSignInManager
 import android.content.Intent
 import android.os.Bundle
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +12,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.FeedbackActivity
 import org.hse.moodactivities.activities.SettingsActivity
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import org.hse.moodactivities.models.AuthType
+import org.hse.moodactivities.viewmodels.UserViewModel
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.services.UserService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
@@ -23,14 +28,20 @@ import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
 class ProfileScreenFragment : Fragment() {
     companion object {
+        const val NOT_CONNECTED = "Not connected."
+        const val CONNECTED = "Connected."
         const val NO_DATA = "No data"
     }
 
     private var colorThemeCardId = R.id.color_theme_forest
+    private lateinit var userViewModel: UserViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile_screen, container, false)
+
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         // set on click listeners
         setPersonalInfoWidgetListeners(view)
@@ -90,7 +101,7 @@ class ProfileScreenFragment : Fragment() {
 
         var email = UserService.getEmail()
         if (email == null) {
-            login = NO_DATA
+            email = NO_DATA
         }
         view.findViewById<TextView>(R.id.email).text = login
     }
@@ -177,8 +188,40 @@ class ProfileScreenFragment : Fragment() {
             startActivity(intent)
         }
 
-        view.findViewById<Button>(R.id.google_button).setOnClickListener {
-            // todo: open fragment to change google
+        if (GoogleSignIn.getLastSignedInAccount(requireContext()) == null) {
+            view.findViewById<Button>(R.id.google_button).setOnClickListener {
+                performGoogleSignIn()
+            }
+            view.findViewById<TextView>(R.id.google_text).text = NOT_CONNECTED
+        } else {
+            // Only allow Google logout on PLAIN accounts!
+            if (userViewModel.getUser(requireContext())!!.authType == AuthType.PLAIN) {
+                view.findViewById<Button>(R.id.google_button).setOnClickListener {
+                    performGoogleLogOut()
+                }
+            }
+            view.findViewById<TextView>(R.id.google_text).text = CONNECTED
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GoogleSignInManager.RETURN_CODE_SIGN_IN) {
+            // Reload current fragment
+            val ft = requireFragmentManager().beginTransaction()
+            ft.detach(this).attach(this).commit()
+        }
+    }
+    private fun performGoogleSignIn() {
+        val signInIntent = GoogleSignInManager.getSignInIntent()
+        startActivityForResult(signInIntent, GoogleSignInManager.RETURN_CODE_SIGN_IN)
+    }
+
+    private fun performGoogleLogOut() {
+        GoogleSignInManager.signOut(requireContext()) {
+            // Reload current fragment
+            val ft = requireFragmentManager().beginTransaction()
+            ft.detach(this).attach(this).commit()
         }
     }
 
@@ -305,7 +348,7 @@ class ProfileScreenFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.google_title)
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
-        view.findViewById<TextView>(R.id.google)
+        view.findViewById<TextView>(R.id.google_text)
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
         view.findViewById<CardView>(R.id.google_background)
             .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())

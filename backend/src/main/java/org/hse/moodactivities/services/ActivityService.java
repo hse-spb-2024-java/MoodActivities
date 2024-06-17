@@ -11,15 +11,14 @@ import org.hse.moodactivities.common.proto.responses.activity.GetActivityRespons
 import org.hse.moodactivities.common.proto.responses.activity.RecordActivityResponse;
 import org.hse.moodactivities.common.proto.services.ActivityServiceGrpc;
 import org.hse.moodactivities.data.entities.mongodb.DailyActivity;
-import org.hse.moodactivities.data.entities.mongodb.MoodFlowRecord;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
-import org.hse.moodactivities.data.promts.PromptsStorage;
 import org.hse.moodactivities.utils.GptClientRequest;
 import org.hse.moodactivities.utils.GptMessages;
 import org.hse.moodactivities.utils.GptResponse;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
+import org.hse.moodactivities.utils.PromptGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -40,65 +39,9 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         return (users != null && !users.isEmpty()) ? Optional.of(users.get(0)) : Optional.empty();
     }
 
-    private List<String> unwrapRecords(List<MoodFlowRecord> records) {
-        ArrayList<String> emotionsAndActivities = new ArrayList<>();
-        StringBuilder activities = new StringBuilder();
-        StringBuilder emotions = new StringBuilder();
-        for (var record : records) {
-            for (var activity : record.getActivities()) {
-                activities.append(activity.getType()).append(", ");
-            }
-            for (var emotion : record.getMoods()) {
-                emotions.append(emotion.getType()).append(", ");
-            }
-        }
-        emotionsAndActivities.add(emotions.toString());
-        emotionsAndActivities.add(activities.toString());
-        return emotionsAndActivities;
-    }
-
-    private Optional<String> activityPromptCreator(List<UserDayMeta> metas, LocalDate date) {
-        StringBuilder requestString = new StringBuilder(PromptsStorage.getString("dailyActivity.defaultRequest"));
-        List<UserDayMeta> weeklySublist = StatsService.getCorrectDaysSublist(metas, PeriodType.WEEK);
-        if (!weeklySublist.isEmpty()) {
-            int recordedDays = 0;
-            int moodSum = 0;
-            String activities = null;
-            String emotions = null;
-            String lastGeneratedActivity = null;
-            String lastGeneratedActivityReport = null;
-            for (var day : weeklySublist) {
-                if (day.getDailyScore() != 0) {
-                    recordedDays += 1;
-                    moodSum += (int) day.getDailyScore();
-                }
-            }
-            for (int metaIndex = weeklySublist.size() - 1; metaIndex >= 0; metaIndex--) {
-                UserDayMeta meta = weeklySublist.get(metaIndex);
-                if (!meta.getRecords().isEmpty() && emotions == null) {
-                    List<String> unwrappedRecords = unwrapRecords(meta.getRecords());
-                    emotions = unwrappedRecords.get(0);
-                    activities = unwrappedRecords.get(1);
-                }
-                if (meta.getActivity().getReport() != null && lastGeneratedActivity == null) {
-                    lastGeneratedActivity = meta.getActivity().getActivity();
-                    lastGeneratedActivityReport = meta.getActivity().getReport();
-                }
-            }
-            if (recordedDays > 0) {
-                String formattedMoodSum = String.format(PromptsStorage.getString("dailyActivity.addMoodToRequest"), (double) moodSum / recordedDays);
-                requestString.append(formattedMoodSum);
-            }
-            if (emotions != null) {
-                String formattedEmotions = String.format(PromptsStorage.getString("dailyActivity.addDailyRecordRequest"), activities, emotions);
-                requestString.append(formattedEmotions);
-            }
-            if (lastGeneratedActivity != null) {
-                String formattedActivities = String.format(PromptsStorage.getString("dailyActivity.addPreviousActivities"), lastGeneratedActivity, lastGeneratedActivityReport);
-                requestString.append(formattedActivities);
-            }
-        }
-        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString.toString()));
+    private Optional<String> activityPromptCreator(List<UserDayMeta> metas, LocalDate date, String gptMeta) {
+        String requestString = PromptGenerator.generatePrompt(metas, PromptGenerator.Service.dailyActivity, gptMeta, PeriodType.WEEK);
+        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString));
         if (response.statusCode() < HTTP_BAD_REQUEST) {
             return Optional.of(response.message().getContent());
         }
@@ -114,7 +57,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
             user.setMetas(new ArrayList<>());
         }
         LocalDate date = LocalDate.parse(request.getDate());
-        Optional<String> activityString = activityPromptCreator(user.getMetas(), date);
+        Optional<String> activityString = activityPromptCreator(user.getMetas(), date, SurveyService.getMeta(user).orElse(null));
         if (activityString.isEmpty()) {
             responseObserver.onError(new RuntimeException("GPT unavailable"));
         }

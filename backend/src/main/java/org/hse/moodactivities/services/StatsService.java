@@ -1,35 +1,12 @@
 package org.hse.moodactivities.services;
 
+import io.grpc.stub.StreamObserver;
+import org.hse.moodactivities.common.proto.requests.defaults.*;
+import org.hse.moodactivities.common.proto.requests.stats.*;
+import org.hse.moodactivities.common.proto.responses.stats.*;
+
 import static java.net.HttpURLConnection.HTTP_OK;
 
-import org.hse.moodactivities.common.proto.requests.defaults.ActivityRecord;
-import org.hse.moodactivities.common.proto.requests.defaults.DayOfWeek;
-import org.hse.moodactivities.common.proto.requests.defaults.MoodRecord;
-import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
-import org.hse.moodactivities.common.proto.requests.defaults.QuestionRecord;
-import org.hse.moodactivities.common.proto.requests.stats.AllDayRequest;
-import org.hse.moodactivities.common.proto.requests.stats.DaysMoodRequest;
-import org.hse.moodactivities.common.proto.requests.stats.FullReportRequest;
-import org.hse.moodactivities.common.proto.requests.stats.MoodForTheMonthRequest;
-import org.hse.moodactivities.common.proto.requests.stats.ReportType;
-import org.hse.moodactivities.common.proto.requests.stats.TopListRequest;
-import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest;
-import org.hse.moodactivities.common.proto.requests.stats.WeatherGptRequest;
-import org.hse.moodactivities.common.proto.requests.stats.WeatherStatsRequest;
-import org.hse.moodactivities.common.proto.requests.stats.WeeklyReportRequest;
-import org.hse.moodactivities.common.proto.responses.stats.AllDayResponse;
-import org.hse.moodactivities.common.proto.responses.stats.DaysMoodResponse;
-import org.hse.moodactivities.common.proto.responses.stats.FullReportResponse;
-import org.hse.moodactivities.common.proto.responses.stats.MoodForTheMonthResponse;
-import org.hse.moodactivities.common.proto.responses.stats.TopItem;
-import org.hse.moodactivities.common.proto.responses.stats.TopListResponse;
-import org.hse.moodactivities.common.proto.responses.stats.UsersMood;
-import org.hse.moodactivities.common.proto.responses.stats.UsersMoodResponse;
-import org.hse.moodactivities.common.proto.responses.stats.Weather;
-import org.hse.moodactivities.common.proto.responses.stats.WeatherGptResponse;
-import org.hse.moodactivities.common.proto.responses.stats.WeatherStats;
-import org.hse.moodactivities.common.proto.responses.stats.WeatherStatsResponse;
-import org.hse.moodactivities.common.proto.responses.stats.WeeklyReportResponse;
 import org.hse.moodactivities.common.proto.services.StatsServiceGrpc;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
@@ -39,6 +16,7 @@ import org.hse.moodactivities.utils.GptMessages;
 import org.hse.moodactivities.utils.GptResponse;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
+import org.hse.moodactivities.utils.PromptGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,16 +24,11 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import io.grpc.stub.StreamObserver;
+import static java.net.HttpURLConnection.HTTP_OK;
 
 public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
@@ -94,7 +67,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         return today.toEpochDay() - possibleDate.toEpochDay() < diff;
     }
 
-    static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
+    public static List<UserDayMeta> getCorrectDaysSublist(List<UserDayMeta> metas, PeriodType period) {
         if (metas == null) {
             return new ArrayList<>();
         }
@@ -213,6 +186,12 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                         .setReport(meta.getActivity().getReport())
                         .build();
             }
+            FitnessRecord fitness = null;
+            if (meta.getFitnessData() != null) {
+                fitness = FitnessRecord.newBuilder()
+                        .setSteps(meta.getFitnessData().getSteps())
+                        .build();
+            }
 
             response = AllDayResponse.newBuilder()
                     .addAllRecords(records)
@@ -220,6 +199,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
                     .setScore(meta.getDailyScore())
                     .setQuestion(question == null ? QuestionRecord.getDefaultInstance() : question)
                     .setActivity(activity == null ? ActivityRecord.getDefaultInstance() : activity)
+                    .setFitness(fitness == null ? FitnessRecord.getDefaultInstance() : fitness)
                     .build();
         }
         responseObserver.onNext(response);
@@ -402,6 +382,31 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
             LOGGER.info("gpt fault on user: " + userId);
         }
         responseObserver.onNext(WeatherGptResponse.newBuilder().setConclusion(conclusion).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getAiAnalytics(AiRequest request, StreamObserver<AiResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        AiResponse response;
+        String text;
+        if (user.getMetas() != null) {
+            String prompt = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.aiThinker, null, request.getPeriod());
+            GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, prompt));
+            if (gptResponse.statusCode() == HTTP_OK) {
+                text = gptResponse.response();
+            } else {
+                text = "The analytics service is currently unavailable, please wait.";
+            }
+        } else {
+            text = "We have not yet gathered enough data about you to conduct an analysis.";
+        }
+        response = AiResponse
+                .newBuilder()
+                .setText(text)
+                .build();
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }

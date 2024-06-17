@@ -25,8 +25,8 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // location dependencies
-    implementation("com.github.BirjuVachhani:locus-android:3.0.1")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.github.BirjuVachhani:locus-android:3.0.1")
 
     // android dependencies
     implementation("androidx.core:core-ktx:1.12.0")
@@ -44,10 +44,12 @@ dependencies {
         exclude(group = "org.json", module = "json")
     }
 
-    implementation("com.google.android.gms:play-services-auth:20.0.0")
+    // Google Services
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("com.google.android.gms:play-services-fitness:21.1.0")
 
-    // location
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    // kotlin
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
 
     // tests
     testImplementation("junit:junit:4.13.2")
