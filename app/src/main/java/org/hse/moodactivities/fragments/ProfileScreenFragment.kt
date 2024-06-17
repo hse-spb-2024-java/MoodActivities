@@ -15,12 +15,18 @@ import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.FeedbackActivity
 import org.hse.moodactivities.activities.SettingsActivity
 import org.hse.moodactivities.color_themes.ColorTheme
+import org.hse.moodactivities.color_themes.ColorThemeType
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.services.UserService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 
 class ProfileScreenFragment : Fragment() {
+    companion object {
+        const val NO_DATA = "No data"
+    }
+
+    private var colorThemeCardId = R.id.color_theme_forest
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -33,23 +39,53 @@ class ProfileScreenFragment : Fragment() {
         setAccountInfoWidgetListeners(view)
         setFeedbackWidgetListener(view)
 
+        val colorThemeType = ThemesService.getColorTheme().getColorThemeType()
+        pressColorThemeButton(view, getColorThemeCardIdByType(colorThemeType))
+
+        // set light mode
+        val lightMode = ThemesService.getLightMode()
+        if (lightMode == ColorTheme.LightMode.DAY) {
+            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
+        } else {
+            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
+        }
+
+        UserService.uploadUserInfoFromServer()
+
         setUserData(view)
         setColorTheme(view)
 
         return view
     }
 
-    private fun setUserData(view: View) {
-        // todo: get user name if available
-        val name = "Kristina"
-        view.findViewById<TextView>(R.id.name).text = name
+    private fun getColorThemeCardIdByType(colorThemeType: ColorThemeType): Int {
+        return when (colorThemeType) {
+            ColorThemeType.CALMNESS -> R.id.color_theme_calmness
+            ColorThemeType.TWILIGHT -> R.id.color_theme_twilight
+            ColorThemeType.FOREST -> R.id.color_theme_forest
+            ColorThemeType.TROPICAL -> R.id.color_theme_tropicana
+        }
+    }
 
-        // todo: get birth date if available
-        val birthDate = "12/12/2003"
+    private fun setUserData(view: View) {
+        var username = UserService.getUsername()
+        if (username == null) {
+            username = NO_DATA
+        }
+        view.findViewById<TextView>(R.id.name).text = username
+
+        var birthDate = UserService.getBirthDate()
+        if (birthDate == null) {
+            birthDate = NO_DATA
+        }
         view.findViewById<TextView>(R.id.birth_date).text = birthDate
 
-        // todo: get birth date if available
-        val login = "f"
+        var login = UserService.getBirthDate()
+        if (login == null) {
+            login = NO_DATA
+        }
         view.findViewById<TextView>(R.id.login).text = login
     }
 
@@ -74,20 +110,30 @@ class ProfileScreenFragment : Fragment() {
         }
     }
 
+    private fun pressColorThemeButton(view: View, newColorThemeCardId: Int) {
+        view.findViewById<CardView>(colorThemeCardId).alpha = BUTTON_DISABLED_ALPHA
+        colorThemeCardId = newColorThemeCardId
+        view.findViewById<CardView>(newColorThemeCardId).alpha = BUTTON_ENABLED_ALPHA
+    }
+
     private fun setAppThemeWidgetListeners(view: View) {
-        view.findViewById<Button>(R.id.color_theme_button_1).setOnClickListener {
+        view.findViewById<Button>(R.id.color_theme_button_forest).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_forest)
             // todo: set color theme 1
         }
 
-        view.findViewById<Button>(R.id.color_theme_button_1).setOnClickListener {
+        view.findViewById<Button>(R.id.color_theme_button_calmness).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_calmness)
             // todo: set color theme 2
         }
 
-        view.findViewById<Button>(R.id.color_theme_button_1).setOnClickListener {
+        view.findViewById<Button>(R.id.color_theme_button_tropicana).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_tropicana)
             // todo: set color theme 3
         }
 
-        view.findViewById<Button>(R.id.color_theme_button_1).setOnClickListener {
+        view.findViewById<Button>(R.id.color_theme_button_twilight).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_twilight)
             // todo: set color theme 4
         }
 
@@ -192,6 +238,23 @@ class ProfileScreenFragment : Fragment() {
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
         view.findViewById<CardView>(R.id.dark_mode_background)
             .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
+
+        view.findViewById<TextView>(R.id.forest)
+            .setTextColor(colorTheme.getColorThemeColor())
+        view.findViewById<CardView>(R.id.color_theme_forest)
+            .setCardBackgroundColor(colorTheme.getSettingsWidgetTitleColor())
+
+        view.findViewById<TextView>(R.id.calmness)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        // todo: set color to button
+
+        view.findViewById<TextView>(R.id.tropicana)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        // todo: set color to button
+
+        view.findViewById<TextView>(R.id.twilight)
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
+        // todo: set color to button
 
         // set colors to reminders widget
         view.findViewById<TextView>(R.id.reminders_title).setTextColor(colorTheme.getFontColor())

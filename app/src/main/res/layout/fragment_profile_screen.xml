@@ -129,9 +129,8 @@
                                 android:layout_marginStart="15dp"
                                 android:layout_marginEnd="15dp"
                                 android:fontFamily="@font/app_font"
-                                android:text="No data"
                                 android:textSize="14sp"
-                                tools:ignore="HardcodedText,RtlHardcoded" />
+                                tools:ignore="RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout
@@ -191,11 +190,11 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
                                 android:fontFamily="@font/app_font"
-                                android:text="No data"
                                 android:textSize="14sp"
-                                tools:ignore="HardcodedText,RtlHardcoded" />
+                                tools:ignore="RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout
@@ -267,92 +266,161 @@
                         android:baselineAligned="false"
                         android:weightSum="4">
 
-                        <RelativeLayout
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/color_theme_1"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                app:cardCornerRadius="20dp"
-                                app:cardElevation="1dp" />
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
 
-                            <Button
-                                android:id="@+id/color_theme_button_1"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:alpha="0" />
-                        </RelativeLayout>
+                                android:gravity="center">
 
-                        <RelativeLayout
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/color_theme_forest"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    app:cardCornerRadius="20dp"
+                                    app:cardElevation="1dp" />
+
+                                <Button
+                                    android:id="@+id/color_theme_button_forest"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:alpha="0" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/forest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Forest"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/app_font"
+                                android:layout_marginTop="5dp"
+                                android:layout_gravity="center"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/color_theme_2"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:alpha="0.5"
-                                app:cardCornerRadius="20dp"
-                                app:cardElevation="1dp" />
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center">
 
-                            <Button
-                                android:id="@+id/color_theme_button_2"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:alpha="0" />
-                        </RelativeLayout>
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/color_theme_calmness"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:alpha="0.5"
+                                    app:cardCornerRadius="20dp"
+                                    app:cardElevation="1dp" />
 
-                        <RelativeLayout
+                                <Button
+                                    android:id="@+id/color_theme_button_calmness"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:alpha="0" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/calmness"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Calmness"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/app_font"
+                                android:layout_marginTop="5dp"
+                                android:layout_gravity="center"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/color_theme_3"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:alpha="0.5"
-                                app:cardCornerRadius="20dp"
-                                app:cardElevation="1dp" />
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center">
 
-                            <Button
-                                android:id="@+id/color_theme_button_3"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:alpha="0" />
-                        </RelativeLayout>
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/color_theme_tropicana"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:alpha="0.5"
+                                    app:cardCornerRadius="20dp"
+                                    app:cardElevation="1dp" />
 
-                        <RelativeLayout
+                                <Button
+                                    android:id="@+id/color_theme_button_tropicana"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:alpha="0" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/tropicana"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tropicana"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/app_font"
+                                android:layout_marginTop="5dp"
+                                android:layout_gravity="center"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                            <androidx.cardview.widget.CardView
-                                android:id="@+id/color_theme_4"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:alpha="0.5"
-                                app:cardCornerRadius="20dp"
-                                app:cardElevation="1dp" />
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center">
 
-                            <Button
-                                android:id="@+id/color_theme_button_4"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:alpha="0" />
-                        </RelativeLayout>
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/color_theme_twilight"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:alpha="0.5"
+                                    app:cardCornerRadius="20dp"
+                                    app:cardElevation="1dp" />
+
+                                <Button
+                                    android:id="@+id/color_theme_button_twilight"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:alpha="0" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/twilight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Twilight"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/app_font"
+                                android:layout_marginTop="5dp"
+                                android:layout_gravity="center"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <Space
@@ -616,9 +684,8 @@
                                 android:layout_gravity="right"
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
-                                android:text="No data provided"
                                 android:textSize="14sp"
-                                tools:ignore="HardcodedText,RtlHardcoded" />
+                                tools:ignore="RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
@@ -661,9 +728,8 @@
                                 android:layout_gravity="right"
                                 android:layout_marginEnd="20dp"
                                 android:fontFamily="@font/app_font"
-                                android:text="No data provided"
                                 android:textSize="14sp"
-                                tools:ignore="HardcodedText,RtlHardcoded" />
+                                tools:ignore="RtlHardcoded" />
                         </androidx.cardview.widget.CardView>
 
                         <RelativeLayout

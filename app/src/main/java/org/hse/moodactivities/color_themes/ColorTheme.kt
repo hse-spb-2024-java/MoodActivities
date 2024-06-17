@@ -3,7 +3,7 @@ package org.hse.moodactivities.color_themes
 import android.graphics.Color
 
 enum class ColorThemeType {
-    CALMNESS, TWILIGHT, FOREST,
+    CALMNESS, TWILIGHT, FOREST, TROPICAL
 }
 
 abstract class ColorTheme(
@@ -49,6 +49,10 @@ abstract class ColorTheme(
 
     fun getFontColor(): Int {
         return fontColor
+    }
+
+    fun getColorThemeColor(): Int {
+        return color2
     }
 
     /* return color for index from 0 to 11
