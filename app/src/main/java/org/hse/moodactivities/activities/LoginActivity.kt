@@ -12,6 +12,7 @@ import org.hse.moodactivities.databinding.ActivityLoginBinding
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
+import org.hse.moodactivities.models.AuthType
 
 
 class LoginActivity : AppCompatActivity() {
@@ -77,17 +78,15 @@ class LoginActivity : AppCompatActivity() {
                 }
                 userViewModel.updateUserFromJwt(
                     applicationContext,
-                    loginResponse.token
+                    loginResponse.token,
+                    AuthType.PLAIN,
                 )
 
                 authViewModel.saveToken(
                     getSharedPreferences("userPreferences", Context.MODE_PRIVATE),
                     loginResponse.token
                 )
-
-                userViewModel.user.observe(this) { user ->
-                    Log.d("LoginResponse", user.id.toString())
-                }
+                Log.d("LoginResponse", userViewModel.getUser(applicationContext)!!.id.toString())
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
             }

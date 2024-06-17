@@ -130,9 +130,9 @@ public class AuthService extends AuthServiceGrpc.AuthServiceImplBase {
             Optional<UserProfile> optUserProfile = UserProfileRepository.findByOauthId(
                     AuthProvider.GOOGLE, oauthId
             );
-            UserProfile profile = optUserProfile.orElse(
+            UserProfile profile = optUserProfile.orElseGet(
                     // TODO: proper error handling
-                    UserProfileRepository.createGoogleUserProfile(email, oauthId)
+                    () -> UserProfileRepository.createGoogleUserProfile(email, oauthId)
             );
             responseBuilder.setType(OauthLoginResponse.responseType.SUCCESS)
                     .setToken(generateJwsForUserProfile(profile));

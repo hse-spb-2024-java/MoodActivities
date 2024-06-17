@@ -1,5 +1,6 @@
 package org.hse.moodactivities.viewmodels
 
+import GoogleSignInManager
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -74,7 +75,7 @@ class AuthViewModel : ViewModel() {
     fun handleGoogleLogin(task: Task<GoogleSignInAccount>): LiveData<OauthLoginResponse> {
         val responseLiveData = MutableLiveData<OauthLoginResponse>()
         try {
-            val account = task.getResult(ApiException::class.java)
+            val account = GoogleSignInManager.getSignedInAccount(task)
             val oauthToken = account.idToken;
 
             val request = OauthLoginRequest.newBuilder().setOauthToken(oauthToken).build()
