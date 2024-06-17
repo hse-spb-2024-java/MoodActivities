@@ -18,7 +18,7 @@ public class PromptGenerator {
     }
 
     public static String generatePrompt(List<UserDayMeta> metas, Service service, String gptMeta, PeriodType period) {
-        StringBuilder requestString = new StringBuilder(PromptsStorage.getString(service.toString() + "defaultRequest"));
+        StringBuilder requestString = new StringBuilder(PromptsStorage.getString(service.toString() + ".defaultRequest"));
         List<UserDayMeta> metaSublist = StatsService.getCorrectDaysSublist(metas, period);
         if (!metaSublist.isEmpty()) {
             int recordedDays = 0;

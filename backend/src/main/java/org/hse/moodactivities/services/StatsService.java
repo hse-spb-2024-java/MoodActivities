@@ -409,7 +409,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     }
 
     @Override
-    public void getAiAnalitics(AiRequest request, StreamObserver<AiResponse> responseObserver) {
+    public void getAiAnalytics(AiRequest request, StreamObserver<AiResponse> responseObserver) {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
         AiResponse response;
