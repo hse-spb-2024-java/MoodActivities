@@ -90,9 +90,9 @@ class ChartsService(activity: AppCompatActivity) {
 
     private inner class LineChartXAxisValueFormatter : IndexAxisValueFormatter() {
         override fun getFormattedValue(value: Float): String {
-            var date = LocalDate.now()
-            date = date.minusDays(value.toLong())
-            return date.dayOfMonth.toString() + "/" + date.month.value
+            var date = startDate
+            date = date.plusDays(value.toLong())
+            return date.dayOfMonth.toString() + "/" + date.month.value + "/" + date.year.toString().subSequence(2, 4)
         }
     }
 
