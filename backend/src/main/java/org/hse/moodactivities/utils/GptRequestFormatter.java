@@ -36,7 +36,7 @@ public class GptRequestFormatter {
             message.append(String.format("%s, ", emotion));
         }
         message.append(String.format(PromptsStorage.getString("surveyPrompt.addQuestion"), request.getQuestion(), request.getAnswer()));
-        message.append(PromptsStorage.getString("surveyPrompt.personalAdvice"));
+        message.append(PromptsStorage.getString("common.personalAdvice"));
         message = StringValidator(message.toString());
         return new GptMessages.GptMessage(GptMessages.GptMessage.Role.user, message.toString());
     }
