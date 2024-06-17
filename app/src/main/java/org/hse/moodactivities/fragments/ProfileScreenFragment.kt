@@ -46,9 +46,9 @@ class ProfileScreenFragment : Fragment() {
         val lightMode = ThemesService.getLightMode()
         if (lightMode == ColorTheme.LightMode.DAY) {
             view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_ENABLED_ALPHA
-            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_DISABLED_ALPHA
         } else {
-            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_ENABLED_ALPHA
+            view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_DISABLED_ALPHA
             view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
         }
 
@@ -82,11 +82,17 @@ class ProfileScreenFragment : Fragment() {
         }
         view.findViewById<TextView>(R.id.birth_date).text = birthDate
 
-        var login = UserService.getBirthDate()
+        var login = UserService.getLogin()
         if (login == null) {
             login = NO_DATA
         }
         view.findViewById<TextView>(R.id.login).text = login
+
+        var email = UserService.getEmail()
+        if (email == null) {
+            login = NO_DATA
+        }
+        view.findViewById<TextView>(R.id.email).text = login
     }
 
     private fun setPersonalInfoWidgetListeners(view: View) {
@@ -165,12 +171,10 @@ class ProfileScreenFragment : Fragment() {
     }
 
     private fun setAccountInfoWidgetListeners(view: View) {
-        view.findViewById<Button>(R.id.email_button).setOnClickListener {
-            // todo: open fragment to change email
-        }
-
         view.findViewById<Button>(R.id.password_button).setOnClickListener {
-            // todo: open fragment to change password
+            UserService.setSettingsType(UserService.Companion.SettingsType.PASSWORD)
+            val intent = Intent(this.activity, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         view.findViewById<Button>(R.id.google_button).setOnClickListener {
@@ -289,8 +293,6 @@ class ProfileScreenFragment : Fragment() {
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
         view.findViewById<CardView>(R.id.email_background)
             .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
-        view.findViewById<ImageView>(R.id.email_image)
-            .setColorFilter(colorTheme.getSettingsWidgetTitleColor())
 
         view.findViewById<TextView>(R.id.password_title)
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())

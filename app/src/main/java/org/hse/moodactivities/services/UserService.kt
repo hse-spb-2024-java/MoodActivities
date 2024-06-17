@@ -17,7 +17,7 @@ class UserService {
     }
     companion object {
         enum class SettingsType {
-            NAME, BIRTH_DAY
+            NAME, BIRTH_DAY, PASSWORD
         }
 
         private var settingsType = SettingsType.NAME
@@ -48,6 +48,12 @@ class UserService {
             // todo: upload
 
             userInfo.isUpdatedFromServer = true
+        }
+
+        fun checkOldPassword(oldPassword: String): Boolean {
+            // todo: check
+
+            return true
         }
 
         fun getUsername(): String? {

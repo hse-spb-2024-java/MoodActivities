@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import org.hse.moodactivities.R
 import org.hse.moodactivities.fragments.ChangeBirthDateFragment
 import org.hse.moodactivities.fragments.ChangeNameFragment
+import org.hse.moodactivities.fragments.ChangePasswordFragment
 import org.hse.moodactivities.services.UserService
 
 class SettingsActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class SettingsActivity : AppCompatActivity() {
         when (settingsType) {
             UserService.Companion.SettingsType.NAME -> setFragment(ChangeNameFragment())
             UserService.Companion.SettingsType.BIRTH_DAY -> setFragment(ChangeBirthDateFragment())
+            UserService.Companion.SettingsType.PASSWORD -> setFragment(ChangePasswordFragment())
         }
     }
 
