@@ -386,7 +386,6 @@ class ChartsService(activity: AppCompatActivity) {
 
         dataSet.setCircleColor(colorTheme.getWeatherChartColor())
         dataSet.circleRadius = 6.0f
-        dataSet.circleHoleRadius = 0.0f
 
         // set legend description
         val legend: Legend = lineChart.legend
@@ -454,7 +453,6 @@ class ChartsService(activity: AppCompatActivity) {
 
         dataSet.setCircleColor(colorTheme.getWeatherChartColor())
         dataSet.circleRadius = 5.0f
-        dataSet.circleHoleRadius = 0.0f
 
         // set legend description
         val legend: Legend = lineChart.legend
@@ -564,7 +562,6 @@ class ChartsService(activity: AppCompatActivity) {
 
         dataSet.setCircleColor(colorTheme.getWeatherChartColor())
         dataSet.circleRadius = 6.0f
-        dataSet.circleHoleRadius = 0.0f
 
         // set legend description
         val legend: Legend = lineChart.legend
@@ -631,10 +628,14 @@ class ChartsService(activity: AppCompatActivity) {
             .orElse(Double.MAX_VALUE)
 
         for (stats in weatherStats) {
-            val score = stats.getScore()
+            val score = stats.getScore() + 1
             val temperature = stats.getTemperature()
             maxDoubleValue = max(maxDoubleValue, temperature - minTemperature)
             entries.add(Entry((temperature - minTemperature).toFloat(), score.toFloat()))
+        }
+
+        entries.sortWith { entry1, entry2 ->
+            entry1.x.compareTo(entry2.x)
         }
 
         return entries
@@ -652,9 +653,13 @@ class ChartsService(activity: AppCompatActivity) {
         }
 
         for (stats in weatherStats) {
-            val score = stats.getScore()
+            val score = stats.getScore() + 1
             val humidity = stats.getHumidity()
             entries.add(Entry((humidity).toFloat(), score.toFloat()))
+        }
+
+        entries.sortWith { entry1, entry2 ->
+            entry1.x.compareTo(entry2.x)
         }
 
         return entries
