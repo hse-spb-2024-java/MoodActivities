@@ -27,6 +27,8 @@ import "responses/stats-service/weather-stats-response.proto";
 import "responses/stats-service/weather-gpt-response.proto";
 import "responses/stats-service/ai-response.proto";
 
+import "defaults/empty.proto";
+
 service StatsService {
   rpc AllDayReport(requests.AllDayRequest) returns (responses.AllDayResponse) {}
   rpc GetFullReport(requests.FullReportRequest) returns (responses.FullReportResponse) {}

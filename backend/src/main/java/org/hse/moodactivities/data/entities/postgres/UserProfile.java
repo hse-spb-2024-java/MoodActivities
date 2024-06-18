@@ -61,6 +61,7 @@ public class UserProfile {
                        String email,
                        String unhashedPassword,
                        String id) {
+        this.authProvider = provider;
         switch (provider) {
             case PLAIN -> initPlain(login, email, unhashedPassword);
             case GOOGLE -> initGoogle(email, id);
@@ -94,6 +95,10 @@ public class UserProfile {
 
     public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
+    }
+
+    public AuthProvider getAuthProvider() {
+        return this.authProvider;
     }
 
     public String getDayOfBirth() {

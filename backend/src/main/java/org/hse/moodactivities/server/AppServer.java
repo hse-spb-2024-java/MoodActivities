@@ -39,6 +39,7 @@ public class AppServer {
                 .addService(new ProfileService())
                 .addService(new StatsService())
                 .addService(new SurveyService())
+                .addService(new HealthService())
                 .intercept(new JWTAuthServerInterceptor())
                 .build();
 
