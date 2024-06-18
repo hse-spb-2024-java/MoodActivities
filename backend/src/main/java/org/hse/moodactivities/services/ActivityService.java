@@ -92,7 +92,13 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
 
         DailyActivity record = user.getMetas().getLast().getActivity();
         record.setTime(LocalTime.now());
-        record.setReport(request.getRecord());
+        String report = null;
+        if (request.getRecord() == null || request.getRecord().isEmpty()) {
+            report = "The user completed the activity but decided not to leave a review about it.";
+        } else {
+            report = request.getRecord();
+        }
+        record.setReport(report);
         user.getMetas().getLast().setActivity(record);
 
         MongoDBSingleton.getInstance().getConnection().updateEntity(user);

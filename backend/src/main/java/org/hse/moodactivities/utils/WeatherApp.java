@@ -34,7 +34,7 @@ public class WeatherApp {
         return Optional.empty();
     }
 
-    public static Optional<UserDayMeta.Weather> getWeather(double latitude, double longitude) {
+    public static Optional<UserDayMeta.Weather> getWeather(double latitude, double longitude, int mood) {
         String url = String.format("%s?lat=%f&lon=%f&appid=%s&units=metric", BASE_URL, latitude, longitude, API_KEY);
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
@@ -48,10 +48,7 @@ public class WeatherApp {
                 double temperature = jsonResponse.getJSONObject("main").getDouble("temp");
                 double humidity = jsonResponse.getJSONObject("main").getDouble("humidity");
                 Optional<String> newDescription = retranslateWeather(weatherDescription);
-                if (newDescription.isPresent()) {
-                    return Optional.of(new UserDayMeta.Weather(false, newDescription.get(), temperature, humidity));
-                }
-                return Optional.empty();
+                return newDescription.map(s -> new UserDayMeta.Weather(false, s, temperature, humidity, mood));
             } else {
                 LOGGER.error("Error: " + response.statusCode());
             }

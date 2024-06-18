@@ -1,6 +1,7 @@
 package org.hse.moodactivities.services;
 
 import io.grpc.stub.StreamObserver;
+
 import org.hse.moodactivities.common.proto.requests.defaults.*;
 import org.hse.moodactivities.common.proto.requests.stats.*;
 import org.hse.moodactivities.common.proto.responses.stats.*;
@@ -343,17 +344,20 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         User user = getUser(userId);
         List<WeatherStats> result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
                 .filter((item) -> !item.getWeather().isEmpty())
-                .map((item) -> WeatherStats.newBuilder()
-                        .setDate(item.getDate().toString())
-                        .setScore(((Double) item.getDailyScore()).intValue())
-                        .setWeather(Weather.newBuilder()
-                                .setHumidity(item.getWeather().humidity())
-                                .setTemperature(item.getWeather().temperature())
-                                .setDescription(item.getWeather().description())
+                .map((items) -> items.getWeather().stream()
+                        .map(item -> WeatherStats.newBuilder()
+                                .setDate(items.getDate().toString())
+                                .setScore(item.mood())
+                                .setWeather(Weather.newBuilder()
+                                        .setHumidity(item.humidity())
+                                        .setTemperature(item.temperature())
+                                        .setDescription(item.description())
+                                        .build())
                                 .build())
-                        .build())
-                .limit(period)
-                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();
+                        .collect(Collectors.toList()))
+                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getFirst().getDate())))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
         WeatherStatsResponse response = WeatherStatsResponse.newBuilder().addAllWeatherStats(result).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
@@ -365,14 +369,18 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         User user = getUser(userId);
         List<WeatherStats> correctSublist = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
-                .map((item) -> WeatherStats.newBuilder()
-                        .setScore(((Double) item.getDailyScore()).intValue())
-                        .setWeather(Weather.newBuilder()
-                                .setDescription(item.getWeather().description())
+                .filter((item) -> !item.getWeather().isEmpty())
+                .map((items) -> items.getWeather().stream()
+                        .map((item) -> WeatherStats.newBuilder()
+                                .setScore(item.mood())
+                                .setWeather(Weather.newBuilder()
+                                        .setDescription(item.description())
+                                        .build())
                                 .build())
-                        .build())
-                .limit(period)
-                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();
+                        .collect(Collectors.toList()))
+                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getFirst().getDate())))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
         Optional<String> possibleConclusion = weatherAnalytics(correctSublist);
         String conclusion = null;
         if (possibleConclusion.isPresent()) {
