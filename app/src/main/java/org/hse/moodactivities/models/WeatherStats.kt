@@ -15,6 +15,7 @@ class WeatherStats(stats: org.hse.moodactivities.common.proto.responses.stats.We
         temperature = stats.weather.temperature
         humidity = stats.weather.humidity
         description = stats.weather.description
+        Log.i("weather", description)
         date = stats.date
     }
 

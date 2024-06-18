@@ -477,11 +477,11 @@ class ChartsService(activity: AppCompatActivity) {
 
     private fun convertDescriptionToValue(description: String): Float {
         return when (description) {
-            "Clear weather" -> 0.0f
-            "Cloudy weather" -> 1.0f
-            "Rainy weather" -> 2.0f
-            "Snowy weather" -> 3.0f
-            "Windy weather" -> 4.0f
+            "Clear weather." -> 5.0f
+            "Cloudy weather." -> 4.0f
+            "Rainy weather." -> 3.0f
+            "Snowy weather." -> 2.0f
+            "Windy weather." -> 1.0f
             else -> -1.0f
         }
     }
