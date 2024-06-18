@@ -28,11 +28,6 @@ public class AppServer {
             AppServer.class.getName());
 
     public static void main(String[] args) {
-        try {
-            Filler.runFiller("2");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         ExecutorService executor = Executors.newFixedThreadPool(10);
         StringGenerationService.startScheduledGeneration();
 

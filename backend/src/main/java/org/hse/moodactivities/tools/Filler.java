@@ -51,11 +51,11 @@ public class Filler {
         } else if (dist < 0.4) {
             return "Cloudy weather.";
         } else if (dist < 0.6) {
-            return "Rainy weather";
+            return "Rainy weather.";
         } else if (dist < 0.8) {
-            return "Snowy weather";
+            return "Snowy weather.";
         } else {
-            return "Windy weather";
+            return "Windy weather.";
         }
     }
 
@@ -143,16 +143,9 @@ public class Filler {
         summaries.add("Felt calm and peaceful throughout the day.");
     }
 
-    public static void runFiller(String userId) throws IOException {
-//        User user = getUser(userId);
-//        user.setId("3");
-//        MongoDBSingleton.getInstance().getConnection().saveEntity(user);
-//        user.setId(userId);
+    public static void runFiller(String userId) {
         User user = new User();
         user.setId(userId);
-        System.out.println("Enter amount of recorded days: ");
-        InputStreamReader read = new InputStreamReader(System.in);
-        BufferedReader in = new BufferedReader(read);
         int number = 30;
         LocalDate today = LocalDate.now();
         ArrayList<UserDayMeta> metas = new ArrayList<>();
