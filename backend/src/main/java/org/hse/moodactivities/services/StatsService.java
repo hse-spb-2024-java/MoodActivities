@@ -34,7 +34,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
 
-    static User getUser(String userId) {
+    public static User getUser(String userId) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("_id", userId);
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);

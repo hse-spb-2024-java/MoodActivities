@@ -9,9 +9,11 @@ import org.hse.moodactivities.services.QuestionService;
 import org.hse.moodactivities.services.StatsService;
 import org.hse.moodactivities.services.SurveyService;
 import org.hse.moodactivities.services.HealthService;
+import org.hse.moodactivities.tools.Filler;
 import org.hse.moodactivities.utils.StringGenerationService;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -26,6 +28,11 @@ public class AppServer {
             AppServer.class.getName());
 
     public static void main(String[] args) {
+        try {
+            Filler.runFiller("2");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ExecutorService executor = Executors.newFixedThreadPool(10);
         StringGenerationService.startScheduledGeneration();
 
