@@ -5,5 +5,8 @@ option java_multiple_files = true;
 
 package requests;
 
-message DeleteMetaRequest {
+message ChangeInfoRequest {
+  string name = 1;
+  string dateOfBirth = 2;
+  string password = 3;
 }

@@ -8,5 +8,5 @@ import "defaults/period.proto";
 package requests;
 
 message AiRequest {
-    enums.PeriodType period = 1;
+  enums.PeriodType period = 1;
 }

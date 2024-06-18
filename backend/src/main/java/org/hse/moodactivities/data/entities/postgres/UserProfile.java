@@ -23,6 +23,12 @@ public class UserProfile {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String name;
+
+    @Column(unique = false)
+    private String dayOfBirth;
+
 
     private String hashedPassword;
 
@@ -40,7 +46,7 @@ public class UserProfile {
                            String unhashedPassword) {
         this.login = login;
         this.email = email;
-        this.hashedPassword = BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
+        this.hashedPassword = hashPassword(unhashedPassword);
     }
 
     private void initGoogle(String email,
@@ -95,8 +101,32 @@ public class UserProfile {
         return this.authProvider;
     }
 
+    public String getDayOfBirth() {
+        return dayOfBirth;
+    }
+
+    public void setDayOfBirth(String dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean hasGoogle() {
+        return this.oauthId != null;
+    }
+
     public boolean validatePassword(String password) {
         BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword);
         return result.verified;
+    }
+
+    public static String hashPassword(String unhashedPassword) {
+        return BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
     }
 }
