@@ -464,5 +464,13 @@ class InsightsScreenFragment : Fragment() {
             ?.setCardBackgroundColor(colorTheme.getWeatherChartLabelColor())
         view.findViewById<TextView>(R.id.description_time_label)
             ?.setTextColor(colorTheme.getWeatherChartLabelTextColor())
+
+        // set colors to steps chart
+        view.findViewById<TextView>(R.id.steps_tittle)
+            ?.setTextColor(colorTheme.getStepsChartTextColor())
+        view.findViewById<TextView>(R.id.steps_counter)
+            ?.setTextColor(colorTheme.getStepsChartTextColor())
+        view.findViewById<CardView>(R.id.steps_widget)
+            ?.setCardBackgroundColor(colorTheme.getStepsChartColor())
     }
 }

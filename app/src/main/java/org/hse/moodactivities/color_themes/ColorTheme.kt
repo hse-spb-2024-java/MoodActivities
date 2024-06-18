@@ -375,6 +375,16 @@ abstract class ColorTheme(
         return dimmedColor5
     }
 
+    // color for step charts
+
+    open fun getStepsChartTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getStepsChartColor(): Int {
+        return dimmedColor3
+    }
+
     open fun getSettingsWidgetTitleColor(): Int {
         return dimmedBackgroundColor
     }
