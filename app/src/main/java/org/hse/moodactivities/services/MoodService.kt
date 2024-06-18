@@ -131,7 +131,6 @@ class MoodService {
             val request = AiRequest.newBuilder().setPeriod(PeriodType.WEEK).build()
             val response = statsServiceBlockingStub.getAiAnalytics(request)
 
-            // todo: add recommendations
             return WeekAnalyticsResponse(response.text, response.advice)
         }
 

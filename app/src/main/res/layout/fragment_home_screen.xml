@@ -688,7 +688,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
@@ -698,6 +698,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
 
@@ -718,7 +719,7 @@
                             android:layout_marginEnd="20dp"
                             android:fontFamily="@font/app_font"
                             android:text="Some words about your week"
-                            android:textSize="15sp"
+                            android:textSize="16sp"
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
 
@@ -726,6 +727,7 @@
                         android:id="@+id/analytics_summary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:fontFamily="@font/app_font"
                         android:textSize="15sp" />
 
@@ -753,7 +755,7 @@
                             android:layout_marginEnd="20dp"
                             android:fontFamily="@font/app_font"
                             android:text="Some recommendations for you"
-                            android:textSize="15sp"
+                            android:textSize="16sp"
                             tools:ignore="HardcodedText" />
                     </LinearLayout>
 
@@ -761,10 +763,15 @@
                         android:id="@+id/analytics_recommendations"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:fontFamily="@font/app_font"
                         android:textSize="15sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
