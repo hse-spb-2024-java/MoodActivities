@@ -391,11 +391,17 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         User user = getUser(userId);
         AiResponse response;
         String text;
+        String advice = "currently unavailable";
         if (user.getMetas() != null) {
             String prompt = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.aiThinker, null, request.getPeriod());
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, prompt));
             if (gptResponse.statusCode() == HTTP_OK) {
-                text = gptResponse.response();
+                text = gptResponse.message().getContent();
+                prompt = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.aiAdvice, null, request.getPeriod());
+                gptResponse = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, prompt));
+                if (gptResponse.statusCode() == HTTP_OK) {
+                    advice = gptResponse.message().getContent();
+                }
             } else {
                 text = "The analytics service is currently unavailable, please wait.";
             }
@@ -405,6 +411,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         response = AiResponse
                 .newBuilder()
                 .setText(text)
+                .setAdvice(advice)
                 .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();

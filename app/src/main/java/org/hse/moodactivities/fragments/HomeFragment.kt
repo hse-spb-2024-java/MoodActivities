@@ -2,21 +2,23 @@ package org.hse.moodactivities.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.ChatActivity
 import org.hse.moodactivities.activities.DailyActivity
 import org.hse.moodactivities.activities.MoodFlowActivity
 import org.hse.moodactivities.activities.QuestionsActivity
+import org.hse.moodactivities.responses.WeekAnalyticsResponse
 import org.hse.moodactivities.services.MoodService
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.utils.UiUtils
@@ -28,6 +30,10 @@ import java.time.LocalDate
 class HomeFragment : Fragment() {
     companion object {
         const val AMOUNT_OF_DAYS = 5
+        const val ANALYTICS_ENABLE = 1.0f
+        const val ANALYTICS_DISABLE = 0.0f
+        const val ANALYTICS_DISABLE_TEXT = "open"
+        const val ANALYTICS_ENABLE_TEXT = "close"
 
         private val dayOfWeekCardId: Array<Int> = arrayOf(
             R.id.day_5,
@@ -58,6 +64,9 @@ class HomeFragment : Fragment() {
             R.id.week_widget_image_1,
         )
     }
+
+    private var isAnalyticsShown = false
+    private var weekAnalytics: WeekAnalyticsResponse? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -99,6 +108,30 @@ class HomeFragment : Fragment() {
             val chatActivity = Intent(this.activity, ChatActivity::class.java)
             startActivity(chatActivity)
         }
+
+        view.rootView.findViewById<CardView>(R.id.analytics_background).alpha = ANALYTICS_DISABLE
+        view.rootView.findViewById<TextView>(R.id.analytics_button_text).text =
+            ANALYTICS_DISABLE_TEXT
+
+        view.rootView.findViewById<Button>(R.id.analytics_button).setOnClickListener {
+            if (!isAnalyticsShown) {
+                setWeekAnalytics()
+
+                view.rootView.findViewById<CardView>(R.id.analytics_background).alpha =
+                    ANALYTICS_ENABLE
+                view.rootView.findViewById<TextView>(R.id.analytics_button_text).text =
+                    ANALYTICS_ENABLE_TEXT
+                isAnalyticsShown = true
+
+            } else {
+                view.rootView.findViewById<CardView>(R.id.analytics_background).alpha =
+                    ANALYTICS_DISABLE
+                view.rootView.findViewById<TextView>(R.id.analytics_button_text).text =
+                    ANALYTICS_DISABLE_TEXT
+                isAnalyticsShown = false
+            }
+
+        }
     }
 
     private fun setCurrentDate(view: View) {
@@ -130,16 +163,28 @@ class HomeFragment : Fragment() {
         dayTextView.text = day.toString()
     }
 
+    private fun setWeekAnalytics() {
+        if (weekAnalytics == null) {
+            weekAnalytics = MoodService.getWeekAnalytics(this.activity as AppCompatActivity)
+
+            view?.findViewById<TextView>(R.id.analytics_summary)?.text =
+                weekAnalytics?.getAnalytics()
+            view?.findViewById<TextView>(R.id.analytics_recommendations)?.text =
+                weekAnalytics?.getRecommendations()
+
+            Log.i("home", "set week analytics")
+        }
+    }
+
     private fun setColorTheme(view: View) {
         val colorTheme = ThemesService.getColorTheme()
 
         // set background color
-        view.findViewById<LinearLayout>(R.id.layout)
+        view.findViewById<ConstraintLayout>(R.id.layout)
             ?.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set font color to titles
-        view.findViewById<TextView>(R.id.home_screen_title)
-            ?.setTextColor(colorTheme.getFontColor())
+        view.findViewById<TextView>(R.id.home_screen_title)?.setTextColor(colorTheme.getFontColor())
 
         // set colors to daily activity widget
         view.findViewById<CardView>(R.id.activity_card)
@@ -185,5 +230,25 @@ class HomeFragment : Fragment() {
             ?.setCardBackgroundColor(colorTheme.getChatWidgetColor())
         view.findViewById<TextView>(R.id.ask_widget_text)
             ?.setTextColor(colorTheme.getChatWidgetColorTextColor())
+
+        // set color to analytics widget
+        view.findViewById<TextView>(R.id.analytics_widget_title)
+            ?.setTextColor(colorTheme.getFontColor())
+
+        view.findViewById<CardView>(R.id.analytics_button_background)
+            ?.setCardBackgroundColor(colorTheme.getButtonColor())
+        view.findViewById<TextView>(R.id.analytics_button_text)
+            ?.setTextColor(colorTheme.getButtonTextColor())
+
+        view.findViewById<CardView>(R.id.analytics_background)
+            ?.setCardBackgroundColor(colorTheme.getWeekAnalyticsWidgetColor())
+        view.findViewById<TextView>(R.id.analytics_title)
+            ?.setTextColor(colorTheme.getWeekAnalyticsWidgetTitleTextColor())
+        view.findViewById<TextView>(R.id.analytics_summary)
+            ?.setTextColor(colorTheme.getWeekAnalyticsWidgetTextColor())
+        view.findViewById<TextView>(R.id.analytics_recommendations_title)
+            ?.setTextColor(colorTheme.getWeekAnalyticsWidgetTitleTextColor())
+        view.findViewById<TextView>(R.id.analytics_recommendations)
+            ?.setTextColor(colorTheme.getWeekAnalyticsWidgetTextColor())
     }
 }

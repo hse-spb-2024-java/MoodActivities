@@ -178,6 +178,20 @@ abstract class ColorTheme(
         return dimmedBackgroundColor
     }
 
+    // colors for activity widget
+
+    open fun getWeekAnalyticsWidgetColor(): Int {
+        return color4
+    }
+
+    open fun getWeekAnalyticsWidgetTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getWeekAnalyticsWidgetTitleTextColor(): Int {
+        return fontColor
+    }
+
     // colors for calendar fragment
     open fun getCalendarWidgetColor(): Int {
         return dimmedColor3
