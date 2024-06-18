@@ -30,17 +30,17 @@ public class WeatherService extends WeatherServiceGrpc.WeatherServiceImplBase {
         } else {
             user = new User(id, new ArrayList<>());
         }
-        handler(user, request.getLat(), request.getLon());
+        handler(user, request.getLat(), request.getLon(), 0);
     }
 
-    public static void handler(User user, double lat, double lon) {
-        Optional<UserDayMeta.Weather> weather = WeatherApp.getWeather(lat, lon);
+    public static void handler(User user, double lat, double lon, int mood) {
+        Optional<UserDayMeta.Weather> weather = WeatherApp.getWeather(lat, lon, mood);
         if (weather.isPresent()) {
-            if (user.getMetas() != null && user.getMetas().size() > 0 && user.getMetas().getLast().getDate().equals(LocalDate.now())) {
-                user.getMetas().getLast().setWeather(weather.get());
+            if (user.getMetas() != null && !user.getMetas().isEmpty() && user.getMetas().getLast().getDate().equals(LocalDate.now())) {
+                user.getMetas().getLast().addWeather(weather.get());
             } else {
                 UserDayMeta newMeta = new UserDayMeta();
-                newMeta.setWeather(weather.get());
+                newMeta.addWeather(weather.get());
                 if (user.getMetas() == null) {
                     user.setMetas(new ArrayList<>());
                 }

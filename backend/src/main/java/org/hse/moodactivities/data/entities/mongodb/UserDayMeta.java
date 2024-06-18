@@ -1,5 +1,7 @@
 package org.hse.moodactivities.data.entities.mongodb;
 
+import net.bytebuddy.implementation.bytecode.collection.ArrayAccess;
+
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest;
 
 import java.io.Serial;
@@ -28,7 +30,7 @@ public class UserDayMeta implements Serializable {
 
     private FitnessData fitnessData;
 
-    private Weather weather;
+    private ArrayList<Weather> weather;
 
     public void setDate(LocalDate date) {
         this.date = date;
@@ -62,12 +64,19 @@ public class UserDayMeta implements Serializable {
         calculateDailyScore();
     }
 
-    public Weather getWeather() {
-        return weather == null ? new Weather(true) : weather;
+    public ArrayList<Weather> getWeather() {
+        return weather == null ? new ArrayList<>() : weather;
     }
 
-    public void setWeather(Weather weather) {
+    public void setWeather(ArrayList<Weather> weather) {
         this.weather = weather;
+    }
+
+    public void addWeather(Weather weather) {
+        if (this.weather == null) {
+            this.weather = new ArrayList<>();
+        }
+        this.weather.add(weather);
     }
 
     public UserDayMeta(LocalDate date, List<MoodFlowRecord> records, double dailyScore, String dailyConclusion, FitnessData fitnessData) {
@@ -197,9 +206,10 @@ public class UserDayMeta implements Serializable {
     public static record Weather(boolean isEmpty,
                                  String description,
                                  double temperature,
-                                 double humidity) implements Serializable {
+                                 double humidity,
+                                 int mood) implements Serializable {
         public Weather(boolean isEmpty) {
-            this(isEmpty, null, 0, 0);
+            this(isEmpty, null, 0, 0, 0);
         }
     }
 }
