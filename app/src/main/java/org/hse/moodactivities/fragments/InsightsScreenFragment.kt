@@ -284,6 +284,9 @@ class InsightsScreenFragment : Fragment() {
     private fun setColorTheme(view: View) {
         val colorTheme = ThemesService.getColorTheme()
 
+        // set color to status bar
+        activity?.window?.statusBarColor = colorTheme.getBackgroundColor()
+
         // set color to background
         view.findViewById<ConstraintLayout>(R.id.layout)
             ?.setBackgroundColor(colorTheme.getBackgroundColor())

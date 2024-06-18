@@ -26,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -74,6 +73,7 @@
                 android:id="@+id/personal_info_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:elevation="1dp"
                 app:cardCornerRadius="20dp">
 
@@ -229,6 +229,7 @@
                 android:id="@+id/app_theme_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="1dp">
 
@@ -268,8 +269,8 @@
 
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
@@ -297,18 +298,18 @@
                                 android:id="@+id/forest"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/app_font"
                                 android:text="Forest"
                                 android:textSize="12sp"
-                                android:fontFamily="@font/app_font"
-                                android:layout_marginTop="5dp"
-                                android:layout_gravity="center"
                                 tools:ignore="HardcodedText" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
@@ -336,18 +337,18 @@
                                 android:id="@+id/calmness"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/app_font"
                                 android:text="Calmness"
                                 android:textSize="12sp"
-                                android:fontFamily="@font/app_font"
-                                android:layout_marginTop="5dp"
-                                android:layout_gravity="center"
                                 tools:ignore="HardcodedText" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
@@ -357,7 +358,7 @@
                                 android:gravity="center">
 
                                 <androidx.cardview.widget.CardView
-                                    android:id="@+id/color_theme_tropicana"
+                                    android:id="@+id/color_theme_lemonade"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:alpha="0.5"
@@ -365,28 +366,28 @@
                                     app:cardElevation="1dp" />
 
                                 <Button
-                                    android:id="@+id/color_theme_button_tropicana"
+                                    android:id="@+id/color_theme_button_lemonade"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:alpha="0" />
                             </RelativeLayout>
 
                             <TextView
-                                android:id="@+id/tropicana"
+                                android:id="@+id/lemonade"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Tropicana"
-                                android:textSize="12sp"
-                                android:fontFamily="@font/app_font"
-                                android:layout_marginTop="5dp"
                                 android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/app_font"
+                                android:text="Lemonade"
+                                android:textSize="12sp"
                                 tools:ignore="HardcodedText" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
@@ -396,7 +397,7 @@
                                 android:gravity="center">
 
                                 <androidx.cardview.widget.CardView
-                                    android:id="@+id/color_theme_twilight"
+                                    android:id="@+id/color_theme_energetic"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:alpha="0.5"
@@ -404,21 +405,21 @@
                                     app:cardElevation="1dp" />
 
                                 <Button
-                                    android:id="@+id/color_theme_button_twilight"
+                                    android:id="@+id/color_theme_button_energetic"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:alpha="0" />
                             </RelativeLayout>
 
                             <TextView
-                                android:id="@+id/twilight"
+                                android:id="@+id/energetic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Twilight"
-                                android:textSize="12sp"
-                                android:fontFamily="@font/app_font"
-                                android:layout_marginTop="5dp"
                                 android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/app_font"
+                                android:text="Energetic"
+                                android:textSize="12sp"
                                 tools:ignore="HardcodedText" />
                         </LinearLayout>
                     </LinearLayout>
@@ -439,7 +440,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:baselineAligned="false"
                         android:weightSum="2">
 
@@ -447,7 +448,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:gravity="center">
 
@@ -455,6 +455,7 @@
                                 android:id="@+id/light_mode_background"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
+                                android:layout_margin="3dp"
                                 app:cardCornerRadius="20dp"
                                 app:cardElevation="1dp">
 
@@ -474,13 +475,13 @@
                                 android:id="@+id/light_mode_button"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
+                                android:layout_margin="3dp"
                                 android:alpha="0" />
                         </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center">
 
@@ -488,6 +489,7 @@
                                 android:id="@+id/dark_mode_background"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
+                                android:layout_margin="3dp"
                                 android:alpha="0.5"
                                 app:cardCornerRadius="20dp"
                                 app:cardElevation="1dp">
@@ -508,6 +510,7 @@
                                 android:id="@+id/dark_mode_button"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
+                                android:layout_margin="3dp"
                                 android:alpha="0" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -523,6 +526,7 @@
                 android:id="@+id/reminders_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:elevation="1dp"
                 app:cardCornerRadius="20dp">
 
@@ -562,6 +566,7 @@
                                 android:id="@+id/on_background"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
+                                android:layout_margin="3dp"
                                 app:cardCornerRadius="20dp"
                                 app:cardElevation="1dp">
 
@@ -581,12 +586,13 @@
                                 android:id="@+id/on_button"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
+                                android:layout_margin="3dp"
                                 android:alpha="0" />
                         </RelativeLayout>
 
                         <RelativeLayout
                             android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="center">
@@ -594,7 +600,8 @@
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/off_background"
                                 android:layout_width="60dp"
-                                android:layout_height="20dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="3dp"
                                 android:alpha="0.5"
                                 app:cardCornerRadius="20dp"
                                 app:cardElevation="1dp">
@@ -615,6 +622,7 @@
                                 android:id="@+id/off_button"
                                 android:layout_width="60dp"
                                 android:layout_height="20dp"
+                                android:layout_margin="3dp"
                                 android:alpha="0" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -630,6 +638,7 @@
                 android:id="@+id/account_info_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="3dp"
                 android:elevation="1dp"
                 app:cardCornerRadius="20dp">
 
