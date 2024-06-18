@@ -93,10 +93,10 @@ public class ProfileService extends ProfileServiceGrpc.ProfileServiceImplBase {
 
     private GetInfoResponse dumpInfo(UserProfile userProfile) {
         GetInfoResponse response = GetInfoResponse.newBuilder()
-                .setName(userProfile.getName())
-                .setLogin(userProfile.getLogin())
-                .setEmail(userProfile.getEmail())
-                .setDateOfBirth(userProfile.getDayOfBirth())
+                .setName(userProfile.getName() != null ? userProfile.getName() : "")
+                .setLogin(userProfile.getLogin() != null ? userProfile.getLogin() : "")
+                .setEmail(userProfile.getEmail() != null ? userProfile.getEmail() : "")
+                .setDateOfBirth(userProfile.getDayOfBirth() != null ? userProfile.getDayOfBirth() : "")
                 .setGoogleEnabled(userProfile.hasGoogle())
                 .build();
         return response;

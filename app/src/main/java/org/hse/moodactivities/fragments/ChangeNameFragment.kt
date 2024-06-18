@@ -10,11 +10,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import org.hse.moodactivities.R
 import org.hse.moodactivities.services.ThemesService
+import org.hse.moodactivities.services.UserService
 import org.hse.moodactivities.utils.showCustomToast
 
 class ChangeNameFragment : Fragment() {
@@ -29,11 +31,19 @@ class ChangeNameFragment : Fragment() {
         }
 
         view.findViewById<CardView>(R.id.completed_button_background).setOnClickListener {
-            view.findViewById<EditText>(R.id.new_name).text.clear()
+            val newName = view.findViewById<EditText>(R.id.new_name).text.toString()
 
-            Toast(this.activity as Activity).showCustomToast(
-                "Your name has been changed", this.activity as Activity
-            )
+            if (UserService.setUsername(newName, this.activity as AppCompatActivity)) {
+                view?.findViewById<TextView>(R.id.old_name)?.text = newName
+
+                Toast(this.activity as Activity).showCustomToast(
+                    "Your name has been changed", this.activity as Activity
+                )
+            } else {
+                Toast(this.activity as Activity).showCustomToast(
+                    "Error: name wasn't changed", this.activity as Activity
+                )
+            }
         }
 
         setColorTheme(view)
