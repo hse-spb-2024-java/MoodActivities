@@ -4,14 +4,14 @@ import org.hse.moodactivities.color_themes.CalmnessColorTheme
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
 import org.hse.moodactivities.color_themes.ForestColorTheme
-import org.hse.moodactivities.color_themes.TwilightColorTheme
+import org.hse.moodactivities.color_themes.LemonadeColorTheme
 
 class ThemesService {
     companion object {
         private var colorThemes: HashMap<ColorThemeType, ColorTheme> =
             hashMapOf(
                 ColorThemeType.CALMNESS to CalmnessColorTheme(),
-                ColorThemeType.TWILIGHT to TwilightColorTheme(),
+                ColorThemeType.LEMONADE to LemonadeColorTheme(),
                 ColorThemeType.FOREST to ForestColorTheme(),
             )
 

@@ -1,7 +1,7 @@
 package org.hse.moodactivities.color_themes
 
-class TwilightColorTheme : ColorTheme(
-    ColorThemeType.TWILIGHT,
+class EnergeticColorTheme : ColorTheme(
+    ColorThemeType.ENERGETIC,
     LightMode.DAY,
     getColorByName("light timberwolf")!!,
     getColorByName("dimmed light timberwolf")!!,
@@ -20,4 +20,10 @@ class TwilightColorTheme : ColorTheme(
     getColorByName("dimmed rosy taupe")!!,
     getColorByName("cornell red")!!,
     getColorByName("napier green")!!,
-)
+) {
+    companion object {
+        fun getColorThemeColor(): Int {
+            return getColorByName("fulvous")
+        }
+    }
+}

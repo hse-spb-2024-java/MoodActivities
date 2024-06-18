@@ -17,8 +17,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.FeedbackActivity
 import org.hse.moodactivities.activities.SettingsActivity
+import org.hse.moodactivities.color_themes.CalmnessColorTheme
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
+import org.hse.moodactivities.color_themes.EnergeticColorTheme
+import org.hse.moodactivities.color_themes.LemonadeColorTheme
 import org.hse.moodactivities.models.AuthType
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.services.UserService
@@ -74,9 +77,9 @@ class ProfileScreenFragment : Fragment() {
     private fun getColorThemeCardIdByType(colorThemeType: ColorThemeType): Int {
         return when (colorThemeType) {
             ColorThemeType.CALMNESS -> R.id.color_theme_calmness
-            ColorThemeType.TWILIGHT -> R.id.color_theme_twilight
+            ColorThemeType.LEMONADE -> R.id.color_theme_energetic
             ColorThemeType.FOREST -> R.id.color_theme_forest
-            ColorThemeType.TROPICAL -> R.id.color_theme_tropicana
+            ColorThemeType.ENERGETIC -> R.id.color_theme_lemonade
         }
     }
 
@@ -144,13 +147,13 @@ class ProfileScreenFragment : Fragment() {
             // todo: set color theme 2
         }
 
-        view.findViewById<Button>(R.id.color_theme_button_tropicana).setOnClickListener {
-            pressColorThemeButton(view, R.id.color_theme_tropicana)
+        view.findViewById<Button>(R.id.color_theme_button_lemonade).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_lemonade)
             // todo: set color theme 3
         }
 
-        view.findViewById<Button>(R.id.color_theme_button_twilight).setOnClickListener {
-            pressColorThemeButton(view, R.id.color_theme_twilight)
+        view.findViewById<Button>(R.id.color_theme_button_energetic).setOnClickListener {
+            pressColorThemeButton(view, R.id.color_theme_energetic)
             // todo: set color theme 4
         }
 
@@ -298,15 +301,18 @@ class ProfileScreenFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.calmness)
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
-        // todo: set color to button
+        view.findViewById<CardView>(R.id.color_theme_lemonade)
+            .setCardBackgroundColor(CalmnessColorTheme.getColorThemeColor())
 
-        view.findViewById<TextView>(R.id.tropicana)
+        view.findViewById<TextView>(R.id.lemonade)
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
-        // todo: set color to button
+        view.findViewById<CardView>(R.id.color_theme_lemonade)
+            .setCardBackgroundColor(LemonadeColorTheme.getColorThemeColor())
 
-        view.findViewById<TextView>(R.id.twilight)
+        view.findViewById<TextView>(R.id.energetic)
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())
-        // todo: set color to button
+        view.findViewById<CardView>(R.id.color_theme_energetic)
+            .setCardBackgroundColor(EnergeticColorTheme.getColorThemeColor())
 
         // set colors to reminders widget
         view.findViewById<TextView>(R.id.reminders_title).setTextColor(colorTheme.getFontColor())

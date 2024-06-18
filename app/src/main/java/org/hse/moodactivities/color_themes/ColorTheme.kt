@@ -3,7 +3,7 @@ package org.hse.moodactivities.color_themes
 import android.graphics.Color
 
 enum class ColorThemeType {
-    CALMNESS, TWILIGHT, FOREST, TROPICAL
+    CALMNESS, LEMONADE, FOREST, ENERGETIC
 }
 
 abstract class ColorTheme(
@@ -431,6 +431,8 @@ abstract class ColorTheme(
             "brunswick green" to Color.parseColor("#5A8E69"),
             "dimmed brunswick green" to Color.parseColor("#233729"),
             "dark midnight blue" to Color.parseColor("#003366"),
+            "mindaro" to Color.parseColor("#D2E090"),
+            "fulvous" to Color.parseColor("#E8871E"),
         )
 
         private const val DEFAULT_COLOR = Color.WHITE
