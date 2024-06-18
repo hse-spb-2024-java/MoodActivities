@@ -6,12 +6,16 @@ class WeatherStats(stats: org.hse.moodactivities.common.proto.responses.stats.We
     private var score: Int
     private var temperature: Double
     private var humidity: Double
+    private var description: String
+    private var date: String
 
     init {
         Log.i("weather", stats.weather.description)
         score = stats.score
         temperature = stats.weather.temperature
         humidity = stats.weather.humidity
+        description = stats.weather.description
+        date = stats.date
     }
 
     fun getScore(): Int {
@@ -24,5 +28,13 @@ class WeatherStats(stats: org.hse.moodactivities.common.proto.responses.stats.We
 
     fun getHumidity(): Double {
         return humidity
+    }
+
+    fun getDescription(): String {
+        return description
+    }
+
+    fun getDate(): String {
+        return description
     }
 }

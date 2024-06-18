@@ -354,11 +354,11 @@ abstract class ColorTheme(
         return color1
     }
 
-<<<<<<< HEAD
     // color for weather chart
     open fun getWeatherChartBackgroundColor(): Int {
         return color4
     }
+
     open fun getWeatherChartTextColor(): Int {
         return dimmedBackgroundColor
     }
@@ -373,7 +373,8 @@ abstract class ColorTheme(
 
     open fun getWeatherChartLabelColor(): Int {
         return dimmedColor5
-=======
+    }
+
     open fun getSettingsWidgetTitleColor(): Int {
         return dimmedBackgroundColor
     }
@@ -384,7 +385,6 @@ abstract class ColorTheme(
 
     open fun getSettingsWidgetFieldColor(): Int {
         return color4
->>>>>>> master
     }
 
     companion object {
