@@ -9,16 +9,15 @@ import org.hse.moodactivities.services.QuestionService;
 import org.hse.moodactivities.services.StatsService;
 import org.hse.moodactivities.services.SurveyService;
 import org.hse.moodactivities.services.HealthService;
-import org.hse.moodactivities.tools.Filler;
 import org.hse.moodactivities.utils.StringGenerationService;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -27,11 +26,13 @@ public class AppServer {
     private final static Logger LOGGER = Logger.getLogger(
             AppServer.class.getName());
 
+    private static final Dotenv dotenv = Dotenv.load();
+
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(10);
         StringGenerationService.startScheduledGeneration();
 
-        UserProfileRepository.createPlainUserProfile("admin", "", "12345678");
+        UserProfileRepository.createPlainUserProfile(dotenv.get("ADMIN"), dotenv.get("EMAIL"), dotenv.get("PASSWORD"));
 
         Server server = ServerBuilder.forPort(12345)
                 .executor(executor)
