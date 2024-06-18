@@ -132,7 +132,7 @@ class MoodService {
             val response = statsServiceBlockingStub.getAiAnalytics(request)
 
             // todo: add recommendations
-            return WeekAnalyticsResponse(response.text, "")
+            return WeekAnalyticsResponse(response.text, response.advice)
         }
 
         private fun getFormattedDate(localDate: LocalDate): String {

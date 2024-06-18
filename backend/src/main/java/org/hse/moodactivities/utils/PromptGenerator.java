@@ -14,6 +14,7 @@ public class PromptGenerator {
     public enum Service {
         metaCreator,
         aiThinker,
+        aiAdvice,
         dailyActivity
     }
 

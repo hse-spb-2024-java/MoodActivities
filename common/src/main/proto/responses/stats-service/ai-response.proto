@@ -11,4 +11,5 @@ package responses;
 
 message AiResponse {
   string text = 1;
+  string advice = 2;
 }
