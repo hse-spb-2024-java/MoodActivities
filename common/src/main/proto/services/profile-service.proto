@@ -5,12 +5,15 @@ option java_multiple_files = true;
 
 package services;
 
-import "requests/profile-service/add-meta-request.proto";
-import "requests/profile-service/delete-meta-request.proto";
-import "responses/profile-service/add-meta-response.proto";
-import "responses/profile-service/delete-meta-response.proto";
+import "requests/profile-service/get-info-request.proto";
+import "requests/profile-service/change-info-request.proto";
+import "requests/profile-service/feedback-request.proto";
+import "responses/profile-service/get-info-response.proto";
+import "responses/profile-service/change-info-response.proto";
+import "responses/profile-service/feedback-response.proto";
 
 service ProfileService {
-  rpc AddUserMeta(requests.AddMetaRequest) returns (responses.AddMetaResponse) {}
-  rpc DeleteUserMeta(requests.DeleteMetaRequest) returns (responses.DeleteMetaResponse) {}
+  rpc GetInfo(requests.GetInfoRequest) returns (responses.GetInfoResponse) {}
+  rpc ChangeInfo(requests.ChangeInfoRequest) returns (responses.ChangeInfoResponse) {}
+  rpc GiveFeedback(requests.FeedbackRequest) returns (responses.FeedbackResponse) {}
 }

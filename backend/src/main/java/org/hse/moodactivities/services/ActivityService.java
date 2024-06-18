@@ -39,8 +39,9 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
         return (users != null && !users.isEmpty()) ? Optional.of(users.get(0)) : Optional.empty();
     }
 
-    private Optional<String> activityPromptCreator(List<UserDayMeta> metas, LocalDate date, String gptMeta) {
-        String requestString = PromptGenerator.generatePrompt(metas, PromptGenerator.Service.dailyActivity, gptMeta, PeriodType.WEEK);
+    private Optional<String> activityPromptCreator(User user, LocalDate date, String gptMeta) {
+        String requestString = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.dailyActivity, gptMeta, PeriodType.WEEK);
+        requestString = PromptGenerator.addFeedBack(requestString, user);
         GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString));
         if (response.statusCode() < HTTP_BAD_REQUEST) {
             return Optional.of(response.message().getContent());
@@ -57,7 +58,7 @@ public class ActivityService extends ActivityServiceGrpc.ActivityServiceImplBase
             user.setMetas(new ArrayList<>());
         }
         LocalDate date = LocalDate.parse(request.getDate());
-        Optional<String> activityString = activityPromptCreator(user.getMetas(), date, SurveyService.getMeta(user).orElse(null));
+        Optional<String> activityString = activityPromptCreator(user, date, SurveyService.getMeta(user).orElse(null));
         if (activityString.isEmpty()) {
             responseObserver.onError(new RuntimeException("GPT unavailable"));
         }

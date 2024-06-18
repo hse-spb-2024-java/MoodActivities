@@ -2,6 +2,7 @@ package org.hse.moodactivities.utils;
 
 import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
 import org.hse.moodactivities.data.entities.mongodb.MoodFlowRecord;
+import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
 import org.hse.moodactivities.data.promts.PromptsStorage;
 import org.hse.moodactivities.services.StatsService;
@@ -84,5 +85,17 @@ public class PromptGenerator {
         emotionsAndActivities.add(emotions.toString());
         emotionsAndActivities.add(activities.toString());
         return emotionsAndActivities;
+    }
+
+    public static String addFeedBack(String requestString, User user) {
+        StringBuilder requestStringBuilder = new StringBuilder();
+        requestStringBuilder.append(requestString);
+        if (user.getPositiveFeedback() != null) {
+            requestStringBuilder.append(String.format(PromptsStorage.getString("common.positiveFeedback"), user.getPositiveFeedback()));
+        }
+        if (user.getNegativeFeedback() != null) {
+            requestStringBuilder.append(String.format(PromptsStorage.getString("common.negativeFeedback"), user.getNegativeFeedback()));
+        }
+        return requestStringBuilder.toString();
     }
 }

@@ -33,7 +33,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
 
-    private static User getUser(String userId) {
+    static User getUser(String userId) {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("_id", userId);
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
@@ -394,6 +394,7 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         String advice = "currently unavailable";
         if (user.getMetas() != null) {
             String prompt = PromptGenerator.generatePrompt(user.getMetas(), PromptGenerator.Service.aiThinker, null, request.getPeriod());
+            prompt = PromptGenerator.addFeedBack(prompt, user);
             GptResponse gptResponse = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, prompt));
             if (gptResponse.statusCode() == HTTP_OK) {
                 text = gptResponse.message().getContent();

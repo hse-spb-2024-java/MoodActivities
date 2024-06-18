@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.profile";
+option java_multiple_files = true;
+
+import "responses/profile-service/get-info-response.proto";
+
+package responses;
+
+message ChangeInfoResponse {
+  bool completed = 1;
+  string errorMessage = 2;
+  GetInfoResponse newInfo = 3;
+}
