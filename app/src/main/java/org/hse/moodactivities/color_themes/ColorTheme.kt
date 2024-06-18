@@ -35,11 +35,15 @@ abstract class ColorTheme(
         return colorThemeType
     }
 
-    fun getMode(): LightMode {
+    fun getLightMode(): LightMode {
         return lightMode
     }
 
-    fun getBackgroundColor(): Int {
+    fun setLightMode(newLightMode: LightMode) {
+         lightMode = newLightMode
+    }
+
+    open fun getBackgroundColor(): Int {
         return backgroundColor
     }
 
@@ -47,7 +51,7 @@ abstract class ColorTheme(
         return dimmedBackgroundColor
     }
 
-    fun getFontColor(): Int {
+    open fun getFontColor(): Int {
         return fontColor
     }
 
@@ -125,10 +129,6 @@ abstract class ColorTheme(
     // colors for mood flow widget
     open fun getMoodFlowWidgetColor(): Int {
         return color2
-    }
-
-    open fun getMoodFlowWidgetButtonTextColor(): Int {
-        return dimmedBackgroundColor
     }
 
     open fun getMoodFlowWidgetIconColor(): Int {
@@ -396,6 +396,7 @@ abstract class ColorTheme(
             "air superiority blue" to Color.parseColor("#6493B1"),
             "dimmed air superiority blue" to Color.parseColor("#294252"),
             "dark air superiority blue" to Color.parseColor("#7693AE"),
+            "dark dark air superiority blue" to Color.parseColor("#5C7D9C"),
             "dimmed dark air superiority blue" to Color.parseColor("#41586E"),
             "silver" to Color.parseColor("#CEBEBE"),
             "dimmed silver" to Color.parseColor("#AC9191"),
@@ -416,14 +417,20 @@ abstract class ColorTheme(
             "dark green" to Color.parseColor("#1F2F16"),
             "dark powder blue" to Color.parseColor("#92AFD7"),
             "dimmed dark powder blue" to Color.parseColor("#5D88C4"),
-            "vista blue" to Color.parseColor("#84A1C3"),
+            "dark dimmed dark powder blue" to Color.parseColor("#2B4B76"),
+            "dark dark powder blue" to Color.parseColor("#4475B9"),
+            "vista blue" to Color.parseColor("#7999BE"),
+            "dark vista blue" to Color.parseColor("#587FAE"),
             "dimmed vista blue" to Color.parseColor("#364F6E"),
+            "light payne's grey" to Color.parseColor("#DDE4E8"),
             "payne's grey" to Color.parseColor("#5A7684"),
             "dimmed payne's grey" to Color.parseColor("#485E6A"),
+            "dark payne's grey" to Color.parseColor("#34444d"),
             "feldgrau" to Color.parseColor("#4A696A"),
             "dimmed feldgrau" to Color.parseColor("#3B5455"),
             "brunswick green" to Color.parseColor("#5A8E69"),
             "dimmed brunswick green" to Color.parseColor("#233729"),
+            "dark midnight blue" to Color.parseColor("#003366"),
         )
 
         private const val DEFAULT_COLOR = Color.WHITE

@@ -3,8 +3,6 @@ package org.hse.moodactivities.fragments
 import GoogleSignInManager
 import android.content.Intent
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +10,21 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.FeedbackActivity
 import org.hse.moodactivities.activities.SettingsActivity
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import org.hse.moodactivities.models.AuthType
-import org.hse.moodactivities.viewmodels.UserViewModel
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.services.UserService
 import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
+import org.hse.moodactivities.viewmodels.UserViewModel
 
 class ProfileScreenFragment : Fragment() {
     companion object {
@@ -157,13 +157,15 @@ class ProfileScreenFragment : Fragment() {
         view.findViewById<Button>(R.id.light_mode_button).setOnClickListener {
             view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_ENABLED_ALPHA
             view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_DISABLED_ALPHA
-            ThemesService.changeLightMode(ColorTheme.LightMode.DAY)
+            ThemesService.setLightMode(ColorTheme.LightMode.DAY)
+            setColorTheme(view)
         }
 
         view.findViewById<Button>(R.id.dark_mode_button).setOnClickListener {
             view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
             view.findViewById<CardView>(R.id.light_mode_background).alpha = BUTTON_DISABLED_ALPHA
-            ThemesService.changeLightMode(ColorTheme.LightMode.NIGHT)
+            ThemesService.setLightMode(ColorTheme.LightMode.NIGHT)
+            setColorTheme(view)
         }
     }
 
@@ -227,6 +229,9 @@ class ProfileScreenFragment : Fragment() {
 
     private fun setColorTheme(view: View) {
         val colorTheme = ThemesService.getColorTheme()
+
+        // set color to status bar
+        activity?.window?.statusBarColor = colorTheme.getBackgroundColor()
 
         // set color to background
         view.findViewById<ConstraintLayout>(R.id.layout)

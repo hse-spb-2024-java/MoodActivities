@@ -18,7 +18,6 @@ class ThemesService {
         private val baseColorThemeType = ColorThemeType.FOREST
         private val baseColorTheme = colorThemes[ColorThemeType.FOREST]!!
 
-        private var lightMode = ColorTheme.LightMode.DAY
         private var colorThemeType = baseColorThemeType
         private var colorTheme: ColorTheme = baseColorTheme
 
@@ -28,11 +27,11 @@ class ThemesService {
         }
 
         fun getLightMode(): ColorTheme.LightMode {
-            return lightMode
+            return colorTheme.getLightMode()
         }
 
-        fun changeLightMode(newLightMode: ColorTheme.LightMode) {
-            lightMode = newLightMode
+        fun setLightMode(newLightMode: ColorTheme.LightMode) {
+            colorTheme.setLightMode(newLightMode)
         }
 
         fun getColorTheme(): ColorTheme {

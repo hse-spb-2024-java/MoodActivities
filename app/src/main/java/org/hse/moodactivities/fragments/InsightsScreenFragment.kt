@@ -24,7 +24,11 @@ import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.StatisticActivity
 import org.hse.moodactivities.managers.FitnessDataManager
 import org.hse.moodactivities.models.GoogleFitRepositoryImpl
-import org.hse.moodactivities.services.*
+import org.hse.moodactivities.services.ChartsService
+import org.hse.moodactivities.services.HealthService
+import org.hse.moodactivities.services.StatisticMode
+import org.hse.moodactivities.services.ThemesService
+import org.hse.moodactivities.services.TimePeriod
 import org.hse.moodactivities.viewmodels.UserViewModel
 
 
@@ -217,6 +221,9 @@ class InsightsScreenFragment : Fragment() {
 
     private fun setColorTheme(view: View) {
         val colorTheme = ThemesService.getColorTheme()
+
+        // set color to status bar
+        activity?.window?.statusBarColor = colorTheme.getBackgroundColor()
 
         // set color to background
         view.findViewById<ConstraintLayout>(R.id.layout)

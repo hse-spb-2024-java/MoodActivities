@@ -20,4 +20,99 @@ class ForestColorTheme : ColorTheme(
     /* dimmedColor6 */getColorByName("dimmed brunswick green")!!,
     /* recordedColor */ getColorByName("cornell red")!!,
     /* notRecordedColor */ getColorByName("napier green")!!,
-)
+) {
+    override fun getBackgroundColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("light lavender")
+        }
+        return getColorByName("dark payne's grey")
+    }
+
+    override fun getFontColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("forest font color")
+        }
+        return getColorByName("light payne's grey")
+    }
+
+    override fun getDailyActivityWidgetColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("dark powder blue")
+        }
+        return getColorByName("dark dark powder blue")
+    }
+
+    override fun getDailyActivityWidgetIconColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("dimmed dark powder blue")
+        }
+        return getColorByName("dark dimmed dark powder blue")
+    }
+
+    override fun getDailyActivityWidgetTextColor(): Int {
+        return getColorByName("forest font color")
+    }
+
+    override fun getMoodFlowWidgetColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("vista blue")
+        }
+        return getColorByName("dark vista blue")
+    }
+
+    override fun getDailyQuestionWidgetColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("dark air superiority blue")
+        }
+        return getColorByName("dark dark air superiority blue")
+    }
+
+    override fun getWeekStatisticDayWidgetColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("payne's grey")
+        }
+        return getColorByName("dimmed payne's grey")
+    }
+
+    override fun getChatWidgetColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("feldgrau")
+        }
+        return getColorByName("dimmed feldgrau")
+    }
+
+    override fun getWeekAnalyticsWidgetColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("payne's grey")
+        }
+        return getColorByName("dimmed payne's grey")
+    }
+
+    override fun getWeekAnalyticsWidgetTitleTextColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("forest font color")
+        }
+        return getColorByName("light payne's grey")
+    }
+
+    override fun getDaysInRowColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("vista blue")
+        }
+        return getColorByName("dark vista blue")
+    }
+
+    override fun getMoodFlowChartBackgroundColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("dark powder blue")
+        }
+        return getColorByName("dark dark powder blue")
+    }
+
+    override fun getButtonColor(): Int {
+        if (getLightMode() == LightMode.DAY) {
+            return getColorByName("payne's grey")
+        }
+        return getColorByName("dimmed payne's grey")
+    }
+}
