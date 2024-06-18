@@ -56,13 +56,7 @@ public class ProfileService extends ProfileServiceGrpc.ProfileServiceImplBase {
             unwrappedUserProfile.setDayOfBirth(request.getDateOfBirth());
         }
         if (request.getPassword() != null) {
-            responseObserver.onNext(ChangeInfoResponse
-                    .newBuilder()
-                    .setCompleted(false)
-                    .setErrorMessage("can't change password")
-                    .setNewInfo(dumpInfo(unwrappedUserProfile))
-                    .build());
-            responseObserver.onCompleted();
+            unwrappedUserProfile.setHashedPassword(UserProfile.hashPassword(request.getPassword()));
         }
         ChangeInfoResponse response;
         if (UserProfileRepository.saveEntity(unwrappedUserProfile)) {

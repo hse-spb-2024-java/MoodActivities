@@ -46,7 +46,7 @@ public class UserProfile {
                            String unhashedPassword) {
         this.login = login;
         this.email = email;
-        this.hashedPassword = BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
+        this.hashedPassword = hashPassword(unhashedPassword);
     }
 
     private void initGoogle(String email,
@@ -124,5 +124,9 @@ public class UserProfile {
     public boolean validatePassword(String password) {
         BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword);
         return result.verified;
+    }
+
+    public static String hashPassword(String unhashedPassword) {
+        return BCrypt.withDefaults().hashToString(12, unhashedPassword.toCharArray());
     }
 }

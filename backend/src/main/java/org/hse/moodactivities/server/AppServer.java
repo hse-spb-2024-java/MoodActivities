@@ -8,6 +8,7 @@ import org.hse.moodactivities.services.ProfileService;
 import org.hse.moodactivities.services.QuestionService;
 import org.hse.moodactivities.services.StatsService;
 import org.hse.moodactivities.services.SurveyService;
+import org.hse.moodactivities.services.HealthService;
 import org.hse.moodactivities.utils.StringGenerationService;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
@@ -45,10 +46,6 @@ public class AppServer {
 
         try {
             server.start();
-            int tic = 0;
-            while (tic != 1) {
-                tic += 2;
-            }
             server.awaitTermination();
         } catch (Exception e) {
             LOGGER.log(Level.ALL, e.getMessage());

@@ -4,6 +4,9 @@ package org.hse.moodactivities.utils;
 import org.hse.moodactivities.data.entities.postgres.AuthProvider;
 import org.hse.moodactivities.data.entities.postgres.UserProfile;
 import org.hse.moodactivities.data.utils.HibernateUtils;
+import org.hse.moodactivities.data.utils.MongoDBConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -12,6 +15,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 public class UserProfileRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserProfileRepository.class);
     public static Optional<UserProfile> findByLogin(AuthProvider provider,
                                                     String login) {
         try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
@@ -89,9 +93,10 @@ public class UserProfileRepository {
     public static boolean saveEntity(UserProfile userProfile) {
         try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
             entityManager.persist(userProfile);
+            LOGGER.info(String.format("save entity for %d", userProfile.getId()));
             return true;
         } catch (Exception e) {
-            return true;
+            return false;
         }
     }
 
