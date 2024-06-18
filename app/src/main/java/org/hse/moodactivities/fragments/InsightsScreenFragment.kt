@@ -1,5 +1,6 @@
 package org.hse.moodactivities.fragments
 
+import GoogleSignInManager
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
@@ -15,17 +16,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.R
 import org.hse.moodactivities.activities.StatisticActivity
-import org.hse.moodactivities.services.ChartsService
-import org.hse.moodactivities.services.StatisticMode
-import org.hse.moodactivities.services.ThemesService
-import org.hse.moodactivities.services.TimePeriod
+import org.hse.moodactivities.managers.FitnessDataManager
+import org.hse.moodactivities.models.GoogleFitRepositoryImpl
+import org.hse.moodactivities.services.*
+import org.hse.moodactivities.viewmodels.UserViewModel
+
 
 class InsightsScreenFragment : Fragment() {
     companion object {
         val DEFAULT_TIME_PERIOD = TimePeriod.Value.WEEK
+        const val NO_DATA_TITTLE = "No data"
+        const val FITNESS_ENABLE_SYNCHRONIZATION = "Tap to synchronize"
     }
 
     enum class ChartsType {
@@ -46,6 +53,9 @@ class InsightsScreenFragment : Fragment() {
     private lateinit var activitiesChartLabel: TextView
     private lateinit var weatherByTemperatureChartLabel: TextView
     private lateinit var weatherByHumidityChartLabel: TextView
+
+    private lateinit var userViewModel: UserViewModel
+    private lateinit var healthService: HealthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -182,10 +192,44 @@ class InsightsScreenFragment : Fragment() {
         view.findViewById<Button>(R.id.humidity_time_label_button).setOnClickListener {
             changingTimePeriodChartType = ChartsType.WEATHER_BY_HUMIDITY_CHART
             dialog.show()
+
+            // set users steps
+            userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
+            val googleFitRepository = GoogleFitRepositoryImpl(requireContext())
+            val fitnessDataManager = FitnessDataManager(googleFitRepository)
+            healthService = HealthService(activity as AppCompatActivity, fitnessDataManager)
+            healthService.onCreate()
+
+            val stepsCounterTextView = view.findViewById<TextView>(R.id.steps_counter)
+            val stepsWidget = view.findViewById<CardView>(R.id.steps_widget)
+            if (GoogleSignIn.getLastSignedInAccount(requireContext()) == null) {
+                // No synchronization, sorry :(
+                stepsCounterTextView.text = FITNESS_ENABLE_SYNCHRONIZATION
+                stepsWidget.setOnClickListener {
+                    performGoogleSignIn()
+                }
+            } else {
+                stepsWidget.setOnClickListener(null)
+                healthService.loadAndSendFitnessData()
+                healthService.fitnessData.observe(viewLifecycleOwner) { data ->
+                    stepsCounterTextView.text = data.steps.toString()
+                }
+            }
+
+            setColorTheme(view)
+
+            healthService.errorMessage.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    Snackbar.make(
+                        view,
+                        it,
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                    healthService.clearErrorMessage()
+                }
+            }
         }
-
-        setColorTheme(view)
-
         return view
     }
 
@@ -196,6 +240,21 @@ class InsightsScreenFragment : Fragment() {
     private fun pressDialogButton(timePeriod: TimePeriod.Value) {
         setTimePeriodToChart(timePeriod)
         dialog.dismiss()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GoogleSignInManager.RETURN_CODE_SIGN_IN) {
+            // Reload current fragment
+            val fragmentTransaction = requireFragmentManager().beginTransaction()
+            fragmentTransaction.detach(this).attach(this).commit()
+        }
+    }
+
+    private fun performGoogleSignIn() {
+        val signInIntent = GoogleSignInManager.getSignInIntent()
+        startActivityForResult(signInIntent, GoogleSignInManager.RETURN_CODE_SIGN_IN)
     }
 
     private fun setColorTheme(view: View) {

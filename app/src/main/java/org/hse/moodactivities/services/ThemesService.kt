@@ -27,6 +27,10 @@ class ThemesService {
             colorTheme = colorThemes[colorThemeType]!!
         }
 
+        fun getLightMode(): ColorTheme.LightMode {
+            return lightMode
+        }
+
         fun changeLightMode(newLightMode: ColorTheme.LightMode) {
             lightMode = newLightMode
         }

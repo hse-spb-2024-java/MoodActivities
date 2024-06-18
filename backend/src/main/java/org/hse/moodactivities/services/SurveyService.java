@@ -8,13 +8,13 @@ import org.hse.moodactivities.common.proto.responses.survey.LongSurveyResponse;
 import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc;
 import org.hse.moodactivities.data.entities.mongodb.User;
 import org.hse.moodactivities.data.entities.mongodb.UserDayMeta;
-import org.hse.moodactivities.data.promts.PromptsStorage;
 import org.hse.moodactivities.utils.GptClientRequest;
 import org.hse.moodactivities.utils.GptMessages;
 import org.hse.moodactivities.utils.GptRequestFormatter;
 import org.hse.moodactivities.utils.GptResponse;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
+import org.hse.moodactivities.utils.PromptGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,44 +49,9 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
         }
     }
 
-    private static Optional<String> metaPromptCreator(List<UserDayMeta> metas, LocalDate date) {
-        StringBuilder requestString = new StringBuilder(PromptsStorage.getString("metaCreator.defaultRequest"));
-        List<UserDayMeta> weeklySublist = StatsService.getCorrectDaysSublist(metas, PeriodType.WEEK);
-        if (!weeklySublist.isEmpty()) {
-            int recordedDays = 0;
-            int moodSum = 0;
-            String activities = null;
-            String emotions = null;
-            String lastGeneratedActivity = null;
-            String lastGeneratedActivityReport = null;
-            for (var day : weeklySublist) {
-                if (day.getDailyScore() != 0) {
-                    recordedDays += 1;
-                    moodSum += day.getDailyScore();
-                }
-            }
-            for (int metaIndex = weeklySublist.size() - 1; metaIndex >= 0; metaIndex--) {
-                UserDayMeta meta = weeklySublist.get(metaIndex);
-                if (meta.getRecords().size() > 0 && emotions == null) {
-                    List<String> unwrappedRecords = ActivityService.unwrapRecords(meta.getRecords());
-                    emotions = unwrappedRecords.get(0);
-                    activities = unwrappedRecords.get(1);
-                }
-                if (meta.getActivity().getReport() != null && lastGeneratedActivity == null) {
-                    lastGeneratedActivity = meta.getActivity().getActivity();
-                    lastGeneratedActivityReport = meta.getActivity().getReport();
-                }
-            }
-            if (recordedDays > 0) {
-                String formattedMoodSum = String.format(PromptsStorage.getString("dailyActivity.addMoodToRequest"), (double) moodSum / recordedDays);
-                requestString.append(formattedMoodSum);
-            }
-            if (emotions != null) {
-                String formattedEmotions = String.format(PromptsStorage.getString("dailyActivity.addDailyRecordRequest"), activities, emotions);
-                requestString.append(formattedEmotions);
-            }
-        }
-        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString.toString()));
+    private static Optional<String> metaPromptSender(List<UserDayMeta> metas) {
+        String requestString = PromptGenerator.generatePrompt(metas, PromptGenerator.Service.metaCreator, null, PeriodType.WEEK);
+        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString));
         if (response.statusCode() < HTTP_BAD_REQUEST) {
             return Optional.of(response.message().getContent());
         }
@@ -96,7 +61,7 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
     private static void updateMeta(User user) {
         if (user.getPromptMetaUpdateDate() == null
                 || ChronoUnit.DAYS.between(LocalDate.parse(user.getPromptMetaUpdateDate()), LocalDate.now()) >= 7) {
-            Optional<String> updatedMeta = metaPromptCreator(user.getMetas(), LocalDate.now());
+            Optional<String> updatedMeta = metaPromptSender(user.getMetas());
             if (updatedMeta.isPresent()) {
                 user.setPromptMetaUpdateDate(LocalDate.now().toString());
                 user.setPromptMeta(updatedMeta.get());

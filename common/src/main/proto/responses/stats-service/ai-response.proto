@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.responses.stats";
+option java_multiple_files = true;
+
+import "defaults/mood-record.proto";
+import "defaults/question-record.proto";
+import "defaults/activity-record.proto";
+
+package responses;
+
+message AiResponse {
+  string text = 1;
+  string advice = 2;
+}

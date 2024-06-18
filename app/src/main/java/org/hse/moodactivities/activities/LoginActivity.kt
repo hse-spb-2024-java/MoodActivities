@@ -4,14 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import org.hse.moodactivities.common.proto.responses.auth.LoginResponse
 import org.hse.moodactivities.databinding.ActivityLoginBinding
 import org.hse.moodactivities.services.ThemesService
+import org.hse.moodactivities.utils.showCustomToast
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
+import org.hse.moodactivities.models.AuthType
 
 
 class LoginActivity : AppCompatActivity() {
@@ -44,11 +46,9 @@ class LoginActivity : AppCompatActivity() {
 
             if (password.isEmpty()) {
                 Log.d("LoginResponse", "Password cannot be empty");
-                Snackbar.make(
-                    findViewById(android.R.id.content),
-                    "Password cannot be empty",
-                    Snackbar.LENGTH_LONG
-                ).show()
+                Toast(this).showCustomToast(
+                    "Password cannot be empty", this
+                )
                 return@setOnClickListener
             }
 
@@ -56,11 +56,9 @@ class LoginActivity : AppCompatActivity() {
 
             authViewModel.errorMessage.observe(this) {
                 if (it != null) {
-                    Snackbar.make(
-                        findViewById(android.R.id.content),
-                        it,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Toast(this).showCustomToast(
+                        it, this
+                    )
                     authViewModel.clearErrorMessage()
                 }
             }
@@ -68,26 +66,20 @@ class LoginActivity : AppCompatActivity() {
             loginResponseLiveData.observe(this) { loginResponse ->
                 if (loginResponse.type == LoginResponse.responseType.ERROR) {
                     Log.d("LoginResponse", loginResponse.message)
-                    Snackbar.make(
-                        findViewById(android.R.id.content),
-                        loginResponse.message,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    Toast(this).showCustomToast(
+                        loginResponse.message, this
+                    )
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(
-                    applicationContext,
-                    loginResponse.token
+                    applicationContext, loginResponse.token, AuthType.PLAIN
                 )
 
                 authViewModel.saveToken(
                     getSharedPreferences("userPreferences", Context.MODE_PRIVATE),
                     loginResponse.token
                 )
-
-                userViewModel.user.observe(this) { user ->
-                    Log.d("LoginResponse", user.id.toString())
-                }
+                Log.d("LoginResponse", userViewModel.getUser(applicationContext)!!.id.toString())
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
             }

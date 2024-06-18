@@ -1,5 +1,6 @@
 package org.hse.moodactivities.activities
 
+import GoogleSignInManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +8,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.snackbar.Snackbar
-import org.hse.moodactivities.R
 import org.hse.moodactivities.common.proto.responses.auth.OauthLoginResponse
 import org.hse.moodactivities.databinding.ActivityWelcomeBinding
+import org.hse.moodactivities.models.AuthType
 import org.hse.moodactivities.services.ThemesService
 import org.hse.moodactivities.viewmodels.AuthViewModel
 import org.hse.moodactivities.viewmodels.UserViewModel
@@ -55,7 +55,7 @@ class WelcomeActivity : AppCompatActivity() {
                     return@observe
                 }
                 userViewModel.updateUserFromJwt(
-                    applicationContext, loginResponse.token
+                    applicationContext, loginResponse.token, AuthType.GOOGLE,
                 )
 
                 authViewModel.saveToken(
@@ -63,9 +63,7 @@ class WelcomeActivity : AppCompatActivity() {
                     loginResponse.token
                 )
 
-                userViewModel.user.observe(this) { user ->
-                    Log.i("oauth", user.id.toString())
-                }
+                Log.i("oauth", userViewModel.getUser(applicationContext)!!.id.toString())
                 val intent = Intent(this, MainScreenActivity::class.java)
                 startActivity(intent)
             }
@@ -90,17 +88,17 @@ class WelcomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val signInOptions =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
-                .requestIdToken(applicationContext.resources.getString(R.string.app_id)).build()
-        val mGoogleSignInClient = GoogleSignIn.getClient(this, signInOptions)
-
         binding.googleLoginButton.setOnClickListener {
-            val oauthIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(oauthIntent, Companion.RETURN_CODE_SIGN_IN);
+            performGoogleSignIn();
         }
 
+        GoogleSignInManager.init(this);
         setColorTheme()
+    }
+
+    private fun performGoogleSignIn() {
+        val signInIntent = GoogleSignInManager.getSignInIntent()
+        startActivityForResult(signInIntent, GoogleSignInManager.RETURN_CODE_SIGN_IN)
     }
 
     private fun setColorTheme() {

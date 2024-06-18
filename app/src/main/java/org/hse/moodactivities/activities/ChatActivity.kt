@@ -27,7 +27,6 @@ import org.hse.moodactivities.utils.BUTTON_DISABLED_ALPHA
 import org.hse.moodactivities.utils.BUTTON_ENABLED_ALPHA
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 
-
 class ChatActivity : AppCompatActivity() {
     private lateinit var messageInput: EditText
     private lateinit var sendButton: Button
