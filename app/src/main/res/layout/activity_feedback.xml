@@ -77,10 +77,15 @@
                 android:id="@+id/positive_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:autoSizeMaxTextSize="10dp"
                 android:autofillHints="name"
+                android:background="@null"
+                android:fontFamily="@font/app_font"
+                android:hint="Answer"
                 android:inputType="textAutoComplete"
                 android:scrollbars="vertical"
+                android:textColorHint="@color/gray"
                 android:textCursorDrawable="@null"
                 tools:ignore="LabelFor" />
         </ScrollView>
@@ -120,10 +125,15 @@
                 android:id="@+id/negative_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:autoSizeMaxTextSize="10dp"
                 android:autofillHints="name"
+                android:background="@null"
+                android:fontFamily="@font/app_font"
+                android:hint="Answer"
                 android:inputType="text"
                 android:scrollbars="vertical"
+                android:textColorHint="@color/gray"
                 android:textCursorDrawable="@null"
                 tools:ignore="LabelFor" />
         </ScrollView>
@@ -143,6 +153,7 @@
             android:id="@+id/send_button_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="3dp"
             android:alpha="0.5"
             app:cardCornerRadius="20dp">
 
