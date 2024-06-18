@@ -49,6 +49,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:layout_margin="3dp"
                 android:id="@+id/register_button_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -95,6 +96,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
+                android:layout_margin="3dp"
                 android:id="@+id/login_button_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -133,9 +135,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="55dp">
 
             <androidx.cardview.widget.CardView
+                android:layout_margin="3dp"
                 android:id="@+id/google_button_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

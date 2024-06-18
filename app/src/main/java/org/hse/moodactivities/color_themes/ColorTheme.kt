@@ -323,11 +323,11 @@ abstract class ColorTheme(
 
     // color for choose * chart
     open fun getFrequentlyUsedColor(): Int {
-        return dimmedColor4
+        return dimmedColor3
     }
 
     open fun getFrequentlyUsedItemColor(): Int {
-        return color4
+        return color3
     }
 
     open fun getFrequentlyUsedItemNameColor(): Int {
@@ -343,7 +343,7 @@ abstract class ColorTheme(
     }
 
     open fun getFrequentlyUsedLabelColor(): Int {
-        return dimmedColor6
+        return getColorByName("dark air superiority blue-2")!!
     }
 
     open fun getFrequentlyUsedLabelTextColor(): Int {
@@ -352,6 +352,37 @@ abstract class ColorTheme(
 
     open fun getTimePeriodDialogCardColor(): Int {
         return color1
+    }
+
+    // color for weather chart
+    open fun getWeatherChartBackgroundColor(): Int {
+        return color4
+    }
+
+    open fun getWeatherChartTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getWeatherChartColor(): Int {
+        return dimmedColor4
+    }
+
+    open fun getWeatherChartLabelTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getWeatherChartLabelColor(): Int {
+        return dimmedColor5
+    }
+
+    // color for step charts
+
+    open fun getStepsChartTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getStepsChartColor(): Int {
+        return dimmedColor3
     }
 
     open fun getSettingsWidgetTitleColor(): Int {
@@ -396,6 +427,7 @@ abstract class ColorTheme(
             "air superiority blue" to Color.parseColor("#6493B1"),
             "dimmed air superiority blue" to Color.parseColor("#294252"),
             "dark air superiority blue" to Color.parseColor("#7693AE"),
+            "dark air superiority blue-2" to Color.parseColor("#577693"),
             "dimmed dark air superiority blue" to Color.parseColor("#41586E"),
             "silver" to Color.parseColor("#CEBEBE"),
             "dimmed silver" to Color.parseColor("#AC9191"),

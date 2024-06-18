@@ -8,6 +8,7 @@
         android:id="@+id/dialog_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="3dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="1dp">
 
@@ -51,6 +52,7 @@
                     android:id="@+id/week_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -94,6 +96,7 @@
                     android:id="@+id/month_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -137,6 +140,7 @@
                     android:id="@+id/year_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -180,6 +184,7 @@
                     android:id="@+id/all_time_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 

@@ -19,7 +19,8 @@
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -61,8 +62,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:cardCornerRadius="15dp"
-                        app:cardElevation="0dp">
+                        android:layout_margin="3dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp">
 
                         <LinearLayout
                             android:id="@+id/linear_layout"
@@ -85,15 +87,15 @@
                                     android:fontFamily="@font/app_font"
                                     android:gravity="center"
                                     android:text="Mood flow"
-                                    android:textSize="18sp"
+                                    android:textSize="16sp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    tools:ignore="MissingConstraints" />
+                                    tools:ignore="HardcodedText,MissingConstraints" />
 
                                 <RelativeLayout
-                                    android:layout_width="70dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="75dp"
+                                    android:layout_height="25dp"
                                     app:layout_constraintBottom_toBottomOf="@+id/mood_flow_text"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
@@ -102,7 +104,9 @@
                                         android:id="@+id/mood_flow_time_label_background"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        app:cardCornerRadius="25dp">
+                                        android:layout_margin="3dp"
+                                        app:cardCornerRadius="25dp"
+                                        tools:ignore="TooDeepLayout">
 
                                         <androidx.appcompat.widget.LinearLayoutCompat
                                             android:layout_width="match_parent"
@@ -158,8 +162,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="0dp">
+                    android:layout_margin="3dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -185,11 +190,11 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:ignore="MissingConstraints" />
+                                tools:ignore="HardcodedText,MissingConstraints" />
 
                             <RelativeLayout
-                                android:layout_width="70dp"
-                                android:layout_height="20dp"
+                                android:layout_width="75dp"
+                                android:layout_height="25dp"
                                 android:layout_marginTop="5dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
@@ -198,6 +203,7 @@
                                     android:id="@+id/emotions_time_label_card"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:layout_margin="3dp"
                                     app:cardCornerRadius="25dp"
                                     app:cardElevation="1dp">
 
@@ -213,7 +219,7 @@
                                             android:layout_gravity="center"
                                             android:fontFamily="@font/app_font"
                                             android:gravity="center"
-                                            android:textSize="12dp"
+                                            android:textSize="12sp"
                                             android:textStyle="bold" />
                                     </androidx.appcompat.widget.LinearLayoutCompat>
                                 </androidx.cardview.widget.CardView>
@@ -274,7 +280,8 @@
                                         android:text="Not enough data"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
 
                                     <TextView
                                         android:id="@+id/emotion_counter_1"
@@ -287,7 +294,8 @@
                                         android:text="x0"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
@@ -330,7 +338,8 @@
                                         android:text="Not enough data"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
 
                                     <TextView
                                         android:id="@+id/emotion_counter_2"
@@ -343,7 +352,8 @@
                                         android:text="x0"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
@@ -384,7 +394,8 @@
                                         android:text="Not enough data"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
 
                                     <TextView
                                         android:id="@+id/emotion_counter_3"
@@ -397,7 +408,8 @@
                                         android:text="x0"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
                         </LinearLayout>
@@ -415,7 +427,8 @@
                                 android:fontFamily="@font/app_font"
                                 android:gravity="center|top"
                                 android:text="Show more..."
-                                android:textSize="11sp" />
+                                android:textSize="11sp"
+                                tools:ignore="HardcodedText" />
 
                             <Button
                                 android:id="@+id/emotions_statistic"
@@ -444,8 +457,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="0dp">
+                    android:layout_margin="3dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -471,11 +485,11 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:ignore="MissingConstraints" />
+                                tools:ignore="HardcodedText,MissingConstraints" />
 
                             <RelativeLayout
-                                android:layout_width="70dp"
-                                android:layout_height="20dp"
+                                android:layout_width="75dp"
+                                android:layout_height="25dp"
                                 android:layout_marginTop="5dp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
@@ -484,6 +498,7 @@
                                     android:id="@+id/activities_time_label_card"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:layout_margin="3dp"
                                     app:cardCornerRadius="25dp"
                                     app:cardElevation="1dp">
 
@@ -499,7 +514,7 @@
                                             android:layout_gravity="center"
                                             android:fontFamily="@font/app_font"
                                             android:gravity="center"
-                                            android:textSize="12dp"
+                                            android:textSize="12sp"
                                             android:textStyle="bold" />
                                     </androidx.appcompat.widget.LinearLayoutCompat>
                                 </androidx.cardview.widget.CardView>
@@ -560,7 +575,8 @@
                                         android:text="Not enough data"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
 
                                     <TextView
                                         android:id="@+id/activity_counter_1"
@@ -573,7 +589,8 @@
                                         android:text="x0"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
@@ -616,7 +633,8 @@
                                         android:text="Not enough data"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
 
                                     <TextView
                                         android:id="@+id/activity_counter_2"
@@ -629,7 +647,8 @@
                                         android:text="x0"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
@@ -670,7 +689,8 @@
                                         android:text="Not enough data"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp,TooManyViews" />
 
                                     <TextView
                                         android:id="@+id/activity_counter_3"
@@ -683,7 +703,8 @@
                                         android:text="x0"
                                         android:textSize="10sp"
                                         app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:ignore="HardcodedText,SmallSp" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
                         </LinearLayout>
@@ -701,7 +722,8 @@
                                 android:fontFamily="@font/app_font"
                                 android:gravity="center|top"
                                 android:text="Show more..."
-                                android:textSize="11sp" />
+                                android:textSize="11sp"
+                                tools:ignore="HardcodedText" />
 
                             <Button
                                 android:id="@+id/activities_statistic"
@@ -711,9 +733,440 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
-
             </LinearLayout>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="35dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/weather_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="15dp"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/weather_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:layout_marginBottom="10dp"
+                                    android:fontFamily="@font/app_font"
+                                    android:gravity="center"
+                                    android:text="Weather by temperature"
+                                    android:textSize="16sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="HardcodedText,MissingConstraints" />
+
+                                <RelativeLayout
+                                    android:layout_width="75dp"
+                                    android:layout_height="25dp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/weather_text"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:id="@+id/weather_time_label_background"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="3dp"
+                                        app:cardCornerRadius="25dp">
+
+                                        <androidx.appcompat.widget.LinearLayoutCompat
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:id="@+id/weather_time_label"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center"
+                                                android:textStyle="bold" />
+                                        </androidx.appcompat.widget.LinearLayoutCompat>
+                                    </androidx.cardview.widget.CardView>
+
+                                    <Button
+                                        android:id="@+id/weather_time_label_button"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:alpha="0"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+                                </RelativeLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/weather_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="35dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/humidity_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="15dp"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/humidity_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:layout_marginBottom="10dp"
+                                    android:fontFamily="@font/app_font"
+                                    android:gravity="center"
+                                    android:text="Weather by humidity"
+                                    android:textSize="16sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="HardcodedText,MissingConstraints" />
+
+                                <RelativeLayout
+                                    android:layout_width="75dp"
+                                    android:layout_height="25dp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/humidity_text"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:id="@+id/humidity_time_label_background"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="3dp"
+                                        app:cardCornerRadius="25dp">
+
+                                        <androidx.appcompat.widget.LinearLayoutCompat
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:id="@+id/humidity_time_label"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center"
+                                                android:textStyle="bold" />
+                                        </androidx.appcompat.widget.LinearLayoutCompat>
+                                    </androidx.cardview.widget.CardView>
+
+                                    <Button
+                                        android:id="@+id/humidity_time_label_button"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:alpha="0"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+                                </RelativeLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/humidity_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="35dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/description_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="15dp"
+                            android:orientation="vertical">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/description_text"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:layout_marginBottom="10dp"
+                                    android:fontFamily="@font/app_font"
+                                    android:gravity="center"
+                                    android:text="Weather by description"
+                                    android:textSize="16sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:ignore="HardcodedText,MissingConstraints" />
+
+                                <RelativeLayout
+                                    android:layout_width="75dp"
+                                    android:layout_height="25dp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/description_text"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:id="@+id/description_time_label_background"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="3dp"
+                                        app:cardCornerRadius="25dp">
+
+                                        <androidx.appcompat.widget.LinearLayoutCompat
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:id="@+id/description_time_label"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center"
+                                                android:textStyle="bold" />
+                                        </androidx.appcompat.widget.LinearLayoutCompat>
+                                    </androidx.cardview.widget.CardView>
+
+                                    <Button
+                                        android:id="@+id/description_time_label_button"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:alpha="0"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+                                </RelativeLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/windy"
+                                    tools:ignore="ContentDescription" />
+
+                                <TextView
+                                    android:id="@+id/windy_weather"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/app_font"
+                                    android:text="1 – Windy weather"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/snowy"
+                                    tools:ignore="ContentDescription" />
+
+                                <TextView
+                                    android:id="@+id/snowy_weather"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/app_font"
+                                    android:text="2 – Snowy weather"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/rainy"
+                                    tools:ignore="ContentDescription" />
+
+                                <TextView
+                                    android:id="@+id/rainy_weather"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/app_font"
+                                    android:text="3 – Rainy weather"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/cloudy"
+                                    tools:ignore="ContentDescription" />
+
+                                <TextView
+                                    android:id="@+id/cloudy_weather"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/app_font"
+                                    android:text="4 – Cloudy weather"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/sunny"
+                                    tools:ignore="ContentDescription" />
+
+                                <TextView
+                                    android:id="@+id/clear_weather"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/app_font"
+                                    android:text="5 – Clear weather"
+                                    android:textSize="14sp"
+                                    tools:ignore="HardcodedText" />
+                            </LinearLayout>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/description_chart"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Space
                 android:layout_width="wrap_content"
@@ -728,13 +1181,13 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/steps_widget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/background_blue"
-                    android:id="@+id/steps_widget"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="0dp">
+                    android:layout_margin="3dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -755,12 +1208,11 @@
                                 android:fontFamily="@font/app_font"
                                 android:gravity="center"
                                 android:text="Your steps today:"
-                                android:textColor="@color/black"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:ignore="MissingConstraints" />
+                                tools:ignore="HardcodedText,MissingConstraints" />
 
                             <TextView
                                 android:id="@+id/steps_counter"
