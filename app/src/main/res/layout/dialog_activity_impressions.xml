@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:layout_margin="3dp"
         android:id="@+id/dialog_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
+                    android:layout_margin="3dp"
                     android:id="@+id/button_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

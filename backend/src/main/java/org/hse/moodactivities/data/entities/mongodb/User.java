@@ -22,6 +22,9 @@ public class User {
     private String promptMetaUpdateDate;
     private String promptMeta;
 
+    private String negativeFeedback;
+    private String positiveFeedback;
+
     public User(final String id, List<UserDayMeta> metas) {
         this.id = id;
         this.metas = metas;
@@ -57,6 +60,22 @@ public class User {
 
     public void setPromptMeta(String promptMeta) {
         this.promptMeta = promptMeta;
+    }
+
+    public String getNegativeFeedback() {
+        return negativeFeedback;
+    }
+
+    public void setNegativeFeedback(String negativeFeedback) {
+        this.negativeFeedback = negativeFeedback;
+    }
+
+    public String getPositiveFeedback() {
+        return positiveFeedback;
+    }
+
+    public void setPositiveFeedback(String positiveFeedback) {
+        this.positiveFeedback = positiveFeedback;
     }
 
     public void updateMeta(final UserDayMeta meta) {

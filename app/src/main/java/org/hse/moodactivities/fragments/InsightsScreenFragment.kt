@@ -35,12 +35,12 @@ import org.hse.moodactivities.viewmodels.UserViewModel
 class InsightsScreenFragment : Fragment() {
     companion object {
         val DEFAULT_TIME_PERIOD = TimePeriod.Value.WEEK
-        const val NO_DATA_TITTLE = "No data"
+        const val NO_DATA_TITLE = "No data"
         const val FITNESS_ENABLE_SYNCHRONIZATION = "Tap to synchronize"
     }
 
     enum class ChartsType {
-        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART
+        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART, WEATHER_BY_TEMPERATURE_CHART, WEATHER_BY_HUMIDITY_CHART, WEATHER_DESCRIPTION_CHART
     }
 
     private lateinit var dialog: Dialog
@@ -49,10 +49,16 @@ class InsightsScreenFragment : Fragment() {
     // charts settings
     private lateinit var chartsService: ChartsService
     private lateinit var moodChart: LineChart
+    private lateinit var weatherByTemperatureChart: LineChart
+    private lateinit var weatherByHumidityChart: LineChart
+    private lateinit var weatherDescriptionChart: LineChart
     private var changingTimePeriodChartType: ChartsType = ChartsType.MOOD_CHART
     private lateinit var moodChartLabel: TextView
     private lateinit var emotionsChartLabel: TextView
     private lateinit var activitiesChartLabel: TextView
+    private lateinit var weatherByTemperatureChartLabel: TextView
+    private lateinit var weatherByHumidityChartLabel: TextView
+    private lateinit var weatherDescriptionChartLabel: TextView
 
     private lateinit var userViewModel: UserViewModel
     private lateinit var healthService: HealthService
@@ -78,6 +84,21 @@ class InsightsScreenFragment : Fragment() {
                 chartsService.createFrequentlyUsedActivities(resources, requireView(), timePeriod)
                 changeTimeLabel(activitiesChartLabel, timePeriod)
             }
+
+            ChartsType.WEATHER_BY_TEMPERATURE_CHART -> {
+                chartsService.createWeatherCharts(weatherByTemperatureChart, timePeriod)
+                changeTimeLabel(weatherByTemperatureChartLabel, timePeriod)
+            }
+
+            ChartsType.WEATHER_BY_HUMIDITY_CHART -> {
+                chartsService.createHumidityCharts(weatherByHumidityChart, timePeriod)
+                changeTimeLabel(weatherByHumidityChartLabel, timePeriod)
+            }
+
+            ChartsType.WEATHER_DESCRIPTION_CHART -> {
+                chartsService.createWeatherDescriptionCharts(weatherDescriptionChart, timePeriod)
+                changeTimeLabel(weatherDescriptionChartLabel, timePeriod)
+            }
         }
     }
 
@@ -89,10 +110,34 @@ class InsightsScreenFragment : Fragment() {
         chartsService = ChartsService(this.requireActivity() as AppCompatActivity)
 
         // create mood chart
-        moodChart = view.findViewById<LineChart>(R.id.week_mood_chart)
+        moodChart = view.findViewById(R.id.week_mood_chart)
         moodChartLabel = view.findViewById(R.id.mood_flow_time_label)
         changeTimeLabel(moodChartLabel, DEFAULT_TIME_PERIOD)
         chartsService.createMoodCharts(resources, moodChart, DEFAULT_TIME_PERIOD)
+
+        // create weather chart
+        weatherByTemperatureChart = view.findViewById(R.id.weather_chart)
+        weatherByTemperatureChartLabel = view.findViewById(R.id.weather_time_label)
+        changeTimeLabel(weatherByTemperatureChartLabel, DEFAULT_TIME_PERIOD)
+        chartsService.createWeatherCharts(
+            weatherByTemperatureChart, DEFAULT_TIME_PERIOD
+        )
+
+        // create humidity chart
+        weatherByHumidityChart = view.findViewById(R.id.humidity_chart)
+        weatherByHumidityChartLabel = view.findViewById(R.id.humidity_time_label)
+        changeTimeLabel(weatherByHumidityChartLabel, DEFAULT_TIME_PERIOD)
+        chartsService.createHumidityCharts(
+            weatherByHumidityChart, DEFAULT_TIME_PERIOD
+        )
+
+        // create description chart
+        weatherDescriptionChart = view.findViewById(R.id.description_chart)
+        weatherDescriptionChartLabel = view.findViewById(R.id.description_time_label)
+        changeTimeLabel(weatherDescriptionChartLabel, DEFAULT_TIME_PERIOD)
+        chartsService.createWeatherDescriptionCharts(
+            weatherDescriptionChart, DEFAULT_TIME_PERIOD
+        )
 
         // create emotions chart
         emotionsChartLabel = view.findViewById(R.id.emotions_time_label)
@@ -156,6 +201,24 @@ class InsightsScreenFragment : Fragment() {
             dialog.show()
         }
 
+        // create temperature time label
+        view.findViewById<Button>(R.id.weather_time_label_button).setOnClickListener {
+            changingTimePeriodChartType = ChartsType.WEATHER_BY_TEMPERATURE_CHART
+            dialog.show()
+        }
+
+        // create humidity time label
+        view.findViewById<Button>(R.id.humidity_time_label_button).setOnClickListener {
+            changingTimePeriodChartType = ChartsType.WEATHER_BY_HUMIDITY_CHART
+            dialog.show()
+        }
+
+        // create weather description time label
+        view.findViewById<Button>(R.id.description_time_label_button).setOnClickListener {
+            changingTimePeriodChartType = ChartsType.WEATHER_DESCRIPTION_CHART
+            dialog.show()
+        }
+
         // set users steps
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
@@ -169,7 +232,7 @@ class InsightsScreenFragment : Fragment() {
         if (GoogleSignIn.getLastSignedInAccount(requireContext()) == null) {
             // No synchronization, sorry :(
             stepsCounterTextView.text = FITNESS_ENABLE_SYNCHRONIZATION
-            stepsWidget.setOnClickListener{
+            stepsWidget.setOnClickListener {
                 performGoogleSignIn()
             }
         } else {
@@ -185,13 +248,12 @@ class InsightsScreenFragment : Fragment() {
         healthService.errorMessage.observe(viewLifecycleOwner) {
             if (it != null) {
                 Snackbar.make(
-                    view,
-                    it,
-                    Snackbar.LENGTH_LONG
+                    view, it, Snackbar.LENGTH_LONG
                 ).show()
                 healthService.clearErrorMessage()
             }
         }
+
         return view
     }
 
@@ -355,5 +417,63 @@ class InsightsScreenFragment : Fragment() {
             .setCardBackgroundColor(colorTheme.getButtonColor())
         dialog.findViewById<TextView>(R.id.all_time_text)
             .setTextColor(colorTheme.getButtonTextColor())
+
+        // set colors to steps widget
+        view.findViewById<CardView>(R.id.steps_widget)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())
+        view.findViewById<TextView>(R.id.steps_tittle)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<TextView>(R.id.steps_counter)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+
+        // set color to weather chart
+        view.findViewById<CardView>(R.id.weather_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())
+        view.findViewById<TextView>(R.id.weather_text)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<CardView>(R.id.weather_time_label_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartLabelColor())
+        view.findViewById<TextView>(R.id.weather_time_label)
+            ?.setTextColor(colorTheme.getWeatherChartLabelTextColor())
+
+        // set color to weather chart
+        view.findViewById<CardView>(R.id.humidity_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())
+        view.findViewById<TextView>(R.id.humidity_text)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<CardView>(R.id.humidity_time_label_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartLabelColor())
+        view.findViewById<TextView>(R.id.humidity_time_label)
+            ?.setTextColor(colorTheme.getWeatherChartLabelTextColor())
+
+        // set color to weather chart
+        view.findViewById<CardView>(R.id.description_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())
+        view.findViewById<TextView>(R.id.description_text)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+
+        view.findViewById<TextView>(R.id.windy_weather)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<TextView>(R.id.snowy_weather)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<TextView>(R.id.rainy_weather)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<TextView>(R.id.cloudy_weather)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<TextView>(R.id.clear_weather)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+
+        view.findViewById<CardView>(R.id.description_time_label_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartLabelColor())
+        view.findViewById<TextView>(R.id.description_time_label)
+            ?.setTextColor(colorTheme.getWeatherChartLabelTextColor())
+
+        // set colors to steps chart
+        view.findViewById<TextView>(R.id.steps_tittle)
+            ?.setTextColor(colorTheme.getStepsChartTextColor())
+        view.findViewById<TextView>(R.id.steps_counter)
+            ?.setTextColor(colorTheme.getStepsChartTextColor())
+        view.findViewById<CardView>(R.id.steps_widget)
+            ?.setCardBackgroundColor(colorTheme.getStepsChartColor())
     }
 }

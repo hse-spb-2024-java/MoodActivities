@@ -5,5 +5,10 @@ option java_multiple_files = true;
 
 package responses;
 
-message AddMetaResponse {
+message GetInfoResponse {
+  string name = 1;
+  string dateOfBirth = 2;
+  string login = 3;
+  string email = 4;
+  bool googleEnabled = 5;
 }
