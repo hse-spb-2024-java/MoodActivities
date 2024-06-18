@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -65,9 +66,15 @@ class ChangePasswordFragment : Fragment() {
             return
         }
 
-        Toast(this.activity as Activity).showCustomToast(
-            "Your name has been changed", this.activity as Activity
-        )
+        if (UserService.setPassword(newPassword, this.activity as AppCompatActivity)) {
+            Toast(this.activity as Activity).showCustomToast(
+                "Your password has been changed", this.activity as Activity
+            )
+        } else {
+            Toast(this.activity as Activity).showCustomToast(
+                "Error: password wasn't changed", this.activity as Activity
+            )
+        }
     }
 
     private fun setColorTheme(view: View) {

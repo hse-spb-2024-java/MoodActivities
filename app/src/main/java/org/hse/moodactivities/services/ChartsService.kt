@@ -513,6 +513,11 @@ class ChartsService(activity: AppCompatActivity) {
                 entries.add(Entry((descriptionScore), score.toFloat()))
             }
         }
+
+        entries.sortWith { entry1, entry2 ->
+            entry1.x.compareTo(entry2.x)
+        }
+
         return entries
     }
 

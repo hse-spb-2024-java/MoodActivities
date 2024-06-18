@@ -9,6 +9,7 @@ import org.hse.moodactivities.services.QuestionService;
 import org.hse.moodactivities.services.StatsService;
 import org.hse.moodactivities.services.SurveyService;
 import org.hse.moodactivities.services.HealthService;
+import org.hse.moodactivities.tools.Filler;
 import org.hse.moodactivities.utils.StringGenerationService;
 import org.hse.moodactivities.utils.UserProfileRepository;
 
@@ -29,6 +30,7 @@ public class AppServer {
     private static final Dotenv dotenv = Dotenv.load();
 
     public static void main(String[] args) {
+        // Filler.runFiller("3");
         ExecutorService executor = Executors.newFixedThreadPool(10);
         StringGenerationService.startScheduledGeneration();
 

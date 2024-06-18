@@ -177,8 +177,10 @@ public class Filler {
                 newMeta.addWeather(weather);
             }
             newMeta.setFitnessData(new FitnessData(getRandomInt(5000, 15000)));
-            DailyActivity activity = new DailyActivity(LocalTime.now().minusMinutes(daysDiff), actions.get(getRandomInt(0, actions.size())), answers.get(getRandomInt(0, answers.size())));
-            newMeta.setActivity(activity);
+            if (daysDiff > 0) {
+                DailyActivity activity = new DailyActivity(LocalTime.now().minusMinutes(daysDiff), actions.get(getRandomInt(0, actions.size())), answers.get(getRandomInt(0, answers.size())));
+                newMeta.setActivity(activity);
+            }
             metas.add(newMeta);
         }
         user.setMetas(metas);

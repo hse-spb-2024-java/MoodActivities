@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -71,7 +72,7 @@ class ProfileScreenFragment : Fragment() {
             view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
         }
 
-        UserService.uploadUserInfoFromServer()
+        UserService.uploadUserInfoFromServer(this.activity as AppCompatActivity)
 
         setUserData(view)
         setColorTheme(view)
