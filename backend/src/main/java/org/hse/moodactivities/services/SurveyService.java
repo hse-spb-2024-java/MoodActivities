@@ -1,5 +1,8 @@
 package org.hse.moodactivities.services;
 
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+
+import org.hse.moodactivities.common.proto.requests.defaults.PeriodType;
 import org.hse.moodactivities.common.proto.requests.survey.LongSurveyRequest;
 import org.hse.moodactivities.common.proto.responses.survey.LongSurveyResponse;
 import org.hse.moodactivities.common.proto.services.SurveyServiceGrpc;
@@ -11,13 +14,16 @@ import org.hse.moodactivities.utils.GptRequestFormatter;
 import org.hse.moodactivities.utils.GptResponse;
 import org.hse.moodactivities.utils.JWTUtils.JWTUtils;
 import org.hse.moodactivities.utils.MongoDBSingleton;
+import org.hse.moodactivities.utils.PromptGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import io.grpc.stub.StreamObserver;
 
@@ -41,6 +47,34 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
         } else {
             return input.substring(index);
         }
+    }
+
+    private static Optional<String> metaPromptSender(List<UserDayMeta> metas) {
+        String requestString = PromptGenerator.generatePrompt(metas, PromptGenerator.Service.metaCreator, null, PeriodType.WEEK);
+        GptResponse response = GptClientRequest.sendRequest(new GptMessages(GptMessages.GptMessage.Role.user, requestString));
+        if (response.statusCode() < HTTP_BAD_REQUEST) {
+            return Optional.of(response.message().getContent());
+        }
+        return Optional.empty();
+    }
+
+    private static void updateMeta(User user) {
+        if (user.getPromptMetaUpdateDate() == null
+                || ChronoUnit.DAYS.between(LocalDate.parse(user.getPromptMetaUpdateDate()), LocalDate.now()) >= 7) {
+            Optional<String> updatedMeta = metaPromptSender(user.getMetas());
+            if (updatedMeta.isPresent()) {
+                user.setPromptMetaUpdateDate(LocalDate.now().toString());
+                user.setPromptMeta(updatedMeta.get());
+            }
+        }
+    }
+
+    public static Optional<String> getMeta(User user) {
+        updateMeta(user);
+        if (user.getPromptMeta() != null) {
+            return Optional.of(user.getPromptMeta());
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -68,16 +102,21 @@ public class SurveyService extends SurveyServiceGrpc.SurveyServiceImplBase {
                 Map<String, Object> queryMap = new HashMap<>();
                 queryMap.put("_id", id);
                 var existingEntities = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
+                User user = null;
                 if (existingEntities != null && !existingEntities.isEmpty()) {
-                    User existingEntity = existingEntities.get(0);
-                    existingEntity.updateMeta(newMeta);
-                    existingEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
-                    MongoDBSingleton.getInstance().getConnection().updateEntity(existingEntity);
+                    user = existingEntities.get(0);
+                    user.updateMeta(newMeta);
+                    user.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
+                    MongoDBSingleton.getInstance().getConnection().updateEntity(user);
                 } else {
-                    User newEntity = new User(id, List.of(newMeta));
-                    newEntity.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
-                    MongoDBSingleton.getInstance().getConnection().saveEntity(newEntity);
+                    user = new User(id, List.of(newMeta));
+                    user.getMetas().getLast().getRecords().getLast().setShortSummary(shortForm.toString());
+                    MongoDBSingleton.getInstance().getConnection().saveEntity(user);
                 }
+                if (request.getLon() != 404) {
+                    WeatherService.handler(user, request.getLat(), request.getLon());
+                }
+                updateMeta(user);
                 response = LongSurveyResponse.newBuilder().setShortSummary(shortForm.toString()).setFullSummary(fullForm.toString()).build();
             } else {
                 response = LongSurveyResponse.newBuilder().setFullSummary(gptResponse.response()).build();

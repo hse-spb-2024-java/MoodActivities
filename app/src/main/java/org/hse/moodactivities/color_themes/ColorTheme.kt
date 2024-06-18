@@ -3,7 +3,7 @@ package org.hse.moodactivities.color_themes
 import android.graphics.Color
 
 enum class ColorThemeType {
-    CALMNESS, TWILIGHT, FOREST,
+    CALMNESS, TWILIGHT, FOREST, TROPICAL
 }
 
 abstract class ColorTheme(
@@ -49,6 +49,10 @@ abstract class ColorTheme(
 
     fun getFontColor(): Int {
         return fontColor
+    }
+
+    fun getColorThemeColor(): Int {
+        return color2
     }
 
     /* return color for index from 0 to 11
@@ -172,6 +176,20 @@ abstract class ColorTheme(
 
     open fun getChatWidgetColorTextColor(): Int {
         return dimmedBackgroundColor
+    }
+
+    // colors for activity widget
+
+    open fun getWeekAnalyticsWidgetColor(): Int {
+        return color4
+    }
+
+    open fun getWeekAnalyticsWidgetTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getWeekAnalyticsWidgetTitleTextColor(): Int {
+        return fontColor
     }
 
     // colors for calendar fragment
@@ -336,6 +354,18 @@ abstract class ColorTheme(
         return color1
     }
 
+    open fun getSettingsWidgetTitleColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getSettingsWidgetColor(): Int {
+        return dimmedColor4
+    }
+
+    open fun getSettingsWidgetFieldColor(): Int {
+        return color4
+    }
+
     companion object {
         private val colors: HashMap<String, Int> = hashMapOf(
             "cornell red" to Color.parseColor("#c90016"),
@@ -396,8 +426,10 @@ abstract class ColorTheme(
             "dimmed brunswick green" to Color.parseColor("#233729"),
         )
 
-        fun getColorByName(name: String): Int? {
-            return colors[name]
+        private const val DEFAULT_COLOR = Color.WHITE
+
+        fun getColorByName(name: String): Int {
+            return colors.getOrDefault(name, DEFAULT_COLOR)
         }
     }
 }

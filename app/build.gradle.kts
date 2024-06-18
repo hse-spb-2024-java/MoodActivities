@@ -24,6 +24,10 @@ dependencies {
     // charts library
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+    // location dependencies
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.github.BirjuVachhani:locus-android:3.0.1")
+
     // android dependencies
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.cardview:cardview:1.0.0")
@@ -31,6 +35,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("io.github.ShawnLin013:number-picker:2.4.13")
 
     // jwt
     api("io.jsonwebtoken:jjwt-api:0.12.5")
@@ -39,7 +44,12 @@ dependencies {
         exclude(group = "org.json", module = "json")
     }
 
-    implementation("com.google.android.gms:play-services-auth:20.0.0")
+    // Google Services
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("com.google.android.gms:play-services-fitness:21.1.0")
+
+    // kotlin
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
 
     // tests
     testImplementation("junit:junit:4.13.2")

@@ -26,6 +26,10 @@ public class UserDayMeta implements Serializable {
     private DailyActivity activity;
     private String dailyConclusion;
 
+    private FitnessData fitnessData;
+
+    private Weather weather;
+
     public void setDate(LocalDate date) {
         this.date = date;
     }
@@ -50,16 +54,28 @@ public class UserDayMeta implements Serializable {
         calculateDailyScore();
     }
 
-    public void addRecords(MoodFlowRecord record) {
+    public void addRecord(MoodFlowRecord record) {
+        if (this.records == null) {
+            this.records = new ArrayList<>();
+        }
         this.records.add(record);
         calculateDailyScore();
     }
 
-    public UserDayMeta(LocalDate date, List<MoodFlowRecord> records, double dailyScore, String dailyConclusion) {
+    public Weather getWeather() {
+        return weather == null ? new Weather(true) : weather;
+    }
+
+    public void setWeather(Weather weather) {
+        this.weather = weather;
+    }
+
+    public UserDayMeta(LocalDate date, List<MoodFlowRecord> records, double dailyScore, String dailyConclusion, FitnessData fitnessData) {
         this.date = date;
         this.records = records;
         this.dailyScore = dailyScore;
         this.dailyConclusion = dailyConclusion;
+        this.fitnessData = fitnessData;
     }
 
     public UserDayMeta(LongSurveyRequest longSurveyRequest) {
@@ -72,9 +88,7 @@ public class UserDayMeta implements Serializable {
         for (var emotion : longSurveyRequest.getEmotionsList()) {
             moodList.add(new Mood(emotion, time, 0.5, ""));
         }
-        if (this.records == null) {
-            this.records = new ArrayList<>();
-        }
+        this.records = new ArrayList<>();
         RecordQuestion question = new RecordQuestion(longSurveyRequest.getQuestion(), longSurveyRequest.getAnswer());
         MoodFlowRecord newRecord = new MoodFlowRecord();
         newRecord.setActivities(activityList);
@@ -87,6 +101,8 @@ public class UserDayMeta implements Serializable {
         if (date == null) {
             date = LocalDate.now();
         }
+
+        this.fitnessData = fitnessData;
     }
 
     public UserDayMeta(LocalDate date) {
@@ -94,6 +110,7 @@ public class UserDayMeta implements Serializable {
     }
 
     public UserDayMeta() {
+        this.date = LocalDate.now();
     }
 
     public LocalDate getDate() {
@@ -128,6 +145,14 @@ public class UserDayMeta implements Serializable {
 
     public void setActivity(DailyActivity activity) {
         this.activity = activity;
+    }
+
+    public FitnessData getFitnessData() {
+        return this.fitnessData;
+    }
+
+    public void setFitnessData(FitnessData fitnessData) {
+        this.fitnessData = fitnessData;
     }
 
     private void calculateDailyScore() {
@@ -167,5 +192,14 @@ public class UserDayMeta implements Serializable {
                 "records=" + records + ", " +
                 "daiScore=" + dailyScore + ", " +
                 "dailyConclusion=" + dailyConclusion + ']';
+    }
+
+    public static record Weather(boolean isEmpty,
+                                 String description,
+                                 double temperature,
+                                 double humidity) implements Serializable {
+        public Weather(boolean isEmpty) {
+            this(isEmpty, null, 0, 0);
+        }
     }
 }

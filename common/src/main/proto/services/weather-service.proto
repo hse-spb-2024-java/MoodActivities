@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_package = "org.hse.moodactivities.common.proto.services";
+option java_multiple_files = true;
+
+package services;
+
+import "requests/weather-service/weather-request.proto";
+import "responses/weather-service/weather-response.proto";
+
+service WeatherService {
+  rpc SendGeo(requests.GeoForWeatherRequest) returns (responses.GeoForWeatherResponse) {}
+}
