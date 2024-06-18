@@ -18,9 +18,30 @@ class EnergeticColorTheme : ColorTheme(
     getColorByName("dimmed rosy brown dark")!!,
     getColorByName("rosy taupe")!!,
     getColorByName("dimmed rosy taupe")!!,
-    getColorByName("cornell red")!!,
     getColorByName("napier green")!!,
+    getColorByName("cornell red")!!,
 ) {
+
+    override fun getBackgroundColor(): Int {
+        return getColorByName("honeydew")
+    }
+
+    override fun getFontColor(): Int {
+        return getColorByName("fulvous")
+    }
+
+    override fun getSettingsWidgetTitleColor(): Int {
+        return getColorByName("fulvous")
+    }
+
+    override fun getSettingsWidgetColor(): Int {
+        return getColorByName("hunyadi yellow")
+    }
+
+    override fun getSettingsWidgetFieldColor(): Int {
+        return getColorByName("ecru")
+    }
+
     companion object {
         fun getColorThemeColor(): Int {
             return getColorByName("fulvous")

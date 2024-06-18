@@ -21,6 +21,7 @@ import org.hse.moodactivities.color_themes.CalmnessColorTheme
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
 import org.hse.moodactivities.color_themes.EnergeticColorTheme
+import org.hse.moodactivities.color_themes.ForestColorTheme
 import org.hse.moodactivities.color_themes.LemonadeColorTheme
 import org.hse.moodactivities.models.AuthType
 import org.hse.moodactivities.services.ThemesService
@@ -54,7 +55,11 @@ class ProfileScreenFragment : Fragment() {
         setFeedbackWidgetListener(view)
 
         val colorThemeType = ThemesService.getColorTheme().getColorThemeType()
-        pressColorThemeButton(view, getColorThemeCardIdByType(colorThemeType))
+        pressColorThemeButton(
+            view,
+            getColorThemeCardIdByType(colorThemeType),
+            ThemesService.getColorTheme().getColorThemeType()
+        )
 
         // set light mode
         val lightMode = ThemesService.getLightMode()
@@ -77,9 +82,9 @@ class ProfileScreenFragment : Fragment() {
     private fun getColorThemeCardIdByType(colorThemeType: ColorThemeType): Int {
         return when (colorThemeType) {
             ColorThemeType.CALMNESS -> R.id.color_theme_calmness
-            ColorThemeType.LEMONADE -> R.id.color_theme_energetic
+            ColorThemeType.LEMONADE -> R.id.color_theme_lemonade
             ColorThemeType.FOREST -> R.id.color_theme_forest
-            ColorThemeType.ENERGETIC -> R.id.color_theme_lemonade
+            ColorThemeType.ENERGETIC -> R.id.color_theme_energetic
         }
     }
 
@@ -106,7 +111,7 @@ class ProfileScreenFragment : Fragment() {
         if (email == null) {
             email = NO_DATA
         }
-        view.findViewById<TextView>(R.id.email).text = login
+        view.findViewById<TextView>(R.id.email).text = email
     }
 
     private fun setPersonalInfoWidgetListeners(view: View) {
@@ -130,31 +135,31 @@ class ProfileScreenFragment : Fragment() {
         }
     }
 
-    private fun pressColorThemeButton(view: View, newColorThemeCardId: Int) {
+    private fun pressColorThemeButton(
+        view: View, newColorThemeCardId: Int, newColorThemeType: ColorThemeType
+    ) {
         view.findViewById<CardView>(colorThemeCardId).alpha = BUTTON_DISABLED_ALPHA
         colorThemeCardId = newColorThemeCardId
         view.findViewById<CardView>(newColorThemeCardId).alpha = BUTTON_ENABLED_ALPHA
+        ThemesService.changeColorTheme(newColorThemeType)
+        setColorTheme(view)
     }
 
     private fun setAppThemeWidgetListeners(view: View) {
         view.findViewById<Button>(R.id.color_theme_button_forest).setOnClickListener {
-            pressColorThemeButton(view, R.id.color_theme_forest)
-            // todo: set color theme 1
+            pressColorThemeButton(view, R.id.color_theme_forest, ColorThemeType.FOREST)
         }
 
         view.findViewById<Button>(R.id.color_theme_button_calmness).setOnClickListener {
-            pressColorThemeButton(view, R.id.color_theme_calmness)
-            // todo: set color theme 2
+            pressColorThemeButton(view, R.id.color_theme_calmness, ColorThemeType.CALMNESS)
         }
 
         view.findViewById<Button>(R.id.color_theme_button_lemonade).setOnClickListener {
-            pressColorThemeButton(view, R.id.color_theme_lemonade)
-            // todo: set color theme 3
+            pressColorThemeButton(view, R.id.color_theme_lemonade, ColorThemeType.LEMONADE)
         }
 
         view.findViewById<Button>(R.id.color_theme_button_energetic).setOnClickListener {
-            pressColorThemeButton(view, R.id.color_theme_energetic)
-            // todo: set color theme 4
+            pressColorThemeButton(view, R.id.color_theme_energetic, ColorThemeType.ENERGETIC)
         }
 
         view.findViewById<Button>(R.id.light_mode_button).setOnClickListener {
@@ -208,6 +213,7 @@ class ProfileScreenFragment : Fragment() {
             view.findViewById<TextView>(R.id.google_text).text = CONNECTED
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -217,6 +223,7 @@ class ProfileScreenFragment : Fragment() {
             ft.detach(this).attach(this).commit()
         }
     }
+
     private fun performGoogleSignIn() {
         val signInIntent = GoogleSignInManager.getSignInIntent()
         startActivityForResult(signInIntent, GoogleSignInManager.RETURN_CODE_SIGN_IN)
@@ -294,10 +301,9 @@ class ProfileScreenFragment : Fragment() {
         view.findViewById<CardView>(R.id.dark_mode_background)
             .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
 
-        view.findViewById<TextView>(R.id.forest)
-            .setTextColor(colorTheme.getColorThemeColor())
+        view.findViewById<TextView>(R.id.forest).setTextColor(colorTheme.getSettingsWidgetTitleColor())
         view.findViewById<CardView>(R.id.color_theme_forest)
-            .setCardBackgroundColor(colorTheme.getSettingsWidgetTitleColor())
+            .setCardBackgroundColor(ForestColorTheme.getColorThemeColor())
 
         view.findViewById<TextView>(R.id.calmness)
             .setTextColor(colorTheme.getSettingsWidgetTitleColor())

@@ -18,8 +18,8 @@ class ForestColorTheme : ColorTheme(
     /* dimmedColor5 */getColorByName("dimmed feldgrau")!!,
     /* color6 */getColorByName("brunswick green")!!,
     /* dimmedColor6 */getColorByName("dimmed brunswick green")!!,
-    /* recordedColor */ getColorByName("cornell red")!!,
-    /* notRecordedColor */ getColorByName("napier green")!!,
+    /* recordedColor */ getColorByName("napier green")!!,
+    /* notRecordedColor */ getColorByName("cornell red")!!,
 ) {
     override fun getBackgroundColor(): Int {
         if (getLightMode() == LightMode.DAY) {
@@ -114,5 +114,11 @@ class ForestColorTheme : ColorTheme(
             return getColorByName("payne's grey")
         }
         return getColorByName("dimmed payne's grey")
+    }
+
+    companion object {
+        fun getColorThemeColor(): Int {
+            return getColorByName("dark powder blue")
+        }
     }
 }

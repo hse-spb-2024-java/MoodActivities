@@ -3,6 +3,7 @@ package org.hse.moodactivities.services
 import org.hse.moodactivities.color_themes.CalmnessColorTheme
 import org.hse.moodactivities.color_themes.ColorTheme
 import org.hse.moodactivities.color_themes.ColorThemeType
+import org.hse.moodactivities.color_themes.EnergeticColorTheme
 import org.hse.moodactivities.color_themes.ForestColorTheme
 import org.hse.moodactivities.color_themes.LemonadeColorTheme
 
@@ -13,6 +14,7 @@ class ThemesService {
                 ColorThemeType.CALMNESS to CalmnessColorTheme(),
                 ColorThemeType.LEMONADE to LemonadeColorTheme(),
                 ColorThemeType.FOREST to ForestColorTheme(),
+                ColorThemeType.ENERGETIC to EnergeticColorTheme(),
             )
 
         private val baseColorThemeType = ColorThemeType.FOREST

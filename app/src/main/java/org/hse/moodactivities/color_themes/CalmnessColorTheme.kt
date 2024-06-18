@@ -18,8 +18,8 @@ class CalmnessColorTheme : ColorTheme(
     /* dimmedColor5 */ getColorByName("dimmed powder blue")!!,
     /* color6 */ getColorByName("air superiority blue")!!,
     /* dimmedColor6 */ getColorByName("dimmed air superiority blue")!!,
-    /* recordedColor */ getColorByName("cornell red")!!,
-    /* notRecordedColor */ getColorByName("napier green")!!,
+    /* recordedColor */ getColorByName("napier green")!!,
+    /* notRecordedColor */ getColorByName("cornell red")!!,
 ) {
     companion object {
         fun getColorThemeColor(): Int {

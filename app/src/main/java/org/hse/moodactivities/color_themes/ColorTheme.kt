@@ -465,6 +465,10 @@ abstract class ColorTheme(
             "dark midnight blue" to Color.parseColor("#003366"),
             "mindaro" to Color.parseColor("#D2E090"),
             "fulvous" to Color.parseColor("#E8871E"),
+            "hunyadi yellow" to Color.parseColor("#F1C379"),
+            "honeydew" to Color.parseColor("#F1F7E5"),
+            "ecru" to Color.parseColor("#E1C481"),
+            "fulvous" to Color.parseColor("#BE6C13"),
         )
 
         private const val DEFAULT_COLOR = Color.WHITE

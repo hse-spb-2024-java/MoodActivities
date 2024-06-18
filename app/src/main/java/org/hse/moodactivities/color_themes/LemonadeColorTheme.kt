@@ -18,8 +18,8 @@ class LemonadeColorTheme : ColorTheme(
     getColorByName("dimmed rosy brown dark")!!,
     getColorByName("rosy taupe")!!,
     getColorByName("dimmed rosy taupe")!!,
-    getColorByName("cornell red")!!,
     getColorByName("napier green")!!,
+    getColorByName("cornell red")!!,
 ) {
     companion object {
         fun getColorThemeColor(): Int {
