@@ -415,6 +415,14 @@ class InsightsScreenFragment : Fragment() {
         dialog.findViewById<TextView>(R.id.all_time_text)
             .setTextColor(colorTheme.getButtonTextColor())
 
+        // set colors to steps widget
+        view.findViewById<CardView>(R.id.steps_widget)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())
+        view.findViewById<TextView>(R.id.steps_tittle)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<TextView>(R.id.steps_counter)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+
         // set color to weather chart
         view.findViewById<CardView>(R.id.weather_background)
             ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())

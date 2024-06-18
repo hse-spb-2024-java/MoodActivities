@@ -58,6 +58,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:layout_margin="3dp"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="1dp">
 
@@ -153,6 +154,7 @@
                             android:id="@+id/mood_flow_card"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_margin="3dp"
                             app:cardCornerRadius="20dp"
                             app:cardElevation="1dp">
 
@@ -235,6 +237,7 @@
                             android:id="@+id/question_card"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_margin="3dp"
                             app:cardCornerRadius="20dp"
                             app:cardElevation="1dp">
 
@@ -324,6 +327,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -362,7 +366,7 @@
                 <!-- week widget day 1 end -->
 
                 <Space
-                    android:layout_width="24dp"
+                    android:layout_width="18dp"
                     android:layout_height="match_parent" />
 
                 <!-- week widget day 2 begin -->
@@ -371,6 +375,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -410,7 +415,7 @@
                 <!-- week widget day 2 end -->
 
                 <Space
-                    android:layout_width="24dp"
+                    android:layout_width="18dp"
                     android:layout_height="match_parent" />
 
                 <!-- week widget day 3 begin -->
@@ -419,6 +424,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -457,7 +463,7 @@
                 <!-- week widget day 3 end -->
 
                 <Space
-                    android:layout_width="24dp"
+                    android:layout_width="19dp"
                     android:layout_height="match_parent" />
 
                 <!-- week widget day 4 begin -->
@@ -466,6 +472,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -505,7 +512,7 @@
                 <!-- week widget day 4 end -->
 
                 <Space
-                    android:layout_width="24dp"
+                    android:layout_width="18dp"
                     android:layout_height="match_parent" />
 
                 <!-- week widget day 5 begin -->
@@ -514,6 +521,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:layout_margin="3dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="1dp">
 
@@ -563,6 +571,7 @@
                 android:gravity="center">
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -575,6 +584,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_gravity="center"
+                        android:layout_margin="3dp"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="1dp">
 
@@ -656,6 +666,7 @@
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:layout_margin="3dp"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="1dp">
 
@@ -682,6 +693,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_margin="3dp"
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="1dp">
@@ -697,8 +709,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginTop="5dp"
+                        android:gravity="center"
                         android:orientation="horizontal"
                         tools:ignore="UseCompoundDrawables">
 

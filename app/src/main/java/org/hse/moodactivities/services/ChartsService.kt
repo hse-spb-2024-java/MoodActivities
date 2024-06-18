@@ -279,6 +279,72 @@ class ChartsService(activity: AppCompatActivity) {
         lineChart.invalidate()
     }
 
+    fun createStepsCharts(resources: Resources, lineChart: LineChart, timePeriod: TimePeriod.Value) {
+        maxValue = 0
+        val data = getMoodData(resources, timePeriod)
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set axis settings
+        lineChart.axisRight.isEnabled = false
+
+        // set y-axis settings
+        val yAxis: YAxis = lineChart.axisLeft
+        yAxis.setDrawAxisLine(true)
+        yAxis.setDrawGridLines(true)
+        yAxis.setDrawGridLinesBehindData(true)
+        yAxis.setAxisMinimum(MoodChartSettings.Y_AXIS_MIN)
+        yAxis.setAxisMaximum(MoodChartSettings.Y_AXIS_MAX)
+        yAxis.granularity = MoodChartSettings.GRANULARITY
+        yAxis.gridLineWidth = MoodChartSettings.GRID_LINE_WIDTH
+        yAxis.gridColor = Color.LTGRAY
+        yAxis.enableGridDashedLine(
+            MoodChartSettings.GRID_LINE_LENGTH,
+            MoodChartSettings.GRID_LINE_SPACE_LENGTH,
+            MoodChartSettings.GRID_LINE_PHASE
+        )
+
+        // set x-axis settings
+        val xAxis: XAxis = lineChart.xAxis
+        xAxis.textColor = colorTheme.getMoodFlowChartTextColor()
+        xAxis.setTextSize(MoodChartSettings.TEXT_SIZE)
+        xAxis.setAxisMinimum(MoodChartSettings.X_AXIS_MIN)
+        if (timePeriod == TimePeriod.Value.WEEK) {
+            maxValue = 7
+        } else if (timePeriod == TimePeriod.Value.MONTH) {
+            maxValue = 30
+        } else if (timePeriod == TimePeriod.Value.YEAR) {
+            maxValue = 365
+        }
+        xAxis.setAxisMaximum(0.5f + maxValue)
+        xAxis.setDrawAxisLine(true)
+        xAxis.valueFormatter = LineChartXAxisValueFormatter()
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawLabels(true)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.granularity = 20.toFloat() / maxValue
+
+        // create dataset
+        val dataSet = LineDataSet(data, "")
+        dataSet.setColor(colorTheme.getWeatherChartColor())
+        dataSet.setLineWidth(MoodChartSettings.CHARTS_LINE_WIDTH)
+
+        // set legend description
+        val legend: Legend = lineChart.legend
+        legend.form = Legend.LegendForm.NONE
+        legend.textColor = colorTheme.getWeatherChartBackgroundColor()
+
+        // set description enabled
+        val description = Description()
+        description.isEnabled = false
+        lineChart.description = description
+
+        // set data
+        val lineData = LineData(dataSet)
+        lineData.setDrawValues(false)
+        lineChart.setData(lineData)
+
+        lineChart.invalidate()
+    }
 
     fun createDistributionChart(pieChart: PieChart, timePeriod: TimePeriod.Value) {
         val statistic = getStatistic(timePeriod)
