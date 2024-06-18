@@ -29,7 +29,7 @@ class InsightsScreenFragment : Fragment() {
     }
 
     enum class ChartsType {
-        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART, WEATHER_BY_TEMPERATURE_CHART
+        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART, WEATHER_BY_TEMPERATURE_CHART, WEATHER_BY_HUMIDITY_CHART
     }
 
     private lateinit var dialog: Dialog
@@ -39,11 +39,13 @@ class InsightsScreenFragment : Fragment() {
     private lateinit var chartsService: ChartsService
     private lateinit var moodChart: LineChart
     private lateinit var weatherByTemperatureChart: LineChart
+    private lateinit var weatherByHumidityChart: LineChart
     private var changingTimePeriodChartType: ChartsType = ChartsType.MOOD_CHART
     private lateinit var moodChartLabel: TextView
     private lateinit var emotionsChartLabel: TextView
     private lateinit var activitiesChartLabel: TextView
     private lateinit var weatherByTemperatureChartLabel: TextView
+    private lateinit var weatherByHumidityChartLabel: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +73,11 @@ class InsightsScreenFragment : Fragment() {
                 chartsService.createWeatherCharts(weatherByTemperatureChart, timePeriod)
                 changeTimeLabel(weatherByTemperatureChartLabel, timePeriod)
             }
+
+            ChartsType.WEATHER_BY_HUMIDITY_CHART -> {
+                chartsService.createHumidityCharts(weatherByHumidityChart, timePeriod)
+                changeTimeLabel(weatherByHumidityChartLabel, timePeriod)
+            }
         }
     }
 
@@ -93,6 +100,14 @@ class InsightsScreenFragment : Fragment() {
         changeTimeLabel(weatherByTemperatureChartLabel, DEFAULT_TIME_PERIOD)
         chartsService.createWeatherCharts(
             weatherByTemperatureChart, DEFAULT_TIME_PERIOD
+        )
+
+        // create humidity chart
+        weatherByHumidityChart = view.findViewById(R.id.humidity_chart)
+        weatherByHumidityChartLabel = view.findViewById(R.id.humidity_time_label)
+        changeTimeLabel(weatherByHumidityChartLabel, DEFAULT_TIME_PERIOD)
+        chartsService.createHumidityCharts(
+            weatherByHumidityChart, DEFAULT_TIME_PERIOD
         )
 
         // create emotions chart
@@ -154,6 +169,18 @@ class InsightsScreenFragment : Fragment() {
         // create activities time label
         view.findViewById<Button>(R.id.activities_time_label_button).setOnClickListener {
             changingTimePeriodChartType = ChartsType.ACTIVITIES_CHART
+            dialog.show()
+        }
+
+        // create activities time label
+        view.findViewById<Button>(R.id.weather_time_label_button).setOnClickListener {
+            changingTimePeriodChartType = ChartsType.WEATHER_BY_TEMPERATURE_CHART
+            dialog.show()
+        }
+
+        // create activities time label
+        view.findViewById<Button>(R.id.humidity_time_label_button).setOnClickListener {
+            changingTimePeriodChartType = ChartsType.WEATHER_BY_HUMIDITY_CHART
             dialog.show()
         }
 
@@ -313,6 +340,16 @@ class InsightsScreenFragment : Fragment() {
         view.findViewById<CardView>(R.id.weather_time_label_background)
             ?.setCardBackgroundColor(colorTheme.getWeatherChartLabelColor())
         view.findViewById<TextView>(R.id.weather_time_label)
+            ?.setTextColor(colorTheme.getWeatherChartLabelTextColor())
+
+        // set color to weather chart
+        view.findViewById<CardView>(R.id.humidity_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartBackgroundColor())
+        view.findViewById<TextView>(R.id.humidity_text)
+            ?.setTextColor(colorTheme.getWeatherChartTextColor())
+        view.findViewById<CardView>(R.id.humidity_time_label_background)
+            ?.setCardBackgroundColor(colorTheme.getWeatherChartLabelColor())
+        view.findViewById<TextView>(R.id.humidity_time_label)
             ?.setTextColor(colorTheme.getWeatherChartLabelTextColor())
     }
 }
