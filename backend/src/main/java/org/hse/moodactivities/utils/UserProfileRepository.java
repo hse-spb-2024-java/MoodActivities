@@ -16,6 +16,7 @@ import jakarta.persistence.criteria.Root;
 
 public class UserProfileRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserProfileRepository.class);
+
     public static Optional<UserProfile> findByLogin(AuthProvider provider,
                                                     String login) {
         try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
@@ -91,8 +92,10 @@ public class UserProfileRepository {
     }
 
     public static boolean saveEntity(UserProfile userProfile) {
-        try (var entityManager = HibernateUtils.getEntityManagerFactory().createEntityManager()) {
-            entityManager.persist(userProfile);
+        try {
+            HibernateUtils.inTransaction(
+                    em -> em.persist(userProfile)
+            );
             LOGGER.info(String.format("save entity for %d", userProfile.getId()));
             return true;
         } catch (Exception e) {
