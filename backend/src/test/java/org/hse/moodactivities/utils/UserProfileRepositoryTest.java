@@ -17,27 +17,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserProfileRepositoryTest {
 
-    private EntityManagerFactory emf;
+    private EntityManagerFactory entityManagerFactory;
 
     @BeforeEach
     void setUp() {
-        emf = Persistence.createEntityManagerFactory("org.hse.moodactivities.data");
-        HibernateUtils.setEntityManagerFactory(emf);
+        entityManagerFactory = Persistence.createEntityManagerFactory("org.hse.moodactivities.data");
+        HibernateUtils.setEntityManagerFactory(entityManagerFactory);
     }
 
     @AfterEach
     void tearDown() {
-        emf.close();
+        entityManagerFactory.close();
     }
 
     @Test
     void testFindByLogin() {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         UserProfile user = new UserProfile(AuthProvider.PLAIN, "testLogin", "test@example.com", "password", null);
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
         Optional<UserProfile> found = UserProfileRepository.findByLogin(AuthProvider.PLAIN, "testLogin");
         assertTrue(found.isPresent());
@@ -46,12 +46,12 @@ class UserProfileRepositoryTest {
 
     @Test
     void testFindByEmail() {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         UserProfile user = new UserProfile(AuthProvider.PLAIN, "testLogin", "test@example.com", "password", null);
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
         Optional<UserProfile> found = UserProfileRepository.findByEmail(AuthProvider.PLAIN, "test@example.com");
         assertTrue(found.isPresent());
@@ -60,12 +60,12 @@ class UserProfileRepositoryTest {
 
     @Test
     void testFindByOauthId() {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         UserProfile user = new UserProfile(AuthProvider.GOOGLE, "testLogin", "test@example.com", "password", "oauthId123");
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
         Optional<UserProfile> found = UserProfileRepository.findByOauthId(AuthProvider.GOOGLE, "oauthId123");
         assertTrue(found.isPresent());
@@ -74,12 +74,12 @@ class UserProfileRepositoryTest {
 
     @Test
     void testFindById() {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         UserProfile user = new UserProfile(AuthProvider.PLAIN, "testLogin", "test@example.com", "password", null);
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
         Optional<UserProfile> found = UserProfileRepository.findById(String.valueOf(user.getId()));
         assertTrue(found.isPresent());
