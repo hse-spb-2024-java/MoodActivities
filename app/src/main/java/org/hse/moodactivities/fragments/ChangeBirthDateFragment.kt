@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -32,7 +33,6 @@ class ChangeBirthDateFragment : Fragment() {
         }
 
         view.findViewById<CardView>(R.id.button_background).setOnClickListener {
-//            view.findViewById<EditText>(R.id.new_name).text.clear()
             sendNewDate()
         }
 
@@ -61,13 +61,17 @@ class ChangeBirthDateFragment : Fragment() {
             return
         }
 
-        // todo: send date
-        UserService.setBirthDate(date)
-        view?.findViewById<TextView>(R.id.birth_date_name)?.text = date
+        if (UserService.setBirthDate(date, this.activity as AppCompatActivity)) {
+            view?.findViewById<TextView>(R.id.birth_date_name)?.text = date
 
-        Toast(this.activity as Activity).showCustomToast(
-            "Your birth date has been changed", this.activity as Activity
-        )
+            Toast(this.activity as Activity).showCustomToast(
+                "Your birth date has been changed", this.activity as Activity
+            )
+        } else {
+            Toast(this.activity as Activity).showCustomToast(
+                "Error: birth date wasn't changed", this.activity as Activity
+            )
+        }
     }
 
     @SuppressLint("CutPasteId")
@@ -95,7 +99,7 @@ class ChangeBirthDateFragment : Fragment() {
         view.findViewById<CardView>(R.id.old_birth_date_background)
             .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
         view.findViewById<TextView>(R.id.birth_date_name)
-            .setTextColor(colorTheme.getSettingsWidgetFieldColor())
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
 
         // set color to number picker
         view.findViewById<CardView>(R.id.new_birth_date_background)

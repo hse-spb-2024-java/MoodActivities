@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -41,7 +42,7 @@ class ChangePasswordFragment : Fragment() {
     private fun validatePasswordChange(view: View) {
         val oldPassword = view.findViewById<EditText>(R.id.old_password).text.toString()
 
-        if (UserService.checkOldPassword(oldPassword)) {
+        if (UserService.checkOldPassword(oldPassword, activity as AppCompatActivity)) {
             Toast(this.activity as Activity).showCustomToast(
                 "Incorrect old password", this.activity as Activity
             )
@@ -58,16 +59,22 @@ class ChangePasswordFragment : Fragment() {
             return
         }
 
-        if (oldPassword != newPassword) {
+        if (oldPassword == newPassword) {
             Toast(this.activity as Activity).showCustomToast(
                 "The old and new passwords are the same", this.activity as Activity
             )
             return
         }
 
-        Toast(this.activity as Activity).showCustomToast(
-            "Your name has been changed", this.activity as Activity
-        )
+        if (UserService.setPassword(newPassword, this.activity as AppCompatActivity)) {
+            Toast(this.activity as Activity).showCustomToast(
+                "Your password has been changed", this.activity as Activity
+            )
+        } else {
+            Toast(this.activity as Activity).showCustomToast(
+                "Error: password wasn't changed", this.activity as Activity
+            )
+        }
     }
 
     private fun setColorTheme(view: View) {

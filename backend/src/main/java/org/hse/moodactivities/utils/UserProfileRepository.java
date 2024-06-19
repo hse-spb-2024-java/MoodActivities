@@ -4,7 +4,6 @@ package org.hse.moodactivities.utils;
 import org.hse.moodactivities.data.entities.postgres.AuthProvider;
 import org.hse.moodactivities.data.entities.postgres.UserProfile;
 import org.hse.moodactivities.data.utils.HibernateUtils;
-import org.hse.moodactivities.data.utils.MongoDBConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,14 +90,17 @@ public class UserProfileRepository {
         }
     }
 
-    public static boolean saveEntity(UserProfile userProfile) {
+    public static boolean updateEntity(UserProfile userProfile) {
         try {
             HibernateUtils.inTransaction(
-                    em -> em.persist(userProfile)
+                    em -> {
+                        em.merge(userProfile);
+                    }
             );
             LOGGER.info(String.format("save entity for %d", userProfile.getId()));
             return true;
         } catch (Exception e) {
+            LOGGER.info(String.format("failed to save entity for %d, %s", userProfile.getId(), e.toString()));
             return false;
         }
     }

@@ -8,12 +8,15 @@ package services;
 import "requests/profile-service/get-info-request.proto";
 import "requests/profile-service/change-info-request.proto";
 import "requests/profile-service/feedback-request.proto";
+import "requests/profile-service/check-password-request.proto";
 import "responses/profile-service/get-info-response.proto";
 import "responses/profile-service/change-info-response.proto";
 import "responses/profile-service/feedback-response.proto";
+import "responses/profile-service/check-password-response.proto";
 
 service ProfileService {
   rpc GetInfo(requests.GetInfoRequest) returns (responses.GetInfoResponse) {}
   rpc ChangeInfo(requests.ChangeInfoRequest) returns (responses.ChangeInfoResponse) {}
   rpc GiveFeedback(requests.FeedbackRequest) returns (responses.FeedbackResponse) {}
+  rpc CheckPassword(requests.CheckPasswordRequest) returns (responses.CheckPasswordResponse) {}
 }

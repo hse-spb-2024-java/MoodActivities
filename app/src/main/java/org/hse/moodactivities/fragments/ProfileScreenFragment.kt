@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -32,8 +33,8 @@ import org.hse.moodactivities.viewmodels.UserViewModel
 
 class ProfileScreenFragment : Fragment() {
     companion object {
-        const val NOT_CONNECTED = "Not connected."
-        const val CONNECTED = "Connected."
+        const val NOT_CONNECTED = "Not connected"
+        const val CONNECTED = "Connected"
         const val NO_DATA = "No data"
     }
 
@@ -71,12 +72,17 @@ class ProfileScreenFragment : Fragment() {
             view.findViewById<CardView>(R.id.dark_mode_background).alpha = BUTTON_ENABLED_ALPHA
         }
 
-        UserService.uploadUserInfoFromServer()
+        UserService.uploadUserInfoFromServer(this.activity as AppCompatActivity)
 
         setUserData(view)
         setColorTheme(view)
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUserData(requireView())
     }
 
     private fun getColorThemeCardIdByType(colorThemeType: ColorThemeType): Int {
