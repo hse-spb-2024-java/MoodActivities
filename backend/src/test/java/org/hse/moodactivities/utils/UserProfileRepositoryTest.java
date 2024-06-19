@@ -87,14 +87,21 @@ class UserProfileRepositoryTest {
     }
 
     @Test
-    void testSaveEntity() {
+    void testUpdateEntity() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         UserProfile user = new UserProfile(AuthProvider.PLAIN, "testLogin", "test@example.com", "password", null);
-        boolean result = UserProfileRepository.saveEntity(user);
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        user.setEmail("test2@example.com");
+        boolean result = UserProfileRepository.updateEntity(user);
         assertTrue(result);
 
         Optional<UserProfile> found = UserProfileRepository.findById(String.valueOf(user.getId()));
         assertTrue(found.isPresent());
-        assertEquals("testLogin", found.get().getLogin());
+        assertEquals("test2@example.com", found.get().getEmail());
     }
 
     @Test

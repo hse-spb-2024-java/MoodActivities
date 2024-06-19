@@ -61,7 +61,7 @@ public class ProfileService extends ProfileServiceGrpc.ProfileServiceImplBase {
             unwrappedUserProfile.setHashedPassword(UserProfile.hashPassword(request.getPassword()));
         }
         ChangeInfoResponse response;
-        if (UserProfileRepository.saveEntity(unwrappedUserProfile)) {
+        if (UserProfileRepository.updateEntity(unwrappedUserProfile)) {
             response = ChangeInfoResponse
                     .newBuilder()
                     .setCompleted(true)
