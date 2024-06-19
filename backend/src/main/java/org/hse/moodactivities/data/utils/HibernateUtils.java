@@ -4,11 +4,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.function.Consumer;
 
 public class HibernateUtils {
-    private static final EntityManagerFactory emFactory;
+    private static EntityManagerFactory emFactory;
 
     static {
         try {
@@ -17,6 +18,11 @@ public class HibernateUtils {
             System.err.print("Failed to initialize emF." + ex);
             throw new ExceptionInInitializerError(ex);
         }
+    }
+
+    @TestOnly
+    public static void setEntityManagerFactory(EntityManagerFactory emf) {
+        emFactory = emf;
     }
 
     public static EntityManagerFactory getEntityManagerFactory() {
