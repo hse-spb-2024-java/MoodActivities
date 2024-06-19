@@ -5,7 +5,8 @@ option java_multiple_files = true;
 
 package responses;
 
-message AiResponse {
-  string text = 1;
-  string advice = 2;
+import "responses/stats-service/fitness-data.proto";
+
+message FitnessResponse {
+    repeated FitnessData data = 1;
 }

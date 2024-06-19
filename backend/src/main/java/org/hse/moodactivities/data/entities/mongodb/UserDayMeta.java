@@ -157,7 +157,7 @@ public class UserDayMeta implements Serializable {
     }
 
     public FitnessData getFitnessData() {
-        return this.fitnessData;
+        return this.fitnessData != null ? this.fitnessData : new FitnessData();
     }
 
     public void setFitnessData(FitnessData fitnessData) {

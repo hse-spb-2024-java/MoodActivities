@@ -425,4 +425,22 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void getFitnessStats(FitnessRequest request, StreamObserver<FitnessResponse> responseObserver) {
+        int period = periodToInt(request.getPeriod());
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        User user = getUser(userId);
+        List<FitnessData> result = getCorrectDaysSublist(user.getMetas(), request.getPeriod()).stream()
+                .map((item) -> FitnessData.newBuilder()
+                        .setDate(item.getDate().toString())
+                        .setScore(((Double) item.getDailyScore()).intValue())
+                        .setSteps(item.getFitnessData().getSteps())
+                        .build())
+                .limit(period)
+                .sorted(Comparator.comparing(lhs -> LocalDate.parse(lhs.getDate()))).toList();
+        FitnessResponse response = FitnessResponse.newBuilder().addAllData(result).build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }

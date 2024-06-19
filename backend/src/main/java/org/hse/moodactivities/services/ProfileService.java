@@ -1,9 +1,11 @@
 package org.hse.moodactivities.services;
 
 import org.hse.moodactivities.common.proto.requests.profile.ChangeInfoRequest;
+import org.hse.moodactivities.common.proto.requests.profile.CheckPasswordRequest;
 import org.hse.moodactivities.common.proto.requests.profile.FeedbackRequest;
 import org.hse.moodactivities.common.proto.requests.profile.GetInfoRequest;
 import org.hse.moodactivities.common.proto.responses.profile.ChangeInfoResponse;
+import org.hse.moodactivities.common.proto.responses.profile.CheckPasswordResponse;
 import org.hse.moodactivities.common.proto.responses.profile.FeedbackResponse;
 import org.hse.moodactivities.common.proto.responses.profile.GetInfoResponse;
 import org.hse.moodactivities.common.proto.services.ProfileServiceGrpc;
@@ -40,7 +42,7 @@ public class ProfileService extends ProfileServiceGrpc.ProfileServiceImplBase {
         String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
         Optional<UserProfile> userProfile = UserProfileRepository.findById(userId);
         if (userProfile.isEmpty()) {
-            LOGGER.error(String.format("%s user not in db"), userId);
+            LOGGER.error(String.format("%s user not in db", userId));
             responseObserver.onNext(ChangeInfoResponse
                     .newBuilder()
                     .setCompleted(false)
@@ -91,12 +93,33 @@ public class ProfileService extends ProfileServiceGrpc.ProfileServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void checkPassword(CheckPasswordRequest request, StreamObserver<CheckPasswordResponse> responseObserver) {
+        String userId = JWTUtils.CLIENT_ID_CONTEXT_KEY.get();
+        Optional<UserProfile> userProfile = UserProfileRepository.findById(userId);
+        if (userProfile.isEmpty()) {
+            LOGGER.error(String.format("%s user not in db", userId));
+            responseObserver.onNext(CheckPasswordResponse
+                    .newBuilder()
+                    .setCorrect(false)
+                    .build());
+            responseObserver.onCompleted();
+        }
+        UserProfile unwrappedUserProfile = userProfile.get();
+        CheckPasswordResponse response = CheckPasswordResponse
+                .newBuilder()
+                .setCorrect(unwrappedUserProfile.getHashedPassword().equals(UserProfile.hashPassword(request.getPassword())))
+                .build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
     private GetInfoResponse dumpInfo(UserProfile userProfile) {
         GetInfoResponse response = GetInfoResponse.newBuilder()
-                .setName(userProfile.getName())
-                .setLogin(userProfile.getLogin())
-                .setEmail(userProfile.getEmail())
-                .setDateOfBirth(userProfile.getDayOfBirth())
+                .setName(userProfile.getName() != null ? userProfile.getName() : "")
+                .setLogin(userProfile.getLogin() != null ? userProfile.getLogin() : "")
+                .setEmail(userProfile.getEmail() != null ? userProfile.getEmail() : "")
+                .setDateOfBirth(userProfile.getDayOfBirth() != null ? userProfile.getDayOfBirth() : "")
                 .setGoogleEnabled(userProfile.hasGoogle())
                 .build();
         return response;
