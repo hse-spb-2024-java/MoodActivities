@@ -100,6 +100,7 @@ public class UserProfileRepository {
             LOGGER.info(String.format("save entity for %d", userProfile.getId()));
             return true;
         } catch (Exception e) {
+            LOGGER.info(String.format("failed to save entity for %d, %s", userProfile.getId(), e.toString()));
             return false;
         }
     }
