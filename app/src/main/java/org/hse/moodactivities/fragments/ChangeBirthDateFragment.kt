@@ -33,7 +33,6 @@ class ChangeBirthDateFragment : Fragment() {
         }
 
         view.findViewById<CardView>(R.id.button_background).setOnClickListener {
-//            view.findViewById<EditText>(R.id.new_name).text.clear()
             sendNewDate()
         }
 
@@ -100,7 +99,7 @@ class ChangeBirthDateFragment : Fragment() {
         view.findViewById<CardView>(R.id.old_birth_date_background)
             .setCardBackgroundColor(colorTheme.getSettingsWidgetFieldColor())
         view.findViewById<TextView>(R.id.birth_date_name)
-            .setTextColor(colorTheme.getSettingsWidgetFieldColor())
+            .setTextColor(colorTheme.getSettingsWidgetTitleColor())
 
         // set color to number picker
         view.findViewById<CardView>(R.id.new_birth_date_background)

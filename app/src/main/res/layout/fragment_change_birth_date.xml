@@ -101,9 +101,11 @@
                             android:autoSizeMaxTextSize="10dp"
                             android:autofillHints="name"
                             android:fontFamily="@font/app_font"
+                            android:paddingStart="15dp"
                             android:scrollbars="vertical"
                             android:textCursorDrawable="@null"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            tools:ignore="RtlSymmetry" />
                     </ScrollView>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -165,8 +167,8 @@
                             android:id="@+id/new_birth_month"
                             android:layout_width="30dp"
                             android:layout_height="wrap_content"
-                            app:np_max="12"
                             android:layout_marginStart="10dp"
+                            app:np_max="12"
                             app:np_min="1"
                             app:np_selectedTextSize="16sp"
                             app:np_textSize="14sp"
@@ -181,8 +183,8 @@
                             android:id="@+id/new_birth_year"
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            app:np_max="2024"
                             android:layout_marginStart="10dp"
+                            app:np_max="2024"
                             app:np_min="1900"
                             app:np_selectedTextSize="16sp"
                             app:np_textSize="14sp"

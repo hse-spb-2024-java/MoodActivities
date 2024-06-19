@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.birjuvachhani.locus.Locus
 import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.common.proto.requests.profile.ChangeInfoRequest
+import org.hse.moodactivities.common.proto.requests.profile.CheckPasswordRequest
 import org.hse.moodactivities.common.proto.requests.profile.GetInfoRequest
 import org.hse.moodactivities.common.proto.services.ProfileServiceGrpc
 import org.hse.moodactivities.interceptors.JwtClientInterceptor
@@ -76,8 +77,22 @@ class UserService {
             userInfo.isUpdatedFromServer = true
         }
 
-        fun checkOldPassword(oldPassword: String): Boolean {
-            return true
+        fun checkOldPassword(oldPassword: String, activity: AppCompatActivity): Boolean {
+            val channel = ManagedChannelBuilder.forAddress(ADDRESS, PORT).usePlaintext().build()
+
+            val authViewModel = ViewModelProvider(activity)[AuthViewModel::class.java]
+            val stub =
+                ProfileServiceGrpc.newBlockingStub(channel).withInterceptors(JwtClientInterceptor {
+                    authViewModel.getToken(
+                        activity.getSharedPreferences("userPreferences", Context.MODE_PRIVATE)
+                    )!!
+                })
+
+            val request = CheckPasswordRequest.newBuilder().setPassword(oldPassword).build()
+
+            val response = stub.checkPassword(request)
+
+            return response.correct
         }
 
         fun getUsername(): String? {
@@ -102,6 +117,7 @@ class UserService {
             if (response.completed) {
                 userInfo.name = newName
             }
+
             return response.completed
         }
 

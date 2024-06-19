@@ -33,8 +33,8 @@ import org.hse.moodactivities.viewmodels.UserViewModel
 
 class ProfileScreenFragment : Fragment() {
     companion object {
-        const val NOT_CONNECTED = "Not connected."
-        const val CONNECTED = "Connected."
+        const val NOT_CONNECTED = "Not connected"
+        const val CONNECTED = "Connected"
         const val NO_DATA = "No data"
     }
 
@@ -78,6 +78,11 @@ class ProfileScreenFragment : Fragment() {
         setColorTheme(view)
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUserData(requireView())
     }
 
     private fun getColorThemeCardIdByType(colorThemeType: ColorThemeType): Int {
