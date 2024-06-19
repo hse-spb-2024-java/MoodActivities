@@ -19,7 +19,7 @@ dependencies {
     implementation("org.json:json:20240303")
 
     // Annotations
-    implementation("org.jetbrains:annotations:16.0.2")
+    implementation("org.jetbrains:annotations:23.0.0")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
     // L4J
@@ -61,6 +61,7 @@ dependencies {
     // Tests
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.jetbrains:annotations:23.0.0")
 }
 
 application {
