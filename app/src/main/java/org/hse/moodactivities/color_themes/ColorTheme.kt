@@ -385,6 +385,14 @@ abstract class ColorTheme(
         return dimmedColor3
     }
 
+    open fun getStepsLabelTextColor(): Int {
+        return dimmedBackgroundColor
+    }
+
+    open fun getStepsLabelColor(): Int {
+        return getColorByName("dark air superiority blue-2")!!
+    }
+
     open fun getSettingsWidgetTitleColor(): Int {
         return dimmedBackgroundColor
     }
