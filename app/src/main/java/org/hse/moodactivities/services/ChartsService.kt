@@ -34,6 +34,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import io.grpc.ManagedChannelBuilder
 import org.hse.moodactivities.R
 import org.hse.moodactivities.common.proto.requests.defaults.PeriodType
+import org.hse.moodactivities.common.proto.requests.stats.FitnessRequest
 import org.hse.moodactivities.common.proto.requests.stats.ReportType
 import org.hse.moodactivities.common.proto.requests.stats.TopListRequest
 import org.hse.moodactivities.common.proto.requests.stats.UsersMoodRequest
@@ -572,6 +573,116 @@ class ChartsService(activity: AppCompatActivity) {
         val legend: Legend = lineChart.legend
         legend.form = Legend.LegendForm.NONE
         legend.textColor = colorTheme.getWeatherChartBackgroundColor()
+
+        // set description enabled
+        val description = Description()
+        description.isEnabled = false
+        lineChart.description = description
+
+        // set data
+        val lineData = LineData(dataSet)
+        lineData.setDrawValues(false)
+        lineChart.setData(lineData)
+
+        lineChart.invalidate()
+    }
+
+
+    private var stepsMaxValue : Long = 10000
+
+    private fun getFitnessData(
+        resources: Resources, timePeriod: TimePeriod.Value
+    ): MutableList<Entry> {
+        val entries: MutableList<Entry> = ArrayList()
+        val fitnessData = stub.getFitnessStats(FitnessRequest.newBuilder().setPeriod(toPeriodType(timePeriod)).build()).dataList
+
+        val minDate =
+            if (fitnessData.isEmpty()) null else LocalDate.parse(fitnessData[0].date)
+        getStartDate(timePeriod, minDate)
+        for (item in fitnessData) {
+            val dateString = item.date
+            val steps = item.steps.toLong()
+            val score = item.score.toInt()
+            val date = LocalDate.parse(dateString).toEpochDay()
+            val startDate = startDate.toEpochDay()
+            maxValue = max(maxValue, date - startDate)
+            stepsMaxValue = max(stepsMaxValue, steps)
+            val entry =
+                if (timePeriod == TimePeriod.Value.WEEK || timePeriod == TimePeriod.Value.MONTH) {
+                    val icon = getCroppedDrawable(
+                        resources, UiUtils.getMoodImageResourcesIdByIndex(score), 80, 80
+                    )
+                    Entry((date - startDate).toFloat(), steps.toFloat(), icon)
+                } else {
+                    Entry((date - startDate).toFloat(), steps.toFloat())
+                }
+            entries.add(entry)
+        }
+        return entries
+    }
+    fun createStepsCharts(resources: Resources, lineChart: LineChart, timePeriod: TimePeriod.Value) {
+        stepsMaxValue = 10000
+        maxValue = 0
+
+        val data = getFitnessData(resources, timePeriod)
+        if (data.isEmpty()) {
+            return
+        }
+
+        val colorTheme = ThemesService.getColorTheme()
+
+        // set axis settings
+        lineChart.axisRight.isEnabled = false
+
+        // set y-axis settings
+        val yAxis: YAxis = lineChart.axisLeft
+        yAxis.textColor = colorTheme.getStepsChartTextColor()
+        yAxis.setDrawAxisLine(true)
+        yAxis.setDrawGridLines(true)
+        yAxis.setDrawGridLinesBehindData(true)
+        yAxis.setAxisMinimum(MoodChartSettings.Y_AXIS_MIN)
+        yAxis.setAxisMaximum(stepsMaxValue.toFloat())
+        yAxis.granularity = MoodChartSettings.GRANULARITY
+        yAxis.gridLineWidth = MoodChartSettings.GRID_LINE_WIDTH
+        yAxis.gridColor = Color.LTGRAY
+        yAxis.enableGridDashedLine(
+            MoodChartSettings.GRID_LINE_LENGTH,
+            MoodChartSettings.GRID_LINE_SPACE_LENGTH,
+            MoodChartSettings.GRID_LINE_PHASE
+        )
+
+        // set x-axis settings
+        val xAxis: XAxis = lineChart.xAxis
+        xAxis.textColor = colorTheme.getStepsChartTextColor()
+        xAxis.setTextSize(MoodChartSettings.TEXT_SIZE)
+        xAxis.setAxisMinimum(MoodChartSettings.X_AXIS_MIN)
+        if (timePeriod == TimePeriod.Value.WEEK) {
+            maxValue = 7
+        } else if (timePeriod == TimePeriod.Value.MONTH) {
+            maxValue = 30
+        } else if (timePeriod == TimePeriod.Value.YEAR) {
+            maxValue = 365
+        }
+        xAxis.setAxisMaximum(0.5f + maxValue)
+        xAxis.setDrawAxisLine(true)
+        xAxis.valueFormatter = LineChartXAxisValueFormatter()
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawLabels(true)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.granularity = 20.toFloat() / maxValue
+
+        // create dataset
+        val dataSet = LineDataSet(data, "")
+        dataSet.setColor(colorTheme.getStepsLabelColor())
+        dataSet.setLineWidth(MoodChartSettings.CHARTS_LINE_WIDTH)
+
+        dataSet.setCircleColor(colorTheme.getStepsLabelColor())
+        dataSet.circleRadius = 3.0f
+
+        // set legend description
+        val legend: Legend = lineChart.legend
+        legend.form = Legend.LegendForm.NONE
+        legend.textColor = colorTheme.getStepsChartColor()
 
         // set description enabled
         val description = Description()

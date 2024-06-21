@@ -9,7 +9,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.hse.moodactivities.common.proto.defaults.Empty
 import org.hse.moodactivities.common.proto.requests.stats.UploadFitnessDataRequest
 import org.hse.moodactivities.common.proto.services.HealthServiceGrpc

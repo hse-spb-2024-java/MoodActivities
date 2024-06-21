@@ -35,12 +35,11 @@ import org.hse.moodactivities.viewmodels.UserViewModel
 class InsightsScreenFragment : Fragment() {
     companion object {
         val DEFAULT_TIME_PERIOD = TimePeriod.Value.WEEK
-        const val NO_DATA_TITLE = "No data"
         const val FITNESS_ENABLE_SYNCHRONIZATION = "Tap to synchronize"
     }
 
     enum class ChartsType {
-        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART, WEATHER_BY_TEMPERATURE_CHART, WEATHER_BY_HUMIDITY_CHART, WEATHER_DESCRIPTION_CHART
+        ACTIVITIES_CHART, EMOTIONS_CHART, MOOD_CHART, WEATHER_BY_TEMPERATURE_CHART, WEATHER_BY_HUMIDITY_CHART, WEATHER_DESCRIPTION_CHART, STEPS_CHART
     }
 
     private lateinit var dialog: Dialog
@@ -52,6 +51,7 @@ class InsightsScreenFragment : Fragment() {
     private lateinit var weatherByTemperatureChart: LineChart
     private lateinit var weatherByHumidityChart: LineChart
     private lateinit var weatherDescriptionChart: LineChart
+    private lateinit var stepsChart: LineChart
     private var changingTimePeriodChartType: ChartsType = ChartsType.MOOD_CHART
     private lateinit var moodChartLabel: TextView
     private lateinit var emotionsChartLabel: TextView
@@ -59,6 +59,7 @@ class InsightsScreenFragment : Fragment() {
     private lateinit var weatherByTemperatureChartLabel: TextView
     private lateinit var weatherByHumidityChartLabel: TextView
     private lateinit var weatherDescriptionChartLabel: TextView
+    private lateinit var stepsLabel: TextView
 
     private lateinit var userViewModel: UserViewModel
     private lateinit var healthService: HealthService
@@ -98,6 +99,11 @@ class InsightsScreenFragment : Fragment() {
             ChartsType.WEATHER_DESCRIPTION_CHART -> {
                 chartsService.createWeatherDescriptionCharts(weatherDescriptionChart, timePeriod)
                 changeTimeLabel(weatherDescriptionChartLabel, timePeriod)
+            }
+
+            ChartsType.STEPS_CHART -> {
+                chartsService.createStepsCharts(resources, stepsChart, timePeriod)
+                changeTimeLabel(stepsLabel, timePeriod)
             }
         }
     }
@@ -234,6 +240,16 @@ class InsightsScreenFragment : Fragment() {
             stepsCounterTextView.text = FITNESS_ENABLE_SYNCHRONIZATION
             stepsWidget.setOnClickListener {
                 performGoogleSignIn()
+            }
+
+            // create steps chart
+            stepsChart = view.findViewById(R.id.steps_insights_chart)
+            stepsLabel = view.findViewById(R.id.steps_insights_time_label)
+            chartsService.createStepsCharts(resources, stepsChart, DEFAULT_TIME_PERIOD)
+            changeTimeLabel(stepsLabel, DEFAULT_TIME_PERIOD)
+            view.findViewById<Button>(R.id.steps_insights_time_label_button).setOnClickListener {
+                changingTimePeriodChartType = ChartsType.STEPS_CHART
+                dialog.show()
             }
         } else {
             stepsWidget.setOnClickListener(null)
@@ -475,5 +491,14 @@ class InsightsScreenFragment : Fragment() {
             ?.setTextColor(colorTheme.getStepsChartTextColor())
         view.findViewById<CardView>(R.id.steps_widget)
             ?.setCardBackgroundColor(colorTheme.getStepsChartColor())
+
+        view.findViewById<CardView>(R.id.steps_insights_background)
+            ?.setCardBackgroundColor(colorTheme.getStepsChartColor())
+        view.findViewById<TextView>(R.id.steps_insights_text)
+            ?.setTextColor(colorTheme.getStepsChartTextColor())
+        view.findViewById<CardView>(R.id.steps_insights_time_label_background)
+            ?.setCardBackgroundColor(colorTheme.getStepsLabelColor())
+        view.findViewById<TextView>(R.id.steps_insights_time_label)
+            ?.setTextColor(colorTheme.getStepsLabelTextColor())
     }
 }
