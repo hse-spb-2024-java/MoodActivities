@@ -55,7 +55,7 @@ class HomeFragmentTest {
      * The test checks the opening of the daily activity screen for when the button is pressed
      */
     @Test
-    fun openDailyActivityOnButtonClick() {
+    fun testOpenDailyActivityOnButtonClick() {
         ActivityScenario.launch(
             MainScreenActivity::class.java
         )
@@ -72,7 +72,7 @@ class HomeFragmentTest {
      * The test checks the opening of the mood flow screen for when the button is pressed
      */
     @Test
-    fun openMoodFlowOnButtonClick() {
+    fun testOpenMoodFlowOnButtonClick() {
         ActivityScenario.launch(MainScreenActivity::class.java)
 
         onView(withId(R.id.mood_widget_button)).perform(click())
@@ -83,7 +83,7 @@ class HomeFragmentTest {
      * The test checks the text on the analytics widget for when the button is pressed
      */
     @Test
-    fun openAnalyticsOnButtonClick() {
+    fun testOpenAnalyticsOnButtonClick() {
         ActivityScenario.launch(MainScreenActivity::class.java)
 
         // mock for analytics
@@ -111,7 +111,7 @@ class HomeFragmentTest {
      * The test checks the text on the analytics widget for when the button is pressed
      */
     @Test
-    fun checkWeekStatisticIconIsDisplayed() {
+    fun testCheckWeekStatisticIconIsDisplayed() {
         ActivityScenario.launch(MainScreenActivity::class.java)
 
         onView(withId(R.id.week_widget_image_1)).check(matches(withDrawable(R.drawable.mood_flow_2)))

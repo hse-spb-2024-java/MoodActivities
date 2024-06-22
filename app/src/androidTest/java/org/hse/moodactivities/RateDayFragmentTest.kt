@@ -36,10 +36,12 @@ class RateDayFragmentTest {
             )
         } returns USER_DAILY_MOOD
 
+        // start main activity
         ActivityScenario.launch(
             MainScreenActivity::class.java
         )
 
+        // transit to rate day fragment
         onView(withId(R.id.mood_widget_button)).perform(click())
     }
 
