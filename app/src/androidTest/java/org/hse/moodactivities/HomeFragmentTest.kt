@@ -40,7 +40,7 @@ class HomeFragmentTest {
     }
 
     @Before
-    fun setup() {
+    fun setupMock() {
         // mock for user daily mood
         mockkObject(MoodService)
         every { MoodService.getUserDailyMood(any<AppCompatActivity>()) } returns USER_DAILY_MOOD
@@ -139,5 +139,4 @@ class HomeFragmentTest {
             }
         }
     }
-
 }
