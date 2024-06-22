@@ -15,6 +15,11 @@ class MonthStatisticResponse {
         }
     }
 
+    // for tests
+    fun setMoodRates(moodRates: HashMap<Int, Int>) {
+        this.moodRates = moodRates
+    }
+
     fun getMoodRates() : HashMap<Int, Int> {
         return moodRates
     }
