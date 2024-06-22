@@ -11,7 +11,7 @@
 
 
     <TextView
-        android:id="@+id/chose_emotions_screen_title"
+        android:id="@+id/choose_emotions_screen_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -27,9 +27,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/chose_emotions_screen_title"
+        app:layout_constraintBottom_toBottomOf="@+id/choose_emotions_screen_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/chose_emotions_screen_title">
+        app:layout_constraintTop_toTopOf="@+id/choose_emotions_screen_title">
 
         <ImageView
             android:id="@+id/return_image"

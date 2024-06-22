@@ -109,6 +109,6 @@ class RateDayFragmentTest {
         // user tried to go to the next fragment with choosing his mood (he can)
         onView(withId(R.id.next_button)).perform(click())
 
-        onView(withId(R.id.chose_activities_screen_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.choose_activities_screen_title)).check(matches(isDisplayed()))
     }
 }

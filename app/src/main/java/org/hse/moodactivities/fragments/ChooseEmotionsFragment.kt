@@ -138,7 +138,7 @@ class ChooseEmotionsFragment : Fragment(), ItemHolderFragment {
             ?.setColorFilter(colorTheme.getMoodFlowWidgetIconColor())
 
         // set color to tittle
-        view.findViewById<TextView>(R.id.chose_emotions_screen_title)
+        view.findViewById<TextView>(R.id.choose_emotions_screen_title)
             ?.setTextColor(colorTheme.getFontColor())
 
         // set color to question

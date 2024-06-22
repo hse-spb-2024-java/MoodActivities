@@ -143,7 +143,7 @@ class ChooseActivitiesFragment : Fragment(), ItemHolderFragment {
             ?.setColorFilter(colorTheme.getFontColor())
 
         // set color to tittle
-        view.findViewById<TextView>(R.id.chose_activities_screen_title)
+        view.findViewById<TextView>(R.id.choose_activities_screen_title)
             ?.setTextColor(colorTheme.getFontColor())
 
         // set color to question

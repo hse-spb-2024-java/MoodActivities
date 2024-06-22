@@ -25,7 +25,7 @@ import org.junit.runner.RunWith
 import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
-class ChooseActivitiesFragmentTest {
+class ChooseEmotionsFragmentTest {
     companion object {
         const val USER_DAILY_MOOD = 1
         const val PRESSED_BUTTON_ALPHA = 1.0f
@@ -53,18 +53,24 @@ class ChooseActivitiesFragmentTest {
         // transit to choose activities fragment
         onView(withId(R.id.mood_1_button)).perform(click())
         onView(withId(R.id.next_button)).perform(click())
+
+        // transit to choose emotions fragment
+        onView(withId(R.id.recycler_view)).perform(
+            actionOnItemAtPosition<ItemAdapter.ItemHolder>(1, clickItemWithId(R.id.button))
+        )
+        onView(withId(R.id.next_button)).perform(click())
     }
 
     @Test
     fun testTransitToPreviousFragment() {
-        // user tried to go to the previous fragment without choosing his mood
+        // user tried to go to the next fragment without choosing his mood
         onView(withId(R.id.back_button)).perform(click())
 
-        onView(withId(R.id.rate_day_screen_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.choose_activities_screen_title)).check(matches(isDisplayed()))
     }
 
     @Test
-    fun testTransitToNextFragment() {
+    fun testChooseEmotions() {
         // user tried to go to the next fragment without choosing his mood (he can't)
         onView(withId(R.id.button_background)).check(
             matches(
@@ -86,11 +92,6 @@ class ChooseActivitiesFragmentTest {
                 )
             )
         )
-
-        // user tried to go to the next fragment with choosing his mood (he can)
-        onView(withId(R.id.next_button)).perform(click())
-
-        onView(withId(R.id.choose_emotions_screen_title)).check(matches(isDisplayed()))
     }
 
     private fun clickItemWithId(id: Int): ViewAction {
