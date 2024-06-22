@@ -10,7 +10,7 @@
     tools:context=".activities.DailyActivity">
 
     <TextView
-        android:id="@+id/screen_tittle"
+        android:id="@+id/daily_activity_screen_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -37,9 +37,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/screen_tittle"
+        app:layout_constraintBottom_toBottomOf="@+id/daily_activity_screen_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/screen_tittle">
+        app:layout_constraintTop_toTopOf="@+id/daily_activity_screen_title">
 
         <ImageView
             android:id="@+id/return_image"

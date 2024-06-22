@@ -621,7 +621,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/ask_widget_button"
+                    android:id="@+id/chat_widget_button"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha="0"

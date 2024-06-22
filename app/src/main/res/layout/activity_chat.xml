@@ -16,7 +16,7 @@
 
         <!-- App Name TextView -->
         <TextView
-            android:id="@+id/app_name"
+            android:id="@+id/chat_screen_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
