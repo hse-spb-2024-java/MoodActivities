@@ -11,9 +11,9 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/change_birth_date_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title">
+        app:layout_constraintTop_toTopOf="@+id/change_birth_date_title">
 
         <ImageView
             android:id="@+id/return_image"
@@ -30,7 +30,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/change_birth_date_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -52,7 +52,7 @@
         app:cardElevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        app:layout_constraintTop_toBottomOf="@+id/change_birth_date_title">
 
         <LinearLayout
             android:layout_width="match_parent"

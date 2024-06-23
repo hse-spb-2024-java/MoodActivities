@@ -30,7 +30,7 @@ class CalendarFragmentTest {
     @Before
     fun setupMocks() {
         mockkObject(MoodService)
-        every { MoodService.getUserDailyMood(any<AppCompatActivity>()) } returns DailyActivityTest.USER_DAILY_MOOD
+        every { MoodService.getUserDailyMood(any<AppCompatActivity>()) } returns USER_DAILY_MOOD
         every {
             MoodService.getUserDailyMood(
                 any<AppCompatActivity>(), any<LocalDate>()
