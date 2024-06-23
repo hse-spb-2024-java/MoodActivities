@@ -63,7 +63,7 @@ class FeedbackActivity : AppCompatActivity() {
         binding.layout.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to title
-        binding.title.setTextColor(colorTheme.getFontColor())
+        binding.feedbackScreenTitle.setTextColor(colorTheme.getFontColor())
         binding.intro.setTextColor(colorTheme.getFontColor())
 
         // set color to return image

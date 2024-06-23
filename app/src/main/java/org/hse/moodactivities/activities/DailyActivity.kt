@@ -124,7 +124,7 @@ class DailyActivity : AppCompatActivity() {
         binding.dailyActivityLayout.setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set title color
-        binding.screenTittle.setTextColor(colorTheme.getFontColor())
+        binding.dailyActivityScreenTitle.setTextColor(colorTheme.getFontColor())
 
         // set date color
         binding.date.setTextColor(colorTheme.getFontColor())

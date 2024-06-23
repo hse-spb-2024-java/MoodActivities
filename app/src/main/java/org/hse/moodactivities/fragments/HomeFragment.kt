@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
             startActivity(questionsActivity)
         }
 
-        val askWidgetButton: Button = view.rootView.findViewById(R.id.ask_widget_button)
+        val askWidgetButton: Button = view.rootView.findViewById(R.id.chat_widget_button)
         askWidgetButton.setOnClickListener {
             val chatActivity = Intent(this.activity, ChatActivity::class.java)
             startActivity(chatActivity)

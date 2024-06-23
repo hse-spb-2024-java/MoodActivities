@@ -62,7 +62,7 @@ class ChangeNameFragment : Fragment() {
             .setBackgroundColor(colorTheme.getBackgroundColor())
 
         // set color to title
-        view.findViewById<TextView>(R.id.title).setTextColor(colorTheme.getFontColor())
+        view.findViewById<TextView>(R.id.change_name_title).setTextColor(colorTheme.getFontColor())
 
         // set color to return button
         view.findViewById<ImageView>(R.id.return_image).setColorFilter(colorTheme.getFontColor())
