@@ -17,6 +17,8 @@ Before building you need to prepare `.env` file in `resources` source directory 
 - `MONGO_USERS_DBNAME` - name for Mongo DB for user metadata
 - `MONGO_QUESTIONS_DBNAME` - name for Mongo DB for questions metadata
 - `CLIENT_ID` - Client ID of **WEB** client of APP on Google Cloud API
+- `GPT_KEY` - API key for ChatGPT
+- `OPEN_WEATHER_MAP_KEY` - OpenWeather API key
 - `ADMIN` - username of default user in app
 - `EMAIL` - email of default user in app
 - `PASSWORD` - password of default user in app
