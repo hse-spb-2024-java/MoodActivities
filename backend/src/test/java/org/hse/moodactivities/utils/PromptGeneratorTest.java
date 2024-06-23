@@ -60,7 +60,7 @@ public class PromptGeneratorTest {
     }
 
     @Test
-    public void testGeneratePrompt_ValidInput() {
+    public void testGeneratePromptValidInput() {
         // Mock behavior of dependencies
         when(statsService.getCorrectDaysSublist(anyList(), any(PeriodType.class))).thenReturn(metas);
         when(promptsStorage.getString(anyString())).thenReturn("defaultRequest");
@@ -72,7 +72,7 @@ public class PromptGeneratorTest {
     }
 
     @Test
-    public void testUnwrapRecords_EmptyRecords() {
+    public void testUnwrapRecordsEmptyRecords() {
         List<MoodFlowRecord> emptyRecords = Collections.emptyList();
 
         List<String> result = promptGenerator.unwrapRecords(emptyRecords);

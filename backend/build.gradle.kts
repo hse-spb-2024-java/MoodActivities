@@ -36,6 +36,7 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("io.grpc:grpc-protobuf:${property("grpcVersion")}")
     implementation("io.grpc:grpc-stub:${property("grpcVersion")}")
+    implementation("io.grpc:grpc-inprocess:1.42.0")
 
     // Hibernate
     implementation(platform("org.hibernate.orm:hibernate-platform:${property("hibernatePlatformVersion")}"))
@@ -63,6 +64,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.jetbrains:annotations:23.0.0")
     testImplementation("org.mockito:mockito-core:4.1.0")
+    testImplementation("io.grpc:grpc-testing:1.44.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
