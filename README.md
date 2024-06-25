@@ -1,6 +1,6 @@
 # Mood Activities
 
-An App for tracking your mood, analyzed by ChatGPT
+An App for tracking your mood, analyzed by ChatGPT 3.5
 
 ## Building
 
@@ -9,7 +9,7 @@ The whole project is built by Gradle with latest Android SDK and Java SDK 21
 ### Prerequisites
 
 In order to get the app going you need several things:
-- Get ChatGPT API key
+- Get ChatGPT 3.5 API key
 - Setup the app in Google Cloud Console:
 - - Setup Android client and one WEB Client in OAuth Consent screen to get OAuth going
 - - Enable access to Fitness API
@@ -21,7 +21,7 @@ Before building you need to prepare `.env` file in `resources` source directory 
 - `JWT_PRIVATE_KEY` - private part of JWT certificate keypair
 - `JWT_PUBLIC_KEY` - public part of JWT certificate keypair
 - `OPEN_WEATHER_MAP_KEY` - OpenWeather API key
-- `GPT_KEY` - API key for ChatGPT
+- `GPT_KEY` - API key for ChatGPT 3.5
 - `CLIENT_ID` - Client ID of **WEB** client of APP on Google Cloud Console
 - `MONGO_HOST` - hostname of MongoDB instance
 - `MONGO_PORT` - port of which Mongo is running
