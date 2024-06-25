@@ -36,7 +36,8 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("io.grpc:grpc-protobuf:${property("grpcVersion")}")
     implementation("io.grpc:grpc-stub:${property("grpcVersion")}")
-    implementation("io.grpc:grpc-inprocess:1.42.0")
+    implementation("io.grpc:grpc-inprocess:1.64.0")
+    testImplementation("io.grpc:grpc-core:1.64.0")
 
     // Hibernate
     implementation(platform("org.hibernate.orm:hibernate-platform:${property("hibernatePlatformVersion")}"))
