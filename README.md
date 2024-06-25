@@ -2,6 +2,15 @@
 
 An App for tracking your mood, analyzed by ChatGPT 3.5
 
+## Overview
+
+<p align="middle">
+<img src="img/home_screen.png" width="30%" />
+<img src="img/analytics.png" width="30%" />
+<img src="img/calendar.png" width="30%" />
+</p>
+
+
 ## Building
 
 The whole project is built by Gradle with latest Android SDK and Java SDK 21
