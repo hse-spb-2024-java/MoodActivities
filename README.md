@@ -1,8 +1,17 @@
 # Mood Activities
 
-An App for tracking your mood, analyzed by ChatGPT 3.5
-
 ## Overview
+
+Mood Activities is a special Android application that helps people understand and improve their emotions, mood and physical condition and get an analysis of this from ChatGPT 3.5.
+
+With the app you can:
+- Record how you feel every day
+- Answer questions from ChatGPT
+- Get some useful insights based on your answers
+- Interact with an AI assistant to find answers to your questions
+- Perform various activities
+- Analyze the dependence of your mood on various factors
+
 
 <p align="middle">
 <img src="img/home_screen.png" width="30%" />
