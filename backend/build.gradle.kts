@@ -64,7 +64,9 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.jetbrains:annotations:23.0.0")
-    testImplementation("org.mockito:mockito-core:4.1.0")
+    testImplementation("org.mockito:mockito-core:5.12.0")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+
     testImplementation("io.grpc:grpc-testing:1.44.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }

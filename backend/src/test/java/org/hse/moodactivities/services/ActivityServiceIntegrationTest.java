@@ -1,9 +1,12 @@
 package org.hse.moodactivities.services;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.hse.moodactivities.common.proto.requests.activity.GetActivityRequest;
+import org.hse.moodactivities.common.proto.requests.activity.RecordActivityRequest;
 import org.hse.moodactivities.common.proto.responses.activity.GetActivityResponse;
+import org.hse.moodactivities.common.proto.responses.activity.RecordActivityResponse;
 import org.hse.moodactivities.common.proto.services.ActivityServiceGrpc;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +25,6 @@ public class ActivityServiceIntegrationTest {
 
     @BeforeEach
     public void setup() throws Exception {
-        // Initialize and start the in-process server
         String serverName = InProcessServerBuilder.generateName();
         server = InProcessServerBuilder.forName(serverName)
                 .directExecutor()
@@ -30,12 +32,10 @@ public class ActivityServiceIntegrationTest {
                 .build()
                 .start();
 
-        // Initialize the in-process channel
         channel = InProcessChannelBuilder.forName(serverName)
                 .directExecutor()
                 .build();
 
-        // Create a blocking stub
         blockingStub = ActivityServiceGrpc.newBlockingStub(channel);
     }
 
@@ -51,18 +51,23 @@ public class ActivityServiceIntegrationTest {
 
     @Test
     public void testGetActivity() {
-        // Create a GetActivityRequest
         GetActivityRequest request = GetActivityRequest.newBuilder()
                 .setDate("2024-06-22")
                 .build();
 
-        // Call the service
         GetActivityResponse response = blockingStub.getActivity(request);
-
-        // Validate the response
         assertEquals(200, response.getStatusCode());
-        // Add additional assertions based on the expected response
+        assertFalse(response.getActivity().equals(""));
     }
 
-    // Add more test methods for other RPC methods
+    @Test
+    public void testRecordActivity() {
+        RecordActivityRequest request = RecordActivityRequest.newBuilder()
+                .setDate("2024-06-22")
+                .setRecord("Ok.")
+                .build();
+
+        RecordActivityResponse response = blockingStub.recordActivity(request);
+        assertEquals(200, response.getStatusCode());
+    }
 }

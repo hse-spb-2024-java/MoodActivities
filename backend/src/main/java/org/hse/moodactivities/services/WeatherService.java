@@ -31,6 +31,7 @@ public class WeatherService extends WeatherServiceGrpc.WeatherServiceImplBase {
             user = new User(id, new ArrayList<>());
         }
         handler(user, request.getLat(), request.getLon(), 0);
+        responseObserver.onCompleted();
     }
 
     public static void handler(User user, double lat, double lon, int mood) {
