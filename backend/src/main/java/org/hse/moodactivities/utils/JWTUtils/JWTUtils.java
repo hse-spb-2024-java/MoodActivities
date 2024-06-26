@@ -1,16 +1,5 @@
 package org.hse.moodactivities.utils.JWTUtils;
 
-import io.github.cdimascio.dotenv.Dotenv;
-import io.grpc.Context;
-import io.grpc.Metadata;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.JwtParserBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureAlgorithm;
-
-import javax.crypto.SecretKey;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -24,6 +13,15 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
+
+import io.github.cdimascio.dotenv.Dotenv;
+import io.grpc.Context;
+import io.grpc.Metadata;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.JwtParserBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.SignatureAlgorithm;
 
 public class JWTUtils {
     public static final SignatureAlgorithm alg = Jwts.SIG.RS512;
@@ -69,5 +67,9 @@ public class JWTUtils {
         return jwtBuilder
                 .issuedAt(Date.from(local_now.atZone(ZoneId.systemDefault()).toInstant()))
                 .expiration(Date.from(local_expiration.atZone(ZoneId.systemDefault()).toInstant()));
+    }
+
+    public static String getClientIdContextKey() {
+        return CLIENT_ID_CONTEXT_KEY.get();
     }
 }
