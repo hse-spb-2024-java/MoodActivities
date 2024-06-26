@@ -68,7 +68,6 @@ public class StatsService extends StatsServiceGrpc.StatsServiceImplBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(StatsService.class);
 
     public static User getUser(String userId) {
-        System.out.println("user_id" + userId);
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("_id", userId);
         List<User> users = MongoDBSingleton.getInstance().getConnection().findEntityWithFilters(User.class, queryMap);
